@@ -11,12 +11,14 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoE
 
 @Repository
 public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
-  @Query("select t from TurnoEntity t where t.paciente.DNI = ?1")
-  List<TurnoEntity> findByPacienteDNI(Long dni);
+  @Query("select t from TurnoEntity t where t.paciente.dni = ?1")
+  List<TurnoEntity> findByPacienteDNI(String dni);
   
   @Query("select t from TurnoEntity t where t.profesional.nombreCompleto like ?1")
   List<TurnoEntity> findByProfesionalNombre(String nombreProfesional);
   
-  @Query("select t from TurnoEntity t where t.profesional.DNI = ?1")
-  List<TurnoEntity> findByProfesionalDNI(Long dni);
+  @Query("select t from TurnoEntity t where t.profesional.dni = ?1")
+  List<TurnoEntity> findByProfesionalDNI(String dni);
+
+  // query para eliminar los turnos que ya pasaron y no tengan nada a deuda
 }

@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ProfesionalMedDTO {
   private UUID id;
   private String nombreCompleto;
-  private String DNI;
+  private String dni;
   private Long numeroContacto;
   private AreaProfesional areaProfesional;
   private Integer numMatricula;

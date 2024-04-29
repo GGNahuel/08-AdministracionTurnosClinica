@@ -11,7 +11,7 @@ import lombok.Data;
 public class PacienteDTO {
   private UUID id;
   private String nombreCompleto;
-  private String DNI;
+  private String dni;
   private Long numeroContacto;
   private String obraSocial;
   private List<TurnoEntity> turnos;

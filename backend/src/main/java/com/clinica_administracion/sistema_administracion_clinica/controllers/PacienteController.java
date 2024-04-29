@@ -80,7 +80,7 @@ public class PacienteController {
       UtilitiesMethods.messageCreatorResponse(mapa, "Paciente creado exitosamente", MessageTypes.ok);
       return new ResponseEntity<>(mapa, HttpStatus.CREATED);
     } catch (EntityAlreadyExists e) {
-      mapa.put("returnValue", pacienteService.getPacienteByDNI(paciente.getDNI()));
+      mapa.put("returnValue", pacienteService.getPacienteByDNI(paciente.getDni()));
       UtilitiesMethods.messageCreatorResponse(mapa, e.getMessage(), MessageTypes.error);
       return new ResponseEntity<>(mapa, HttpStatus.NOT_FOUND);
     } catch (Exception e) {

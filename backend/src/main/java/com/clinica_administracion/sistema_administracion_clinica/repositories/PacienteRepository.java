@@ -11,5 +11,5 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.Pacien
 @Repository
 public interface PacienteRepository extends JpaRepository<PacienteEntity, UUID> {
   
-  Optional<PacienteEntity> findByDNI(String dni);
+  Optional<PacienteEntity> findByDni(String dni);
 }

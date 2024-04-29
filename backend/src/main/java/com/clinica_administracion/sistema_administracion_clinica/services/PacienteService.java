@@ -32,7 +32,7 @@ public class PacienteService {
   @Transactional(readOnly = true)
   public PacienteDTO getPacienteByDNI(String dni) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni"}, dni);
-    PacienteEntity busqueda = pacienteRepo.findByDNI(dni).orElseThrow(() ->
+    PacienteEntity busqueda = pacienteRepo.findByDni(dni).orElseThrow(() ->
       new ResourceNotFound("Paciente", "dni", dni)
     );
     PacienteDTO paciente = modelMapper.map(busqueda, PacienteDTO.class);
@@ -51,14 +51,10 @@ public class PacienteService {
   @Transactional
   public PacienteDTO createPaciente(PacienteDTO paciente) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"Paciente enviado"}, paciente.toString());
-    if (pacienteRepo.findByDNI(paciente.getDNI()).isPresent()) 
+    if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
       throw new EntityAlreadyExists("Ya existe un paciente con el dni ingresado");
 
-    PacienteEntity pacienteNuevo = new PacienteEntity();
-    pacienteNuevo.setNombreCompleto(paciente.getNombreCompleto());
-    pacienteNuevo.setNumeroContacto(paciente.getNumeroContacto());
-    pacienteNuevo.setDNI(paciente.getDNI());
-    pacienteNuevo.setObraSocial(paciente.getObraSocial());
+    PacienteEntity pacienteNuevo = modelMapper.map(paciente, PacienteEntity.class);
 
     return modelMapper.map(pacienteRepo.save(pacienteNuevo), PacienteDTO.class);
   }
@@ -71,7 +67,7 @@ public class PacienteService {
     );
     pacienteNuevo.setNombreCompleto(pacienteActualizado.getNombreCompleto());
     pacienteNuevo.setNumeroContacto(pacienteActualizado.getNumeroContacto());
-    pacienteNuevo.setDNI(pacienteActualizado.getDNI());
+    pacienteNuevo.setDni(pacienteActualizado.getDni());
     pacienteNuevo.setObraSocial(pacienteActualizado.getObraSocial());
     pacienteNuevo.setTurnos(pacienteActualizado.getTurnos());
 

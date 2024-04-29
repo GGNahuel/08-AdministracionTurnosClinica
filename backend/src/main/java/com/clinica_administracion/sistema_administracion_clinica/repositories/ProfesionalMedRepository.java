@@ -11,5 +11,5 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.Profes
 @Repository
 public interface ProfesionalMedRepository extends JpaRepository<ProfesionalMedEntity, UUID> {
   
-  Optional<ProfesionalMedEntity> findByDNI(String dni);
+  Optional<ProfesionalMedEntity> findByDni(String dni);
 }
