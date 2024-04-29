@@ -1,0 +1,38 @@
+Esta aplicación simularía la que usaría el personal de un centro de salud para gestionar los pacientes, turnos, 
+y personal de las distintas áreas que disponga el centro.
+
+Por ejemplo la usarían tanto los secretarios como los profesionales para ver o registrar turnos.
+
+Entidades Base de datos:
+  🧑‍🔬Profesional médico
+    id
+    nombre completo
+    dni
+    numero contacto
+    area profesional (ENUM)
+    número matrícula
+    consultorio 🔢(1 a 1)
+  
+  🧍Paciente
+    id
+    nombre completo
+    dni
+    numero contacto
+    obra social
+    turnos 🕛(1 a n)
+
+  🕛Turnos
+    id
+    paciente 🧍(1 a 1)
+    fecha y/horario
+    area profesional (ENUM)
+    por particular/ por obra social
+    estado de pago (ENUM)
+    comentario
+    consultorio 🔢(1 a 1)
+    profesional 🧑‍🔬(1 a 1)
+
+  🔢Consultorio
+    id
+    numero consultorio
+    profesional 🧑‍🔬
