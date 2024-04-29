@@ -25,7 +25,7 @@ public class ProfesionalMedEntity {
   @Column(nullable = false)
     private String nombreCompleto;
   @Column(nullable = false, unique = true)
-    private Long String;
+    private Long DNI;
     private Long numeroContacto;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
