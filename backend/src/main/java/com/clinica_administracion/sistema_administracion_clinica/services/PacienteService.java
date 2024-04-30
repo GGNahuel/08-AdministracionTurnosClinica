@@ -58,7 +58,10 @@ public class PacienteService {
       paciente, paciente.getDni(), paciente.getNombreCompleto(), paciente.getNumeroContacto()
     );
     if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
-      throw new EntityAlreadyExists("Ya existe un paciente con el dni ingresado");
+      throw new EntityAlreadyExists(
+        "Ya existe un paciente con el dni ingresado", 
+        this.getPacienteByDNI(paciente.getDni())
+      );
 
     PacienteEntity pacienteNuevo = modelMapper.map(paciente, PacienteEntity.class);
 

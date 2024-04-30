@@ -13,11 +13,15 @@ import com.clinica_administracion.sistema_administracion_clinica.others.exceptio
 @RestControllerAdvice
 public class GlobalExceptionHandler {
   @ExceptionHandler(EntityAlreadyExists.class)
-  public ResponseEntity<MessagesDTO> entityAlreadyExistsHandler(EntityAlreadyExists ex) {
-    MessagesDTO response = new MessagesDTO();
-    response.setText(ex.getMessage());
-    response.setType(MessageTypes.error);
-    response.setExceptionCause(ex.getCause().toString());
+  public ResponseEntity<ResponseDTO> entityAlreadyExistsHandler(EntityAlreadyExists ex) {
+    MessagesDTO message = new MessagesDTO();
+    message.setText(ex.getMessage());
+    message.setType(MessageTypes.error);
+    message.setExceptionCause(ex.getCause().toString());
+
+    ResponseDTO response = new ResponseDTO();
+    response.setMessage(message);
+    response.setReturnValue(ex.getExistingEntity());
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }

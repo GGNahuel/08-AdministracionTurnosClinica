@@ -43,7 +43,11 @@ public class ConsultorioService {
   @Transactional
   public ConsultorioDTO createConsultorio(Integer number) throws Exception{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"número de consultorio"} , number);
-    if (this.getConsultorioByNumber(number) != null) throw new EntityAlreadyExists("Ya existe un consultorio con ese número");
+    if (this.getConsultorioByNumber(number) != null) 
+      throw new EntityAlreadyExists(
+        "Ya existe un consultorio con ese número", 
+        this.getConsultorioByNumber(number)
+      );
     
     ConsultorioEntity consultorio = new ConsultorioEntity();
     consultorio.setNumeroConsultorio(number);
