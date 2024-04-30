@@ -11,14 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.PacienteDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.PacienteEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 
 @Service
 public class PacienteService {
   @Autowired PacienteRepository pacienteRepo;
+  @Autowired TurnoRepository turnoRepo;
   @Autowired ModelMapper modelMapper;
 
   @Transactional(readOnly = true)
@@ -50,7 +53,10 @@ public class PacienteService {
 
   @Transactional
   public PacienteDTO createPaciente(PacienteDTO paciente) throws Exception {
-    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"Paciente enviado"}, paciente.toString());
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
+      new String[]{"Paciente enviado", "dni", "nombre completo", "número de contacto"}, 
+      paciente, paciente.getDni(), paciente.getNombreCompleto()
+    );
     if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
       throw new EntityAlreadyExists("Ya existe un paciente con el dni ingresado");
 
@@ -61,15 +67,24 @@ public class PacienteService {
 
   @Transactional
   public PacienteDTO updatePaciente(PacienteDTO pacienteActualizado) throws Exception {
-    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"Paciente enviado"}, pacienteActualizado.toString());
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
+      new String[]{"Paciente enviado", "id", "dni", "nombre completo", "número de contacto"}, 
+      pacienteActualizado, pacienteActualizado.getId(), pacienteActualizado.getDni(), 
+      pacienteActualizado.getNombreCompleto(), pacienteActualizado.getNumeroContacto()
+    );
+
     PacienteEntity pacienteNuevo = pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
       new ResourceNotFound("Paciente", "id", pacienteActualizado.getId().toString())
     );
+    List<TurnoEntity> turnos = pacienteActualizado.getTurnos().stream().map(
+      (turnoID) -> turnoRepo.findById(turnoID).orElseThrow(() -> new ResourceNotFound("Turno", "id", turnoID.toString()))
+    ).collect(Collectors.toList());
+
     pacienteNuevo.setNombreCompleto(pacienteActualizado.getNombreCompleto());
     pacienteNuevo.setNumeroContacto(pacienteActualizado.getNumeroContacto());
     pacienteNuevo.setDni(pacienteActualizado.getDni());
     pacienteNuevo.setObraSocial(pacienteActualizado.getObraSocial());
-    pacienteNuevo.setTurnos(pacienteActualizado.getTurnos());
+    pacienteNuevo.setTurnos(turnos);
 
     return modelMapper.map(pacienteRepo.save(pacienteNuevo), PacienteDTO.class);
   }

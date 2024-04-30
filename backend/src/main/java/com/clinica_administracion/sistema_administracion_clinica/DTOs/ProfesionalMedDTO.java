@@ -3,7 +3,6 @@ package com.clinica_administracion.sistema_administracion_clinica.DTOs;
 import java.util.List;
 import java.util.UUID;
 
-import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.AreaProfesional;
 
 import lombok.AllArgsConstructor;
@@ -21,5 +20,5 @@ public class ProfesionalMedDTO {
   private AreaProfesional areaProfesional;
   private Integer numMatricula;
   private List<Double> horarios;
-  private ConsultorioEntity consultorio;
+  private UUID consultorio;
 }
