@@ -57,7 +57,7 @@ public class PacienteController {
     }
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/id/{id}")
   public ResponseEntity<Map<String, Object>> getPaciente(@PathVariable UUID id) {
     mapa.clear();
     try {

@@ -20,6 +20,7 @@ public class PacienteEntity {
   private String nombreCompleto;
   @Column(nullable = false, unique = true)
   private String dni;
+  @Column(nullable = false)
   private Long numeroContacto;
   private String obraSocial;
   @OneToMany(mappedBy = "paciente")
