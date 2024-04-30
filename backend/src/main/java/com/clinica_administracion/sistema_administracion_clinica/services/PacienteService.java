@@ -55,7 +55,7 @@ public class PacienteService {
   public PacienteDTO createPaciente(PacienteDTO paciente) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Paciente enviado", "dni", "nombre completo", "número de contacto"}, 
-      paciente, paciente.getDni(), paciente.getNombreCompleto()
+      paciente, paciente.getDni(), paciente.getNombreCompleto(), paciente.getNumeroContacto()
     );
     if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
       throw new EntityAlreadyExists("Ya existe un paciente con el dni ingresado");
