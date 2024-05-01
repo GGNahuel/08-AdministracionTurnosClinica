@@ -1,5 +1,7 @@
 package com.clinica_administracion.sistema_administracion_clinica.others;
 
+import java.util.Arrays;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,7 +19,8 @@ public class GlobalExceptionHandler {
     MessagesDTO message = new MessagesDTO();
     message.setText(ex.getMessage());
     message.setType(MessageTypes.error);
-    message.setExceptionCause(ex.getCause().toString());
+    if (ex.getCause() != null)
+      message.setExceptionCause(ex.getCause().toString());
 
     ResponseDTO response = new ResponseDTO();
     response.setMessage(message);
@@ -31,7 +34,8 @@ public class GlobalExceptionHandler {
     MessagesDTO message = new MessagesDTO();
     message.setText(ex.getMessage());
     message.setType(MessageTypes.error);
-    message.setExceptionCause(ex.getCause().toString());
+    if (ex.getCause() != null)
+      message.setExceptionCause(ex.getCause().toString());
 
     ResponseDTO response = new ResponseDTO();
     response.setMessage(message);
@@ -44,7 +48,8 @@ public class GlobalExceptionHandler {
     MessagesDTO message = new MessagesDTO();
     message.setText(ex.getMessage());
     message.setType(MessageTypes.error);
-    message.setExceptionCause(ex.getCause().toString());
+    if (ex.getCause() != null)
+      message.setExceptionCause(ex.getCause().toString());
     
     ResponseDTO response = new ResponseDTO();
     response.setMessage(message);
@@ -57,10 +62,13 @@ public class GlobalExceptionHandler {
     MessagesDTO message = new MessagesDTO();
     message.setText(ex.getMessage());
     message.setType(MessageTypes.error);
-    message.setExceptionCause(ex.getCause().toString());
-    
+    if (ex.getCause() != null)
+      message.setExceptionCause(ex.getCause().toString());
+    else message.setExceptionCause(ex.getLocalizedMessage());
+
     ResponseDTO response = new ResponseDTO();
     response.setMessage(message);
+    response.setResults(Arrays.asList(ex.getStackTrace()));
 
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
