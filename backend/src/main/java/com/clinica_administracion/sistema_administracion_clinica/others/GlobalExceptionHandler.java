@@ -27,31 +27,40 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(ResourceNotFound.class)
-  public ResponseEntity<MessagesDTO> resourceNotFoundHandler(ResourceNotFound ex) {
-    MessagesDTO response = new MessagesDTO();
-    response.setText(ex.getMessage());
-    response.setType(MessageTypes.error);
-    response.setExceptionCause(ex.getCause().toString());
+  public ResponseEntity<ResponseDTO> resourceNotFoundHandler(ResourceNotFound ex) {
+    MessagesDTO message = new MessagesDTO();
+    message.setText(ex.getMessage());
+    message.setType(MessageTypes.error);
+    message.setExceptionCause(ex.getCause().toString());
+
+    ResponseDTO response = new ResponseDTO();
+    response.setMessage(message);
 
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(NotNullFieldIsNull.class)
-  public ResponseEntity<MessagesDTO> NotNullFieldIsNullHandler(NotNullFieldIsNull ex) {
-    MessagesDTO response = new MessagesDTO();
-    response.setText(ex.getMessage());
-    response.setType(MessageTypes.error);
-    response.setExceptionCause(ex.getCause().toString());
+  public ResponseEntity<ResponseDTO> NotNullFieldIsNullHandler(NotNullFieldIsNull ex) {
+    MessagesDTO message = new MessagesDTO();
+    message.setText(ex.getMessage());
+    message.setType(MessageTypes.error);
+    message.setExceptionCause(ex.getCause().toString());
+    
+    ResponseDTO response = new ResponseDTO();
+    response.setMessage(message);
 
     return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<MessagesDTO> GeneralExceptionHandler(Exception ex) {
-    MessagesDTO response = new MessagesDTO();
-    response.setText(ex.getMessage());
-    response.setType(MessageTypes.error);
-    response.setExceptionCause(ex.getCause().toString());
+  public ResponseEntity<ResponseDTO> GeneralExceptionHandler(Exception ex) {
+    MessagesDTO message = new MessagesDTO();
+    message.setText(ex.getMessage());
+    message.setType(MessageTypes.error);
+    message.setExceptionCause(ex.getCause().toString());
+    
+    ResponseDTO response = new ResponseDTO();
+    response.setMessage(message);
 
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }

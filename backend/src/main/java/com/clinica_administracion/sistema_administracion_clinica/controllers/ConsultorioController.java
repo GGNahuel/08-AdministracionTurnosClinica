@@ -1,8 +1,7 @@
 package com.clinica_administracion.sistema_administracion_clinica.controllers;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,90 +17,63 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.ConsultorioDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
-import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
+import com.clinica_administracion.sistema_administracion_clinica.others.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
+import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.services.ConsultorioService;
-
-
-
-
 
 @RestController
 @RequestMapping("/api/consultorio")
 public class ConsultorioController {
-  @Autowired ConsultorioService consultorioService;
+  @Autowired
+  ConsultorioService consultorioService;
 
   @GetMapping("")
-  public ResponseEntity<Map<String,Object>> getAllConsultorios() {
-    Map<String, Object> mapa = new HashMap<>();
-    try {
-      List<ConsultorioDTO> results = consultorioService.getAllConsultorios();
-      mapa.put("results", results);
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.OK);
-    } catch (Exception e) {
-      mapa.put("message", e.getMessage());
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public ResponseEntity<ResponseDTO> getAllConsultorios() {
+    List<ConsultorioDTO> results = consultorioService.getAllConsultorios();
+    ResponseDTO response = new ResponseDTO();
+    response.setResults(results);
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   @GetMapping("/{number}")
-  public Map<String, Object> getConsultorioByNumber(@PathVariable Integer number) {
-    Map<String, Object> mapa = new HashMap<>();
-    try {
-      ConsultorioDTO consultorio = consultorioService.getConsultorioByNumber(number);
-      mapa.put("results", consultorio);
-    } catch (Exception e) {
-      mapa.put("message", e.getMessage());
-    }
-    return mapa;
-  }
+  public ResponseEntity<ResponseDTO> getConsultorioByNumber(@PathVariable Integer number) throws Exception {
+    ConsultorioDTO consultorio = consultorioService.getConsultorioByNumber(number);
+    ResponseDTO response = new ResponseDTO();
+    List<ConsultorioDTO> list = new ArrayList<ConsultorioDTO>();
+    list.add(consultorio);
+    response.setResults(list);
   
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
   @PostMapping("/{number}")
-  public ResponseEntity<Map<String,Object>> createConsultorio(@PathVariable Integer number) {
-    Map<String, Object> mapa = new HashMap<>();
-    try {
-      ConsultorioDTO consultorio = consultorioService.createConsultorio(number);
-      mapa.put("returnValue", consultorio);
-      mapa.put("message", "Consultorio creado exitosamente");
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.CREATED);
-    } catch (EntityAlreadyExists e) {
-      mapa.put("message", e.getMessage());
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.BAD_REQUEST);
-    } catch (Exception e) {
-      mapa.put("message", e.getMessage());
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public ResponseEntity<ResponseDTO> createConsultorio(@PathVariable Integer number) throws Exception {
+    ConsultorioDTO consultorio = consultorioService.createConsultorio(number);
+    ResponseDTO respuesta = new ResponseDTO();
+    respuesta.setReturnValue(consultorio);
+    respuesta.setMessage(UtilitiesMethods.messageCreator("Consultorio creado exitosamente", MessageTypes.ok));
+
+    return new ResponseEntity<>(respuesta, HttpStatus.CREATED);
   }
-  
+
   @PutMapping("/edit")
-  public ResponseEntity<Map<String,Object>> updateConsultorio(@RequestParam UUID id, @RequestParam Integer number) {
-    Map<String, Object> mapa = new HashMap<>();
-    try {
-      mapa.put("returnValue", consultorioService.updateConsultorio(id, number));
-      mapa.put("messaje", "Consultorio actualizado exitosamente");
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.OK);
-    } catch (ResourceNotFound e) {
-      mapa.put("message", e.getMessage());
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      mapa.put("message", e.getMessage());
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public ResponseEntity<ResponseDTO> updateConsultorio(@RequestParam UUID id, @RequestParam Integer number) throws Exception {
+    ConsultorioDTO consultorio = consultorioService.updateConsultorio(id, number);
+    ResponseDTO respuesta = new ResponseDTO();
+    respuesta.setReturnValue(consultorio);
+    respuesta.setMessage(UtilitiesMethods.messageCreator("Consultorio actualizado exitosamente", MessageTypes.ok));
+
+    return new ResponseEntity<>(respuesta, HttpStatus.OK);
   }
 
   @DeleteMapping("")
-  public ResponseEntity<Map<String, Object>> deleteConsultorio(@RequestParam UUID id) {
-    Map<String, Object> mapa = new HashMap<>();
-    try {
-      consultorioService.deleteConsultorio(id);
-      mapa.put("message", "Consultorio eliminado");
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.OK);
-    } catch (ResourceNotFound e) {
-      mapa.put("message", e.getMessage());
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      mapa.put("message", e.getMessage());
-      return new ResponseEntity<Map<String,Object>>(mapa, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public ResponseEntity<ResponseDTO> deleteConsultorio(@RequestParam UUID id) throws Exception {
+    consultorioService.deleteConsultorio(id);
+    ResponseDTO response = new ResponseDTO();
+    response.setMessage(UtilitiesMethods.messageCreator("Consultorio eliminado", MessageTypes.ok));
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }

@@ -1,8 +1,5 @@
 package com.clinica_administracion.sistema_administracion_clinica.others;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
 
@@ -19,10 +16,10 @@ public class UtilitiesMethods {
     }
   }
 
-  public static void messageCreatorResponse(Map<String, Object> mapa, String message, MessageTypes messageType) {
-    Map<String, String> messageMap = new HashMap<>();
-    messageMap.put("text", message);
-    messageMap.put("type", messageType.toString());
-    mapa.put("message", messageMap);
+  public static MessagesDTO messageCreator(String message, MessageTypes messageType) {
+    MessagesDTO mapa = new MessagesDTO();
+    mapa.setText(message);
+    mapa.setType(messageType);
+    return mapa;
   }
 }

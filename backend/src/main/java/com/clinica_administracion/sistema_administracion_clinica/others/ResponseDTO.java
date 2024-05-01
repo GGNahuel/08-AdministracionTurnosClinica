@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class ResponseDTO {
   private MessagesDTO message;
-  private List<Object> results;
+  private List<?> results;
   private Object returnValue;
 }
