@@ -1,7 +1,10 @@
 package com.clinica_administracion.sistema_administracion_clinica.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.AreaProfesional;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.EstadoPago;
@@ -26,11 +29,11 @@ public class TurnoEntity {
   private UUID id;
   @ManyToOne
   private PacienteEntity paciente;
-  @Temporal(value = TemporalType.DATE) @Column(nullable = false)
-  private Date fecha;
+  @Temporal(value = TemporalType.DATE) @Column(nullable = false) @DateTimeFormat(pattern = "dd/MM/yyyy")
+  private LocalDate fecha;
   @Temporal(value = TemporalType.TIME) @Column(nullable = false)
-  private Date horario;
-  @Enumerated(EnumType.STRING) @Column(nullable = false)
+  private LocalTime horario;
+  @Enumerated(EnumType.STRING) // @Column(nullable = false)
   private AreaProfesional areaProfesional;
   private String metodoDeAbono;
   private String obraSocial;
