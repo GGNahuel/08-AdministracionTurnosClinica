@@ -19,9 +19,7 @@ import com.clinica_administracion.sistema_administracion_clinica.others.Response
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.services.TurnoService;
-
-
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
@@ -78,7 +76,6 @@ public class TurnoController {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
-  
   @PostMapping("")
   public ResponseEntity<ResponseDTO> createTurno(@RequestBody TurnoDTO turno) throws Exception {
     ResponseDTO response = new ResponseDTO();
@@ -88,4 +85,12 @@ public class TurnoController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.CREATED);
   }
   
+  @PutMapping("")
+  public ResponseEntity<ResponseDTO> updateTurno(@RequestBody TurnoDTO turno) throws Exception {
+    ResponseDTO response = new ResponseDTO();
+    response.setReturnValue(turnoService.updateTurnoDTO(turno));
+    response.setMessage(UtilitiesMethods.messageCreator("El turno fue modificado exitosamente", MessageTypes.ok));
+    
+    return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
+  }
 }
