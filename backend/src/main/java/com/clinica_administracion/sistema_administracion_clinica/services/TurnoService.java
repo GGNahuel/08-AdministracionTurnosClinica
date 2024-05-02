@@ -60,6 +60,7 @@ public class TurnoService {
     modelMapper.typeMap(TurnoEntity.class, TurnoDTO.class).addMappings(
       (mapper) -> {
         mapper.map(src -> src.getPaciente().getId(), TurnoDTO::setPaciente);
+        mapper.map(src -> src.getProfesional().getId(), TurnoDTO::setProfesional);
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), TurnoDTO::setConsultorio);
       }
     );
