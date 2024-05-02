@@ -35,28 +35,29 @@ public class TurnoService {
   // private DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm");
   
   private void setMappingConfigs(TurnoDTO turno) {
+    if (turno != null) {
+      PacienteEntity paciente = pacienteRepo.findById(turno.getPaciente()).orElseThrow(
+        () -> new ResourceNotFound("Paciente", "id", turno.getPaciente().toString())
+      );
+      ProfesionalMedEntity profesional = profesionalRepo.findById(turno.getProfesional()).orElseThrow(
+        () -> new ResourceNotFound("Profesional médico", "id", turno.getProfesional().toString())
+      );
+      ConsultorioEntity consultorio = consultorioRepo.findByNumeroConsultorio(turno.getConsultorio()).orElseThrow(
+        () -> new ResourceNotFound("Consultorio", "número", turno.getConsultorio().toString())
+      );
+      LocalDate fecha = LocalDate.parse(turno.getFecha(), formatoFecha);
+      LocalTime horario = LocalTime.parse(turno.getHorario());
 
-    PacienteEntity paciente = pacienteRepo.findById(turno.getPaciente()).orElseThrow(
-      () -> new ResourceNotFound("Paciente", "id", turno.getPaciente().toString())
-    );
-    ProfesionalMedEntity profesional = profesionalRepo.findById(turno.getProfesional()).orElseThrow(
-      () -> new ResourceNotFound("Profesional médico", "id", turno.getProfesional().toString())
-    );
-    ConsultorioEntity consultorio = consultorioRepo.findByNumeroConsultorio(turno.getConsultorio()).orElseThrow(
-      () -> new ResourceNotFound("Consultorio", "número", turno.getConsultorio().toString())
-    );
-    LocalDate fecha = LocalDate.parse(turno.getFecha(), formatoFecha);
-    LocalTime horario = LocalTime.parse(turno.getHorario());
-
-    modelMapper.typeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
-      (mapper) -> {
-        mapper.map(src -> paciente, TurnoEntity::setPaciente);
-        mapper.map(src -> profesional, TurnoEntity::setProfesional);
-        mapper.map(src -> consultorio, TurnoEntity::setConsultorio);
-        mapper.map(src -> fecha, TurnoEntity::setFecha);
-        mapper.map(src -> horario, TurnoEntity::setHorario);
-      }
-    );
+      modelMapper.typeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
+        (mapper) -> {
+          mapper.map(src -> paciente, TurnoEntity::setPaciente);
+          mapper.map(src -> profesional, TurnoEntity::setProfesional);
+          mapper.map(src -> consultorio, TurnoEntity::setConsultorio);
+          mapper.map(src -> fecha, TurnoEntity::setFecha);
+          mapper.map(src -> horario, TurnoEntity::setHorario);
+        }
+      );
+    }
     modelMapper.typeMap(TurnoEntity.class, TurnoDTO.class).addMappings(
       (mapper) -> {
         mapper.map(src -> src.getPaciente().getId(), TurnoDTO::setPaciente);
