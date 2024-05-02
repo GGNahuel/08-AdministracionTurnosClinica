@@ -33,6 +33,37 @@ public class TurnoService {
   @Autowired ModelMapper modelMapper;
   private DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
   // private DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm");
+  
+  private void setMappingConfigs(TurnoDTO turno) {
+
+    PacienteEntity paciente = pacienteRepo.findById(turno.getPaciente()).orElseThrow(
+      () -> new ResourceNotFound("Paciente", "id", turno.getPaciente().toString())
+    );
+    ProfesionalMedEntity profesional = profesionalRepo.findById(turno.getProfesional()).orElseThrow(
+      () -> new ResourceNotFound("Profesional médico", "id", turno.getProfesional().toString())
+    );
+    ConsultorioEntity consultorio = consultorioRepo.findByNumeroConsultorio(turno.getConsultorio()).orElseThrow(
+      () -> new ResourceNotFound("Consultorio", "número", turno.getConsultorio().toString())
+    );
+    LocalDate fecha = LocalDate.parse(turno.getFecha(), formatoFecha);
+    LocalTime horario = LocalTime.parse(turno.getHorario());
+
+    modelMapper.typeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
+      (mapper) -> {
+        mapper.map(src -> paciente, TurnoEntity::setPaciente);
+        mapper.map(src -> profesional, TurnoEntity::setProfesional);
+        mapper.map(src -> consultorio, TurnoEntity::setConsultorio);
+        mapper.map(src -> fecha, TurnoEntity::setFecha);
+        mapper.map(src -> horario, TurnoEntity::setHorario);
+      }
+    );
+    modelMapper.typeMap(TurnoEntity.class, TurnoDTO.class).addMappings(
+      (mapper) -> {
+        mapper.map(src -> src.getPaciente().getId(), TurnoDTO::setPaciente);
+        mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), TurnoDTO::setConsultorio);
+      }
+    );
+  }
 
   @Transactional(readOnly = true)
   public List<TurnoDTO> getAllTurnos() {
@@ -75,40 +106,29 @@ public class TurnoService {
       ).collect(Collectors.toList());
   }
 
+  @Transactional(readOnly = true)
+  public List<TurnoDTO> getTurnosByDate(String fecha) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
+    return 
+      turnoRepo.findByFecha(LocalDate.parse(fecha, formatoFecha)).stream().map(
+        (turno) -> modelMapper.map(turno, TurnoDTO.class)
+      ).collect(Collectors.toList());
+  }
+
   @Transactional
   public TurnoDTO createTurno(TurnoDTO turno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
-      new String[]{"Turno", "fecha", "horario", "área", "profesional", "consultorio"}, 
-      turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesional(), turno.getConsultorio()
+      new String[]{"Turno", "fecha", "horario", "área", "profesional", "consultorio", "paciente"}, 
+      turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesional(), turno.getConsultorio(), turno.getPaciente()
     );
 
-    // busqueda y asignacion de paciente y profesional entity
-    PacienteEntity paciente = pacienteRepo.findById(turno.getPaciente()).orElseThrow(
-      () -> new ResourceNotFound("Paciente", "id", turno.getPaciente().toString())
-    );
-    ProfesionalMedEntity profesional = profesionalRepo.findById(turno.getProfesional()).orElseThrow(
-      () -> new ResourceNotFound("Profesional médico", "id", turno.getProfesional().toString())
-    );
-    ConsultorioEntity consultorio = consultorioRepo.findByNumeroConsultorio(turno.getConsultorio()).orElseThrow(
-      () -> new ResourceNotFound("Consultorio", "número", turno.getConsultorio().toString())
-    );
-
-    //validaciones de fecha
-    modelMapper.typeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
-      (mapper) -> {
-        mapper.map(src -> paciente, TurnoEntity::setPaciente);
-        mapper.map(src -> profesional, TurnoEntity::setProfesional);
-        mapper.map(src -> consultorio, TurnoEntity::setConsultorio);
-        mapper.map(src -> LocalDate.parse(src.getFecha(), formatoFecha), TurnoEntity::setFecha);
-        mapper.map(src -> LocalTime.parse(src.getHorario()), TurnoEntity::setHorario);
-      }
-    );
+    setMappingConfigs(turno);
 
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
   }
 
-  /* @Transactional
+  @Transactional
   public TurnoDTO updateTurnoDTO(TurnoDTO turno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Turno", "id", "fecha", "horario", "área", "profesional", "consultorio"}, 
@@ -117,8 +137,10 @@ public class TurnoService {
     turnoRepo.findById(turno.getId()).orElseThrow(
       () -> new ResourceNotFound("Turno", "id", turno.getId().toString())
     );
+
+    setMappingConfigs(turno);
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
 
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
-  } */
+  }
 }

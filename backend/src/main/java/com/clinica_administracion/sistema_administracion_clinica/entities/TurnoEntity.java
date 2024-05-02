@@ -33,7 +33,7 @@ public class TurnoEntity {
   private LocalDate fecha;
   @Temporal(value = TemporalType.TIME) @Column(nullable = false)
   private LocalTime horario;
-  @Enumerated(EnumType.STRING) // @Column(nullable = false)
+  @Enumerated(EnumType.STRING) @Column(nullable = false)
   private AreaProfesional areaProfesional;
   private String metodoDeAbono;
   private String obraSocial;
