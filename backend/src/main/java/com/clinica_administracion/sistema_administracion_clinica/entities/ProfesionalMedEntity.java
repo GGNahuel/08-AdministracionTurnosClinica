@@ -12,8 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Entity
@@ -26,14 +24,14 @@ public class ProfesionalMedEntity {
     private String nombreCompleto;
   @Column(nullable = false, unique = true)
     private String dni;
+  @Column(nullable = false)
     private Long numeroContacto;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
     private AreaProfesional areaProfesional;
   @Column(nullable = false)
     private Integer numMatricula;
-  @Temporal(TemporalType.TIME) //revisar esto
-    private List<Double> horarios;
+    private List<String> horarios;
   @OneToOne
     private ConsultorioEntity consultorio;
 }

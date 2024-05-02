@@ -19,6 +19,6 @@ public class ProfesionalMedDTO {
   private Long numeroContacto;
   private AreaProfesional areaProfesional;
   private Integer numMatricula;
-  private List<Double> horarios;
-  private UUID consultorio;
+  private List<String> horarios;
+  private Integer consultorio;
 }
