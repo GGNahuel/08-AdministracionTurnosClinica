@@ -1,5 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -10,10 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
+import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
 
@@ -21,6 +24,7 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Pr
 public class ProfesionalMedService {
   @Autowired ProfesionalMedRepository profesionalRepo;
   @Autowired ConsultorioRepository consultorioRepo;
+  @Autowired AreaRepository areaRepo;
   @Autowired ModelMapper modelMapper;
 
   private void configModelMapper(ProfesionalMedDTO profesionalMedDTO) {
@@ -28,15 +32,29 @@ public class ProfesionalMedService {
       ConsultorioEntity consultorio = consultorioRepo.findByNumeroConsultorio(profesionalMedDTO.getConsultorio()).orElseThrow(
         () -> new ResourceNotFound("Consultorio", "número", profesionalMedDTO.getConsultorio().toString())
       );
+      List<AreaEntity> areas = new ArrayList<>();
+      for (UUID id : profesionalMedDTO.getAreas()) {
+        AreaEntity area = areaRepo.findById(id).orElseThrow(
+          () -> new ResourceNotFound("Consultorio", "número", id.toString())
+        );
+        areas.add(area);
+      }
       modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
         (mapper) -> {
           mapper.map(src -> consultorio, ProfesionalMedEntity::setConsultorio);
+          mapper.map(src -> areas, ProfesionalMedEntity::setAreas);
         }
       );
     }
     modelMapper.typeMap(ProfesionalMedEntity.class, ProfesionalMedDTO.class).addMappings(
       (mapper) -> {
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), ProfesionalMedDTO::setConsultorio);
+        mapper.map(
+          src -> src.getAreas().stream().map(
+            (areaEntity) -> areaEntity.getId()
+          ).toList(), 
+          ProfesionalMedDTO::setAreas
+        );
       }
     );
   }
@@ -74,7 +92,7 @@ public class ProfesionalMedService {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"profesional", "nombre completo", "dni", "número de contacto", "área", "número de matricula"}, 
       profesional, profesional.getNombreCompleto(), profesional.getDni(), profesional.getNumeroContacto(), 
-      profesional.getAreaProfesional(), profesional.getNumMatricula()
+      profesional.getAreas(), profesional.getNumMatricula()
     );
 
     configModelMapper(profesional);
@@ -88,7 +106,7 @@ public class ProfesionalMedService {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"profesional", "id", "nombre completo", "dni", "número de contacto", "área", "número de matricula"}, 
       profesional, profesional.getId(), profesional.getNombreCompleto(), profesional.getDni(), profesional.getNumeroContacto(), 
-      profesional.getAreaProfesional(), profesional.getNumMatricula()
+      profesional.getAreas(), profesional.getNumMatricula()
     );
 
     profesionalRepo.findById(profesional.getId()).orElseThrow(

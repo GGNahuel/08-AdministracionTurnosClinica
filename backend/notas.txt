@@ -6,3 +6,5 @@ agregar query a turnos para buscar por area
 agregar metodo para agregar un turno a un paciente
 
 probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
+
+revisar las configs de los oneTomany/manyToMany etc
