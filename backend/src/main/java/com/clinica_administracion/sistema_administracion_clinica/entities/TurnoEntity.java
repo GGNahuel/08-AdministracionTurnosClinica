@@ -17,7 +17,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
@@ -40,9 +39,9 @@ public class TurnoEntity {
   @Enumerated(EnumType.STRING)
   private EstadoPago estadoPago;
   private String comentario;
-  @OneToOne @JoinColumn(nullable = false)
+  @ManyToOne @JoinColumn(nullable = false)
   private ConsultorioEntity consultorio;
-  @OneToOne @JoinColumn(nullable = false)
+  @ManyToOne @JoinColumn(nullable = false)
   private ProfesionalMedEntity profesional;
   private Boolean activo;
 }

@@ -1,3 +1,6 @@
 ✅hacer validación en el backend del formato del dni
-validar que un turno no tenga el mismo horario que otro con el mismo profesional
+✅validar que un turno no tenga el mismo horario que otro con el mismo profesional
 formatear la lista de horarios de los profesionales
+agregar metodo para agregar un turno a un paciente
+
+probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
