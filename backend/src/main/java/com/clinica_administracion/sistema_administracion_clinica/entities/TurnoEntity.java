@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.clinica_administracion.sistema_administracion_clinica.others.enums.AreaProfesional;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.EstadoPago;
 
 import jakarta.persistence.Column;
@@ -32,8 +31,8 @@ public class TurnoEntity {
   private LocalDate fecha;
   @Temporal(value = TemporalType.TIME) @Column(nullable = false)
   private LocalTime horario;
-  @Enumerated(EnumType.STRING) @Column(nullable = false)
-  private AreaProfesional areaProfesional;
+  @ManyToOne @JoinColumn(nullable = false)
+  private AreaEntity areaProfesional;
   private String metodoDeAbono;
   private String obraSocial;
   @Enumerated(EnumType.STRING)

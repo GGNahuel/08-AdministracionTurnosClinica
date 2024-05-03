@@ -14,17 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
-import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.PacienteEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.*;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.*;
 
 @Service
 public class TurnoService {
@@ -32,6 +26,7 @@ public class TurnoService {
   @Autowired PacienteRepository pacienteRepo;
   @Autowired ProfesionalMedRepository profesionalRepo;
   @Autowired ConsultorioRepository consultorioRepo;
+  @Autowired AreaRepository areaRepo;
   @Autowired ModelMapper modelMapper;
   private DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
   // private DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm");
@@ -47,6 +42,9 @@ public class TurnoService {
       ConsultorioEntity consultorio = consultorioRepo.findByNumeroConsultorio(turno.getConsultorio()).orElseThrow(
         () -> new ResourceNotFound("Consultorio", "número", turno.getConsultorio().toString())
       );
+      AreaEntity area = areaRepo.findById(turno.getAreaProfesional()).orElseThrow(
+        () -> new ResourceNotFound("Consultorio", "número", turno.getAreaProfesional().toString())
+      );
       LocalDate fecha = LocalDate.parse(turno.getFecha(), formatoFecha);
       LocalTime horario = LocalTime.parse(turno.getHorario());
 
@@ -55,6 +53,7 @@ public class TurnoService {
           mapper.map(src -> paciente, TurnoEntity::setPaciente);
           mapper.map(src -> profesional, TurnoEntity::setProfesional);
           mapper.map(src -> consultorio, TurnoEntity::setConsultorio);
+          mapper.map(src -> area, TurnoEntity::setAreaProfesional);
           mapper.map(src -> fecha, TurnoEntity::setFecha);
           mapper.map(src -> horario, TurnoEntity::setHorario);
         }
@@ -64,6 +63,7 @@ public class TurnoService {
       (mapper) -> {
         mapper.map(src -> src.getPaciente().getId(), TurnoDTO::setPaciente);
         mapper.map(src -> src.getProfesional().getId(), TurnoDTO::setProfesional);
+        mapper.map(src -> src.getAreaProfesional().getId(), TurnoDTO::setAreaProfesional);
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), TurnoDTO::setConsultorio);
       }
     );

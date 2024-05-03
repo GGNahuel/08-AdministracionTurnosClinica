@@ -2,7 +2,6 @@ package com.clinica_administracion.sistema_administracion_clinica.DTOs;
 
 import java.util.UUID;
 
-import com.clinica_administracion.sistema_administracion_clinica.others.enums.AreaProfesional;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.EstadoPago;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +16,7 @@ public class TurnoDTO {
   private UUID paciente;
   private String fecha;
   private String horario;
-  private AreaProfesional areaProfesional;
+  private UUID areaProfesional;
   private String metodoDeAbono;
   private String obraSocial;
   private EstadoPago estadoPago;
