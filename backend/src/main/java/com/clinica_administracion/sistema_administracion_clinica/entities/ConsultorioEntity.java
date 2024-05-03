@@ -14,6 +14,6 @@ public class ConsultorioEntity {
   @Id
   @GeneratedValue
   private UUID id;
-  @Column(unique = true)
+  @Column(unique = true, nullable = false)
   private Integer numeroConsultorio;
 }
