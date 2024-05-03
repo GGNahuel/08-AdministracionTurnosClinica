@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.Pacien
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
@@ -123,10 +125,13 @@ public class TurnoService {
       new String[]{"Turno", "fecha", "horario", "área", "profesional", "consultorio", "paciente"}, 
       turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesional(), turno.getConsultorio(), turno.getPaciente()
     );
-
     setMappingConfigs(turno);
-
+    
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
+    Optional<TurnoEntity> check = turnoRepo.findTurnoFromProfesionalAndHours(turnoEntity.getProfesional().getId(), turnoEntity.getHorario());
+    if (check.isPresent()) 
+      throw new EntityAlreadyExists("Ya existe un turno con este horario para el profesional seleccionado", turnoEntity);
+    
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
   }
 
