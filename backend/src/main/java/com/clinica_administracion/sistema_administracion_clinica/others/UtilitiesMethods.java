@@ -1,5 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.others;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
@@ -16,6 +17,12 @@ public class UtilitiesMethods {
     for (int i = 0; i < fieldNames.length; i++) {
       if (fields[i] == null) throw new NotNullFieldIsNull(fieldNames[i]);
       if (fields[i] instanceof String && ((String) fields[i]).isBlank()) throw new NotNullFieldIsNull(fieldNames[i]);
+      if (fields[i] instanceof List) {
+        List<?> lista = (List<?>) fields[i];
+        for (Object object : lista) {
+          if (object == null) throw new NotNullFieldIsNull(fieldNames[i]);
+        }
+      }
     }
   }
 
