@@ -88,13 +88,14 @@ public class AreaService {
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }
   
-  @Transactional AreaDTO desactivate(UUID id) throws Exception {
+  @Transactional 
+  public AreaDTO changeActiveStatus(UUID id, Boolean valor) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"}, id);
     
     AreaEntity area = areaRepo.findById(id).orElseThrow(
       () -> new ResourceNotFound("Área médica", "id", id.toString())
     );
-    area.setActiva(false);  
+    area.setActiva(valor);  
       
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }
