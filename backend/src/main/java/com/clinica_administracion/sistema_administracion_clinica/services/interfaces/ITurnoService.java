@@ -12,6 +12,7 @@ public interface ITurnoService {
   List<TurnoDTO> getByProfesionalDni(String dni) throws Exception;
   List<TurnoDTO> getByProfesional(String dni) throws Exception;
   List<TurnoDTO> getByDate(String fecha) throws Exception;
+  List<TurnoDTO> getByArea(String nombre) throws Exception;
   TurnoDTO create(TurnoDTO turno) throws Exception;
   TurnoDTO update(TurnoDTO turno) throws Exception;
   void deleteAlreadyPassed(String fecha) throws Exception;

@@ -2,8 +2,8 @@
 ✅validar que un turno no tenga el mismo horario que otro con el mismo profesional
 formatear la lista de horarios de los profesionales
 
-agregar query a turnos para buscar por area
-agregar metodo para agregar un turno a un paciente
+✅agregar query a turnos para buscar por area
+❌(desde el front, ya con el create estaría) agregar metodo para agregar un turno a un paciente
 
 probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
 

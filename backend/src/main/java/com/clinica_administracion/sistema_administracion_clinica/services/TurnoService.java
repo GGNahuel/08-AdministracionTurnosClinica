@@ -120,6 +120,15 @@ public class TurnoService implements ITurnoService {
       ).collect(Collectors.toList());
   }
 
+  @Transactional(readOnly = true) @Override
+  public List<TurnoDTO> getByArea(String nombre) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"Nombre del área"}, nombre);
+    return 
+      turnoRepo.findByArea(nombre).stream().map(
+        (turno) -> modelMapper.map(turno, TurnoDTO.class)
+      ).collect(Collectors.toList());
+  }
+
   @Transactional @Override
   public TurnoDTO create(TurnoDTO turno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
