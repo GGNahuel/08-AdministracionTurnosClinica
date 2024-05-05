@@ -31,7 +31,7 @@ public class PacienteController {
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAllPacientes () {
     ResponseDTO response = new ResponseDTO();
-    response.setResults(pacienteService.getAllPacientes());
+    response.setResults(pacienteService.getAll());
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
@@ -39,7 +39,7 @@ public class PacienteController {
   public ResponseEntity<ResponseDTO> getPacienteByDni(@PathVariable String dni) throws Exception {
     ResponseDTO response = new ResponseDTO();
     List<PacienteDTO> list = new ArrayList<>();
-    list.add(pacienteService.getPacienteByDNI(dni));
+    list.add(pacienteService.getByDni(dni));
     response.setResults(list);
     
     return new ResponseEntity<>(response, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class PacienteController {
   public ResponseEntity<ResponseDTO> getPaciente(@PathVariable UUID id) throws Exception {
     ResponseDTO response = new ResponseDTO();
     List<PacienteDTO> list = new ArrayList<>();
-    list.add(pacienteService.getPaciente(id));
+    list.add(pacienteService.getById(id));
     response.setResults(list);
 
     return new ResponseEntity<>(response, HttpStatus.OK);
@@ -58,7 +58,7 @@ public class PacienteController {
   @PostMapping("")
   public ResponseEntity<ResponseDTO> createPaciente(@RequestBody PacienteDTO paciente) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setReturnValue(pacienteService.createPaciente(paciente));
+    response.setReturnValue(pacienteService.create(paciente));
     response.setMessage(UtilitiesMethods.messageCreator("Paciente creado exitosamente", MessageTypes.ok));
     return new ResponseEntity<>(response, HttpStatus.CREATED);
   }
@@ -66,7 +66,7 @@ public class PacienteController {
   @PutMapping("")
   public ResponseEntity<ResponseDTO> putMethodName(@RequestBody PacienteDTO paciente) throws Exception{
     ResponseDTO response = new ResponseDTO();
-    response.setReturnValue(pacienteService.updatePaciente(paciente));
+    response.setReturnValue(pacienteService.update(paciente));
     response.setMessage(UtilitiesMethods.messageCreator("Paciente actualizado exitosamente", MessageTypes.ok));
     return new ResponseEntity<>(response, HttpStatus.OK);
   }

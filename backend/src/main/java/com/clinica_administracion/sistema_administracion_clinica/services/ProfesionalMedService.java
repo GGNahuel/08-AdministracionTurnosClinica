@@ -19,9 +19,10 @@ import com.clinica_administracion.sistema_administracion_clinica.others.exceptio
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
+import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IProfesionalMedService;
 
 @Service
-public class ProfesionalMedService {
+public class ProfesionalMedService implements IProfesionalMedService {
   @Autowired ProfesionalMedRepository profesionalRepo;
   @Autowired ConsultorioRepository consultorioRepo;
   @Autowired AreaRepository areaRepo;
@@ -59,7 +60,7 @@ public class ProfesionalMedService {
     );
   }
 
-  @Transactional(readOnly = true)
+  @Transactional(readOnly = true) @Override
   public List<ProfesionalMedDTO> getAll() {
     return
       profesionalRepo.findAll().stream().map(
@@ -77,7 +78,7 @@ public class ProfesionalMedService {
     return modelMapper.map(profesional, ProfesionalMedDTO.class);
   }
   
-  @Transactional(readOnly = true)
+  @Transactional(readOnly = true) @Override
   public ProfesionalMedDTO getByDni(String dni) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni"}, dni);
     ProfesionalMedEntity profesional = profesionalRepo.findByDni(dni).orElseThrow(
@@ -87,7 +88,7 @@ public class ProfesionalMedService {
     return modelMapper.map(profesional, ProfesionalMedDTO.class);
   }
 
-  @Transactional
+  @Transactional @Override
   public ProfesionalMedDTO create(ProfesionalMedDTO profesional) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"profesional", "nombre completo", "dni", "número de contacto", "área", "número de matricula"}, 
@@ -101,7 +102,7 @@ public class ProfesionalMedService {
     return modelMapper.map(profesionalRepo.save(profesionalMedEntity), ProfesionalMedDTO.class);
   }
 
-  @Transactional
+  @Transactional @Override
   public ProfesionalMedDTO update(ProfesionalMedDTO profesional) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"profesional", "id", "nombre completo", "dni", "número de contacto", "área", "número de matricula"}, 

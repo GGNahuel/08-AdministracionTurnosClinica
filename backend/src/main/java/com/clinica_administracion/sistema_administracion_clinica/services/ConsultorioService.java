@@ -15,22 +15,23 @@ import com.clinica_administracion.sistema_administracion_clinica.others.Utilitie
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
+import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IConsultorioService;
 
 @Service
-public class ConsultorioService {
+public class ConsultorioService implements IConsultorioService {
   @Autowired ConsultorioRepository consultorioRepo;
   ModelMapper modelMapper = new ModelMapper();
 
-  @Transactional(readOnly = true)
-  public List<ConsultorioDTO> getAllConsultorios() {
+  @Transactional(readOnly = true) @Override
+  public List<ConsultorioDTO> getAll() {
     List<ConsultorioDTO> list = consultorioRepo.findAll().stream().map(
       (consultorio) -> modelMapper.map(consultorio, ConsultorioDTO.class)
     ).collect(Collectors.toList());
     return list;
   }
 
-  @Transactional(readOnly = true)
-  public ConsultorioDTO getConsultorioByNumber(Integer number) throws Exception{
+  @Transactional(readOnly = true) @Override
+  public ConsultorioDTO getByNumber(Integer number) throws Exception{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"número de consultorio"} , number);
     ConsultorioEntity busqueda = consultorioRepo.findByNumeroConsultorio(number).orElseThrow(() ->
       new ResourceNotFound("Consultorio", "número", number.toString())
@@ -40,13 +41,13 @@ public class ConsultorioService {
     return resultado;
   }
   
-  @Transactional
-  public ConsultorioDTO createConsultorio(Integer number) throws Exception{
+  @Transactional @Override
+  public ConsultorioDTO create(Integer number) throws Exception{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"número de consultorio"} , number);
-    if (this.getConsultorioByNumber(number) != null) 
+    if (this.getByNumber(number) != null) 
       throw new EntityAlreadyExists(
         "Ya existe un consultorio con ese número", 
-        this.getConsultorioByNumber(number)
+        this.getByNumber(number)
       );
     
     ConsultorioEntity consultorio = new ConsultorioEntity();
@@ -57,8 +58,8 @@ public class ConsultorioService {
     return modelMapper.map(consultorioRepo.save(consultorio), ConsultorioDTO.class);
   }
   
-  @Transactional
-  public ConsultorioDTO updateConsultorio(UUID id, Integer newNumber) throws Exception{
+  @Transactional @Override
+  public ConsultorioDTO update(UUID id, Integer newNumber) throws Exception{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id", "número de consultorio"} , id, newNumber);
     ConsultorioEntity consultorio = consultorioRepo.findById(id).orElseThrow(
       () -> new ResourceNotFound("Consultorio", "id", id.toString())
@@ -69,8 +70,8 @@ public class ConsultorioService {
       return modelMapper.map(consultorio, ConsultorioDTO.class);
     }
     
-    @Transactional
-    public void deleteConsultorio(UUID id) throws Exception {
+    @Transactional @Override
+    public void delete(UUID id) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"} , id);
     consultorioRepo.findById(id).orElseThrow(
       () -> new ResourceNotFound("Consultorio", "id", id.toString())

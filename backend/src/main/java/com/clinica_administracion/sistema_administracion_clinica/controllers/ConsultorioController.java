@@ -30,7 +30,7 @@ public class ConsultorioController {
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAllConsultorios() {
-    List<ConsultorioDTO> results = consultorioService.getAllConsultorios();
+    List<ConsultorioDTO> results = consultorioService.getAll();
     ResponseDTO response = new ResponseDTO();
     response.setResults(results);
 
@@ -39,7 +39,7 @@ public class ConsultorioController {
 
   @GetMapping("/{number}")
   public ResponseEntity<ResponseDTO> getConsultorioByNumber(@PathVariable Integer number) throws Exception {
-    ConsultorioDTO consultorio = consultorioService.getConsultorioByNumber(number);
+    ConsultorioDTO consultorio = consultorioService.getByNumber(number);
     ResponseDTO response = new ResponseDTO();
     List<ConsultorioDTO> list = new ArrayList<ConsultorioDTO>();
     list.add(consultorio);
@@ -50,7 +50,7 @@ public class ConsultorioController {
 
   @PostMapping("/{number}")
   public ResponseEntity<ResponseDTO> createConsultorio(@PathVariable Integer number) throws Exception {
-    ConsultorioDTO consultorio = consultorioService.createConsultorio(number);
+    ConsultorioDTO consultorio = consultorioService.create(number);
     ResponseDTO respuesta = new ResponseDTO();
     respuesta.setReturnValue(consultorio);
     respuesta.setMessage(UtilitiesMethods.messageCreator("Consultorio creado exitosamente", MessageTypes.ok));
@@ -60,7 +60,7 @@ public class ConsultorioController {
 
   @PutMapping("/edit")
   public ResponseEntity<ResponseDTO> updateConsultorio(@RequestParam UUID id, @RequestParam Integer number) throws Exception {
-    ConsultorioDTO consultorio = consultorioService.updateConsultorio(id, number);
+    ConsultorioDTO consultorio = consultorioService.update(id, number);
     ResponseDTO respuesta = new ResponseDTO();
     respuesta.setReturnValue(consultorio);
     respuesta.setMessage(UtilitiesMethods.messageCreator("Consultorio actualizado exitosamente", MessageTypes.ok));
@@ -70,7 +70,7 @@ public class ConsultorioController {
 
   @DeleteMapping("")
   public ResponseEntity<ResponseDTO> deleteConsultorio(@RequestParam UUID id) throws Exception {
-    consultorioService.deleteConsultorio(id);
+    consultorioService.delete(id);
     ResponseDTO response = new ResponseDTO();
     response.setMessage(UtilitiesMethods.messageCreator("Consultorio eliminado", MessageTypes.ok));
 

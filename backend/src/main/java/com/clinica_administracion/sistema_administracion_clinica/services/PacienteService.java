@@ -17,23 +17,24 @@ import com.clinica_administracion.sistema_administracion_clinica.others.exceptio
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
+import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IPacienteService;
 
 @Service
-public class PacienteService {
+public class PacienteService implements IPacienteService{
   @Autowired PacienteRepository pacienteRepo;
   @Autowired TurnoRepository turnoRepo;
   @Autowired ModelMapper modelMapper;
 
-  @Transactional(readOnly = true)
-  public List<PacienteDTO> getAllPacientes() {
+  @Transactional(readOnly = true) @Override
+  public List<PacienteDTO> getAll() {
     List<PacienteDTO> list = pacienteRepo.findAll().stream().map(
       (paciente) -> modelMapper.map(paciente, PacienteDTO.class)
     ).collect(Collectors.toList());
     return list;
   }
 
-  @Transactional(readOnly = true)
-  public PacienteDTO getPacienteByDNI(String dni) throws Exception {
+  @Transactional(readOnly = true) @Override
+  public PacienteDTO getByDni(String dni) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni"}, dni);
     PacienteEntity busqueda = pacienteRepo.findByDni(dni).orElseThrow(() ->
       new ResourceNotFound("Paciente", "dni", dni)
@@ -42,8 +43,8 @@ public class PacienteService {
     return paciente;
   }
   
-  @Transactional(readOnly = true)
-  public PacienteDTO getPaciente(UUID id) throws Exception {
+  @Transactional(readOnly = true) @Override
+  public PacienteDTO getById(UUID id) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"}, id);
     PacienteEntity busqueda = pacienteRepo.findById(id).orElseThrow(() ->
       new ResourceNotFound("Paciente", "id", id.toString())
@@ -51,8 +52,8 @@ public class PacienteService {
     return modelMapper.map(busqueda, PacienteDTO.class);
   }
 
-  @Transactional
-  public PacienteDTO createPaciente(PacienteDTO paciente) throws Exception {
+  @Transactional @Override
+  public PacienteDTO create(PacienteDTO paciente) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Paciente enviado", "dni", "nombre completo", "número de contacto"}, 
       paciente, paciente.getDni(), paciente.getNombreCompleto(), paciente.getNumeroContacto()
@@ -60,7 +61,7 @@ public class PacienteService {
     if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
       throw new EntityAlreadyExists(
         "Ya existe un paciente con el dni ingresado", 
-        this.getPacienteByDNI(paciente.getDni())
+        this.getByDni(paciente.getDni())
       );
 
     PacienteEntity pacienteNuevo = modelMapper.map(paciente, PacienteEntity.class);
@@ -68,8 +69,8 @@ public class PacienteService {
     return modelMapper.map(pacienteRepo.save(pacienteNuevo), PacienteDTO.class);
   }
 
-  @Transactional
-  public PacienteDTO updatePaciente(PacienteDTO pacienteActualizado) throws Exception {
+  @Transactional @Override
+  public PacienteDTO update(PacienteDTO pacienteActualizado) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Paciente enviado", "id", "dni", "nombre completo", "número de contacto"}, 
       pacienteActualizado, pacienteActualizado.getId(), pacienteActualizado.getDni(), 

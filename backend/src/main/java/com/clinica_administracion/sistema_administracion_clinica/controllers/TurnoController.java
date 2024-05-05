@@ -30,7 +30,7 @@ public class TurnoController {
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAllTurnos () {
     ResponseDTO response = new ResponseDTO();
-    response.setResults(turnoService.getAllTurnos());
+    response.setResults(turnoService.getAll());
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
@@ -38,14 +38,14 @@ public class TurnoController {
   @GetMapping("/{fecha}")
   public ResponseEntity<ResponseDTO> getTurnosByFecha(@PathVariable String fecha) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setResults(turnoService.getTurnosByDate(fecha));
+    response.setResults(turnoService.getByDate(fecha));
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
   @GetMapping("/paciente")
   public ResponseEntity<ResponseDTO> getTurnosByPacienteDni(String dni) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setResults(turnoService.getTurnosByPacienteDNI(dni));  
+    response.setResults(turnoService.getByPacienteDni(dni));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
@@ -53,7 +53,7 @@ public class TurnoController {
   @GetMapping("/profesional")
   public ResponseEntity<ResponseDTO> getTurnosByProfesionalDni(String dni) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setResults(turnoService.getTurnosByProfesionalDNI(dni));  
+    response.setResults(turnoService.getByProfesionalDni(dni));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
@@ -61,7 +61,7 @@ public class TurnoController {
   @GetMapping("/profesional")
   public ResponseEntity<ResponseDTO> getTurnosByProfesional(String nombre) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setResults(turnoService.getTurnosByProfesional(nombre));  
+    response.setResults(turnoService.getByProfesional(nombre));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
@@ -70,7 +70,7 @@ public class TurnoController {
   public ResponseEntity<ResponseDTO> getTurnoById(@PathVariable UUID id) throws Exception {
     ResponseDTO response = new ResponseDTO();
     List<TurnoDTO> list = new ArrayList<>();
-    list.add(turnoService.getTurnoByID(id));
+    list.add(turnoService.getById(id));
     response.setResults(list);
       
     return new ResponseEntity<>(response, HttpStatus.OK);
@@ -79,7 +79,7 @@ public class TurnoController {
   @PostMapping("")
   public ResponseEntity<ResponseDTO> createTurno(@RequestBody TurnoDTO turno) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setReturnValue(turnoService.createTurno(turno));
+    response.setReturnValue(turnoService.create(turno));
     response.setMessage(UtilitiesMethods.messageCreator("El turno fue creado exitosamente", MessageTypes.ok));
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.CREATED);
@@ -88,7 +88,7 @@ public class TurnoController {
   @PutMapping("")
   public ResponseEntity<ResponseDTO> updateTurno(@RequestBody TurnoDTO turno) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setReturnValue(turnoService.updateTurnoDTO(turno));
+    response.setReturnValue(turnoService.update(turno));
     response.setMessage(UtilitiesMethods.messageCreator("El turno fue modificado exitosamente", MessageTypes.ok));
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);

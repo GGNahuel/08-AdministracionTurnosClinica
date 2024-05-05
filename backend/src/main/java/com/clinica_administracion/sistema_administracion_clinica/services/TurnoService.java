@@ -19,9 +19,10 @@ import com.clinica_administracion.sistema_administracion_clinica.others.Utilitie
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.*;
+import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.ITurnoService;
 
 @Service
-public class TurnoService {
+public class TurnoService implements ITurnoService {
   @Autowired TurnoRepository turnoRepo;
   @Autowired PacienteRepository pacienteRepo;
   @Autowired ProfesionalMedRepository profesionalRepo;
@@ -69,22 +70,22 @@ public class TurnoService {
     );
   }
 
-  @Transactional(readOnly = true)
-  public List<TurnoDTO> getAllTurnos() {
+  @Transactional(readOnly = true) @Override
+  public List<TurnoDTO> getAll() {
     return 
       turnoRepo.findAll().stream().map(
         (turno) -> modelMapper.map(turno, TurnoDTO.class)
       ).collect(Collectors.toList());
   }
 
-  @Transactional(readOnly = true)
-  public TurnoDTO getTurnoByID(UUID id) throws Exception {
+  @Transactional(readOnly = true) @Override
+  public TurnoDTO getById(UUID id) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"}, id);
     return modelMapper.map(turnoRepo.findById(id), TurnoDTO.class);
   }
 
-  @Transactional(readOnly = true)
-  public List<TurnoDTO> getTurnosByPacienteDNI(String dni) throws Exception {
+  @Transactional(readOnly = true) @Override
+  public List<TurnoDTO> getByPacienteDni(String dni) throws Exception  {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni"}, dni);
     return 
     turnoRepo.findByPacienteDNI(dni).stream().map(
@@ -92,8 +93,8 @@ public class TurnoService {
       ).collect(Collectors.toList());
     }
 
-  @Transactional(readOnly = true)
-  public List<TurnoDTO> getTurnosByProfesionalDNI(String dni) throws Exception {
+  @Transactional(readOnly = true) @Override
+  public List<TurnoDTO> getByProfesionalDni(String dni) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni"}, dni);
     return 
       turnoRepo.findByProfesionalDNI(dni).stream().map(
@@ -101,8 +102,8 @@ public class TurnoService {
       ).collect(Collectors.toList());
   }
 
-  @Transactional(readOnly = true)
-  public List<TurnoDTO> getTurnosByProfesional(String name) throws Exception {
+  @Transactional(readOnly = true) @Override
+  public List<TurnoDTO> getByProfesional(String name) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, name);
     return 
       turnoRepo.findByProfesionalNombre(name).stream().map(
@@ -110,8 +111,8 @@ public class TurnoService {
       ).collect(Collectors.toList());
   }
 
-  @Transactional(readOnly = true)
-  public List<TurnoDTO> getTurnosByDate(String fecha) throws Exception {
+  @Transactional(readOnly = true) @Override
+  public List<TurnoDTO> getByDate(String fecha) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
     return 
       turnoRepo.findByFecha(LocalDate.parse(fecha, formatoFecha)).stream().map(
@@ -119,8 +120,8 @@ public class TurnoService {
       ).collect(Collectors.toList());
   }
 
-  @Transactional
-  public TurnoDTO createTurno(TurnoDTO turno) throws Exception {
+  @Transactional @Override
+  public TurnoDTO create(TurnoDTO turno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Turno", "fecha", "horario", "área", "profesional", "consultorio", "paciente"}, 
       turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesional(), turno.getConsultorio(), turno.getPaciente()
@@ -135,8 +136,8 @@ public class TurnoService {
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
   }
 
-  @Transactional
-  public TurnoDTO updateTurnoDTO(TurnoDTO turno) throws Exception {
+  @Transactional @Override
+  public TurnoDTO update(TurnoDTO turno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Turno", "id", "fecha", "horario", "área", "profesional", "consultorio"}, 
       turno, turno.getId(), turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesional(), turno.getConsultorio()

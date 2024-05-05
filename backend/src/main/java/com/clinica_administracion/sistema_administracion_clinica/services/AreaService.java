@@ -15,13 +15,14 @@ import com.clinica_administracion.sistema_administracion_clinica.others.Utilitie
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
+import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IAreaService;
 
 @Service
-public class AreaService {
+public class AreaService implements IAreaService{
   @Autowired AreaRepository areaRepo;
   @Autowired ModelMapper modelMapper;
 
-  @Transactional(readOnly = true)
+  @Transactional(readOnly = true) @Override
   public List<AreaDTO> getAll() {
     return
       areaRepo.findAll().stream().map(
@@ -29,15 +30,16 @@ public class AreaService {
       ).collect(Collectors.toList());
   }
 
-  @Transactional(readOnly = true)
-  public List<AreaDTO> getByActiveState(Boolean valor) {
+  @Transactional(readOnly = true) @Override
+  public List<AreaDTO> getByActiveState(Boolean valor) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"Estado de actividad"}, valor);
     return
       areaRepo.findByActiva(valor).stream().map(
         (area) -> modelMapper.map(area, AreaDTO.class)
       ).collect(Collectors.toList());
   }
 
-  @Transactional(readOnly = true)
+  @Transactional(readOnly = true) @Override
   public AreaDTO getById(UUID id) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"}, id);
     AreaEntity areaEntity = areaRepo.findById(id).orElseThrow(
@@ -47,7 +49,7 @@ public class AreaService {
     return modelMapper.map(areaEntity, AreaDTO.class);
   }
 
-  @Transactional(readOnly = true)
+  @Transactional(readOnly = true) @Override
   public AreaDTO getByName(String nombre) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, nombre);
     AreaEntity areaEntity = areaRepo.findByNombre(nombre).orElseThrow(
@@ -57,7 +59,7 @@ public class AreaService {
     return modelMapper.map(areaEntity, AreaDTO.class);
   }
     
-  @Transactional
+  @Transactional @Override
   public AreaDTO create(String nombre) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, nombre);
     if (areaRepo.findByNombre(nombre).isPresent()) 
@@ -70,7 +72,7 @@ public class AreaService {
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }
 
-  @Transactional
+  @Transactional @Override
   public AreaDTO update(AreaDTO areaUpdated) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"area","id","nombre"}, 
@@ -88,7 +90,7 @@ public class AreaService {
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }
   
-  @Transactional 
+  @Transactional @Override
   public AreaDTO changeActiveStatus(UUID id, Boolean valor) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"}, id);
     
