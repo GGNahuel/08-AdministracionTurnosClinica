@@ -129,7 +129,7 @@ public class TurnoService implements ITurnoService {
     setMappingConfigs(turno);
     
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
-    Optional<TurnoEntity> check = turnoRepo.findTurnoFromProfesionalAndHours(turnoEntity.getProfesional().getId(), turnoEntity.getHorario());
+    Optional<TurnoEntity> check = turnoRepo.findTurnosExistingInDate(turnoEntity.getProfesional().getId(), turnoEntity.getFecha(), turnoEntity.getHorario());
     if (check.isPresent()) 
       throw new EntityAlreadyExists("Ya existe un turno con este horario para el profesional seleccionado", turnoEntity);
     
@@ -150,5 +150,13 @@ public class TurnoService implements ITurnoService {
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
 
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
+  }
+
+  @Transactional @Override
+  public void deleteAlreadyPassed(String fecha) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
+    LocalDate fechaDate = LocalDate.parse(fecha, formatoFecha);
+    List<TurnoEntity> list = turnoRepo.selectTurnosAlreadyPassed(fechaDate);
+    if (list.size() > 0) turnoRepo.deleteAll(list);
   }
 }

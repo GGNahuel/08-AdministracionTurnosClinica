@@ -14,4 +14,5 @@ public interface ITurnoService {
   List<TurnoDTO> getByDate(String fecha) throws Exception;
   TurnoDTO create(TurnoDTO turno) throws Exception;
   TurnoDTO update(TurnoDTO turno) throws Exception;
+  void deleteAlreadyPassed(String fecha) throws Exception;
 }
