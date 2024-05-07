@@ -1,10 +1,10 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,34 +28,34 @@ public class ProfesionalMedService implements IProfesionalMedService {
   @Autowired AreaRepository areaRepo;
   @Autowired ModelMapper modelMapper;
 
-  private void configModelMapper(ProfesionalMedDTO profesionalMedDTO) {
-    if (profesionalMedDTO != null) {
-      ConsultorioEntity consultorio = consultorioRepo.findByNumeroConsultorio(profesionalMedDTO.getConsultorio()).orElseThrow(
-        () -> new ResourceNotFound("Consultorio", "número", profesionalMedDTO.getConsultorio().toString())
-      );
-      List<AreaEntity> areas = new ArrayList<>();
-      for (UUID id : profesionalMedDTO.getAreas()) {
-        AreaEntity area = areaRepo.findById(id).orElseThrow(
-          () -> new ResourceNotFound("Consultorio", "número", id.toString())
+  private void configModelMapper() {
+    Converter<Integer, ConsultorioEntity> getterConsultorioEntity = 
+      conv -> conv.getSource() == null ? 
+        null : consultorioRepo.findByNumeroConsultorio(conv.getSource()).orElseThrow(
+          () -> new ResourceNotFound("Consultorio", "número", conv.getSource().toString())
         );
-        areas.add(area);
+    Converter<List<UUID>, List<AreaEntity>> getterAreaEntities =
+      conv -> conv.getSource() == null ?
+        null :
+        conv.getSource().stream().map(
+          uuid -> areaRepo.findById(uuid).orElseThrow(
+            () -> new ResourceNotFound("Consultorio", "número", uuid.toString())
+          )
+        ).toList();
+    modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
+      (mapper) -> {
+        mapper.using(getterConsultorioEntity).map(ProfesionalMedDTO::getConsultorio, ProfesionalMedEntity::setConsultorio);
+        mapper.using(getterAreaEntities).map(ProfesionalMedDTO::getAreas, ProfesionalMedEntity::setAreas);
       }
-      modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
-        (mapper) -> {
-          mapper.map(src -> consultorio, ProfesionalMedEntity::setConsultorio);
-          mapper.map(src -> areas, ProfesionalMedEntity::setAreas);
-        }
-      );
-    }
+    );
+    
+    Converter<List<AreaEntity>, List<UUID>> extractIds = conv -> conv.getSource() == null ? null : conv.getSource().stream().map(
+      (area) -> area.getId()
+    ).toList();
     modelMapper.typeMap(ProfesionalMedEntity.class, ProfesionalMedDTO.class).addMappings(
       (mapper) -> {
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), ProfesionalMedDTO::setConsultorio);
-        mapper.map(
-          src -> src.getAreas().stream().map(
-            (areaEntity) -> areaEntity.getId()
-          ).toList(), 
-          ProfesionalMedDTO::setAreas
-        );
+        mapper.using(extractIds).map(ProfesionalMedEntity::getAreas, ProfesionalMedDTO::setAreas);
       }
     );
   }
@@ -74,7 +74,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     ProfesionalMedEntity profesional = profesionalRepo.findById(id).orElseThrow(
       () -> new ResourceNotFound("Profesional médico", "id", id.toString())
     );
-    configModelMapper(null);
+    configModelMapper();
     return modelMapper.map(profesional, ProfesionalMedDTO.class);
   }
   
@@ -84,7 +84,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     ProfesionalMedEntity profesional = profesionalRepo.findByDni(dni).orElseThrow(
       () -> new ResourceNotFound("Profesional médico", "dni", dni)
     );
-    configModelMapper(null);
+    configModelMapper();
     return modelMapper.map(profesional, ProfesionalMedDTO.class);
   }
 
@@ -96,9 +96,10 @@ public class ProfesionalMedService implements IProfesionalMedService {
       profesional.getAreas(), profesional.getNumMatricula()
     );
 
-    configModelMapper(profesional);
+    configModelMapper();
 
     ProfesionalMedEntity profesionalMedEntity = modelMapper.map(profesional, ProfesionalMedEntity.class);
+    System.out.println(profesionalMedEntity.toString());
     return modelMapper.map(profesionalRepo.save(profesionalMedEntity), ProfesionalMedDTO.class);
   }
 
@@ -113,7 +114,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     profesionalRepo.findById(profesional.getId()).orElseThrow(
       () -> new ResourceNotFound("Profesional médico", "id", profesional.getId().toString())
     );
-    configModelMapper(profesional);
+    configModelMapper();
 
     ProfesionalMedEntity profesionalMedEntity = modelMapper.map(profesional, ProfesionalMedEntity.class);
     return modelMapper.map(profesionalRepo.save(profesionalMedEntity), ProfesionalMedDTO.class);
