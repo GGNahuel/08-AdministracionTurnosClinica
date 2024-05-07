@@ -44,16 +44,16 @@ public class TurnoController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
-  @GetMapping("/paciente")
-  public ResponseEntity<ResponseDTO> getTurnosByPacienteDni(String dni) throws Exception {
+  @GetMapping("/paciente/{dni}")
+  public ResponseEntity<ResponseDTO> getTurnosByPacienteDni(@PathVariable String dni) throws Exception {
     ResponseDTO response = new ResponseDTO();
     response.setResults(turnoService.getByPacienteDni(dni));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
     
-  @GetMapping("/profesional")
-  public ResponseEntity<ResponseDTO> getTurnosByProfesionalDni(String dni) throws Exception {
+  @GetMapping("/profesional/{dni}")
+  public ResponseEntity<ResponseDTO> getTurnosByProfesionalDni(@PathVariable String dni) throws Exception {
     ResponseDTO response = new ResponseDTO();
     response.setResults(turnoService.getByProfesionalDni(dni));  
     
