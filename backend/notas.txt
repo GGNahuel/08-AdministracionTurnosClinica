@@ -3,8 +3,8 @@
 formatear la lista de horarios de los profesionales
 validar al asignar consultorio a profesional que no eesté ocupado ya
 ✅agregar query a turnos para buscar por area
-❌(desde el front, ya con el create estaría) agregar metodo para agregar un turno a un paciente
+(❌desde el front, ya con el create estaría) agregar metodo para agregar un turno a un paciente
 
-probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
+✅probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
 
 revisar las configs de los oneTomany/manyToMany etc

@@ -1,17 +1,21 @@
 package com.clinica_administracion.sistema_administracion_clinica.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
-import java.util.List;
 
 
 @Repository
 public interface AreaRepository extends JpaRepository<AreaEntity, UUID> {
+  @Query("select a from AreaEntity a where a.nombre like %?1%")
+  List<AreaEntity> findByNombreLike(String nombre);
+
   Optional<AreaEntity> findByNombre(String nombre);
 
   List<AreaEntity> findByActiva(Boolean activa);

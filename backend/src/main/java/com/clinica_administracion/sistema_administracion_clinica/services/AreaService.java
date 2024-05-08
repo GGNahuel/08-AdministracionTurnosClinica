@@ -50,13 +50,16 @@ public class AreaService implements IAreaService{
   }
 
   @Transactional(readOnly = true) @Override
-  public AreaDTO getByName(String nombre) throws Exception {
+  public List<AreaDTO> getByName(String nombre) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, nombre);
-    AreaEntity areaEntity = areaRepo.findByNombre(nombre).orElseThrow(
-      () -> new ResourceNotFound("Área", "nombre", nombre)
-    );
+    List<AreaEntity> areaEntities = areaRepo.findByNombreLike(nombre);
+    if (areaEntities.size() == 0)
+      throw new ResourceNotFound("Área", "nombre", nombre);
       
-    return modelMapper.map(areaEntity, AreaDTO.class);
+    return 
+      areaEntities.stream().map(
+        (area) -> modelMapper.map(area, AreaDTO.class)
+      ).toList();
   }
     
   @Transactional @Override

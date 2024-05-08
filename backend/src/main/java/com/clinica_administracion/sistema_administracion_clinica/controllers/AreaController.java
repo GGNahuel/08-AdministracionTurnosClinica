@@ -57,9 +57,7 @@ public class AreaController {
   @GetMapping("/{nombre}")
   public ResponseEntity<ResponseDTO> getByName(@PathVariable String nombre) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    List<AreaDTO> list = new ArrayList<>();
-    list.add(areaService.getByName(nombre));
-    response.setResults(list);
+    response.setResults(areaService.getByName(nombre));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
