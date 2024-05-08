@@ -48,8 +48,8 @@ public class ConsultorioController {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
-  @PostMapping("/{number}")
-  public ResponseEntity<ResponseDTO> createConsultorio(@PathVariable Integer number) throws Exception {
+  @PostMapping("")
+  public ResponseEntity<ResponseDTO> createConsultorio(@RequestParam Integer number) throws Exception {
     ConsultorioDTO consultorio = consultorioService.create(number);
     ResponseDTO respuesta = new ResponseDTO();
     respuesta.setReturnValue(consultorio);
@@ -58,7 +58,7 @@ public class ConsultorioController {
     return new ResponseEntity<>(respuesta, HttpStatus.CREATED);
   }
 
-  @PutMapping("/edit")
+  @PutMapping("")
   public ResponseEntity<ResponseDTO> updateConsultorio(@RequestParam UUID id, @RequestParam Integer number) throws Exception {
     ConsultorioDTO consultorio = consultorioService.update(id, number);
     ResponseDTO respuesta = new ResponseDTO();
