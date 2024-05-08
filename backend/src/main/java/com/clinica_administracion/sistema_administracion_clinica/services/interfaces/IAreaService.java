@@ -11,6 +11,6 @@ public interface IAreaService {
   AreaDTO getById(UUID id) throws Exception;
   List<AreaDTO> getByName(String nombre) throws Exception;
   AreaDTO create(String nombre) throws Exception;
-  AreaDTO update(AreaDTO areaUpdated) throws Exception;
+  AreaDTO update(UUID id, String nombre) throws Exception;
   AreaDTO changeActiveStatus(UUID id, Boolean valor) throws Exception;
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,9 +71,9 @@ public class AreaController {
   }
 
   @PutMapping("")
-  public ResponseEntity<ResponseDTO> update(@RequestBody AreaDTO area) throws Exception {
+  public ResponseEntity<ResponseDTO> update(@RequestParam UUID id, @RequestParam String nombre) throws Exception {
     ResponseDTO response = new ResponseDTO();
-    response.setReturnValue(areaService.update(area));
+    response.setReturnValue(areaService.update(id, nombre));
     response.setMessage(UtilitiesMethods.messageCreator("Área actualizada con éxito", MessageTypes.ok));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);

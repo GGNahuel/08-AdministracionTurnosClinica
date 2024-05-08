@@ -76,19 +76,18 @@ public class AreaService implements IAreaService{
   }
 
   @Transactional @Override
-  public AreaDTO update(AreaDTO areaUpdated) throws Exception {
+  public AreaDTO update(UUID id, String nombre) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
-      new String[]{"area","id","nombre"}, 
-      areaUpdated, areaUpdated.getId(), areaUpdated.getNombre()
+      new String[]{"id","nombre"}, 
+      id, nombre
     );
-    if (areaRepo.findByNombre(areaUpdated.getNombre()).isPresent()) 
-      throw new EntityAlreadyExists("Ya existe un área médica con ese nombre", areaUpdated);
+    if (areaRepo.findByNombre(nombre).isPresent()) 
+      throw new EntityAlreadyExists("Ya existe un área médica con ese nombre", areaRepo.findByNombre(nombre).get());
 
-    areaRepo.findById(areaUpdated.getId()).orElseThrow(
-      () -> new ResourceNotFound("Área médica", "id", areaUpdated.getId().toString())
+    AreaEntity area = areaRepo.findById(id).orElseThrow(
+      () -> new ResourceNotFound("Área médica", "id", id.toString())
     );
-
-    AreaEntity area = modelMapper.map(areaUpdated, AreaEntity.class);
+    area.setNombre(nombre);
 
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }
