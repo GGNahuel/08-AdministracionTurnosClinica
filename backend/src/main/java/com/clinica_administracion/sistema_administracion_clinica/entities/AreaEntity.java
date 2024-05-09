@@ -16,4 +16,5 @@ public class AreaEntity {
   @Column(nullable = false, unique = true)
   private String nombre;
   private Boolean activa;
+  private Boolean necesitaTurno;
 }

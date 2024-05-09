@@ -9,4 +9,5 @@ public class AreaDTO {
   private UUID id;
   private String nombre;
   private Boolean activa;
+  private Boolean necesitaTurno;
 }
