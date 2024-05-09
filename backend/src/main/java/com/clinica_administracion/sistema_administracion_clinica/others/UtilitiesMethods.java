@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
-import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidFormatInput;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
 
 public class UtilitiesMethods {
@@ -29,7 +29,7 @@ public class UtilitiesMethods {
   public static void validateDniFormat(String dni) {
     String regex = "\\d{7,8}[a-zA-Z]{0,1}";
 
-    if (Pattern.matches(regex, dni)) throw new InvalidFormatInput("dni", dni, "de 7 a 8 digitos (y opcionalmente una letra)");
+    if (Pattern.matches(regex, dni)) throw new InvalidInput("dni", dni, "tener de 7 a 8 digitos (y opcionalmente una letra).");
   }
 
   public static MessagesDTO messageCreator(String message, MessageTypes messageType) {

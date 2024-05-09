@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
-import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidFormatInput;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 
@@ -51,8 +51,8 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
   }
 
-  @ExceptionHandler(InvalidFormatInput.class)
-  public ResponseEntity<ResponseDTO> InvalidFormatInputHandler(InvalidFormatInput ex) {
+  @ExceptionHandler(InvalidInput.class)
+  public ResponseEntity<ResponseDTO> InvalidInputHandler(InvalidInput ex) {
     ResponseDTO response = generateResponseDTO(ex);
 
     return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
