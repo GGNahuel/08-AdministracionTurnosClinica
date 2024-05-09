@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TurnoDTO {
   private UUID id;
-  private UUID paciente;
+  private String pacienteDni;
   private String fecha;
   private LocalTime horario;
-  private UUID areaProfesional;
+  private String areaProfesional;
   private String metodoDeAbono;
   private String obraSocial;
   private EstadoPago estadoPago;
   private String comentario;
   private Integer consultorio;
-  private UUID profesional;
+  private String profesionalDni;
   private Boolean activo;
 }
