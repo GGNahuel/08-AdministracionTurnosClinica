@@ -1,10 +1,18 @@
+(❌desde el front, ya con el create estaría) agregar metodo para agregar un turno a un paciente
 ✅hacer validación en el backend del formato del dni
 ✅validar que un turno no tenga el mismo horario que otro con el mismo profesional
-formatear la lista de horarios de los profesionales
-validar al asignar consultorio a profesional que no eesté ocupado ya
 ✅agregar query a turnos para buscar por area
-(❌desde el front, ya con el create estaría) agregar metodo para agregar un turno a un paciente
-
 ✅probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
+🔄revisar las configs de los oneTomany/manyToMany etc
 
-revisar las configs de los oneTomany/manyToMany etc
+▶️formatear la lista de horarios de los profesionales
+
+validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
+
+validar al asignar consultorio a profesional que no eesté ocupado ya
+
+hacer que algunas areas no sean estrictas con sus horarios (en el uso sería aquellas cosas que son por orden de llegada)
+  un atributo booleano en el entity?
+
+(❓se tendría que hacer desde el front?) al buscar un paciente que tambien salga si debe algo o no
+  agregar query al repo que busque los turnos de un paciente que el estadoPago != pago
