@@ -6,8 +6,7 @@
 ✅formatear la lista de horarios de los profesionales
 🔄revisar las configs de los oneTomany/manyToMany etc
 🔄validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
-
-▶️validar al asignar consultorio a profesional que no eesté ocupado ya
+🔄validar al asignar consultorio a profesional que no esté ocupado ya
 
 hacer que algunas areas no sean estrictas con sus horarios (en el uso sería aquellas cosas que son por orden de llegada)
   un atributo booleano en el entity?

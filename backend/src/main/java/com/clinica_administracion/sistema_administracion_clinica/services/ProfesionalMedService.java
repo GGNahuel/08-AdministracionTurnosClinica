@@ -1,6 +1,7 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEn
 import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
@@ -110,6 +112,9 @@ public class ProfesionalMedService implements IProfesionalMedService {
       profesional, profesional.getNombreCompleto(), profesional.getDni(), profesional.getNumeroContacto(), 
       profesional.getAreas(), profesional.getNumMatricula()
     );
+    Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio());
+    if (check.isPresent())
+      throw new EntityAlreadyExists("Ya existe un profesional asignado al consutorio " + profesional.getConsultorio().toString(), check.get());
 
     ProfesionalMedEntity profesionalMedEntity = modelMapper.map(profesional, ProfesionalMedEntity.class);
     return modelMapper.map(profesionalRepo.save(profesionalMedEntity), ProfesionalMedDTO.class);
