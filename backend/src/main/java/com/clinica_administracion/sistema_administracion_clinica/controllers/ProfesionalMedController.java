@@ -65,7 +65,7 @@ public class ProfesionalMedController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.CREATED);
   }
 
-  @PutMapping("path/{id}")
+  @PutMapping("")
   public ResponseEntity<ResponseDTO> update(@RequestBody ProfesionalMedDTO profesional) throws Exception {
     ResponseDTO response = new ResponseDTO();
     response.setReturnValue(profesionalMedService.update(profesional));
