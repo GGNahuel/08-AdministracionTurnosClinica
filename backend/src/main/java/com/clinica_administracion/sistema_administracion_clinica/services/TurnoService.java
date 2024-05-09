@@ -1,7 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +14,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
-import com.clinica_administracion.sistema_administracion_clinica.entities.*;
+import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.PacienteEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.*;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.ITurnoService;
 
 import jakarta.annotation.PostConstruct;
@@ -65,7 +73,7 @@ public class TurnoService implements ITurnoService {
         () -> new ResourceNotFound("Área médica", "id", conv.getSource().toString())
       );
     Converter<String, LocalDate> fechaConv = conv -> conv.getSource() == null ? null : LocalDate.parse(conv.getSource(), formatoFecha);
-    Converter<String, LocalTime> horarioConv = conv -> conv.getSource() == null ? null : LocalTime.parse(conv.getSource());
+    // Converter<String, LocalTime> horarioConv = conv -> conv.getSource() == null ? null : LocalTime.parse(conv.getSource());
 
     modelMapper.typeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
       (mapper) -> {
@@ -74,7 +82,7 @@ public class TurnoService implements ITurnoService {
         mapper.using(consultorioEntityConv).map(TurnoDTO::getConsultorio, TurnoEntity::setConsultorio);
         mapper.using(areaEntityConv).map(TurnoDTO::getAreaProfesional, TurnoEntity::setAreaProfesional);
         mapper.using(fechaConv).map(TurnoDTO::getFecha, TurnoEntity::setFecha);
-        mapper.using(horarioConv).map(TurnoDTO::getHorario, TurnoEntity::setHorario);
+        // mapper.using(horarioConv).map(TurnoDTO::getHorario, TurnoEntity::setHorario);
       }
     );
     
@@ -153,12 +161,15 @@ public class TurnoService implements ITurnoService {
       new String[]{"Turno", "fecha", "horario", "área", "profesional", "consultorio", "paciente"}, 
       turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesional(), turno.getConsultorio(), turno.getPaciente()
     );
-    
+  
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
     Optional<TurnoEntity> check = turnoRepo.findTurnosExistingInDate(turnoEntity.getProfesional().getId(), turnoEntity.getFecha(), turnoEntity.getHorario());
     if (check.isPresent()) 
       throw new EntityAlreadyExists("Ya existe un turno con este horario para el profesional seleccionado", turnoEntity);
-    
+    if (!turnoEntity.getProfesional().getHorarios().contains(turno.getHorario())) {
+      throw new InvalidInput("horario", turno.getHorario(), "estar dentro del horario que atiende el profesional.");
+    }
+
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
   }
 
