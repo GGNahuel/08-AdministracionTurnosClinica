@@ -45,12 +45,12 @@ public class ProfesionalMedService implements IProfesionalMedService {
         consultorioRepo.findByNumeroConsultorio(conv.getSource()).orElseThrow(
           () -> new ResourceNotFound("Consultorio", "número", conv.getSource().toString())
         );
-    Converter<List<UUID>, List<AreaEntity>> getterAreaEntities =
+    Converter<List<String>, List<AreaEntity>> getterAreaEntities =
       conv -> conv.getSource() == null ?
         null :
         conv.getSource().stream().map(
-          uuid -> areaRepo.findById(uuid).orElseThrow(
-            () -> new ResourceNotFound("Consultorio", "número", uuid.toString())
+          nombre -> areaRepo.findByNombre(nombre).orElseThrow(
+            () -> new ResourceNotFound("Consultorio", "número", nombre.toString())
           )
         ).toList();
     modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
@@ -60,11 +60,11 @@ public class ProfesionalMedService implements IProfesionalMedService {
       }
     );
 
-    Converter<List<AreaEntity>, List<UUID>> extractIds = 
+    Converter<List<AreaEntity>, List<String>> extractIds = 
       conv -> conv.getSource() == null ? 
         null : 
         conv.getSource().stream().map(
-          (area) -> area.getId()
+          (area) -> area.getNombre()
         ).toList();
     modelMapper.typeMap(ProfesionalMedEntity.class, ProfesionalMedDTO.class).addMappings(
       (mapper) -> {
