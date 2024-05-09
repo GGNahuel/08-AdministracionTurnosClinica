@@ -3,16 +3,17 @@
 ✅validar que un turno no tenga el mismo horario que otro con el mismo profesional
 ✅agregar query a turnos para buscar por area
 ✅probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
+✅formatear la lista de horarios de los profesionales
 🔄revisar las configs de los oneTomany/manyToMany etc
+🔄validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
 
-▶️formatear la lista de horarios de los profesionales
-
-validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
-
-validar al asignar consultorio a profesional que no eesté ocupado ya
+▶️validar al asignar consultorio a profesional que no eesté ocupado ya
 
 hacer que algunas areas no sean estrictas con sus horarios (en el uso sería aquellas cosas que son por orden de llegada)
   un atributo booleano en el entity?
 
 (❓se tendría que hacer desde el front?) al buscar un paciente que tambien salga si debe algo o no
   agregar query al repo que busque los turnos de un paciente que el estadoPago != pago
+
+optimizar la cantidad de solicitudes que se usarían para obtener información (que en el service estén todos los llamados que hagan falta)
+  que en los dto estén los nombres o valores que se lleguen a mostrar en el front (❌uuid)
