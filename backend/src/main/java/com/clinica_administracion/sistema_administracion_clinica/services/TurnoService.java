@@ -75,7 +75,7 @@ public class TurnoService implements ITurnoService {
     Converter<String, LocalDate> fechaConv = conv -> conv.getSource() == null ? null : LocalDate.parse(conv.getSource(), formatoFecha);
     // Converter<String, LocalTime> horarioConv = conv -> conv.getSource() == null ? null : LocalTime.parse(conv.getSource());
 
-    modelMapper.typeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
+    modelMapper.emptyTypeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
       (mapper) -> {
         mapper.using(pacienteEntityConv).map(TurnoDTO::getPacienteDni, TurnoEntity::setPaciente);
         mapper.using(profesionalEntityConv).map(TurnoDTO::getProfesionalDni, TurnoEntity::setProfesional);
