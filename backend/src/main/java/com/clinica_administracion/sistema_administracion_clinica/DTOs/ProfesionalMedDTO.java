@@ -1,6 +1,5 @@
 package com.clinica_administracion.sistema_administracion_clinica.DTOs;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +17,6 @@ public class ProfesionalMedDTO {
   private Long numeroContacto;
   private List<String> areas;
   private Integer numMatricula;
-  private List<LocalTime> horarios;
+  private List<String> horarios;
   private Integer consultorio;
 }

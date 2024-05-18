@@ -1,5 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,6 +48,12 @@ public class ProfesionalMedService implements IProfesionalMedService {
         consultorioRepo.findByNumeroConsultorio(conv.getSource()).orElseThrow(
           () -> new ResourceNotFound("Consultorio", "número", conv.getSource().toString())
         );
+    Converter<List<String>, List<LocalTime>> getterHorarios =
+      conv -> conv.getSource() == null ?
+        null :
+        conv.getSource().stream().map(
+          horario -> LocalTime.parse(horario)
+        ).toList();
     Converter<List<String>, List<AreaEntity>> getterAreaEntities =
       conv -> conv.getSource() == null ?
         null :
@@ -57,6 +64,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
         ).toList();
     modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
       (mapper) -> {
+        mapper.using(getterHorarios).map(ProfesionalMedDTO::getHorarios, ProfesionalMedEntity::setHorarios);
         mapper.using(getterConsultorioEntity).map(ProfesionalMedDTO::getConsultorio, ProfesionalMedEntity::setConsultorio);
         mapper.using(getterAreaEntities).map(ProfesionalMedDTO::getAreas, ProfesionalMedEntity::setAreas);
       }
