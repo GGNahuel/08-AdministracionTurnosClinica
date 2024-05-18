@@ -16,3 +16,7 @@
   agregar query al repo que busque los turnos de un paciente que el estadoPago != pago
 
 ⚠️TESTING
+
+
+hacer el modelMapper config de pacienteService
+fallo en el mapeo de editar profesional 135

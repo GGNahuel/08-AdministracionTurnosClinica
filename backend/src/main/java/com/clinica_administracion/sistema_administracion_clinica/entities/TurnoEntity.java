@@ -28,19 +28,19 @@ public class TurnoEntity {
   @ManyToOne
   private PacienteEntity paciente;
   @Temporal(value = TemporalType.DATE) @Column(nullable = false) @DateTimeFormat(pattern = "dd/MM/yyyy")
-  private LocalDate fecha;
+    private LocalDate fecha;
   @Temporal(value = TemporalType.TIME) @Column(nullable = false)
-  private LocalTime horario;
+    private LocalTime horario;
   @ManyToOne @JoinColumn(nullable = false)
-  private AreaEntity areaProfesional;
+    private AreaEntity areaProfesional;
   private String metodoDeAbono;
   private String obraSocial;
   @Enumerated(EnumType.STRING)
   private EstadoPago estadoPago;
   private String comentario;
   @ManyToOne @JoinColumn(nullable = false)
-  private ConsultorioEntity consultorio;
+    private ConsultorioEntity consultorio;
   @ManyToOne @JoinColumn(nullable = false)
-  private ProfesionalMedEntity profesional;
+    private ProfesionalMedEntity profesional;
   private Boolean activo;
 }
