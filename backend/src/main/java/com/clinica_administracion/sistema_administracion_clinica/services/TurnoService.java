@@ -162,14 +162,18 @@ public class TurnoService implements ITurnoService {
       new String[]{"Turno", "fecha", "horario", "área", "dni del profesional", "consultorio", "dni del paciente"}, 
       turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDni(), turno.getConsultorio(), turno.getPacienteDni()
     );
+    
     turno.setActivo(true);
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
+    AreaEntity areaEntityOfTurno = turnoEntity.getAreaProfesional();
+
     Optional<TurnoEntity> check = turnoRepo.findTurnosExistingInDate(turnoEntity.getProfesional().getId(), turnoEntity.getFecha(), turnoEntity.getHorario());
-    if (check.isPresent() && turnoEntity.getAreaProfesional().getNecesitaTurno()) 
-      throw new EntityAlreadyExists("Ya existe un turno con este horario para el profesional seleccionado", check.get());
-    if (!turnoEntity.getProfesional().getHorarios().contains(LocalTime.parse(turno.getHorario()))) {
-      throw new InvalidInput("horario", turno.getHorario(), "estar dentro del horario que atiende el profesional.");
+    if (check.isPresent() && areaEntityOfTurno.getNecesitaTurno() != null) {
+      if (areaEntityOfTurno.getNecesitaTurno()) 
+        throw new EntityAlreadyExists("Ya existe un turno con este horario para el profesional seleccionado", check.get());
     }
+    if (!turnoEntity.getProfesional().getHorarios().contains(LocalTime.parse(turno.getHorario()))) 
+      throw new InvalidInput("horario", turno.getHorario(), "estar dentro del horario que atiende el profesional.");
 
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
   }
@@ -180,13 +184,13 @@ public class TurnoService implements ITurnoService {
       new String[]{"Turno", "id", "fecha", "horario", "área", "dni del profesional", "consultorio", "dni del paciente"}, 
       turno, turno.getId(), turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDni(), turno.getConsultorio(), turno.getPacienteDni()
     );
-    TurnoEntity turnoEntity = turnoRepo.findById(turno.getId()).orElseThrow(
+    
+    turnoRepo.findById(turno.getId()).orElseThrow(
       () -> new ResourceNotFound("Turno", "id", turno.getId().toString())
     );
 
-    turnoEntity = modelMapper.map(turno, TurnoEntity.class);
-    turnoRepo.save(turnoEntity);
-    return modelMapper.map(turnoEntity, TurnoDTO.class);
+    TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
+    return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
   }
 
   @Transactional @Override
