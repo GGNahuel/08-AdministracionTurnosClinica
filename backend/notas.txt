@@ -17,6 +17,6 @@
 
 ⚠️TESTING
 
-
 hacer el modelMapper config de pacienteService
-fallo en el mapeo de editar profesional 135
+
+crear un metodo especifico para dar de inactivo un turno (para no usar el update y tener que pasar todos los datos)
