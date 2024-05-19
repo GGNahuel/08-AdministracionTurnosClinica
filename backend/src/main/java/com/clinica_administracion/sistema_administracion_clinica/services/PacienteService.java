@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,36 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Pa
 import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IPacienteService;
 
+import jakarta.annotation.PostConstruct;
+
 @Service
 public class PacienteService implements IPacienteService{
   @Autowired PacienteRepository pacienteRepo;
   @Autowired TurnoRepository turnoRepo;
   @Autowired ModelMapper modelMapper;
+
+  @PostConstruct
+  public void initializeService() {
+    configModelMapper();
+  }
+
+  private void configModelMapper() {
+    if (modelMapper.getTypeMap(PacienteEntity.class, PacienteDTO.class) != null) {
+      return ;
+    }
+    Converter<List<UUID>, List<TurnoEntity>> convertTurnos = conv ->
+      conv.getSource() == null ?
+        null :
+        conv.getSource().stream().map(
+          uuid -> turnoRepo.findById(uuid).orElseThrow(
+            () -> new ResourceNotFound("turno", "id", uuid.toString())
+          )
+        ).toList();
+    modelMapper.typeMap(PacienteDTO.class, PacienteEntity.class).addMappings(
+      map ->
+        map.using(convertTurnos).map(PacienteDTO::getTurnos, PacienteEntity::setTurnos)
+    );
+  }
 
   @Transactional(readOnly = true) @Override
   public List<PacienteDTO> getAll() {
@@ -77,19 +103,11 @@ public class PacienteService implements IPacienteService{
       pacienteActualizado.getNombreCompleto(), pacienteActualizado.getNumeroContacto()
     );
 
-    PacienteEntity pacienteNuevo = pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
+    pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
       new ResourceNotFound("Paciente", "id", pacienteActualizado.getId().toString())
     );
-    List<TurnoEntity> turnos = pacienteActualizado.getTurnos().stream().map(
-      (turnoID) -> turnoRepo.findById(turnoID).orElseThrow(() -> new ResourceNotFound("Turno", "id", turnoID.toString()))
-    ).collect(Collectors.toList());
 
-    pacienteNuevo.setNombreCompleto(pacienteActualizado.getNombreCompleto());
-    pacienteNuevo.setNumeroContacto(pacienteActualizado.getNumeroContacto());
-    pacienteNuevo.setDni(pacienteActualizado.getDni());
-    pacienteNuevo.setObraSocial(pacienteActualizado.getObraSocial());
-    pacienteNuevo.setTurnos(turnos);
-
+    PacienteEntity pacienteNuevo = modelMapper.map(pacienteActualizado, PacienteEntity.class);
     return modelMapper.map(pacienteRepo.save(pacienteNuevo), PacienteDTO.class);
   }
 }
