@@ -3,8 +3,10 @@ package com.clinica_administracion.sistema_administracion_clinica.entities;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -23,6 +25,6 @@ public class PacienteEntity {
   @Column(nullable = false)
   private Long numeroContacto;
   private String obraSocial;
-  @OneToMany(mappedBy = "paciente")
+  @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<TurnoEntity> turnos;
 }
