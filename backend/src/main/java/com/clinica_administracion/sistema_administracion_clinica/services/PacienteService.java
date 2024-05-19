@@ -1,6 +1,7 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -103,11 +104,16 @@ public class PacienteService implements IPacienteService{
       pacienteActualizado.getNombreCompleto(), pacienteActualizado.getNumeroContacto()
     );
 
-    pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
+    PacienteEntity paciente = pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
       new ResourceNotFound("Paciente", "id", pacienteActualizado.getId().toString())
     );
+    Optional<PacienteEntity> pacienteDni = pacienteRepo.findByDni(pacienteActualizado.getDni());
+    if (pacienteDni.isPresent()) {
+      if (pacienteDni.get().getId() != paciente.getId())
+        throw new EntityAlreadyExists("Ya existe otro paciente con el dni ingresado", pacienteDni.get());
+    }
 
-    PacienteEntity pacienteNuevo = modelMapper.map(pacienteActualizado, PacienteEntity.class);
-    return modelMapper.map(pacienteRepo.save(pacienteNuevo), PacienteDTO.class);
+    paciente = modelMapper.map(pacienteActualizado, PacienteEntity.class);
+    return modelMapper.map(pacienteRepo.save(paciente), PacienteDTO.class);
   }
 }
