@@ -5,7 +5,7 @@
 ✅probar si de verdad es necesario pasar un DTO al método de configuración del modelMapper
 ✅formatear la lista de horarios de los profesionales
 🔄revisar las configs de los oneTomany/manyToMany etc
-🔄validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
+✅validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
 🔄validar al asignar consultorio a profesional que no esté ocupado ya
 🔄hacer que algunas areas no sean estrictas con sus horarios (en el uso sería aquellas cosas que son por orden de llegada)
   un atributo booleano en el entity?
@@ -17,6 +17,8 @@
 
 ⚠️TESTING
 
-hacer el modelMapper config de pacienteService
+✅hacer el modelMapper config de pacienteService
 
 crear un metodo especifico para dar de inactivo un turno (para no usar el update y tener que pasar todos los datos)
+
+hacer nuevos response dto que hereden del ResponseDTO pero que se adapten a la respuesta que se requiera (para que no se envíen datos en null)

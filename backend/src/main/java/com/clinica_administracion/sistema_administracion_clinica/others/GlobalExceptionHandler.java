@@ -12,6 +12,8 @@ import com.clinica_administracion.sistema_administracion_clinica.others.exceptio
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessagesDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

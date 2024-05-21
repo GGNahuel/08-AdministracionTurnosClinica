@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessagesDTO;
 
 public class UtilitiesMethods {
   private static void checkArraysHaveSameLength(Object[] array1, Object[] array2) throws Exception {

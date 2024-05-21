@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.ResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.TurnoService;
 
 
