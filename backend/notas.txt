@@ -6,7 +6,7 @@
 ✅formatear la lista de horarios de los profesionales
 🔄revisar las configs de los oneTomany/manyToMany etc
 ✅validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
-🔄validar al asignar consultorio a profesional que no esté ocupado ya
+✅validar al asignar consultorio a profesional que no esté ocupado ya 🔄en esos horarios
 🔄hacer que algunas areas no sean estrictas con sus horarios (en el uso sería aquellas cosas que son por orden de llegada)
   un atributo booleano en el entity?
 🔄optimizar la cantidad de solicitudes que se usarían para obtener información (que en el service estén todos los llamados que hagan falta)
@@ -18,7 +18,10 @@
 ⚠️TESTING
 
 ✅hacer el modelMapper config de pacienteService
-
+hacer que las matriculas de los profMedicos sean unicas
 crear un metodo especifico para dar de inactivo un turno (para no usar el update y tener que pasar todos los datos)
 
 hacer nuevos response dto que hereden del ResponseDTO pero que se adapten a la respuesta que se requiera (para que no se envíen datos en null)
+
+❌(no funciona) Envolver todas las excepciones propias que estén dentro de un metodo de configuración del moddel mapper en un try-catch.
+  ❓⚠️Crear en UtilMethods, metodos para validar que los campos ingresados existan? por ejemplo para las areas, consultorios, pacientes, etc

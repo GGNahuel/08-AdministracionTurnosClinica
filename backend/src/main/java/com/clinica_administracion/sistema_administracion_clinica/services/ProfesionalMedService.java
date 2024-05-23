@@ -46,7 +46,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
       conv -> conv.getSource() == null ? 
         null : 
         consultorioRepo.findByNumeroConsultorio(conv.getSource()).orElseThrow(
-          () -> new ResourceNotFound("Consultorio", "número", conv.getSource().toString())
+          () -> new ResourceNotFound("consultorio", "número", conv.getSource().toString())
         );
     Converter<List<String>, List<LocalTime>> getterHorarios =
       conv -> conv.getSource() == null ?
@@ -58,9 +58,15 @@ public class ProfesionalMedService implements IProfesionalMedService {
       conv -> conv.getSource() == null ?
         null :
         conv.getSource().stream().map(
-          nombre -> areaRepo.findByNombre(nombre).orElseThrow(
-            () -> new ResourceNotFound("Consultorio", "número", nombre.toString())
-          )
+          nombre -> {
+            try {
+              return areaRepo.findByNombre(nombre).orElseThrow(
+                () -> new ResourceNotFound("área", "nombre", nombre.toString())
+              );
+            } catch (ResourceNotFound e) {
+              throw e;
+            }
+          }
         ).toList();
     modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
       (mapper) -> {
