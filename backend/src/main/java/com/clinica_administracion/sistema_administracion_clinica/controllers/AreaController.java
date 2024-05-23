@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.AreaService;
 
 
@@ -30,14 +32,14 @@ public class AreaController {
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAll() {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(areaService.getAll());
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
   
   @GetMapping("/actives")
   public ResponseEntity<ResponseDTO> getByActiveStatus(@RequestParam Boolean valor) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(areaService.getByActiveState(valor));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
@@ -45,7 +47,7 @@ public class AreaController {
 
   @GetMapping("/id/{id}")
   public ResponseEntity<ResponseDTO> getById(@PathVariable UUID id) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     List<AreaDTO> list = new ArrayList<>();
     list.add(areaService.getById(id));
     response.setResults(list);
@@ -55,7 +57,7 @@ public class AreaController {
 
   @GetMapping("/{nombre}")
   public ResponseEntity<ResponseDTO> getByName(@PathVariable String nombre) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(areaService.getByName(nombre));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
@@ -63,7 +65,7 @@ public class AreaController {
 
   @PostMapping("")
   public ResponseEntity<ResponseDTO> create(@RequestParam String nombre) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(areaService.create(nombre));
     response.setMessage(UtilitiesMethods.messageCreator("Área creada con éxito", MessageTypes.ok));
 
@@ -72,7 +74,7 @@ public class AreaController {
 
   @PutMapping("")
   public ResponseEntity<ResponseDTO> update(@RequestParam UUID id, @RequestParam String nombre) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(areaService.update(id, nombre));
     response.setMessage(UtilitiesMethods.messageCreator("Área actualizada con éxito", MessageTypes.ok));
 
@@ -81,7 +83,7 @@ public class AreaController {
 
   @PatchMapping("")
   public ResponseEntity<ResponseDTO> changeActiveStatus(@RequestParam UUID id, @RequestParam Boolean valor) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(areaService.changeActiveStatus(id, valor));
     response.setMessage(UtilitiesMethods.messageCreator(!valor ? "Área desactivada" : "Área reactivada", MessageTypes.ok));
 

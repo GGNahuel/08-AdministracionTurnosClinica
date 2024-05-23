@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.PacienteDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.PacienteService;
 
 
@@ -30,14 +32,14 @@ public class PacienteController {
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAllPacientes () {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(pacienteService.getAll());
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
   @GetMapping("/{dni}")
   public ResponseEntity<ResponseDTO> getPacienteByDni(@PathVariable String dni) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     List<PacienteDTO> list = new ArrayList<>();
     list.add(pacienteService.getByDni(dni));
     response.setResults(list);
@@ -47,7 +49,7 @@ public class PacienteController {
   
   @GetMapping("/id/{id}")
   public ResponseEntity<ResponseDTO> getPaciente(@PathVariable UUID id) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     List<PacienteDTO> list = new ArrayList<>();
     list.add(pacienteService.getById(id));
     response.setResults(list);
@@ -57,7 +59,7 @@ public class PacienteController {
 
   @PostMapping("")
   public ResponseEntity<ResponseDTO> createPaciente(@RequestBody PacienteDTO paciente) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(pacienteService.create(paciente));
     response.setMessage(UtilitiesMethods.messageCreator("Paciente creado exitosamente", MessageTypes.ok));
     return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -65,7 +67,7 @@ public class PacienteController {
   
   @PutMapping("")
   public ResponseEntity<ResponseDTO> putMethodName(@RequestBody PacienteDTO paciente) throws Exception{
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(pacienteService.update(paciente));
     response.setMessage(UtilitiesMethods.messageCreator("Paciente actualizado exitosamente", MessageTypes.ok));
     return new ResponseEntity<>(response, HttpStatus.OK);

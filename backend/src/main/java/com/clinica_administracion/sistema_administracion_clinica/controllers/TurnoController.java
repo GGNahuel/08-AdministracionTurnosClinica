@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessageResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.TurnoService;
 
 
@@ -31,7 +34,7 @@ public class TurnoController {
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAllTurnos () {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.getAll());
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
@@ -39,14 +42,14 @@ public class TurnoController {
 
   @GetMapping("/{fecha}")
   public ResponseEntity<ResponseDTO> getTurnosByFecha(@PathVariable String fecha) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.getByDate(fecha));
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
   @GetMapping("/paciente/{dni}")
   public ResponseEntity<ResponseDTO> getTurnosByPacienteDni(@PathVariable String dni) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.getByPacienteDni(dni));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
@@ -54,7 +57,7 @@ public class TurnoController {
     
   @GetMapping("/profesional/{dni}")
   public ResponseEntity<ResponseDTO> getTurnosByProfesionalDni(@PathVariable String dni) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.getByProfesionalDni(dni));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
@@ -62,7 +65,7 @@ public class TurnoController {
 
   @GetMapping("/profesional")
   public ResponseEntity<ResponseDTO> getTurnosByProfesional(String nombre) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.getByProfesional(nombre));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
@@ -70,7 +73,7 @@ public class TurnoController {
 
   @GetMapping("/{id}")
   public ResponseEntity<ResponseDTO> getTurnoById(@PathVariable UUID id) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     List<TurnoDTO> list = new ArrayList<>();
     list.add(turnoService.getById(id));
     response.setResults(list);
@@ -80,7 +83,7 @@ public class TurnoController {
   
   @PostMapping("")
   public ResponseEntity<ResponseDTO> createTurno(@RequestBody TurnoDTO turno) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(turnoService.create(turno));
     response.setMessage(UtilitiesMethods.messageCreator("El turno fue creado exitosamente", MessageTypes.ok));
     
@@ -89,7 +92,7 @@ public class TurnoController {
   
   @PutMapping("")
   public ResponseEntity<ResponseDTO> updateTurno(@RequestBody TurnoDTO turno) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(turnoService.update(turno));
     response.setMessage(UtilitiesMethods.messageCreator("El turno fue modificado exitosamente", MessageTypes.ok));
     
@@ -98,7 +101,7 @@ public class TurnoController {
 
   @DeleteMapping("")
   public ResponseEntity<ResponseDTO> deleteOldTurnos(@RequestParam String fecha) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    MessageResponseDTO response = new MessageResponseDTO();
     turnoService.deleteAlreadyPassed(fecha);
     response.setMessage(UtilitiesMethods.messageCreator("Las entidades han sido borrradas exitosamente", MessageTypes.ok));
 

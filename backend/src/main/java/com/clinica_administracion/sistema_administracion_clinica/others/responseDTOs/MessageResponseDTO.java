@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ErrorResponseDTO extends ResponseDTO {
+public class MessageResponseDTO extends ResponseDTO {
   private MessagesDTO message;
 }

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.ProfesionalMedService;
 
 
@@ -29,14 +31,14 @@ public class ProfesionalMedController {
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAll() {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(profesionalMedService.getAll());
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
   @GetMapping("/id/{id}")
   public ResponseEntity<ResponseDTO> getById(UUID id) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     List<ProfesionalMedDTO> list = new ArrayList<>();
     ProfesionalMedDTO profesional = profesionalMedService.getById(id);
     list.add(profesional);
@@ -47,7 +49,7 @@ public class ProfesionalMedController {
   
   @GetMapping("/{dni}")
   public ResponseEntity<ResponseDTO> getByDni(String dni) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     List<ProfesionalMedDTO> list = new ArrayList<>();
     ProfesionalMedDTO profesional = profesionalMedService.getByDni(dni);
     list.add(profesional);
@@ -58,7 +60,7 @@ public class ProfesionalMedController {
 
   @PostMapping("")
   public ResponseEntity<ResponseDTO> create(@RequestBody ProfesionalMedDTO profesional) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(profesionalMedService.create(profesional));
     response.setMessage(UtilitiesMethods.messageCreator("Profesional médico creado exitosamente", MessageTypes.ok));
 
@@ -67,7 +69,7 @@ public class ProfesionalMedController {
 
   @PutMapping("")
   public ResponseEntity<ResponseDTO> update(@RequestBody ProfesionalMedDTO profesional) throws Exception {
-    ResponseDTO response = new ResponseDTO();
+    ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(profesionalMedService.update(profesional));
     response.setMessage(UtilitiesMethods.messageCreator("Profesional médico actualizado exitosamente", MessageTypes.ok));
 

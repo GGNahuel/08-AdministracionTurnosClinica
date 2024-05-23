@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.ConsultorioDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessageResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.ConsultorioService;
 
 @RestController
@@ -31,7 +34,7 @@ public class ConsultorioController {
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAllConsultorios() {
     List<ConsultorioDTO> results = consultorioService.getAll();
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     response.setResults(results);
 
     return new ResponseEntity<>(response, HttpStatus.OK);
@@ -40,7 +43,7 @@ public class ConsultorioController {
   @GetMapping("/{number}")
   public ResponseEntity<ResponseDTO> getConsultorioByNumber(@PathVariable Integer number) throws Exception {
     ConsultorioDTO consultorio = consultorioService.getByNumber(number);
-    ResponseDTO response = new ResponseDTO();
+    GetResponseDTO response = new GetResponseDTO();
     List<ConsultorioDTO> list = new ArrayList<ConsultorioDTO>();
     list.add(consultorio);
     response.setResults(list);
@@ -51,7 +54,7 @@ public class ConsultorioController {
   @PostMapping("")
   public ResponseEntity<ResponseDTO> createConsultorio(@RequestParam Integer number) throws Exception {
     ConsultorioDTO consultorio = consultorioService.create(number);
-    ResponseDTO respuesta = new ResponseDTO();
+    ReturnResponseDTO respuesta = new ReturnResponseDTO();
     respuesta.setReturnValue(consultorio);
     respuesta.setMessage(UtilitiesMethods.messageCreator("Consultorio creado exitosamente", MessageTypes.ok));
 
@@ -61,7 +64,7 @@ public class ConsultorioController {
   @PutMapping("")
   public ResponseEntity<ResponseDTO> updateConsultorio(@RequestParam UUID id, @RequestParam Integer number) throws Exception {
     ConsultorioDTO consultorio = consultorioService.update(id, number);
-    ResponseDTO respuesta = new ResponseDTO();
+    ReturnResponseDTO respuesta = new ReturnResponseDTO();
     respuesta.setReturnValue(consultorio);
     respuesta.setMessage(UtilitiesMethods.messageCreator("Consultorio actualizado exitosamente", MessageTypes.ok));
 
@@ -71,7 +74,7 @@ public class ConsultorioController {
   @DeleteMapping("")
   public ResponseEntity<ResponseDTO> deleteConsultorio(@RequestParam UUID id) throws Exception {
     consultorioService.delete(id);
-    ResponseDTO response = new ResponseDTO();
+    MessageResponseDTO response = new MessageResponseDTO();
     response.setMessage(UtilitiesMethods.messageCreator("Consultorio eliminado", MessageTypes.ok));
 
     return new ResponseEntity<>(response, HttpStatus.OK);
