@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -28,7 +29,7 @@ public class ProfesionalMedEntity {
     private String dni;
   @Column(nullable = false)
     private Long numeroContacto;
-  @ManyToMany @JoinTable(
+  @ManyToMany(fetch = FetchType.EAGER) @JoinTable(
     name = "profesional_area", 
     joinColumns = @JoinColumn(referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(referencedColumnName = "id")
