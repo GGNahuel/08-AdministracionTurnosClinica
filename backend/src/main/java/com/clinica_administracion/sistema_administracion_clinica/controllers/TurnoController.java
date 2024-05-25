@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +29,11 @@ import com.clinica_administracion.sistema_administracion_clinica.services.TurnoS
 @RestController
 @RequestMapping("/api/turno")
 public class TurnoController {
-  @Autowired TurnoService turnoService;
+  private final TurnoService turnoService;
+
+  public TurnoController(TurnoService turnoService) {
+    this.turnoService = turnoService;
+  }
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAllTurnos () {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,11 @@ import com.clinica_administracion.sistema_administracion_clinica.services.AreaSe
 @RestController
 @RequestMapping("/api/area")
 public class AreaController {
-  @Autowired AreaService areaService;
+  private final AreaService areaService;
+
+  public AreaController(AreaService areaService) {
+    this.areaService = areaService;
+  }
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAll() {

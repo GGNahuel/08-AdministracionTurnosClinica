@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,11 @@ import com.clinica_administracion.sistema_administracion_clinica.services.Profes
 @RestController
 @RequestMapping("/api/profesional")
 public class ProfesionalMedController {
-  @Autowired ProfesionalMedService profesionalMedService;
+  private final ProfesionalMedService profesionalMedService;
+
+  public ProfesionalMedController(ProfesionalMedService profesionalMedService) {
+    this.profesionalMedService = profesionalMedService;
+  }
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAll() {
