@@ -72,7 +72,7 @@ public class ModelMapperConfigs {
         turnoE -> turnoE.getId()
       ).toList();
     modelMapper.typeMap(PacienteEntity.class, PacienteDTO.class).addMappings(
-      mapper -> mapper.using(convertUuid).map(src -> src.getTurnos(), null)
+      mapper -> mapper.using(convertUuid).map(src -> src.getTurnos(), PacienteDTO::setTurnos)
     );
   }
 
