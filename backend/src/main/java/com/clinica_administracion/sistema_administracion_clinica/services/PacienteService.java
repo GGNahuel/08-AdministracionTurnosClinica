@@ -5,15 +5,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.PacienteDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.PacienteEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
@@ -21,42 +18,18 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Pa
 import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IPacienteService;
 
-import jakarta.annotation.PostConstruct;
-
 @Service
 public class PacienteService implements IPacienteService{
-  @Autowired PacienteRepository pacienteRepo;
-  @Autowired TurnoRepository turnoRepo;
-  @Autowired ModelMapper modelMapper;
+  private final PacienteRepository pacienteRepo;
+  private final TurnoRepository turnoRepo;
+  private final ModelMapper modelMapper;
 
-  @PostConstruct
-  public void initializeService() {
-    configModelMapper();
-  }
-
-  private void configModelMapper() {
-    if (modelMapper.getTypeMap(PacienteEntity.class, PacienteDTO.class) != null) {
-      return ;
-    }
-    Converter<List<UUID>, List<TurnoEntity>> convertTurnos = conv ->
-      conv.getSource() == null ?
-        null :
-        conv.getSource().stream().map(
-          uuid -> turnoRepo.findById(uuid).get()
-        ).toList();
-    modelMapper.typeMap(PacienteDTO.class, PacienteEntity.class).addMappings(
-      mapper -> mapper.using(convertTurnos).map(PacienteDTO::getTurnos, PacienteEntity::setTurnos)
-    );
-
-    Converter<List<TurnoEntity>, List<UUID>> convertUuid = conv ->
-      conv.getSource() == null ? 
-      null :
-      conv.getSource().stream().map(
-        turnoE -> turnoE.getId()
-      ).toList();
-    modelMapper.typeMap(PacienteEntity.class, PacienteDTO.class).addMappings(
-      mapper -> mapper.using(convertUuid).map(src -> src.getTurnos(), null)
-    );
+  public PacienteService(
+    PacienteRepository pacienteRepo, TurnoRepository turnoRepo, ModelMapper modelMapper
+  ) {
+    this.pacienteRepo = pacienteRepo;
+    this.turnoRepo = turnoRepo;
+    this.modelMapper = modelMapper;
   }
 
   @Transactional(readOnly = true) @Override

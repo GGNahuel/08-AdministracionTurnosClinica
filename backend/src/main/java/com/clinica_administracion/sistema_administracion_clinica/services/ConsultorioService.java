@@ -5,7 +5,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +18,12 @@ import com.clinica_administracion.sistema_administracion_clinica.services.interf
 
 @Service
 public class ConsultorioService implements IConsultorioService {
-  @Autowired ConsultorioRepository consultorioRepo;
-  ModelMapper modelMapper = new ModelMapper();
+  private final ConsultorioRepository consultorioRepo;
+  private final ModelMapper modelMapper;
+
+  public ConsultorioService(ConsultorioRepository consultorioRepo, ModelMapper modelMapper) {
+    this.consultorioRepo = consultorioRepo; this.modelMapper = modelMapper;
+  }
 
   @Transactional(readOnly = true) @Override
   public List<ConsultorioDTO> getAll() {

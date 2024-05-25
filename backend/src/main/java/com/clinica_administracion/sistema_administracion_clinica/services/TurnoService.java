@@ -2,25 +2,17 @@ package com.clinica_administracion.sistema_administracion_clinica.services;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.PacienteDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.PacienteEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
@@ -33,8 +25,6 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Pr
 import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.ITurnoService;
 
-import jakarta.annotation.PostConstruct;
-
 @Service
 public class TurnoService implements ITurnoService {
   private final TurnoRepository turnoRepo;
@@ -45,7 +35,7 @@ public class TurnoService implements ITurnoService {
   private final ModelMapper modelMapper;
   // private DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm");
 
-  @Autowired public TurnoService(
+  public TurnoService(
     TurnoRepository turnoRepo, PacienteRepository pacienteRepo, ProfesionalMedRepository profesionalRepo, 
     ConsultorioRepository consultorioRepo, AreaRepository areaRepo, ModelMapper modelMapper
   ) {

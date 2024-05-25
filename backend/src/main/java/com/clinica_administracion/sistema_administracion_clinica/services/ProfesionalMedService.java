@@ -1,20 +1,15 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
-import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
-import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
@@ -24,56 +19,21 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Co
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IProfesionalMedService;
 
-import jakarta.annotation.PostConstruct;
-
 @Service
 public class ProfesionalMedService implements IProfesionalMedService {
-  @Autowired ProfesionalMedRepository profesionalRepo;
-  @Autowired AreaRepository areaRepo;
-  @Autowired ConsultorioRepository consultorioRepo;
-  @Autowired ModelMapper modelMapper;
+  private final ProfesionalMedRepository profesionalRepo;
+  private final AreaRepository areaRepo;
+  private final ConsultorioRepository consultorioRepo;
+  private final ModelMapper modelMapper;
 
-  @PostConstruct
-  public void initialiceService() {
-    this.configModelMapper();
-  }
-
-  private void configModelMapper() {
-    if (modelMapper.getTypeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class) != null) 
-      return ;
-
-    Converter<Integer, ConsultorioEntity> getterConsultorioEntity = 
-      conv -> conv.getSource() == null ? 
-        null : consultorioRepo.findByNumeroConsultorio(conv.getSource()).get();
-    Converter<List<String>, List<LocalTime>> getterHorarios =
-      conv -> conv.getSource() == null ?
-        null :
-        conv.getSource().stream().map(
-          horario -> LocalTime.parse(horario)
-        ).toList();
-    Converter<List<String>, List<AreaEntity>> getterAreaEntities =
-      conv -> conv.getSource() == null ?
-        null : conv.getSource().stream().map(nombre -> areaRepo.findByNombre(nombre).get()).toList();
-
-    modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
-      (mapper) -> {
-        mapper.using(getterHorarios).map(ProfesionalMedDTO::getHorarios, ProfesionalMedEntity::setHorarios);
-        mapper.using(getterConsultorioEntity).map(ProfesionalMedDTO::getConsultorio, ProfesionalMedEntity::setConsultorio);
-        mapper.using(getterAreaEntities).map(ProfesionalMedDTO::getAreas, ProfesionalMedEntity::setAreas);
-      }
-    );
-
-    Converter<List<AreaEntity>, List<String>> extractIds = 
-      conv -> conv.getSource() == null ? 
-        null : 
-        conv.getSource().stream().map((area) -> area.getNombre()).toList();
-
-    modelMapper.typeMap(ProfesionalMedEntity.class, ProfesionalMedDTO.class).addMappings(
-      (mapper) -> {
-        mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), ProfesionalMedDTO::setConsultorio);
-        mapper.using(extractIds).map(ProfesionalMedEntity::getAreas, ProfesionalMedDTO::setAreas);
-      }
-    );
+  public ProfesionalMedService(
+    ProfesionalMedRepository profesionalRepo,
+    AreaRepository areaRepo, ConsultorioRepository consultorioRepo,
+    ModelMapper modelMapper
+  ) {
+    this.profesionalRepo = profesionalRepo;
+    this.areaRepo = areaRepo; this.consultorioRepo = consultorioRepo;
+    this.modelMapper = modelMapper;
   }
 
   @Transactional(readOnly = true) @Override
