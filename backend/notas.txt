@@ -25,3 +25,6 @@ hacer nuevos response dto que hereden del ResponseDTO pero que se adapten a la r
 
 ❌(no funciona) Envolver todas las excepciones propias que estén dentro de un metodo de configuración del moddel mapper en un try-catch.
   ❓⚠️Crear en UtilMethods, metodos para validar que los campos ingresados existan? por ejemplo para las areas, consultorios, pacientes, etc
+
+en el dto de turno, las referencias al paciente y al profesional deberían ser los dto en lugar de solo los dni
+  tal vez tambien la lista de turnos en el paciente DTO

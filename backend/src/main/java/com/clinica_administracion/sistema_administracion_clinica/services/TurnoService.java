@@ -48,33 +48,29 @@ public class TurnoService implements ITurnoService {
   public void initialiceService() {
     this.configModelMapper();
   }
-  
+
   private void configModelMapper() {
     if (modelMapper.getTypeMap(TurnoDTO.class, TurnoEntity.class) != null) 
       return ;
 
     Converter<String, PacienteEntity> pacienteEntityConv = conv ->
-      conv.getSource() == null ? null :
-      pacienteRepo.findByDni(conv.getSource()).orElseThrow(
-        () -> new ResourceNotFound("Paciente", "id", conv.getSource().toString())
-      );
+      conv.getSource() == null ? 
+        null : pacienteRepo.findByDni(conv.getSource()).get();
     Converter<String, ProfesionalMedEntity> profesionalEntityConv = conv ->
-      conv.getSource() == null ? null :
-      profesionalRepo.findByDni(conv.getSource()).orElseThrow(
-        () -> new ResourceNotFound("Profesional médico", "id", conv.getSource().toString())
-      );
+      conv.getSource() == null ? 
+        null : profesionalRepo.findByDni(conv.getSource()).get();
     Converter<Integer, ConsultorioEntity> consultorioEntityConv = conv -> 
-      conv.getSource() == null ? null : 
-        consultorioRepo.findByNumeroConsultorio(conv.getSource()).orElseThrow(
-          () -> new ResourceNotFound("Consultorio", "número", conv.getSource().toString())
-        );
+      conv.getSource() == null ? 
+        null :  consultorioRepo.findByNumeroConsultorio(conv.getSource()).get();
     Converter<String, AreaEntity> areaEntityConv = conv ->
-      conv.getSource() == null ? null :
-      areaRepo.findByNombre(conv.getSource()).orElseThrow(
-        () -> new ResourceNotFound("Área médica", "id", conv.getSource().toString())
-      );
-    Converter<String, LocalDate> fechaConv = conv -> conv.getSource() == null ? null : LocalDate.parse(conv.getSource(), formatoFecha);
-    Converter<String, LocalTime> horarioConv = conv -> conv.getSource() == null ? null : LocalTime.parse(conv.getSource());
+      conv.getSource() == null ? 
+        null : areaRepo.findByNombre(conv.getSource()).get();
+    Converter<String, LocalDate> fechaConv = conv -> 
+      conv.getSource() == null ? 
+        null : LocalDate.parse(conv.getSource(), formatoFecha);
+    Converter<String, LocalTime> horarioConv = conv -> 
+      conv.getSource() == null ? 
+        null : LocalTime.parse(conv.getSource());
 
     modelMapper.emptyTypeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
       (mapper) -> {
@@ -162,6 +158,10 @@ public class TurnoService implements ITurnoService {
       new String[]{"Turno", "fecha", "horario", "área", "dni del profesional", "consultorio", "dni del paciente"}, 
       turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDni(), turno.getConsultorio(), turno.getPacienteDni()
     );
+    UtilitiesMethods.validateAreaInDto(turno.getAreaProfesional(), areaRepo);
+    UtilitiesMethods.validateConsultorioInDto(turno.getConsultorio(), consultorioRepo);
+    UtilitiesMethods.validatePacienteInDto(turno.getPacienteDni(), pacienteRepo);
+    UtilitiesMethods.validateProfesionalMedInDto(turno.getProfesionalDni(), profesionalRepo);
     
     turno.setActivo(true);
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
@@ -184,6 +184,10 @@ public class TurnoService implements ITurnoService {
       new String[]{"Turno", "id", "fecha", "horario", "área", "dni del profesional", "consultorio", "dni del paciente"}, 
       turno, turno.getId(), turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDni(), turno.getConsultorio(), turno.getPacienteDni()
     );
+    UtilitiesMethods.validateAreaInDto(turno.getAreaProfesional(), areaRepo);
+    UtilitiesMethods.validateConsultorioInDto(turno.getConsultorio(), consultorioRepo);
+    UtilitiesMethods.validatePacienteInDto(turno.getPacienteDni(), pacienteRepo);
+    UtilitiesMethods.validateProfesionalMedInDto(turno.getProfesionalDni(), profesionalRepo);
     
     turnoRepo.findById(turno.getId()).orElseThrow(
       () -> new ResourceNotFound("Turno", "id", turno.getId().toString())

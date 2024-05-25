@@ -42,13 +42,20 @@ public class PacienteService implements IPacienteService{
       conv.getSource() == null ?
         null :
         conv.getSource().stream().map(
-          uuid -> turnoRepo.findById(uuid).orElseThrow(
-            () -> new ResourceNotFound("turno", "id", uuid.toString())
-          )
+          uuid -> turnoRepo.findById(uuid).get()
         ).toList();
     modelMapper.typeMap(PacienteDTO.class, PacienteEntity.class).addMappings(
-      map ->
-        map.using(convertTurnos).map(PacienteDTO::getTurnos, PacienteEntity::setTurnos)
+      mapper -> mapper.using(convertTurnos).map(PacienteDTO::getTurnos, PacienteEntity::setTurnos)
+    );
+
+    Converter<List<TurnoEntity>, List<UUID>> convertUuid = conv ->
+      conv.getSource() == null ? 
+      null :
+      conv.getSource().stream().map(
+        turnoE -> turnoE.getId()
+      ).toList();
+    modelMapper.typeMap(PacienteEntity.class, PacienteDTO.class).addMappings(
+      mapper -> mapper.using(convertUuid).map(src -> src.getTurnos(), null)
     );
   }
 
@@ -85,6 +92,7 @@ public class PacienteService implements IPacienteService{
       new String[]{"Paciente enviado", "dni", "nombre completo", "número de contacto"}, 
       paciente, paciente.getDni(), paciente.getNombreCompleto(), paciente.getNumeroContacto()
     );
+    UtilitiesMethods.validateTurnosInDto(paciente.getTurnos(), turnoRepo);
     if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
       throw new EntityAlreadyExists(
         "Ya existe un paciente con el dni ingresado", 
@@ -103,6 +111,7 @@ public class PacienteService implements IPacienteService{
       pacienteActualizado, pacienteActualizado.getId(), pacienteActualizado.getDni(), 
       pacienteActualizado.getNombreCompleto(), pacienteActualizado.getNumeroContacto()
     );
+    UtilitiesMethods.validateTurnosInDto(pacienteActualizado.getTurnos(), turnoRepo);
 
     PacienteEntity paciente = pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
       new ResourceNotFound("Paciente", "id", pacienteActualizado.getId().toString())

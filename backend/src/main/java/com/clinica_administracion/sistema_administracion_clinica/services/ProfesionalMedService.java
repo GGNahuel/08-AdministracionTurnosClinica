@@ -44,10 +44,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
 
     Converter<Integer, ConsultorioEntity> getterConsultorioEntity = 
       conv -> conv.getSource() == null ? 
-        null : 
-        consultorioRepo.findByNumeroConsultorio(conv.getSource()).orElseThrow(
-          () -> new ResourceNotFound("consultorio", "número", conv.getSource().toString())
-        );
+        null : consultorioRepo.findByNumeroConsultorio(conv.getSource()).get();
     Converter<List<String>, List<LocalTime>> getterHorarios =
       conv -> conv.getSource() == null ?
         null :
@@ -56,18 +53,8 @@ public class ProfesionalMedService implements IProfesionalMedService {
         ).toList();
     Converter<List<String>, List<AreaEntity>> getterAreaEntities =
       conv -> conv.getSource() == null ?
-        null :
-        conv.getSource().stream().map(
-          nombre -> {
-            try {
-              return areaRepo.findByNombre(nombre).orElseThrow(
-                () -> new ResourceNotFound("área", "nombre", nombre.toString())
-              );
-            } catch (ResourceNotFound e) {
-              throw e;
-            }
-          }
-        ).toList();
+        null : conv.getSource().stream().map(nombre -> areaRepo.findByNombre(nombre).get()).toList();
+
     modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
       (mapper) -> {
         mapper.using(getterHorarios).map(ProfesionalMedDTO::getHorarios, ProfesionalMedEntity::setHorarios);
@@ -79,9 +66,8 @@ public class ProfesionalMedService implements IProfesionalMedService {
     Converter<List<AreaEntity>, List<String>> extractIds = 
       conv -> conv.getSource() == null ? 
         null : 
-        conv.getSource().stream().map(
-          (area) -> area.getNombre()
-        ).toList();
+        conv.getSource().stream().map((area) -> area.getNombre()).toList();
+
     modelMapper.typeMap(ProfesionalMedEntity.class, ProfesionalMedDTO.class).addMappings(
       (mapper) -> {
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), ProfesionalMedDTO::setConsultorio);
@@ -126,7 +112,11 @@ public class ProfesionalMedService implements IProfesionalMedService {
       profesional, profesional.getNombreCompleto(), profesional.getDni(), profesional.getNumeroContacto(), 
       profesional.getAreas(), profesional.getNumMatricula()
     );
-    Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio());
+    UtilitiesMethods.validateConsultorioInDto(profesional.getConsultorio(), consultorioRepo);
+    for (String nombre : profesional.getAreas()) {
+      UtilitiesMethods.validateAreaInDto(nombre, areaRepo);
+    }
+    Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio()); // que tambien vea los horarios
     if (check.isPresent())
       throw new EntityAlreadyExists("Ya existe un profesional asignado al consutorio " + profesional.getConsultorio().toString(), check.get());
 
@@ -141,7 +131,10 @@ public class ProfesionalMedService implements IProfesionalMedService {
       profesional, profesional.getId(), profesional.getNombreCompleto(), profesional.getDni(), profesional.getNumeroContacto(), 
       profesional.getAreas(), profesional.getNumMatricula()
     );
-
+    UtilitiesMethods.validateConsultorioInDto(profesional.getConsultorio(), consultorioRepo);
+    for (String nombre : profesional.getAreas()) {
+      UtilitiesMethods.validateAreaInDto(nombre, areaRepo);
+    }
     profesionalRepo.findById(profesional.getId()).orElseThrow(
       () -> new ResourceNotFound("Profesional médico", "id", profesional.getId().toString())
     );
