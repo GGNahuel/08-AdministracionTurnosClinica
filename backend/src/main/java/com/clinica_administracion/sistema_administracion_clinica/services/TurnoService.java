@@ -37,62 +37,22 @@ import jakarta.annotation.PostConstruct;
 
 @Service
 public class TurnoService implements ITurnoService {
-  @Autowired TurnoRepository turnoRepo;
-  @Autowired PacienteRepository pacienteRepo;
-  @Autowired ProfesionalMedRepository profesionalRepo;
-  @Autowired ConsultorioRepository consultorioRepo;
-  @Autowired AreaRepository areaRepo;
-  @Autowired ModelMapper modelMapper;
-  private DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+  private final TurnoRepository turnoRepo;
+  private final PacienteRepository pacienteRepo;
+  private final ProfesionalMedRepository profesionalRepo;
+  private final ConsultorioRepository consultorioRepo;
+  private final AreaRepository areaRepo;
+  private final ModelMapper modelMapper;
   // private DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("hh:mm");
 
-  @PostConstruct
-  public void initialiceService() {
-    this.configModelMapper();
-  }
-
-  private void configModelMapper() {
-    if (modelMapper.getTypeMap(TurnoDTO.class, TurnoEntity.class) != null) 
-      return ;
-
-    Converter<PacienteDTO, PacienteEntity> pacienteEntityConv = conv ->
-      conv.getSource() == null ? 
-        null : pacienteRepo.findByDni(conv.getSource().getDni()).get();
-    Converter<ProfesionalMedDTO, ProfesionalMedEntity> profesionalEntityConv = conv ->
-      conv.getSource() == null ? 
-        null : profesionalRepo.findByDni(conv.getSource().getDni()).get();
-    Converter<Integer, ConsultorioEntity> consultorioEntityConv = conv -> 
-      conv.getSource() == null ? 
-        null :  consultorioRepo.findByNumeroConsultorio(conv.getSource()).get();
-    Converter<String, AreaEntity> areaEntityConv = conv ->
-      conv.getSource() == null ? 
-        null : areaRepo.findByNombre(conv.getSource()).get();
-    Converter<String, LocalDate> fechaConv = conv -> 
-      conv.getSource() == null ? 
-        null : LocalDate.parse(conv.getSource(), formatoFecha);
-    Converter<String, LocalTime> horarioConv = conv -> 
-      conv.getSource() == null ? 
-        null : LocalTime.parse(conv.getSource());
-
-    modelMapper.emptyTypeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
-      (mapper) -> {
-        mapper.using(pacienteEntityConv).map(TurnoDTO::getPacienteDto, TurnoEntity::setPaciente);
-        mapper.using(profesionalEntityConv).map(TurnoDTO::getProfesionalDto, TurnoEntity::setProfesional);
-        mapper.using(consultorioEntityConv).map(TurnoDTO::getConsultorio, TurnoEntity::setConsultorio);
-        mapper.using(areaEntityConv).map(TurnoDTO::getAreaProfesional, TurnoEntity::setAreaProfesional);
-        mapper.using(fechaConv).map(TurnoDTO::getFecha, TurnoEntity::setFecha);
-        mapper.using(horarioConv).map(TurnoDTO::getHorario, TurnoEntity::setHorario);
-      }
-    );
-
-    modelMapper.typeMap(TurnoEntity.class, TurnoDTO.class).addMappings(
-      (mapper) -> {
-        mapper.map(src -> src.getPaciente(), TurnoDTO::setPacienteDto);
-        mapper.map(src -> src.getProfesional(), TurnoDTO::setProfesionalDto);
-        mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), TurnoDTO::setConsultorio);
-        mapper.map(src -> src.getAreaProfesional().getNombre(), TurnoDTO::setAreaProfesional);
-      }
-    );
+  @Autowired public TurnoService(
+    TurnoRepository turnoRepo, PacienteRepository pacienteRepo, ProfesionalMedRepository profesionalRepo, 
+    ConsultorioRepository consultorioRepo, AreaRepository areaRepo, ModelMapper modelMapper
+  ) {
+    this.turnoRepo = turnoRepo;
+    this.pacienteRepo = pacienteRepo; this.profesionalRepo = profesionalRepo;
+    this.consultorioRepo = consultorioRepo; this.areaRepo = areaRepo;
+    this.modelMapper = modelMapper;
   }
 
   @Transactional(readOnly = true) @Override
@@ -140,7 +100,7 @@ public class TurnoService implements ITurnoService {
   public List<TurnoDTO> getByDate(String fecha) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
     return 
-      turnoRepo.findByFecha(LocalDate.parse(fecha, formatoFecha)).stream().map(
+      turnoRepo.findByFecha(LocalDate.parse(fecha, UtilitiesMethods.formatoFecha)).stream().map(
         (turno) -> modelMapper.map(turno, TurnoDTO.class)
       ).collect(Collectors.toList());
   }
@@ -204,7 +164,7 @@ public class TurnoService implements ITurnoService {
   @Transactional @Override
   public void deleteAlreadyPassed(String fecha) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
-    LocalDate fechaDate = LocalDate.parse(fecha, formatoFecha);
+    LocalDate fechaDate = LocalDate.parse(fecha, UtilitiesMethods.formatoFecha);
     List<TurnoEntity> list = turnoRepo.selectTurnosAlreadyPassed(fechaDate);
     if (list.size() > 0) turnoRepo.deleteAll(list);
   }

@@ -1,5 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.others;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Pr
 import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 
 public class UtilitiesMethods {
+  public static DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
   private static void checkArraysHaveSameLength(Object[] array1, Object[] array2) throws Exception {
     if (array1.length != array2.length)
