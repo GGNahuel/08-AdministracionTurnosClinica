@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.PacienteDTO;
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
@@ -53,12 +55,12 @@ public class TurnoService implements ITurnoService {
     if (modelMapper.getTypeMap(TurnoDTO.class, TurnoEntity.class) != null) 
       return ;
 
-    Converter<String, PacienteEntity> pacienteEntityConv = conv ->
+    Converter<PacienteDTO, PacienteEntity> pacienteEntityConv = conv ->
       conv.getSource() == null ? 
-        null : pacienteRepo.findByDni(conv.getSource()).get();
-    Converter<String, ProfesionalMedEntity> profesionalEntityConv = conv ->
+        null : pacienteRepo.findByDni(conv.getSource().getDni()).get();
+    Converter<ProfesionalMedDTO, ProfesionalMedEntity> profesionalEntityConv = conv ->
       conv.getSource() == null ? 
-        null : profesionalRepo.findByDni(conv.getSource()).get();
+        null : profesionalRepo.findByDni(conv.getSource().getDni()).get();
     Converter<Integer, ConsultorioEntity> consultorioEntityConv = conv -> 
       conv.getSource() == null ? 
         null :  consultorioRepo.findByNumeroConsultorio(conv.getSource()).get();
@@ -74,19 +76,19 @@ public class TurnoService implements ITurnoService {
 
     modelMapper.emptyTypeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
       (mapper) -> {
-        mapper.using(pacienteEntityConv).map(TurnoDTO::getPacienteDni, TurnoEntity::setPaciente);
-        mapper.using(profesionalEntityConv).map(TurnoDTO::getProfesionalDni, TurnoEntity::setProfesional);
+        mapper.using(pacienteEntityConv).map(TurnoDTO::getPacienteDto, TurnoEntity::setPaciente);
+        mapper.using(profesionalEntityConv).map(TurnoDTO::getProfesionalDto, TurnoEntity::setProfesional);
         mapper.using(consultorioEntityConv).map(TurnoDTO::getConsultorio, TurnoEntity::setConsultorio);
         mapper.using(areaEntityConv).map(TurnoDTO::getAreaProfesional, TurnoEntity::setAreaProfesional);
         mapper.using(fechaConv).map(TurnoDTO::getFecha, TurnoEntity::setFecha);
         mapper.using(horarioConv).map(TurnoDTO::getHorario, TurnoEntity::setHorario);
       }
     );
-    
+
     modelMapper.typeMap(TurnoEntity.class, TurnoDTO.class).addMappings(
       (mapper) -> {
-        mapper.map(src -> src.getPaciente().getDni(), TurnoDTO::setPacienteDni);
-        mapper.map(src -> src.getProfesional().getDni(), TurnoDTO::setProfesionalDni);
+        mapper.map(src -> src.getPaciente(), TurnoDTO::setPacienteDto);
+        mapper.map(src -> src.getProfesional(), TurnoDTO::setProfesionalDto);
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), TurnoDTO::setConsultorio);
         mapper.map(src -> src.getAreaProfesional().getNombre(), TurnoDTO::setAreaProfesional);
       }
@@ -156,12 +158,13 @@ public class TurnoService implements ITurnoService {
   public TurnoDTO create(TurnoDTO turno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Turno", "fecha", "horario", "área", "dni del profesional", "consultorio", "dni del paciente"}, 
-      turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDni(), turno.getConsultorio(), turno.getPacienteDni()
+      turno, turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDto().getDni(), 
+      turno.getConsultorio(), turno.getPacienteDto().getDni()
     );
     UtilitiesMethods.validateAreaInDto(turno.getAreaProfesional(), areaRepo);
     UtilitiesMethods.validateConsultorioInDto(turno.getConsultorio(), consultorioRepo);
-    UtilitiesMethods.validatePacienteInDto(turno.getPacienteDni(), pacienteRepo);
-    UtilitiesMethods.validateProfesionalMedInDto(turno.getProfesionalDni(), profesionalRepo);
+    UtilitiesMethods.validatePacienteInDto(turno.getPacienteDto().getDni(), pacienteRepo);
+    UtilitiesMethods.validateProfesionalMedInDto(turno.getProfesionalDto().getDni(), profesionalRepo);
     
     turno.setActivo(true);
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
@@ -182,12 +185,13 @@ public class TurnoService implements ITurnoService {
   public TurnoDTO update(TurnoDTO turno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"Turno", "id", "fecha", "horario", "área", "dni del profesional", "consultorio", "dni del paciente"}, 
-      turno, turno.getId(), turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDni(), turno.getConsultorio(), turno.getPacienteDni()
+      turno, turno.getId(), turno.getFecha(), turno.getHorario(), turno.getAreaProfesional(), turno.getProfesionalDto().getDni(), 
+      turno.getConsultorio(), turno.getPacienteDto().getDni()
     );
     UtilitiesMethods.validateAreaInDto(turno.getAreaProfesional(), areaRepo);
     UtilitiesMethods.validateConsultorioInDto(turno.getConsultorio(), consultorioRepo);
-    UtilitiesMethods.validatePacienteInDto(turno.getPacienteDni(), pacienteRepo);
-    UtilitiesMethods.validateProfesionalMedInDto(turno.getProfesionalDni(), profesionalRepo);
+    UtilitiesMethods.validatePacienteInDto(turno.getPacienteDto().getDni(), pacienteRepo);
+    UtilitiesMethods.validateProfesionalMedInDto(turno.getProfesionalDto().getDni(), profesionalRepo);
     
     turnoRepo.findById(turno.getId()).orElseThrow(
       () -> new ResourceNotFound("Turno", "id", turno.getId().toString())
