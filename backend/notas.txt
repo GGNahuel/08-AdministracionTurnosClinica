@@ -18,12 +18,13 @@
 ⚠️TESTING
 
 ✅hacer el modelMapper config de pacienteService
-hacer que las matriculas de los profMedicos sean unicas
+✅hacer que las matriculas de los profMedicos sean unicas
 crear un metodo especifico para dar de inactivo un turno (para no usar el update y tener que pasar todos los datos)
 
 ✅hacer nuevos response dto que hereden del ResponseDTO pero que se adapten a la respuesta que se requiera (para que no se envíen datos en null)
 
 ✅Crear en UtilMethods, metodos para validar que los campos ingresados existan? por ejemplo para las areas, consultorios, pacientes, etc
 
-en el dto de turno, las referencias al paciente y al profesional deberían ser los dto en lugar de solo los dni
+✅en el dto de turno, las referencias al paciente y al profesional deberían ser los dto en lugar de solo los dni
   tal vez tambien la lista de turnos en el paciente DTO
+
