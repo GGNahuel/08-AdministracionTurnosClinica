@@ -35,7 +35,7 @@ public class ProfesionalMedEntity {
     inverseJoinColumns = @JoinColumn(referencedColumnName = "id")
   )
     private List<AreaEntity> areas;
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
     private Integer numMatricula;
   @Temporal(TemporalType.TIME)
     private List<LocalTime> horarios;
