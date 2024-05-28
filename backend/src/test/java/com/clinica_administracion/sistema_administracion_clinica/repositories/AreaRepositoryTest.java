@@ -46,7 +46,7 @@ public class AreaRepositoryTest {
   public void testFindByNombreLike_assert1() {
     areaRepo.save(areaConTurnos);
     areaRepo.save(areaSinTurnos);
-    List<AreaEntity> lista = areaRepo.findByNombreLike("Cardiología");
+    List<AreaEntity> lista = areaRepo.findByNombreLike("cardiologia");
 
     assertEquals(1, lista.size());
   }

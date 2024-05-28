@@ -13,7 +13,9 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEn
 
 @Repository
 public interface AreaRepository extends JpaRepository<AreaEntity, UUID> {
-  @Query("select a from AreaEntity a where a.nombre like %?1%")
+  @Query("SELECT a FROM AreaEntity a " +
+    "WHERE LOWER(TRANSLATE(a.nombre, 'ÁÉÍÓÚáéíóú', 'AEIOUaeiou')) " +
+    "LIKE LOWER(TRANSLATE(CONCAT('%', ?1, '%'), 'ÁÉÍÓÚáéíóú', 'AEIOUaeiou'))")
   List<AreaEntity> findByNombreLike(String nombre);
 
   Optional<AreaEntity> findByNombre(String nombre);
