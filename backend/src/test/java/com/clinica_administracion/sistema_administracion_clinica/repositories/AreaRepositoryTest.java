@@ -1,9 +1,10 @@
 package com.clinica_administracion.sistema_administracion_clinica.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,37 +18,85 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEn
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AreaRepositoryTest {
-  private AreaRepository areaRepo;
+  private final AreaRepository areaRepo;
 
   @Autowired
   public AreaRepositoryTest(AreaRepository areaRepo) {
     this.areaRepo = areaRepo;
   }
 
-  AreaEntity areaConTurnos;
-  AreaEntity areaSinTurnos;
+  private AreaEntity areaConTurnos;
+  private AreaEntity areaSinTurnos;
+  private AreaEntity areaInactiva;
 
   @BeforeEach
   public void setUp() {
     areaConTurnos = new AreaEntity();
-    areaConTurnos.setId(UUID.fromString("44448888-1111-2222-3333-987654321abc"));
     areaConTurnos.setNombre("Cardiología");
     areaConTurnos.setActiva(true);
     areaConTurnos.setNecesitaTurno(true);
 
     areaSinTurnos = new AreaEntity();
-    areaSinTurnos.setId(UUID.fromString("aaaabbbb-1234-4321-abcd-123456789abc"));
     areaSinTurnos.setNombre("Laboratorio");
     areaSinTurnos.setActiva(true);
     areaSinTurnos.setNecesitaTurno(false);
+    
+    areaInactiva = new AreaEntity();
+    areaInactiva.setNombre("Odontología");
+    areaInactiva.setActiva(false);
+    areaInactiva.setNecesitaTurno(true);
+
+    areaRepo.save(areaConTurnos);
+    areaRepo.save(areaSinTurnos);
+    areaRepo.save(areaInactiva);
+    // System.out.println(areaConTurnos.toString());
   }
 
   @Test
-  public void testFindByNombreLike_assert1() {
-    areaRepo.save(areaConTurnos);
-    areaRepo.save(areaSinTurnos);
+  public void areaRepo_checkIds() {
+    Optional<AreaEntity> areaPrueba = areaRepo.findById(areaInactiva.getId());
+
+    assertNotEquals(Optional.empty(), areaPrueba);
+    assertEquals("Odontología", areaPrueba.get().getNombre());
+  }
+  @Test
+  public void areaRepo_getAll() {
+    List<AreaEntity> lista = areaRepo.findAll();
+
+    assertEquals(3, lista.size());
+  }
+
+  @Test
+  public void areaRepo_findByNombreLike_assert1() {
     List<AreaEntity> lista = areaRepo.findByNombreLike("cardiologia");
 
     assertEquals(1, lista.size());
+  }
+  @Test
+  public void areaRepo_findByNombreLike_assert2() {
+    List<AreaEntity> lista = areaRepo.findByNombreLike("gia");
+
+    assertEquals(2, lista.size());
+  }
+
+  @Test
+  public void areaRepo_findByNombre_assert() {
+    Optional<AreaEntity> areaPrueba = areaRepo.findByNombre("Odontología");
+
+    assertNotEquals(Optional.empty(), areaPrueba);
+    assertEquals("Odontología", areaPrueba.get().getNombre());
+  }
+  @Test
+  public void areaRepo_findByNombre_notAssert() {
+    Optional<AreaEntity> areaPrueba = areaRepo.findByNombre("Odon");
+
+    assertEquals(Optional.empty(), areaPrueba);
+  }
+
+  @Test
+  public void areaRepo_findByActiva_assert2() {
+    List<AreaEntity> lista = areaRepo.findByActiva(true);
+
+    assertEquals(2, lista.size());
   }
 }
