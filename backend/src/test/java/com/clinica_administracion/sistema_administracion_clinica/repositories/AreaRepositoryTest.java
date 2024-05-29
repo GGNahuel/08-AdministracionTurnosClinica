@@ -67,13 +67,13 @@ public class AreaRepositoryTest {
   }
 
   @Test
-  public void areaRepo_findByNombreLike_assert1() {
+  public void areaRepo_findByNombreLike_checkIgnoreCasesAndAccents() {
     List<AreaEntity> lista = areaRepo.findByNombreLike("cardiologia");
 
     assertEquals(1, lista.size());
   }
   @Test
-  public void areaRepo_findByNombreLike_assert2() {
+  public void areaRepo_findByNombreLike_checkAssertNotCompleteNames() {
     List<AreaEntity> lista = areaRepo.findByNombreLike("gia");
 
     assertEquals(2, lista.size());
@@ -94,7 +94,7 @@ public class AreaRepositoryTest {
   }
 
   @Test
-  public void areaRepo_findByActiva_assert2() {
+  public void areaRepo_findByActiva_assert() {
     List<AreaEntity> lista = areaRepo.findByActiva(true);
 
     assertEquals(2, lista.size());
