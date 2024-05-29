@@ -15,7 +15,7 @@
 (❓se tendría que hacer desde el front?) al buscar un paciente que tambien salga si debe algo o no
   agregar query al repo que busque los turnos de un paciente que el estadoPago != pago
 
-⚠️TESTING
+🔄 TESTING
 
 ✅hacer el modelMapper config de pacienteService
 ✅hacer que las matriculas de los profMedicos sean unicas
@@ -28,3 +28,4 @@ crear un metodo especifico para dar de inactivo un turno (para no usar el update
 ✅en el dto de turno, las referencias al paciente y al profesional deberían ser los dto en lugar de solo los dni
   tal vez tambien la lista de turnos en el paciente DTO
 
+⚠️ agregar a los findAll de los services un metodo para obtener por paginación, principalmente para turnos y pacientes
