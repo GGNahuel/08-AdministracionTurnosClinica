@@ -2,12 +2,14 @@ package com.clinica_administracion.sistema_administracion_clinica.services;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
@@ -21,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
 
 @SpringBootTest
@@ -94,6 +97,7 @@ public class AreaServiceTest {
     when(modelMapper.map(areaEntity3, AreaDTO.class)).thenReturn(areaDto3);
   }
   
+  // getAll___
   @Test
   public void areaService_getAll_returnsExpectedDtosInAList() {
     expectedDtoList.add(areaDto1);
@@ -109,7 +113,7 @@ public class AreaServiceTest {
       .withFailMessage("La lista obtenida debería retornar los dtos esperados: <%s>, <%s>, <%s>", 
         areaDto1.toString(), areaDto2.toString(), areaDto3.toString()
       )
-    .containsExactlyInAnyOrder(areaDto1, areaDto2, areaDto3);
+      .containsExactlyInAnyOrder(areaDto1, areaDto2, areaDto3);
     assertAll("Los dtos obtenidos deberían ser los mismos que se obtienen de las entidades", 
       () -> assertTrue(areaDto1.equals(listaDto.get(0)), 
         "El área dto en el índice 0 no es igual al esperado: " + areaDto1.toString() + " - " + listaDto.get(0).toString()),
@@ -119,7 +123,8 @@ public class AreaServiceTest {
         "El área dto en el índice 2 no es igual al esperado: " + areaDto3.toString() + " - " + listaDto.get(2).toString())
     );
   }
-
+  
+  // getByActiveState___
   @Test
   public void areaService_getByActiveState_returnActivesAreasDtos() throws Exception {
     expectedDtoList.add(areaDto1);
@@ -162,10 +167,37 @@ public class AreaServiceTest {
   }
 
   @Test
-  public void areaService_getByActiveState_throwsNoNullFieldException() {
+  public void areaService_getByActiveState_throwsNotNullFieldException() {
     assertThrows(NotNullFieldIsNull.class, () -> areaService.getByActiveState(null), 
       "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo");
   }
 
-  
+  // getById___
+  @Test
+  public void areaService_getById_getExpectedAreaDTO() throws Exception {
+    when(areaRepo.findById(areaEntity1.getId())).thenReturn(Optional.of(areaEntity1));
+
+    AreaDTO resultado = areaService.getById(areaEntity1.getId());
+
+    assertNotNull(resultado, "El resultado no debería ser nulo");
+    assertTrue(areaDto1.equals(resultado), String.format("El resultado: %s, debería ser igual a %s", 
+      resultado.toString(), areaDto1.toString()));
+  }
+
+  @Test
+  public void areaService_getByIde_throwsNotNullFieldException() {
+    assertThrows(NotNullFieldIsNull.class, () -> areaService.getById(null), 
+      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo");
+  }
+
+  @Test
+  public void areaService_getByActiveState_throwsResourceNotFoundException() throws Exception {
+    UUID idInexistente = UUID.randomUUID();
+    when(areaRepo.findById(idInexistente)).thenReturn(Optional.empty());
+
+    assertThrows(ResourceNotFound.class, () -> areaService.getById(idInexistente), 
+      "La función debería arrojar una excepción ResourceNotFound cuando no se obtenga un resultado de la búsqueda");
+  }
+
+  //
 }
