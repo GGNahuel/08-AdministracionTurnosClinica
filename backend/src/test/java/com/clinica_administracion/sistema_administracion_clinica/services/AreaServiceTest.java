@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class AreaServiceTest {
 
     List<AreaDTO> listaDto = areaService.getAll();
 
+    assertNotNull(listaDto);
     assertEquals(3, listaDto.size(), "El tamaño de las lista esperada y la actual deberían ser iguales");
     Assertions.assertThat(listaDto)
       .withFailMessage("La lista obtenida debería retornar los dtos esperados: <%s>, <%s>, <%s>", 
@@ -137,6 +139,7 @@ public class AreaServiceTest {
 
     List<AreaDTO> listaDto = areaService.getByActiveState(true);
 
+    assertNotNull(listaDto);
     assertEquals(2, listaDto.size(), "El tamaño de las lista esperada y la actual deberían ser iguales");
     Assertions.assertThat(listaDto)
       .withFailMessage("La lista obtenida debería retornar los dtos esperados: <%s>, <%s>", 
@@ -159,6 +162,7 @@ public class AreaServiceTest {
 
     List<AreaDTO> listaDto = areaService.getByActiveState(false);
 
+    assertNotNull(listaDto);
     assertEquals(1, listaDto.size(), "El tamaño de las lista esperada y la actual deberían ser iguales");
     Assertions.assertThat(listaDto)
       .withFailMessage("La lista obtenida debería retornar el dto esperado: <%s>", areaDto2.toString())
@@ -188,13 +192,13 @@ public class AreaServiceTest {
   }
 
   @Test
-  public void areaService_getByIde_throwsNotNullFieldException() {
+  public void areaService_getById_throwsNotNullFieldException() {
     assertThrows(NotNullFieldIsNull.class, () -> areaService.getById(null), 
       "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo.");
   }
 
   @Test
-  public void areaService_getByActiveState_throwsResourceNotFoundException() throws Exception {
+  public void areaService_getById_throwsResourceNotFoundException() throws Exception {
     UUID idInexistente = UUID.randomUUID();
     when(areaRepo.findById(idInexistente)).thenReturn(Optional.empty());
 
@@ -212,6 +216,7 @@ public class AreaServiceTest {
 
     List<AreaDTO> actualDtoList = areaService.getByName(searchString);
 
+    assertNotNull(actualDtoList);
     assertEquals(2, actualDtoList.size(), "La lista esperada y la actual deberían tener el mismo tamaño.");
     Assertions.assertThat(actualDtoList)
       .withFailMessage("Debería tener los resultados de la lista esperada: %s.", expectedDtoList.toString())
