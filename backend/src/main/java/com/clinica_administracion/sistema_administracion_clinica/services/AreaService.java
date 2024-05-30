@@ -66,7 +66,7 @@ public class AreaService implements IAreaService{
   }
     
   @Transactional @Override
-  public AreaDTO create(String nombre) throws Exception {
+  public AreaDTO create(String nombre, boolean necesitaTurno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, nombre);
     if (areaRepo.findByNombre(nombre).isPresent()) 
       throw new EntityAlreadyExists("Ya existe un área médica con ese nombre", nombre);
@@ -74,12 +74,13 @@ public class AreaService implements IAreaService{
     AreaEntity area = new AreaEntity();
     area.setNombre(nombre);
     area.setActiva(true);
+    area.setNecesitaTurno(necesitaTurno);
 
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }
 
   @Transactional @Override
-  public AreaDTO update(UUID id, String nombre) throws Exception {
+  public AreaDTO update(UUID id, String nombre, boolean necesitaTurno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"id","nombre"}, 
       id, nombre
@@ -91,6 +92,7 @@ public class AreaService implements IAreaService{
       () -> new ResourceNotFound("Área médica", "id", id.toString())
     );
     area.setNombre(nombre);
+    area.setNecesitaTurno(necesitaTurno);
 
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }

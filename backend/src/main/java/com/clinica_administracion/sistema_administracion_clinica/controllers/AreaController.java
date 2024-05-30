@@ -67,18 +67,18 @@ public class AreaController {
   }
 
   @PostMapping("")
-  public ResponseEntity<ResponseDTO> create(@RequestParam String nombre) throws Exception {
+  public ResponseEntity<ResponseDTO> create(@RequestParam String nombre, @RequestParam boolean necesitaTurno) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
-    response.setReturnValue(areaService.create(nombre));
+    response.setReturnValue(areaService.create(nombre, necesitaTurno));
     response.setMessage(UtilitiesMethods.messageCreator("Área creada con éxito", MessageTypes.ok));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.CREATED);
   }
 
   @PutMapping("")
-  public ResponseEntity<ResponseDTO> update(@RequestParam UUID id, @RequestParam String nombre) throws Exception {
+  public ResponseEntity<ResponseDTO> update(@RequestParam UUID id, @RequestParam String nombre, @RequestParam boolean necesitaTurno) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
-    response.setReturnValue(areaService.update(id, nombre));
+    response.setReturnValue(areaService.update(id, nombre, necesitaTurno));
     response.setMessage(UtilitiesMethods.messageCreator("Área actualizada con éxito", MessageTypes.ok));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
