@@ -67,7 +67,7 @@ public class AreaService implements IAreaService{
     
   @Transactional @Override
   public AreaDTO create(String nombre, boolean necesitaTurno) throws Exception {
-    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, nombre);
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre", "necesita turno"}, nombre, necesitaTurno);
     if (areaRepo.findByNombre(nombre).isPresent()) 
       throw new EntityAlreadyExists("Ya existe un área médica con ese nombre", nombre);
 
@@ -82,8 +82,7 @@ public class AreaService implements IAreaService{
   @Transactional @Override
   public AreaDTO update(UUID id, String nombre, boolean necesitaTurno) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
-      new String[]{"id","nombre"}, 
-      id, nombre
+      new String[]{"id","nombre", "necesita turno"}, id, nombre, necesitaTurno
     );
     if (areaRepo.findByNombre(nombre).isPresent()) 
       throw new EntityAlreadyExists("Ya existe un área médica con ese nombre", areaRepo.findByNombre(nombre).get());
