@@ -172,7 +172,7 @@ public class AreaServiceTest {
   @Test
   public void areaService_getByActiveState_throwsNotNullFieldException() {
     assertThrows(NotNullFieldIsNull.class, () -> areaService.getByActiveState(null), 
-      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo");
+      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo.");
   }
 
   // getById___
@@ -190,7 +190,7 @@ public class AreaServiceTest {
   @Test
   public void areaService_getByIde_throwsNotNullFieldException() {
     assertThrows(NotNullFieldIsNull.class, () -> areaService.getById(null), 
-      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo");
+      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo.");
   }
 
   @Test
@@ -199,7 +199,7 @@ public class AreaServiceTest {
     when(areaRepo.findById(idInexistente)).thenReturn(Optional.empty());
 
     assertThrows(ResourceNotFound.class, () -> areaService.getById(idInexistente), 
-      "La función debería arrojar una excepción ResourceNotFound cuando no se obtenga un resultado de la búsqueda");
+      "La función debería arrojar una excepción ResourceNotFound cuando no se obtenga un resultado de la búsqueda.");
   }
 
   // getByName___
@@ -214,9 +214,9 @@ public class AreaServiceTest {
 
     assertEquals(2, actualDtoList.size(), "La lista esperada y la actual deberían tener el mismo tamaño.");
     Assertions.assertThat(actualDtoList)
-      .withFailMessage("Debería tener los resultados de la lista esperada %s", expectedDtoList.toString())
+      .withFailMessage("Debería tener los resultados de la lista esperada: %s.", expectedDtoList.toString())
       .containsExactlyInAnyOrder(areaDto1, areaDto2);
-    assertAll("Los dtos obtenidos deberían ser los mismos que se obtienen de las entidades", 
+    assertAll("Los dtos obtenidos deberían ser los mismos que se obtienen de las entidades.", 
       () -> assertTrue(areaDto1.equals(actualDtoList.get(0)), 
         "El área dto en el índice 0 no es igual al esperado: " + areaDto1.toString() + " - " + actualDtoList.get(0).toString()),
       () -> assertTrue(areaDto2.equals(actualDtoList.get(1)), 
@@ -227,8 +227,10 @@ public class AreaServiceTest {
   @Test
   public void areaService_getByName_throwsNotNullFielIsNullException() throws Exception {
     assertThrows(NotNullFieldIsNull.class, () -> areaService.getByName(null), 
-      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo");
-  }
+      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un valor nulo.");
+    assertThrows(NotNullFieldIsNull.class, () -> areaService.getByName(" "), 
+      "La función debería arrojar una excepción NotNullFieldIsNull cuando se ingrese un string en blanco.");
+    }
 
   @Test
   public void areaService_getByName_throwsResourceNotFoundException() throws Exception {
@@ -236,7 +238,7 @@ public class AreaServiceTest {
     when(areaRepo.findByNombreLike(nombreInexistente)).thenReturn(List.of());
 
     assertThrows(ResourceNotFound.class, () -> areaService.getByName(nombreInexistente), 
-      "La función debería arrojar una excepción ResourceNotFound cuando no se obtenga un resultado de la búsqueda");
+      "La función debería arrojar una excepción ResourceNotFound cuando se obtenga una lista vacía en la búsqueda.");
   }
 
   // create___
