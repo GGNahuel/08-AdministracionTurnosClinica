@@ -2,9 +2,11 @@ package com.clinica_administracion.sistema_administracion_clinica.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 
@@ -19,10 +22,12 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEn
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AreaRepositoryTest {
   private final AreaRepository areaRepo;
+  private final TestEntityManager testEntityManager;
 
   @Autowired
-  public AreaRepositoryTest(AreaRepository areaRepo) {
+  public AreaRepositoryTest(AreaRepository areaRepo, TestEntityManager testEntityManager) {
     this.areaRepo = areaRepo;
+    this.testEntityManager = testEntityManager;
   }
 
   private AreaEntity areaConTurnos;
@@ -46,10 +51,32 @@ public class AreaRepositoryTest {
     areaInactiva.setActiva(false);
     areaInactiva.setNecesitaTurno(true);
 
-    areaRepo.save(areaConTurnos);
-    areaRepo.save(areaSinTurnos);
-    areaRepo.save(areaInactiva);
+    testEntityManager.persistAndFlush(areaConTurnos);
+    testEntityManager.persistAndFlush(areaSinTurnos);
+    testEntityManager.persistAndFlush(areaInactiva);
     // System.out.println(areaConTurnos.toString());
+  }
+
+  @Test
+  public void areaRepo_save_newEntity() {
+    AreaEntity areaSaved = areaRepo.save(
+      AreaEntity.builder().nombre("Pediatría").activa(true).necesitaTurno(false).build()
+    );
+
+    assertNotNull(areaSaved, "El método debería retornar una nueva entidad");
+    assertNotNull(areaSaved.getId(), "Se debería generar una id automáticamente");
+    assertNotNull(testEntityManager.find(AreaEntity.class, areaSaved.getId()), "La entidad debería haberse guardado en la base de datos");
+  }
+
+  @Test
+  public void areaRepo_save_updateEntity() {
+    UUID referenceId = areaConTurnos.getId();
+    AreaEntity areaToUpdate = AreaEntity.builder().id(referenceId).nombre("Pediatría").activa(true).necesitaTurno(false).build();
+
+    areaRepo.save(areaToUpdate);
+
+    assertEquals("Pediatría", testEntityManager.find(AreaEntity.class, referenceId).getNombre(), 
+      "El cambio debió haberse aplicado en la entidad con el id dado");
   }
 
   @Test
