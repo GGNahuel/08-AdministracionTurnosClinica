@@ -247,4 +247,24 @@ public class AreaServiceTest {
   }
 
   // create___
+  @Test
+  public void areaService_create_returnTheCreatedArea() throws Exception {
+    String newName = "Pediatría";
+    boolean newNecesitaTurnoValue = false;
+    AreaEntity newArea = AreaEntity.builder().id(UUID.randomUUID()).nombre(newName).activa(true).necesitaTurno(newNecesitaTurnoValue).build();
+    AreaDTO expectedAreaDto = AreaDTO.builder().id(newArea.getId()).nombre(newName).activa(true).necesitaTurno(newNecesitaTurnoValue).build();
+    when(areaRepo.save(any(AreaEntity.class))).thenReturn(newArea);
+
+    AreaDTO returnArea = areaService.create(newName, newNecesitaTurnoValue);
+
+    assertNotNull(returnArea, "El metodo debería retornar un DTO");
+    assertTrue(expectedAreaDto.equals(returnArea), 
+      String.format("Debería retornar el DTO esperado: %s, pero obtuvo %s", expectedAreaDto.toString(), returnArea.toString()));
+    assertAll("La entidad creada y el dto retornado deberían haberse mapeado correctamente...",
+      () -> assertEquals(newArea.getId(), returnArea.getId()),
+      () -> assertEquals(newArea.getNombre(), returnArea.getNombre()),
+      () -> assertEquals(newArea.getActiva(), returnArea.getActiva()),
+      () -> assertEquals(newArea.getNecesitaTurno(), returnArea.getNecesitaTurno())
+    );
+  }
 }
