@@ -9,6 +9,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
@@ -107,8 +109,8 @@ public class AreaServiceTest {
   // getAll___
   @Test
   public void areaService_getAll_returnsExpectedDtosInAList() {
-    expectedDtoList = List.of(areaDto1, areaDto2, areaDto3);
-    returnedEntityList = List.of(areaEntity1, areaEntity2, areaEntity3);
+    expectedDtoList = new ArrayList<>(Arrays.asList(areaDto1,areaDto2,areaDto3));
+    returnedEntityList = new ArrayList<>(Arrays.asList(areaEntity1, areaEntity2, areaEntity3));
     when(areaRepo.findAll()).thenReturn(returnedEntityList);
 
     List<AreaDTO> listaDto = areaService.getAll();
@@ -133,8 +135,8 @@ public class AreaServiceTest {
   // getByActiveState___
   @Test
   public void areaService_getByActiveState_returnActivesAreasDtos() throws Exception {
-    expectedDtoList = List.of(areaDto1, areaDto3);
-    returnedEntityList = List.of(areaEntity1, areaEntity3);
+    expectedDtoList = new ArrayList<>(Arrays.asList(areaDto1, areaDto3));
+    returnedEntityList = new ArrayList<>(Arrays.asList(areaEntity1, areaEntity3));
     when(areaRepo.findByActiva(true)).thenReturn(returnedEntityList);
 
     List<AreaDTO> listaDto = areaService.getByActiveState(true);
@@ -156,8 +158,8 @@ public class AreaServiceTest {
 
   @Test
   public void areaService_getByActiveState_returnNotActivesAreasDtos() throws Exception {
-    expectedDtoList= List.of(areaDto2);
-    returnedEntityList = List.of(areaEntity2);
+    expectedDtoList= new ArrayList<>(Arrays.asList(areaDto2));
+    returnedEntityList = new ArrayList<>(Arrays.asList(areaEntity2));
     when(areaRepo.findByActiva(false)).thenReturn(returnedEntityList);
 
     List<AreaDTO> listaDto = areaService.getByActiveState(false);
@@ -210,8 +212,8 @@ public class AreaServiceTest {
   @Test
   public void areaService_getByName_returnsExpectedAreasDto() throws Exception {
     final String searchString = "ologia";
-    expectedDtoList = List.of(areaDto1, areaDto2);
-    returnedEntityList = List.of(areaEntity1, areaEntity2);
+    expectedDtoList = new ArrayList<>(Arrays.asList(areaDto1, areaDto2));
+    returnedEntityList = new ArrayList<>(Arrays.asList(areaEntity1, areaEntity2));
     when(areaRepo.findByNombreLike(searchString)).thenReturn(returnedEntityList);
 
     List<AreaDTO> actualDtoList = areaService.getByName(searchString);
@@ -240,7 +242,7 @@ public class AreaServiceTest {
   @Test
   public void areaService_getByName_throwsResourceNotFoundException() throws Exception {
     String nombreInexistente = "qwerty";
-    when(areaRepo.findByNombreLike(nombreInexistente)).thenReturn(List.of());
+    when(areaRepo.findByNombreLike(nombreInexistente)).thenReturn(new ArrayList<>());
 
     assertThrows(ResourceNotFound.class, () -> areaService.getByName(nombreInexistente), 
       "La función debería arrojar una excepción ResourceNotFound cuando se obtenga una lista vacía en la búsqueda.");
@@ -254,6 +256,7 @@ public class AreaServiceTest {
     AreaEntity newArea = AreaEntity.builder().id(UUID.randomUUID()).nombre(newName).activa(true).necesitaTurno(newNecesitaTurnoValue).build();
     AreaDTO expectedAreaDto = AreaDTO.builder().id(newArea.getId()).nombre(newName).activa(true).necesitaTurno(newNecesitaTurnoValue).build();
     when(areaRepo.save(any(AreaEntity.class))).thenReturn(newArea);
+    when(modelMapper.map(newArea, AreaDTO.class)).thenReturn(expectedAreaDto);
 
     AreaDTO returnArea = areaService.create(newName, newNecesitaTurnoValue);
 
@@ -265,6 +268,47 @@ public class AreaServiceTest {
       () -> assertEquals(newArea.getNombre(), returnArea.getNombre()),
       () -> assertEquals(newArea.getActiva(), returnArea.getActiva()),
       () -> assertEquals(newArea.getNecesitaTurno(), returnArea.getNecesitaTurno())
+    );
+  }
+
+  @Test
+  public void areaService_create_throwsNotNullFieldIsNull() throws Exception {
+    assertAll(
+      () -> assertThrows(NotNullFieldIsNull.class, () -> areaService.create(" ", false), 
+        "Debería arrojar excepción cuando se introduzca un string vacío"),
+      () -> assertThrows(NotNullFieldIsNull.class, () -> areaService.create(null, false), 
+          "Debería arrojar excepción cuando se introduzca un valor nulo")
+    );
+  }
+
+  @Test
+  public void areaService_create_throwsEntityAlreadyExists() throws Exception {
+    String testName = "Laboratorio";
+    when(areaRepo.findByNombre(testName)).thenReturn(Optional.of(areaEntity3));
+
+    assertThrows(EntityAlreadyExists.class, () -> areaService.create(testName, false), 
+      "Debería arrojar excepción si ya se encuentra una entidad con ese nombre");
+  }
+
+  // update___
+  @Test
+  public void areaService_update_returnsExpectedDto() throws Exception {
+    final String testNombre = "Pediatría";
+    final UUID testUUID = areaEntity1.getId();
+    AreaDTO expectedReturn = AreaDTO.builder().id(testUUID).nombre(testNombre).activa(areaEntity1.getActiva()).necesitaTurno(false).build();
+    AreaEntity newAreaEntity = AreaEntity.builder().id(testUUID).nombre(testNombre).activa(areaEntity1.getActiva()).necesitaTurno(false).build();
+    when(areaRepo.findById(testUUID)).thenReturn(Optional.of(areaEntity1));
+    when(areaRepo.save(any(AreaEntity.class))).thenReturn(newAreaEntity);
+    when(modelMapper.map(newAreaEntity, AreaDTO.class)).thenReturn(expectedReturn);
+
+    AreaDTO returnDto = areaService.update(testUUID, testNombre, false);
+
+    assertNotNull(returnDto, "No debería retornar un valor nulo");
+    assertTrue(expectedReturn.equals(returnDto), String.format("El retorno no es el esperado. %s no es %s (<- esperado)", returnDto.toString(), expectedReturn.toString()));
+    assertAll("Los cambios debieron aplicarse en la entidad ya creada", 
+      () -> assertEquals(areaEntity1.getId(), testUUID),
+      () -> assertEquals(areaEntity1.getNombre(), testNombre),
+      () -> assertEquals(areaEntity1.getNecesitaTurno(), false)
     );
   }
 }
