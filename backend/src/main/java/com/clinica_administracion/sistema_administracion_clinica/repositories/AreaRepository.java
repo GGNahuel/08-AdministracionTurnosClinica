@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
@@ -13,10 +14,12 @@ import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEn
 
 @Repository
 public interface AreaRepository extends JpaRepository<AreaEntity, UUID> {
-  @Query("SELECT a FROM AreaEntity a " +
-    "WHERE LOWER(TRANSLATE(a.nombre, 'ÁÉÍÓÚáéíóú', 'AEIOUaeiou')) " +
-    "LIKE LOWER(TRANSLATE(CONCAT('%', ?1, '%'), 'ÁÉÍÓÚáéíóú', 'AEIOUaeiou'))")
-  List<AreaEntity> findByNombreLike(String nombre);
+  @Query(
+    value = 
+      "SELECT a.* FROM area_entity a WHERE LOWER(TRANSLATE(a.nombre, 'ÁÉÍÓÚáéíóú', 'AEIOUaeiou')) LIKE LOWER(TRANSLATE(CONCAT('%', :nombre, '%'), 'ÁÉÍÓÚáéíóú', 'AEIOUaeiou'))"
+    , nativeQuery = true
+  )
+  List<AreaEntity> findByNombreLike(@Param("nombre") String nombre);
 
   Optional<AreaEntity> findByNombre(String nombre);
 
