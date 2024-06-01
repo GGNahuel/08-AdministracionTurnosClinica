@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -309,6 +310,63 @@ public class AreaServiceTest {
       () -> assertEquals(areaEntity1.getId(), testUUID),
       () -> assertEquals(areaEntity1.getNombre(), testNombre),
       () -> assertEquals(areaEntity1.getNecesitaTurno(), false)
+    );
+  }
+
+  @Test public void areaService_update_throwsNotNullFieldIsNull() throws Exception {
+    assertAll("Debería arrojar la excepción correspondiente cuando se ingrese un campo nulo o vacío",
+      () -> assertThrows(NotNullFieldIsNull.class, () -> areaService.update(null, "Ejemplo", false),
+      "id fue ingresado null"),
+      () -> assertThrows(NotNullFieldIsNull.class, () -> areaService.update(UUID.randomUUID(), " ", false),
+      "nombre fue ingresado como un string vacío")
+    );
+  }
+
+  @Test
+  public void areaService_update_throwsEntityAlreadyExists() throws Exception {
+    when(areaRepo.findByNombre(anyString())).thenReturn(Optional.of(areaEntity1));
+
+    assertThrows(EntityAlreadyExists.class, 
+      () -> areaService.update(UUID.randomUUID(), "ejemplo", false),
+      "Debería arrojarse la excepción EntityAlreadyExists si se encuentra una entidad con el nombre dado");
+  }
+
+  @Test
+  public void areaService_update_throwsResourceNotFound() throws Exception {
+    when(areaRepo.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+    assertThrows(ResourceNotFound.class, () -> areaService.update(UUID.randomUUID(), "null", false),
+      "Debería arrojar ResourceNotFound cuando no se encuentre un área con la id dada");
+  }
+
+  // changeActiveStatus
+  @Test
+  public void areaService_changeActiveStatus_returnsAreaWithChangedStatus() throws Exception {
+    AreaDTO expectedDto = AreaDTO.builder().id(areaDto1.getId()).nombre(areaDto1.getNombre()).activa(false).necesitaTurno(areaDto1.getNecesitaTurno()).build();
+    AreaEntity updatedArea = AreaEntity.builder().id(areaDto1.getId()).nombre(areaDto1.getNombre()).activa(false).necesitaTurno(areaDto1.getNecesitaTurno()).build();
+    when(areaRepo.findById(any(UUID.class))).thenReturn(Optional.of(areaEntity1));
+    when(areaRepo.save(any(AreaEntity.class))).thenReturn(updatedArea);
+    when(modelMapper.map(updatedArea, AreaDTO.class)).thenReturn(expectedDto);
+
+    AreaDTO returnedDto = areaService.changeActiveStatus(areaDto1.getId(), false);
+
+    assertNotNull(returnedDto);
+    assertTrue(expectedDto.equals(returnedDto), "El dto retornado no es el esperado");
+    assertEquals(false, areaEntity1.getActiva(), "El cambio no se aplicó correctamente");
+  }
+
+  @Test
+  public void areaService_changeActiveStatus_throwsResourceNotFound() throws Exception {
+    when(areaRepo.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+    assertThrows(ResourceNotFound.class, () -> areaService.changeActiveStatus(UUID.randomUUID(), false),
+      "Debería arrojar ResourceNotFound cuando no se encuentre un área con la id dada");
+  }
+
+  @Test public void areaService_changeActiveStatus_throwsNotNullFieldIsNull() throws Exception {
+    assertAll("Debería arrojar la excepción correspondiente cuando se ingrese un campo nulo o vacío",
+      () -> assertThrows(NotNullFieldIsNull.class, () -> areaService.changeActiveStatus(null, false),
+      "id fue ingresado null")
     );
   }
 }
