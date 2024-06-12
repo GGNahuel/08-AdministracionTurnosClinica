@@ -1,7 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,11 +24,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.AreaService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -77,48 +75,90 @@ public class AreaControllerTest {
   }
 
   @Test
-  public void areaController_getAll_returnsExpectedResponse() throws Exception {
-    List<AreaDTO> expectedList = new ArrayList<>(Arrays.asList(areaDto1, areaDto2, areaDto3));
-    when(areaService.getAll()).thenReturn(expectedList);
+  public void areaController_getAll_returnGetResponseDTOType() throws Exception {
+    GetResponseDTO expectedResponse = new GetResponseDTO();
+    List<AreaDTO> listExample = new ArrayList<>();
+    expectedResponse.setResults(listExample);
+    when(areaService.getAll()).thenReturn(listExample);
 
-    ResultActions response = mockMvc.perform(get("/api/area")
+    ResultActions result = mockMvc.perform(get("/api/area")
       .contentType(MediaType.APPLICATION_JSON)
-      .content(objectMapper.writeValueAsString(areaDto1)
-    ));
+    ).andExpect(status().isOk());
 
-    response
-      .andExpect(MockMvcResultMatchers.jsonPath("$.results", CoreMatchers.notNullValue()))
-      .andExpectAll(
-        status().isOk(),
-        jsonPath("$.results").isArray(),
-        // jsonPath("$.results").value(objectMapper.writeValueAsString(expectedList)), se debería comparar cada elemento
-        jsonPath("$.results.size()").value(expectedList.size()),
-        jsonPath("$.results[0].nombre").value(expectedList.get(0).getNombre())
-      );
+    String resultInJson = result.andReturn().getResponse().getContentAsString();
+    GetResponseDTO actualResponse = objectMapper.readValue(resultInJson, GetResponseDTO.class);
+
+    assertEquals(expectedResponse, actualResponse);
   }
 
   @Test
-  public void areaController_getAll_returnsExpectedResponse_MvcResult() throws Exception {
+  public void areaController_getAll_returnsExpectedList() throws Exception {
     List<AreaDTO> expectedList = new ArrayList<>(Arrays.asList(areaDto1, areaDto2, areaDto3));
     when(areaService.getAll()).thenReturn(expectedList);
 
-    MvcResult result = mockMvc.perform(get("/api/area")
+    ResultActions result = mockMvc.perform(get("/api/area")
       .characterEncoding("UTF-8")
-      .contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk()) // mover esta verificación con las otras, como está en el método de arriba
-      .andReturn();
+      .contentType(MediaType.APPLICATION_JSON)
+    );
+    
+    result
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.results", CoreMatchers.notNullValue()));
 
-    String jsonResponse = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+    String jsonResponse = result.andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
     // Assuming the JSON response has a structure like { "results": [...] }
     JsonNode jsonNode = objectMapper.readTree(jsonResponse);
     List<AreaDTO> actualList = objectMapper.readValue(
         jsonNode.get("results").toString(),
         new TypeReference<List<AreaDTO>>() {}
     );
-
-    assertNotNull(actualList);
     assertEquals(expectedList.size(), actualList.size());
     assertEquals(expectedList, actualList);
   }
+
+  // GetByActiveStatus
+  @Test
+  public void areaController_getByActiveStatus_returnGetResponseDTOType() throws Exception {
+    GetResponseDTO expectedResponse = new GetResponseDTO();
+    List<AreaDTO> listExample = new ArrayList<>();
+    expectedResponse.setResults(listExample);
+    when(areaService.getByActiveState(true)).thenReturn(listExample);
+
+    ResultActions result = mockMvc.perform(get("/api/area/actives")
+      .contentType(MediaType.APPLICATION_JSON)
+      .param("valor", "true")
+    ).andExpect(status().isOk());
+
+    String resultInJson = result.andReturn().getResponse().getContentAsString();
+    GetResponseDTO actualResponse = objectMapper.readValue(resultInJson, GetResponseDTO.class);
+
+    assertEquals(expectedResponse, actualResponse);
+    System.out.println(actualResponse.toString() + " - " + expectedResponse.toString());
+  }
   
+  @Test
+  public void areaController_getByActiveStatus_returnsExpectedList() throws Exception {
+    List<AreaDTO> expectedList = new ArrayList<>(Arrays.asList(areaDto1, areaDto3));
+    when(areaService.getAll()).thenReturn(expectedList);
+
+    ResultActions result = mockMvc.perform(get("/api/area/actives")
+      .characterEncoding("UTF-8")
+      .param("valor", "")
+      .contentType(MediaType.APPLICATION_JSON)
+    );
+    
+    result
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.results", CoreMatchers.notNullValue()));
+
+    String jsonResponse = result.andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+    // Assuming the JSON response has a structure like { "results": [...] }
+    JsonNode jsonNode = objectMapper.readTree(jsonResponse);
+    List<AreaDTO> actualList = objectMapper.readValue(
+        jsonNode.get("results").toString(),
+        new TypeReference<List<AreaDTO>>() {}
+    );
+    assertEquals(expectedList.size(), actualList.size());
+    assertEquals(expectedList, actualList);
+  }
 }
