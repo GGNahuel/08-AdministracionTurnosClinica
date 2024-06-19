@@ -1,20 +1,12 @@
-import React, { useState } from "react"
-import { API_PREFIX } from "../../constants/VariablesEntorno"
-import { Paciente } from "../../types/Entities"
-import { GetResponseType, ReturnResponseType, MessageInterface } from "../../types/APIResponses"
-import { useGetAllPacienteRequest } from "../../hooks/PacienteRequests"
+import { useGetAllPacienteRequest, usePostPaciente } from "../../hooks/PacienteRequests"
 import { useGetTurnosByPaciente } from "../../hooks/TurnoRequests"
+import { Paciente } from "../../types/Entities"
 
 export function ResultadosPaciente() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType>({
-    message: {} as MessageInterface, returnValue: {}
-  })
-
   const allPacientes = useGetAllPacienteRequest()
-  const { results } = allPacientes as GetResponseType
+  const results = allPacientes?.results || []
 
   const {pacienteSelectedByDni, setPacienteSelected} = useGetTurnosByPaciente()
-
   const showTurnos = (dniPaciente : string) => {
     setPacienteSelected(prevState => ({
       ...prevState,
@@ -22,77 +14,48 @@ export function ResultadosPaciente() {
     }))
   }
 
-  const sendRegisterForm = async (ev: React.FormEvent<HTMLFormElement>) => {
-    ev.preventDefault()
-    const $form = ev.currentTarget
-    const formData = new FormData($form)
-
-    const pacienteToSend: Paciente = {
-      nombreCompleto: formData.get('nombreCompleto') as string,
-      dni: formData.get('dni') as string,
-      numeroContacto: Number(formData.get('numeroContacto') as string),
-      obraSocial: formData.get('obraSocial') as string,
-      turnos: []
-    };
-
-    const request = await fetch(API_PREFIX + "/paciente", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(pacienteToSend)
-    })
-    const returned : ReturnResponseType = await request.json()
-    setReturnedPost({
-      message: {
-        text: returned.message.text,
-        messageType: returned.message.messageType,
-        exceptionCause: returned.message.exceptionCause
-      },
-      returnValue: returned.returnValue
-    })
-  }
+  const {returnedPost, sendPacienteToPost} = usePostPaciente()
 
   return (
     <>
     <section>
       <h2>Listado de pacientes</h2>
-        <header className="list_header list paciente">
-          <span>Nombre del paciente</span>
-          <span>Dni</span>
-          <span>Número de contacto</span>
-          <span>Obra social</span>
-          <span>Turnos</span>
-        </header>
-        {results?.map((paciente) => {
-          const paciente2 = paciente as Paciente
-          return (
-          <article key={paciente2.id} className="list paciente" style={{border: "2px solid black", margin: "10px"}}>
-            <p>{paciente2.nombreCompleto}</p>
-            <p>{paciente2.dni}</p>
-            <p>{paciente2.numeroContacto}</p>
-            <p>{paciente2.obraSocial}</p>
-            <div onClick={() => showTurnos(paciente2.dni)}>
-              <p>Ver turnos: </p>
-            </div>
-            <div>
-              {pacienteSelectedByDni.dni === paciente2.dni &&  pacienteSelectedByDni.turnos?.map((turno) => (
-                <div className="list turno">
-                  <strong>{turno.id}</strong>
-                  <p>{turno.fecha} - {turno.fecha}</p>
-                  <p>{turno.horario}:{turno.horario}</p>
-                  <p>{turno.areaProfesional}</p>
-                </div>
-              ))}
-            </div>
-          </article>
+      <header className="list_header list paciente">
+        <span>Nombre del paciente</span>
+        <span>Dni</span>
+        <span>Número de contacto</span>
+        <span>Obra social</span>
+        <span>Turnos</span>
+      </header>
+      {results?.map((paciente) => {
+        const paciente2 = paciente as Paciente
+        return (
+        <article key={paciente2.id} className="list paciente" style={{border: "2px solid black", margin: "10px"}}>
+          <p>{paciente2.nombreCompleto}</p>
+          <p>{paciente2.dni}</p>
+          <p>{paciente2.numeroContacto}</p>
+          <p>{paciente2.obraSocial}</p>
+          <div onClick={() => showTurnos(paciente2.dni)}>
+            <p>Ver turnos: </p>
+          </div>
+          <div>
+            {pacienteSelectedByDni.dni === paciente2.dni &&  pacienteSelectedByDni.turnos?.map((turno) => (
+              <div className="list turno">
+                <strong>{turno.id}</strong>
+                <p>{turno.fecha} - {turno.fecha}</p>
+                <p>{turno.horario}:{turno.horario}</p>
+                <p>{turno.areaProfesional}</p>
+              </div>
+            ))}
+          </div>
+        </article>
         )
       })}
     </section>
+    <section>
     {returnedPost.message.text && <h2>{returnedPost.message.text}</h2>}
     {/* {returnedPost.results?.map((element, index) => <p key={index}>{element as string}</p>)} */}
-    <section>
-      <form id="pacienteForm" onSubmit={(ev) => sendRegisterForm(ev)}>
+      <form id="pacienteForm" onSubmit={(ev) => sendPacienteToPost(ev)}>
         <input type="text" name="nombreCompleto" placeholder="Ingrese el nombre" />
         <input type="text" name="dni" placeholder="Ingrese el dni" />
         <input type="number" name="numeroContacto" placeholder="Ingrese el número de teléfono" />
@@ -119,28 +82,3 @@ const returnedElement = (returnedPost : Paciente) => {
     </article>
   )
 }
-
-/* 
-const sendRegisterForm = async (ev: React.FormEvent<HTMLFormElement>) => {
-  ev.preventDefault();
-  const form = ev.currentTarget;
-  const formData = new FormData(form);
-
-  const pacienteToSend: Paciente = {
-    nombreCompleto: formData.get('nombreCompleto') as string,
-    dni: formData.get('dni') as string,
-    numeroContacto: formData.get('numeroContacto') as string,
-    obraSocial: formData.get('obraSocial') as string
-    // Asegúrate de que los nombres de los campos coincidan con los atributos 'name' de tus inputs
-  };
-
-  const request = await fetch(API_PREFIX + "/paciente", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(pacienteToSend)
-  });
-  const returned = await request.json();
-}
-*/
