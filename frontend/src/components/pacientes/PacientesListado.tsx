@@ -1,45 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { API_PREFIX } from "../../constants/VariablesEntorno"
-import { Paciente, Turno } from "../../types/Entities"
-import { GetResponseType, ReturnResponseType, ResultsInGetResponse, MessageInterface } from "../../types/APIResponses"
+import { Paciente } from "../../types/Entities"
+import { GetResponseType, ReturnResponseType, MessageInterface } from "../../types/APIResponses"
+import { useGetAllPacienteRequest } from "../../hooks/PacienteRequests"
+import { useGetTurnosByPaciente } from "../../hooks/TurnoRequests"
 
 export function ResultadosPaciente() {
-  const [results, setResults] = useState<ResultsInGetResponse>()
-  const [pacienteSelectedByDni, setPacienteSelected] = useState<{
-    dni: string,
-    turnos: Turno[]
-  }>({
-    dni: "",
-    turnos: []
-  })
   const [returnedPost, setReturnedPost] = useState<ReturnResponseType>({
     message: {} as MessageInterface, returnValue: {}
   })
 
-  useEffect(() => {
-    async function generateData() {
-      const response = await fetch(API_PREFIX + "/paciente")
-      const data : GetResponseType = await response.json()
+  const allPacientes = useGetAllPacienteRequest()
+  const { results } = allPacientes as GetResponseType
 
-      setResults(data.results)
-    }
-    generateData()
-  }, [])
-
-  useEffect(() => {
-    async function getPacienteTurnos() {
-      if (pacienteSelectedByDni.dni == "") return
-
-      const response = await fetch(API_PREFIX + "/turno/paciente/" + pacienteSelectedByDni.dni)
-      const data : GetResponseType = await response.json()
-
-      setPacienteSelected(prev => ({
-        ...prev,
-        turnos: data.results as Turno[]
-      }))
-    }
-    getPacienteTurnos()
-  }, [pacienteSelectedByDni])
+  const {pacienteSelectedByDni, setPacienteSelected} = useGetTurnosByPaciente()
 
   const showTurnos = (dniPaciente : string) => {
     setPacienteSelected(prevState => ({
