@@ -1,9 +1,11 @@
 import { useGetAllPacienteRequest } from "../../hooks/PacienteRequests"
 import { useGetTurnosByPaciente } from "../../hooks/TurnoRequests"
 import { Paciente } from "../../types/Entities"
+import { Paciente } from "../../types/Entities"
 
 export function ResultadosPaciente() {
   const allPacientes = useGetAllPacienteRequest()
+  const results = allPacientes?.results || []
   const results = allPacientes?.results || []
 
   const { pacienteSelectedByDni, setPacienteSelected } = useGetTurnosByPaciente()
