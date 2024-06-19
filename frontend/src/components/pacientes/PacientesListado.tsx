@@ -1,50 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { API_PREFIX } from "../../constants/VariablesEntorno"
-
-type MessageResponseTypes = {
-  text: string,
-  messageType: MessageType,
-  exceptionCause: string
-}
-
-enum MessageType {
-  ok, error, warn, common
-}
-
-type ResultsInResponseType = Paciente[] | object[] | Turno[] | string[]
-
-interface ResponseTypes {
-  message: MessageResponseTypes,
-  results: ResultsInResponseType,
-  returnValue: object | Paciente
-}
-
-type Turno = {
-  id?: string,
-  pacienteDni: string,
-  fecha: string,
-  horario: string,
-  areaProfesional: string,
-  obraSocial: string,
-  metodoDeAbono?: string
-  estadoPago: string,
-  comentario?: string,
-  consultorio: number,
-  profesionalDni: string,
-  activo?: boolean
-}
-
-type Paciente = {
-  id?: string,
-  nombreCompleto: string,
-  dni: string,
-  numeroContacto: number,
-  obraSocial?: string,
-  turnos?: string[]
-}
+import { Paciente, Turno } from "../../types/Entities"
+import { GetResponseType, ReturnResponseType, ResultsInGetResponse, MessageInterface } from "../../types/APIResponses"
 
 export function ResultadosPaciente() {
-  const [results, setResults] = useState<ResultsInResponseType>()
+  const [results, setResults] = useState<ResultsInGetResponse>()
   const [pacienteSelectedByDni, setPacienteSelected] = useState<{
     dni: string,
     turnos: Turno[]
@@ -52,14 +12,14 @@ export function ResultadosPaciente() {
     dni: "",
     turnos: []
   })
-  const [returnedPost, setReturnedPost] = useState<ResponseTypes>({
-    message: {} as MessageResponseTypes, results: [], returnValue: {}
+  const [returnedPost, setReturnedPost] = useState<ReturnResponseType>({
+    message: {} as MessageInterface, returnValue: {}
   })
 
   useEffect(() => {
     async function generateData() {
       const response = await fetch(API_PREFIX + "/paciente")
-      const data : ResponseTypes = await response.json()
+      const data : GetResponseType = await response.json()
 
       setResults(data.results)
     }
@@ -71,7 +31,7 @@ export function ResultadosPaciente() {
       if (pacienteSelectedByDni.dni == "") return
 
       const response = await fetch(API_PREFIX + "/turno/paciente/" + pacienteSelectedByDni.dni)
-      const data : ResponseTypes = await response.json()
+      const data : GetResponseType = await response.json()
 
       setPacienteSelected(prev => ({
         ...prev,
@@ -108,9 +68,8 @@ export function ResultadosPaciente() {
       },
       body: JSON.stringify(pacienteToSend)
     })
-    const returned : ResponseTypes = await request.json()
+    const returned : ReturnResponseType = await request.json()
     setReturnedPost({
-      results: returned.results,
       message: {
         text: returned.message.text,
         messageType: returned.message.messageType,
@@ -157,7 +116,7 @@ export function ResultadosPaciente() {
       })}
     </section>
     {returnedPost.message.text && <h2>{returnedPost.message.text}</h2>}
-    {returnedPost.results?.map((element, index) => <p key={index}>{element as string}</p>)}
+    {/* {returnedPost.results?.map((element, index) => <p key={index}>{element as string}</p>)} */}
     <section>
       <form id="pacienteForm" onSubmit={(ev) => sendRegisterForm(ev)}>
         <input type="text" name="nombreCompleto" placeholder="Ingrese el nombre" />
