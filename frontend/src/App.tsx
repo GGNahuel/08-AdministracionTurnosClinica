@@ -1,11 +1,11 @@
 import { Navbar } from "./components/navigation/Navbar"
-import { ResultadosPaciente } from "./components/pacientes/PacientesListado"
+import { PacienteListado } from "./components/pacientes/PacienteListado"
 
 function App() {
   return (
     <>
       <Navbar></Navbar>
-      <ResultadosPaciente></ResultadosPaciente>
+      <PacienteListado></PacienteListado>
     </>
   )
 }

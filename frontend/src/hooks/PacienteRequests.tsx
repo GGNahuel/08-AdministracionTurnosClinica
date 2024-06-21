@@ -3,7 +3,7 @@ import { GetResponseType, MessageInterface, ReturnResponseType } from "../types/
 import { API_PREFIX } from "../constants/VariablesEntorno";
 import { Paciente } from "../types/Entities";
 
-export function useGetAllPacienteRequest() {
+export function useGetAllPacientes() {
   const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
 
   useEffect(() => {
