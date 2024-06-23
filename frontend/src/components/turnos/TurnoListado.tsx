@@ -26,6 +26,8 @@ export function TurnoListado() {
                 <p>Consultorio: {turno.consultorio}</p>
                 <p>Paciente: {turno.pacienteDto.nombreCompleto}</p>
                 <p>Profesional: {turno.profesionalDto.nombreCompleto}</p>
+                <p>Fecha: {turno.fecha}</p>
+                <p>Horario: {turno.horario}</p>
               </article>
             ))}
           </details>

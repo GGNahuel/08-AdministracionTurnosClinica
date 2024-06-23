@@ -10,7 +10,7 @@ export function useGetAllAreas() {
     async function getData() {
       const response = await fetch(API_PREFIX + "/area")
       const data : GetResponseType = await response.json()
-      console.log(data)
+
       setGetResponse({
         message: data.message,
         results: data.results
