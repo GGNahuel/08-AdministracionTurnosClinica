@@ -43,8 +43,8 @@ public class TurnoController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
-  @GetMapping("/{fecha}")
-  public ResponseEntity<ResponseDTO> getTurnosByFecha(@PathVariable String fecha) throws Exception {
+  @GetMapping("/")
+  public ResponseEntity<ResponseDTO> getTurnosByFecha(@RequestParam String fecha) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.getByDate(fecha));
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
@@ -66,15 +66,15 @@ public class TurnoController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
-  @GetMapping("/profesional")
-  public ResponseEntity<ResponseDTO> getTurnosByProfesional(String nombre) throws Exception {
+  @GetMapping("/profesional/")
+  public ResponseEntity<ResponseDTO> getTurnosByProfesional(@RequestParam String nombre) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.getByProfesional(nombre));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/id/{id}")
   public ResponseEntity<ResponseDTO> getTurnoById(@PathVariable UUID id) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     List<TurnoDTO> list = new ArrayList<>();
