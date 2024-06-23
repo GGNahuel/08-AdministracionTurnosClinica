@@ -19,6 +19,22 @@ export function useGetAllPacientes() {
   return getResponse
 }
 
+export function useGetPacienteByDni(dniPaciente : string) {
+  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch(API_PREFIX + "/paciente/" + dniPaciente)
+      const data : GetResponseType = await response.json()
+
+      setGetResponse(data)
+    }
+    getData()
+  }, [dniPaciente])
+
+  return getResponse
+}
+
 export function usePostPaciente() {
   const [returnedPost, setReturnedPost] = useState<ReturnResponseType>({
     message: {} as MessageInterface, returnValue: {}
