@@ -28,8 +28,11 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
   
   List<TurnoEntity> findByFecha(LocalDate fecha);
 
-  @Query("select t from TurnoEntity t where t.profesional.id = ?1 and t.fecha =?2 and t.horario = ?3")
-  Optional<TurnoEntity> findTurnosExistingInDate(UUID id, LocalDate gecha, LocalTime hora);
+  @Query("select t from TurnoEntity t where t.fecha >= ?1")
+  List<TurnoEntity> findNextTurnos(LocalDate fecha);
+
+  @Query("select t from TurnoEntity t where t.profesional.id = ?1 and t.fecha = ?2 and t.horario = ?3")
+  Optional<TurnoEntity> findTurnosExistingInDate(UUID id, LocalDate fecha, LocalTime hora);
 
   @Query("select t from TurnoEntity t where t.fecha < ?1 and t.estadoPago = 'Pago'")
   List<TurnoEntity> selectTurnosAlreadyPassed(LocalDate fecha);

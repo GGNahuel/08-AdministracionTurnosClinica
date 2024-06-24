@@ -54,6 +54,15 @@ public class TurnoService implements ITurnoService {
   }
 
   @Transactional(readOnly = true) @Override
+  public List<TurnoDTO> getAllNextTurnos(String fecha) throws Exception{
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
+    return
+      turnoRepo.findNextTurnos(LocalDate.parse(fecha, UtilitiesMethods.formatoFecha)).stream().map(
+        turnoEntity -> modelMapper.map(turnoEntity, TurnoDTO.class)
+      ).toList();
+  }
+
+  @Transactional(readOnly = true) @Override
   public TurnoDTO getById(UUID id) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"}, id);
     return modelMapper.map(turnoRepo.findById(id), TurnoDTO.class);
