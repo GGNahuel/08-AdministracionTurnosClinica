@@ -1,0 +1,11 @@
+hacer funciones aparte de las request de posts que tomen los datos del formulario y lo transforme en un objeto de la entidad que corresponda
+
+Funcionamiento general
+  Al entrar, página de inicio, se mostrarán una lista con los horarios del día de todas las areas, 
+    listas separadas por área
+    cada horario será una casilla que mostrará si hay turnos asignados o no
+      en caso de que no haya un turno asignado al hacer click aparecería un boton para asignar un turno
+
+  Al crear turno, y después de asignar un área aparecerá un calendario con los horarios
+    Se diferenciará entre horarios disponibles para turno de los ya ocupados (para hacer la ux mejor para el usuario)
+      El hacer click en una casilla disponible se asignará el turno en ese dia y horario
