@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Paciente, ProfesionalMed, Turno } from "../types/Entities"
 import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
 import { GetResponseType, MessageInterface, ReturnResponseType } from "../types/APIResponses"
+import { formatDate } from "../functions/formatDate"
 
 export function useGetAllTurnos() {
   const [getResponse, setGetResponse] = useState<GetResponseType>({
@@ -54,7 +55,7 @@ export function usePostTurno() {
     const dataToSend : Turno = {
       profesionalDto: formData.get("profesionalDto") as unknown as ProfesionalMed,
       pacienteDto: formData.get("pacienteDto") as unknown as Paciente,
-      fecha: formData.get("fecha") as string,
+      fecha: formatDate(new Date(formData.get("fecha") as string)),
       horario: formData.get("horario") as string,
       areaProfesional: formData.get("area") as string,
       consultorio: Number(formData.get("consultorio") as string),
