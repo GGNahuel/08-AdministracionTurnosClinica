@@ -7,9 +7,9 @@ import com.clinica_administracion.sistema_administracion_clinica.DTOs.Profesiona
 
 public interface IProfesionalMedService {
   List<ProfesionalMedDTO> getAll();
+  List<ProfesionalMedDTO> getAllByAreas(String nombreArea) throws Exception;
   ProfesionalMedDTO getById(UUID id) throws Exception;
   ProfesionalMedDTO getByDni(String dni) throws Exception;
   ProfesionalMedDTO create(ProfesionalMedDTO profesional) throws Exception;
   ProfesionalMedDTO update(ProfesionalMedDTO profesional) throws Exception;
-
 }
