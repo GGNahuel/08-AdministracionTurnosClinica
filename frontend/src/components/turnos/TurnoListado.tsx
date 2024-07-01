@@ -9,7 +9,6 @@ export function TurnoListado() {
   const allAreas = useGetAllAreas().results as AreaProfesional[]
   const turnosByAreas = FilterTurnosByArea(allAreas, turnos)
   const turnosByAreasArray = turnosByAreas != null ? Object.entries(turnosByAreas) : null
-  console.log(turnosByAreas)
 
   return (
     <section>
