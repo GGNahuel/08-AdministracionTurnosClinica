@@ -13,3 +13,4 @@ export function FilterTurnosByArea(areasExistentes : AreaProfesional[], listadoD
 
   return returnedObject
 }
+
