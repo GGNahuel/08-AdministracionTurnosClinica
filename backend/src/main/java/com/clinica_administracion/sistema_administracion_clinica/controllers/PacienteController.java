@@ -39,6 +39,13 @@ public class PacienteController {
     response.setResults(pacienteService.getAll());
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
+
+  @GetMapping("/{nombre}")
+  public ResponseEntity<ResponseDTO> getPacientesByNombre (@PathVariable String nombre) throws Exception {
+    GetResponseDTO response = new GetResponseDTO();
+    response.setResults(pacienteService.getByNombreLike(nombre));
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
   
   @GetMapping("/{dni}")
   public ResponseEntity<ResponseDTO> getPacienteByDni(@PathVariable String dni) throws Exception {

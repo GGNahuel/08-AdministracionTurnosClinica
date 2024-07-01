@@ -7,6 +7,7 @@ import com.clinica_administracion.sistema_administracion_clinica.DTOs.PacienteDT
 
 public interface IPacienteService {
   List<PacienteDTO> getAll();
+  List<PacienteDTO> getByNombreLike(String busqueda) throws Exception;
   PacienteDTO getByDni(String dni) throws Exception;
   PacienteDTO getById(UUID id) throws Exception;
   PacienteDTO create(PacienteDTO paciente) throws Exception;

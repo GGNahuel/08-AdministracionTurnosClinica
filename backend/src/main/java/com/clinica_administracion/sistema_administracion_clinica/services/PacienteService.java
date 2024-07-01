@@ -41,6 +41,16 @@ public class PacienteService implements IPacienteService{
   }
 
   @Transactional(readOnly = true) @Override
+  public List<PacienteDTO> getByNombreLike(String nombre) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre o apellido del paciente"}, nombre);
+    
+    List<PacienteDTO> list = pacienteRepo.findByNombreCompletoContainingIgnoreCase(nombre).stream().map(
+      (paciente) -> modelMapper.map(paciente, PacienteDTO.class)
+    ).collect(Collectors.toList());
+    return list;
+  }
+
+  @Transactional(readOnly = true) @Override
   public PacienteDTO getByDni(String dni) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni"}, dni);
     PacienteEntity busqueda = pacienteRepo.findByDni(dni).orElseThrow(() ->
