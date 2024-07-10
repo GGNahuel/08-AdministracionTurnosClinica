@@ -44,13 +44,13 @@ public class ProfesionalMedService implements IProfesionalMedService {
       ).collect(Collectors.toList());
   }
 
-  @Transactional(readOnly = true) @Override
-  public List<ProfesionalMedDTO> getAllByAreas(String nombreArea) throws Exception {
-    return
-      profesionalRepo.findByAreaName(nombreArea).stream().map(
-        (profesional) -> modelMapper.map(profesional, ProfesionalMedDTO.class)
-      ).collect(Collectors.toList());
-  }
+  // @Transactional(readOnly = true) @Override
+  // public List<ProfesionalMedDTO> getAllByAreas(String nombreArea) throws Exception {
+  //   return
+  //     profesionalRepo.findByAreaName(nombreArea).stream().map(
+  //       (profesional) -> modelMapper.map(profesional, ProfesionalMedDTO.class)
+  //     ).collect(Collectors.toList());
+  // }
 
   @Transactional(readOnly = true)
   public ProfesionalMedDTO getById(UUID id) throws Exception {
