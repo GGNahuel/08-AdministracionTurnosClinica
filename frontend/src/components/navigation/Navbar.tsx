@@ -18,17 +18,21 @@ export function Navbar() {
         <img src="asd" alt="Logo de la clinica" />
         <h2>Nombre clinica</h2>
       </header>
-      <ul className="linkList">
-        <NavItem summary="Turnos" items={["Ver turnos del día", "Crear turno", "Modificar turno", "Buscar turnos"]}/>
-        <NavItem summary="Paciente" items={["Registrar paciente", "Editar datos de paciente", "Buscar pacientes"]}/>
-        <NavItem summary="Profesional médico" items={["Registrar profesional", "Editar datos de profesional", "Buscar perfil del profesional"]}/>
-        <NavItem summary="Consultorios y áreas" items={["Ver consultorios y áreas"]}/>
-      </ul>
-      <ul className="buttonList">
-        <li><button className="navButton">⚙️</button></li>
-        <li><button className="navButton">🚹</button></li>
-        <li><button className="navButton">🌐</button></li>
-      </ul>
+      <section>
+        <ul className="linkList">
+          <NavItem summary="Turnos" items={["Ver turnos del día", "Crear turno", "Modificar turno", "Buscar turnos"]}/>
+          <NavItem summary="Paciente" items={["Registrar paciente", "Editar datos de paciente", "Buscar pacientes"]}/>
+          <NavItem summary="Profesional médico" items={["Registrar profesional", "Editar datos de profesional", "Buscar perfil del profesional"]}/>
+          <NavItem summary="Consultorios y áreas" items={["Ver consultorios y áreas"]}/>
+        </ul>
+      </section>
+      <footer>
+        <ul className="buttonList">
+          <li><button className="navButton">⚙️</button></li>
+          <li><button className="navButton">🚹</button></li>
+          <li><button className="navButton">🌐</button></li>
+        </ul>
+      </footer>
     </nav>
   )
 }
