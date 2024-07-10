@@ -9,3 +9,23 @@ Funcionamiento general
   Al crear turno, y después de asignar un área aparecerá un calendario con los horarios
     Se diferenciará entre horarios disponibles para turno de los ya ocupados (para hacer la ux mejor para el usuario)
       El hacer click en una casilla disponible se asignará el turno en ese dia y horario
+
+Navbar y secciones
+  ✅Página de inicio (Turnos/Ver turnos del día)
+  Turnos
+    ✅Ver turnos del día
+    🔄Crear turno
+    Modificar turno
+    Buscar turnos
+  Pacientes
+    ❓✅Ver todos los pacientes (si al mostrarlos tiene que cargar los turnos asignados a pesar de tener un lazy en el back, no mostrar)
+    ✅Registrar paciente
+    Editar datos de paciente
+    Buscar pacientes
+  Profesional médico
+    Registrar profesional
+    Editar datos de profesional
+    Buscar perfil del profesional
+  Consultorios y áreas
+    Ver consultorios y áreas
+
