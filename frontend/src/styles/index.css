@@ -1,3 +1,5 @@
+@import "./_navbar.css";
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -24,10 +26,16 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+}
+
+#root {
+  padding: 2rem;
   min-width: 320px;
   min-height: 100vh;
+  box-sizing: border-box;
+
+  display: flex;
+  gap: 1rem;
 }
 
 h1 {
@@ -49,10 +57,10 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 @media (prefers-color-scheme: light) {
   :root {
