@@ -1,3 +1,5 @@
+
+
 function NavItem({ summary, items } : { summary: string, items: string[]}) {
   return (
     <li>
@@ -15,7 +17,7 @@ export function Navbar() {
   return (
     <nav id="mainNavbar">
       <header>
-        <img src="asd" alt="Logo de la clinica" />
+        <img src="/logoEjemplo.png" alt="Logo de la clinica" />
         <h2>Nombre clinica</h2>
       </header>
       <section>
