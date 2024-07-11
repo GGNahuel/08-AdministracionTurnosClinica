@@ -6,8 +6,10 @@ function App() {
   return (
     <>
       <Navbar></Navbar>
-      <TurnoListado />
-      <TurnoCreacion />
+      <main>
+        <TurnoListado />
+        <TurnoCreacion />
+      </main>
     </>
   )
 }
