@@ -1,4 +1,5 @@
 @import "./_navbar.css";
+@import "./_mainZone.css";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -13,6 +14,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --borderRadius_Sections: 15px;
+  --shadow_MainSections: 8px 12px 0 rgb(96, 96, 96);
+  --border_MainSections: 4px solid rgb(128, 128, 128);
+
+  --logoMainColor: rgba(64,168,179,1);
 }
 
 a {
@@ -38,7 +45,7 @@ body {
   min-width: 320px;
   width: 100%;
   max-width: 1366px;
-  min-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
 
   display: flex;
@@ -48,6 +55,10 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
 }
 
 button {
@@ -68,14 +79,6 @@ button:hover {
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 } */
-
-main {
-  width: 100%;
-
-  > section {
-    border: 1px solid;
-  }
-}
 
 @media (prefers-color-scheme: light) {
   :root {

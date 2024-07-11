@@ -1,8 +1,9 @@
 #mainNavbar {
   background-color: rgb(5, 5, 178);
   color: rgba(255, 255, 255, 0.87);
-  box-shadow: 10px 10px 0 grey;
-  border-radius: 15px;
+  border-radius: var(--borderRadius_Sections);
+  /* box-shadow: var(--shadow_MainSections); */
+  outline: var(--border_MainSections);
 
   min-width: 250px;
   width: min-content;
@@ -23,7 +24,8 @@
       border-radius: 100%;
       width: 200px;
       aspect-ratio: 1;
-      border: 4px solid rgba(64,168,179,1);
+      border: 12px solid var(--logoMainColor);
+      box-sizing: border-box;
     }
 
     h2 {
@@ -69,6 +71,10 @@
     summary {
       display: flex;
       h3 {margin: 0;}
+    }
+
+    details[open]>summary {
+      color: var(--logoMainColor);
     }
   }
   
