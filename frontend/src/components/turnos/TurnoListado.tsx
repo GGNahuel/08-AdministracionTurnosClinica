@@ -30,15 +30,20 @@ export function TurnoListado() {
 
         return (
           <details>
-            <summary>{nombreArea.toUpperCase()}</summary>
-            {listaHorarios?.map((horario, i) => {
-              const turnoExistente = turnosExistentes?.find(turno => turno.horario === horario);
-              return turnoExistente ? (
-                <CasillaTurno key={turnoExistente.id} turno={turnoExistente} />
-              ) : (
-                <CasillaTurno key={i} horario={horario} />
-              );
-            })}
+            <summary>
+              <h3>{nombreArea.toUpperCase()}</h3>
+              <div className="detailsExpandButton"></div>
+            </summary>
+            <section className="horariosContainer">
+              {listaHorarios?.map((horario, i) => {
+                const turnoExistente = turnosExistentes?.find(turno => turno.horario === horario);
+                return turnoExistente ? (
+                  <CasillaTurno key={turnoExistente.id} turno={turnoExistente} />
+                ) : (
+                  <CasillaTurno key={i} horario={horario} />
+                );
+              })}
+            </section>
           </details>
         )
       })}
@@ -48,13 +53,16 @@ export function TurnoListado() {
 
 function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) {
   const { turno, horario } = props
+  const classIfHasTurno = turno ? " unavailable" : ""
   return (
-    <article style={{border:"1px solid red"}}>
-      <p>Consultorio: {turno?.consultorio || ""}</p>
-      <p>Paciente: {turno?.pacienteDto.nombreCompleto}</p>
-      <p>Profesional: {turno?.profesionalDto.nombreCompleto}</p>
-      <p>Fecha: {turno?.fecha || "asd"}</p>
-      <p>Horario: {turno?.horario || horario}</p>
+    <article className={"grid dailyTurno" + classIfHasTurno}>
+      <p className="horario">{turno?.horario || horario}</p>
+      <div className="info">
+        <p>Paciente: {turno?.pacienteDto.nombreCompleto}</p>
+        <p>Profesional: {turno?.profesionalDto.nombreCompleto}</p>
+        <p>Fecha: {turno?.fecha || "asd"}</p>
+        <p>Consultorio: {turno?.consultorio || ""}</p>
+      </div>
     </article>
   )
 }
