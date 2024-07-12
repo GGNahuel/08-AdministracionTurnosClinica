@@ -1,4 +1,27 @@
 .grid {
   display: grid;
   align-items: center;
+
+  &.dailyTurno {
+    grid-template: 
+      "horario info" auto/
+      64px auto;
+    
+    padding: 0.5rem;
+    
+    .horario {
+      grid-area: horario;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-right: 0.5rem;
+    }
+    .info {
+      grid-area: info;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid;
+      padding-left: 8px;
+    }
+  }
 }
