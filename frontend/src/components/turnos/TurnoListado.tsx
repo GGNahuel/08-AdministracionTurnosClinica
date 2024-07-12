@@ -21,7 +21,7 @@ export function TurnoListado() {
   }
 
   return (
-    <section>
+    <section id="dailyTurnos">
       <h2>Turnos del día</h2>
       {allAreas.map(areaDto => {
         const nombreArea = areaDto.nombre

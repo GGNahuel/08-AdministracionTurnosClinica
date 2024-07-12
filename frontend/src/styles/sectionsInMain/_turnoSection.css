@@ -1,0 +1,19 @@
+#dailyTurnos {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    align-self: center;
+  }
+
+  & > details {
+    /* overflow-y: scroll; */
+
+    > summary {
+      background-color: var(--logoMainColor);
+      padding: 0.6rem;
+      position: sticky;
+      top: 0;
+    }
+  }
+}
