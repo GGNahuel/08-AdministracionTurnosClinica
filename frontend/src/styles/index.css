@@ -1,5 +1,6 @@
 @import "./_navbar.css";
 @import "./_mainZone.css";
+@import "./_gridStyles.css";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -7,7 +8,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgb(225, 225, 225); /* 0.87 alpha*/
   background-color: #242424;
 
   font-synthesis: none;
