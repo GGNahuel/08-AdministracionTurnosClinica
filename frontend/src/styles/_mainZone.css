@@ -1,3 +1,5 @@
+@import "./sectionsInMain/_turnoSection.css";
+
 main {
   border-radius: var(--borderRadius_Sections);
   /* box-shadow: var(--shadow_MainSections); */
@@ -6,10 +8,11 @@ main {
   
   width: 100%;
   padding: 1rem;
-
-  overflow-y: scroll;
-
+  
   > section {
+    box-sizing: border-box;
+    height: 100%;
     padding: 1rem;
+    overflow-y: scroll;
   }
 }
