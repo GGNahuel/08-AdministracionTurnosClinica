@@ -84,12 +84,15 @@ public class AreaService implements IAreaService{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"id","nombre", "necesita turno"}, id, nombre, necesitaTurno
     );
-    if (areaRepo.findByNombre(nombre).isPresent()) 
-      throw new EntityAlreadyExists("Ya existe un área médica con ese nombre", areaRepo.findByNombre(nombre).get());
-
+    
     AreaEntity area = areaRepo.findById(id).orElseThrow(
       () -> new ResourceNotFound("Área médica", "id", id.toString())
     );
+
+    AreaEntity areaWithSameNombre = areaRepo.findByNombre(nombre).orElse(null);
+    if (areaWithSameNombre != null && areaWithSameNombre.getId() != area.getId()) 
+      throw new EntityAlreadyExists("Ya existe un área médica con ese nombre", areaRepo.findByNombre(nombre).get());
+
     area.setNombre(nombre);
     area.setNecesitaTurno(necesitaTurno);
 
