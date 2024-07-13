@@ -11,13 +11,20 @@ export function TurnoListado() {
   const allProfesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
   const turnosByAreas = FilterTurnosByAreas(allAreas, turnos)
 
-  const obtenerHorarios = (nombreArea: string) => {
+  const obtenerHorarios = (nombreArea: string, necesitaTurnoArea: boolean) => {
     const profesionales = FilterProfesionalsByArea(nombreArea, allProfesionales, allAreas)
     if (profesionales == null) return null
 
     const listaHorarios = profesionales.map(profesional => profesional.horarios || []).flat()
+    //agregar corrección en el caso que haya horarios duplicados
 
-    return listaHorarios
+    const start_endHorario: string[] = []
+    if (listaHorarios.length > 0) {
+      start_endHorario.push(listaHorarios[0])
+      start_endHorario.push(listaHorarios[listaHorarios.length-1])
+    }
+
+    return necesitaTurnoArea ? listaHorarios : start_endHorario
   }
 
   return (
@@ -25,8 +32,22 @@ export function TurnoListado() {
       <h2>Turnos del día</h2>
       {allAreas.map(areaDto => {
         const nombreArea = areaDto.nombre
-        const listaHorarios = obtenerHorarios(nombreArea)
+        const necesitaTurno = areaDto.necesitaTurno
+        const listaHorarios = obtenerHorarios(nombreArea, necesitaTurno)
         const turnosExistentes = turnosByAreas ? turnosByAreas[nombreArea] : null
+
+        const turnosElements = listaHorarios != null && (necesitaTurno ? 
+          listaHorarios.map((horario, i) => {
+            const turnoExistente = turnosExistentes?.find(turno => turno.horario === horario);
+            return turnoExistente ? (
+              <CasillaTurno key={turnoExistente.id} turno={turnoExistente} />
+            ) : (
+              <CasillaTurno key={i} horario={horario} />
+            )
+          })
+          : 
+          <CasillaTurnoPorOrdenDeLlegada horarios={{start: listaHorarios[0], end: listaHorarios[1]}}/>
+        )
 
         return (
           <details>
@@ -35,14 +56,7 @@ export function TurnoListado() {
               <div className="detailsExpandButton"></div>
             </summary>
             <section className="horariosContainer">
-              {listaHorarios?.map((horario, i) => {
-                const turnoExistente = turnosExistentes?.find(turno => turno.horario === horario);
-                return turnoExistente ? (
-                  <CasillaTurno key={turnoExistente.id} turno={turnoExistente} />
-                ) : (
-                  <CasillaTurno key={i} horario={horario} />
-                );
-              })}
+              {turnosElements}
             </section>
           </details>
         )
@@ -57,6 +71,21 @@ function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) 
   return (
     <article className={"grid dailyTurno" + classIfHasTurno}>
       <p className="horario">{turno?.horario || horario}</p>
+      <div className="info">
+        <p>Paciente: {turno?.pacienteDto.nombreCompleto}</p>
+        <p>Profesional: {turno?.profesionalDto.nombreCompleto}</p>
+        <p>Fecha: {turno?.fecha || "asd"}</p>
+        <p>Consultorio: {turno?.consultorio || ""}</p>
+      </div>
+    </article>
+  )
+}
+
+function CasillaTurnoPorOrdenDeLlegada(props: { turno?: Turno, horarios: {start: string, end: string}, fecha?: Date }) {
+  const { turno, horarios } = props
+  return (
+    <article className={"grid dailyTurno byArrivalOrder"}>
+      <p className="horario">{horarios.start + " - " + horarios.end}</p>
       <div className="info">
         <p>Paciente: {turno?.pacienteDto.nombreCompleto}</p>
         <p>Profesional: {turno?.profesionalDto.nombreCompleto}</p>
