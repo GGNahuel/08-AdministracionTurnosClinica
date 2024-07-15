@@ -28,6 +28,9 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
   
   List<TurnoEntity> findByFecha(LocalDate fecha);
 
+  /* @Query("select t from TurnoEntity t where t.areaProfesional.nombre like ?1 and t.fecha = ?2")
+  List<TurnoEntity> findByAreaAndFecha(String nombreArea, LocalDate fecha); */
+
   @Query("select t from TurnoEntity t where t.fecha >= ?1")
   List<TurnoEntity> findNextTurnos(LocalDate fecha);
 
