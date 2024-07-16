@@ -58,10 +58,10 @@ public class PacienteController {
   }
   
   @GetMapping("/id/{id}")
-  public ResponseEntity<ResponseDTO> getPaciente(@PathVariable UUID id) throws Exception {
+  public ResponseEntity<ResponseDTO> getPaciente(@PathVariable String id) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     List<PacienteDTO> list = new ArrayList<>();
-    list.add(pacienteService.getById(id));
+    list.add(pacienteService.getById(UUID.fromString(id)));
     response.setResults(list);
 
     return new ResponseEntity<>(response, HttpStatus.OK);

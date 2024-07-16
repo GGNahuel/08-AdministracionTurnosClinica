@@ -49,10 +49,10 @@ public class AreaController {
   }
 
   @GetMapping("/id/{id}")
-  public ResponseEntity<ResponseDTO> getById(@PathVariable UUID id) throws Exception {
+  public ResponseEntity<ResponseDTO> getById(@PathVariable String id) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     List<AreaDTO> list = new ArrayList<>();
-    list.add(areaService.getById(id));
+    list.add(areaService.getById(UUID.fromString(id)));
     response.setResults(list);
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
