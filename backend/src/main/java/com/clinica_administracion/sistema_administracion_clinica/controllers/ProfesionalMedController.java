@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,6 @@ import com.clinica_administracion.sistema_administracion_clinica.others.response
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.ProfesionalMedService;
-
-
 
 @RestController
 @RequestMapping("/api/profesional")
@@ -40,10 +39,10 @@ public class ProfesionalMedController {
   }
 
   @GetMapping("/id/{id}")
-  public ResponseEntity<ResponseDTO> getById(UUID id) throws Exception {
+  public ResponseEntity<ResponseDTO> getById(@PathVariable String id) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     List<ProfesionalMedDTO> list = new ArrayList<>();
-    ProfesionalMedDTO profesional = profesionalMedService.getById(id);
+    ProfesionalMedDTO profesional = profesionalMedService.getById(UUID.fromString(id));
     list.add(profesional);
     response.setResults(list);
 
@@ -51,7 +50,7 @@ public class ProfesionalMedController {
   }
   
   @GetMapping("/{dni}")
-  public ResponseEntity<ResponseDTO> getByDni(String dni) throws Exception {
+  public ResponseEntity<ResponseDTO> getByDni(@PathVariable String dni) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     List<ProfesionalMedDTO> list = new ArrayList<>();
     ProfesionalMedDTO profesional = profesionalMedService.getByDni(dni);
@@ -60,6 +59,16 @@ public class ProfesionalMedController {
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
+
+  @GetMapping("/area/{area}")
+  public ResponseEntity<ResponseDTO> getByArea(@PathVariable String area) throws Exception {
+    GetResponseDTO responseDTO = new GetResponseDTO();
+    List<ProfesionalMedDTO> list = profesionalMedService.getAllByArea(area);
+    responseDTO.setResults(list);
+
+    return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+  }
+  
 
   @PostMapping("")
   public ResponseEntity<ResponseDTO> create(@RequestBody ProfesionalMedDTO profesional) throws Exception {

@@ -1,5 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +19,6 @@ public interface ProfesionalMedRepository extends JpaRepository<ProfesionalMedEn
   @Query("select p from ProfesionalMedEntity p where p.consultorio.numeroConsultorio = ?1")
   Optional<ProfesionalMedEntity> findProfesionalByConsultorio(Integer consultorio);
 
-  // @Query("Select p from ProfesionalMedEntity p where p.areas.nombre in ?1")
-  // List<ProfesionalMedEntity> findByAreaName(String nombreArea);
+  @Query("Select p from ProfesionalMedEntity p join p.areas a where a.nombre like ?1")
+  List<ProfesionalMedEntity> findByAreaName(String nombreArea);
 }
