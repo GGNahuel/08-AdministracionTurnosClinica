@@ -18,6 +18,22 @@ export function useGetAllProfesionales() {
   return getResponse
 }
 
+export function useGetProfesionalsByArea(nombreArea:string) {
+  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch(API_PREFIX + "/profesional/area/" + nombreArea)
+      const data : GetResponseType = await response.json()
+
+      setGetResponse(data)
+    }
+    getData()
+  }, [nombreArea])
+
+  return getResponse
+}
+
 export function usePostProfesional() {
   
 }
