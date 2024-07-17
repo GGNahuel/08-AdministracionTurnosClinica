@@ -1,12 +1,14 @@
 import { Navbar } from "./components/navigation/Navbar"
-import { TurnoListado } from "./components/turnos/TurnoListado"
+import { useViewContext } from "./context/NavigationContext"
 
 function App() {
+  const { currentView } = useViewContext()
+
   return (
     <>
       <Navbar></Navbar>
       <main>
-        <TurnoListado />
+        {currentView}
       </main>
     </>
   )

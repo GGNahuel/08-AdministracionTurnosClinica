@@ -1,12 +1,29 @@
+import { view_Nav } from "../../constants/NavigationComponents"
+import { useViewContext } from "../../context/NavigationContext"
+import { NavbarItem } from "../../types/NavigationAndView"
 
+function NavItem({ summary, viewNav_Item } : { summary: string, viewNav_Item: NavbarItem}) {
+  const itemNames : string[] = Object.values(viewNav_Item).map(nameAndView => nameAndView.name)
+  const itemRoutes = Object.entries(viewNav_Item)
+  const {setCurrentView} = useViewContext()
 
-function NavItem({ summary, items } : { summary: string, items: string[]}) {
+  const changeCurrentViewInContext = () => {
+    // setCurrentView(element)
+    console.log(itemRoutes)
+  }
+
   return (
     <li>
       <details name="navItem">
         <summary><h3>{summary}</h3></summary>
         <ul>
-          {items.map(item => <li key={item}>{item}</li>)}
+          {itemNames.map((name, index) =>
+            <li 
+              key={name} 
+              onClick={() => itemRoutes[index] ? 
+                changeCurrentViewInContext() : null
+              }>{name}</li>
+          )}
         </ul>
       </details>
     </li>
@@ -22,10 +39,10 @@ export function Navbar() {
       </header>
       <section>
         <ul className="linkList">
-          <NavItem summary="Turnos" items={["Ver turnos del día", "Crear turno", "Modificar turno", "Buscar turnos"]}/>
-          <NavItem summary="Paciente" items={["Registrar paciente", "Editar datos de paciente", "Buscar pacientes"]}/>
-          <NavItem summary="Profesional médico" items={["Registrar profesional", "Editar datos de profesional", "Buscar perfil del profesional"]}/>
-          <NavItem summary="Consultorios y áreas" items={["Ver consultorios y áreas"]}/>
+          <NavItem summary="Turnos" viewNav_Item={view_Nav.turno}/>
+          <NavItem summary="Paciente" viewNav_Item={view_Nav.paciente}/>
+          <NavItem summary="Profesional médico" viewNav_Item={view_Nav.profesional}/>
+          <NavItem summary="Consultorios y áreas" viewNav_Item={view_Nav.area_consultorio}/>
         </ul>
       </section>
       <footer>
