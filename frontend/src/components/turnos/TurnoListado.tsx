@@ -50,7 +50,7 @@ export function TurnoListado() {
         )
 
         return (
-          <details>
+          <details key={nombreArea}>
             <summary>
               <h3>{nombreArea.toUpperCase()}</h3>
               <div className="detailsExpandButton"></div>
