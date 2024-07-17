@@ -1,6 +1,6 @@
 import { FilterProfesionalsByArea, FilterTurnosByAreas } from "../../functions/FilterFunctions";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
-import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
+import { useGetAllProfesionales, useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetAllTurnos } from "../../hooks/TurnoRequests";
 import { AreaProfesional, ProfesionalMed, Turno } from "../../types/Entities";
 
@@ -46,7 +46,7 @@ export function TurnoListado() {
             )
           })
           : 
-          <CasillaTurnoPorOrdenDeLlegada horarios={{start: listaHorarios[0], end: listaHorarios[1]}}/>
+          <CasillaTurnoPorOrdenDeLlegada horarios={{start: listaHorarios[0], end: listaHorarios[1]}} nombreArea={nombreArea}/>
         )
 
         return (
@@ -65,6 +65,8 @@ export function TurnoListado() {
   )
 }
 
+// exportar estos elementos en archivos a parte
+
 function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) {
   const { turno, horario } = props
   const classIfHasTurno = turno ? " unavailable" : ""
@@ -81,16 +83,23 @@ function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) 
   )
 }
 
-function CasillaTurnoPorOrdenDeLlegada(props: { turno?: Turno, horarios: {start: string, end: string}, fecha?: Date }) {
-  const { turno, horarios } = props
+function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horarios: {start: string, end: string}, fecha?: Date, nombreArea: string }) {
+  const { turnos, horarios, nombreArea } = props
+  const profesionalesInArea = useGetProfesionalsByArea(nombreArea)?.results as ProfesionalMed[]
   return (
     <article className={"grid dailyTurno byArrivalOrder"}>
       <p className="horario">{horarios.start + " - " + horarios.end}</p>
       <div className="info">
-        <p>Paciente: {turno?.pacienteDto.nombreCompleto}</p>
-        <p>Profesional: {turno?.profesionalDto.nombreCompleto}</p>
-        <p>Fecha: {turno?.fecha || "asd"}</p>
-        <p>Consultorio: {turno?.consultorio || ""}</p>
+        <p>Profesional/es:<strong>{profesionalesInArea?.map(profesionalDto => " " + profesionalDto.nombreCompleto)}</strong></p>
+        <p>Consultorio: </p>
+        <section className="registeredTurns">
+          {turnos?.map(turno => (
+            <div>
+              <p>{turno.pacienteDto.nombreCompleto}</p>
+              <p>{turno.pacienteDto.dni}</p>
+            </div>
+          ))}  
+        </section>      
       </div>
     </article>
   )
