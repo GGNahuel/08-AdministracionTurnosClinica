@@ -1,14 +1,15 @@
 import { createContext, ReactNode, useContext, useState } from "react";
+import { NavbarChildRoutes, NavbarFatherRoutes } from "../types/NavigationAndView";
 
 type ViewContexType = {
-  currentView: string,
-  setCurrentView: React.Dispatch<React.SetStateAction<string>>
+  currentView: [NavbarFatherRoutes, NavbarChildRoutes],
+  setCurrentView: React.Dispatch<React.SetStateAction<[NavbarFatherRoutes, NavbarChildRoutes]>>
 }
 
 export const ViewContext = createContext<ViewContexType | undefined>(undefined)
 
 export function ViewContextProvider({children} : {children: ReactNode}) : JSX.Element {
-  const [currentView, setCurrentView] = useState<string>("turno/today")
+  const [currentView, setCurrentView] = useState<[NavbarFatherRoutes, NavbarChildRoutes]>(["turno", "today"])
 
   return (
     <ViewContext.Provider value={{currentView, setCurrentView}}>

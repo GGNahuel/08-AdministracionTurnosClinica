@@ -1,36 +1,60 @@
-type NavItem_nameAndView = {
+type NavItemContent = {
   name: string,
   viewElement: (() => JSX.Element) | null
 }
 
 type TurnosNav = {
-  today: NavItem_nameAndView,
-  create: NavItem_nameAndView,
-  update: NavItem_nameAndView,
-  search: NavItem_nameAndView
+  today: NavItemContent,
+  create: NavItemContent,
+  update: NavItemContent,
+  search: NavItemContent
 }
 
 type PacienteNav = {
-  register: NavItem_nameAndView,
-  update: NavItem_nameAndView,
-  search: NavItem_nameAndView
+  register: NavItemContent,
+  update: NavItemContent,
+  search: NavItemContent
 }
 
 type ProfesionalNav = {
-  register: NavItem_nameAndView,
-  update: NavItem_nameAndView,
-  search: NavItem_nameAndView
+  register: NavItemContent,
+  update: NavItemContent,
+  search: NavItemContent
 }
 
 type AreaConsultorioNav = {
-  list: NavItem_nameAndView
+  list: NavItemContent
 }
 
 export type NavbarItem = TurnosNav | PacienteNav | ProfesionalNav | AreaConsultorioNav
 
+export type NavbarDetails = {
+  summaryName: string,
+  items: NavbarItem
+}
+
+export type NavbarFatherRoutes = "turno" | "paciente" | "profesional" | "area_consultorio"
+export type TurnoRoutes = "today" | "create" | "update" | "search"
+export type PacienteRoutes = "register" | "update" | "search"
+export type ProfesionalRoutes = "register" | "update" | "search"
+export type AreaConsultorioRoutes = "list"
+export type NavbarChildRoutes = TurnoRoutes | PacienteRoutes | ProfesionalRoutes | AreaConsultorioRoutes
+
 export type NavbarItemsType = {
-  turno: TurnosNav,
-  paciente: PacienteNav,
-  profesional: ProfesionalNav,
-  area_consultorio: AreaConsultorioNav
+  turno: {
+    summaryName: string,
+    items: TurnosNav
+  },
+  paciente: {
+    summaryName: string,
+    items: PacienteNav
+  },
+  profesional: {
+    summaryName: string,
+    items: ProfesionalNav
+  },
+  area_consultorio: {
+    summaryName: string,
+    items: AreaConsultorioNav
+  }
 }

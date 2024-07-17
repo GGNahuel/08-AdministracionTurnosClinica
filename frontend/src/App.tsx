@@ -1,14 +1,16 @@
 import { Navbar } from "./components/navigation/Navbar"
-import { useViewContext } from "./context/NavigationContext"
+import { TurnoCreacion } from "./components/turnos/TurnoCreacion"
 
 function App() {
-  const { currentView } = useViewContext()
+  // const { currentView } = useViewContext()
+  // const element = view_NavComponent[currentView[0] as NavbarFatherRoutes].items[currentView[1] as NavbarChildRoutes].viewElement
 
   return (
     <>
       <Navbar></Navbar>
       <main>
-        {currentView}
+        {/* {element && element()} */}
+        <TurnoCreacion />
       </main>
     </>
   )
