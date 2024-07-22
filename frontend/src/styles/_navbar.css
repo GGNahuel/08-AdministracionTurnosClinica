@@ -86,4 +86,8 @@
     display: flex;
     gap: 8px;
   }
+
+  a, a:hover {
+    color: unset;
+  }
 }
