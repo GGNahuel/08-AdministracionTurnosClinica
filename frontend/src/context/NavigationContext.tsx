@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from "react";
-import { NavbarChildRoutes, NavbarFatherRoutes } from "../types/NavigationAndView";
+/* import { createContext, ReactNode, useContext, useState } from "react";
+import { NavbarChildRoutes, NavbarFatherRoutes } from "../types/NavbarSections";
 
 type ViewContexType = {
   currentView: [NavbarFatherRoutes, NavbarChildRoutes],
@@ -24,4 +24,4 @@ export const useViewContext = (): ViewContexType => {
     throw new Error('useViewContext must be used within a ViewContextProvider');
   }
   return context;
-}
+} */

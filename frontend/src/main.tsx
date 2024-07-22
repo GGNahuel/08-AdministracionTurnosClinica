@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './styles/index.css'
-import { pacienteRoutes, turnoRoutes } from './constants/NavigationComponents'
+import { pacienteRoutes, turnoRoutes } from './constants/RouteObjects'
 import App from './App'
 
 const navigationRoutes = turnoRoutes.concat(pacienteRoutes)
