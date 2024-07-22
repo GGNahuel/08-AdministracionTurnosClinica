@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GetResponseType, MessageInterface, ReturnResponseType } from "../types/APIResponses";
+import { GetResponseType, ReturnResponseType } from "../types/APIResponses";
 import { API_PREFIX } from "../constants/VariablesEntorno";
 import { Paciente } from "../types/Entities";
 
@@ -36,9 +36,7 @@ export function useGetPacienteByDni(dniPaciente : string) {
 }
 
 export function usePostPaciente() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType>({
-    message: {} as MessageInterface, returnValue: {}
-  })
+  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | null>(null)
 
   const sendPacienteToPost = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()

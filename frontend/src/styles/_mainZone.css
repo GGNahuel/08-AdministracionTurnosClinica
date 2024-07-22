@@ -1,4 +1,5 @@
 @import "./sectionsInMain/_turnoSection.css";
+@import "./sectionsInMain/_postForms.css";
 
 main {
   border-radius: var(--borderRadius_Sections);
