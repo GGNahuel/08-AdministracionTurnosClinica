@@ -1,8 +1,6 @@
-import { Paciente, Turno } from "./Entities"
+import { AreaProfesional, Paciente, ProfesionalMed, Turno, Consultorio } from "./Entities"
 
-enum MessageType {
-  ok, error, warn, common
-}
+type MessageType = "ok" | "error" | "warn" | "common"
 
 export interface MessageInterface {
   text: string,
@@ -10,8 +8,8 @@ export interface MessageInterface {
   exceptionCause: string
 }
 
-export type ResultsInGetResponse = Paciente[] | Turno[] | object[] | string[]
-type ReturnValuInResponseType = Paciente | Turno | object
+export type ResultsInGetResponse = Paciente[] | Turno[] | ProfesionalMed[] | AreaProfesional[] | Consultorio[] | object[] | string[]
+type ReturnValuInResponseType = Paciente | Turno | ProfesionalMed | AreaProfesional | Consultorio | object
 
 export interface GetResponseType {
   message: MessageInterface,
