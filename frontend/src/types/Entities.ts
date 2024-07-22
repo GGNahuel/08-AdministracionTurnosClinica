@@ -1,4 +1,4 @@
-export type Turno = {
+export interface Turno {
   id?: string,
   pacienteDto: Paciente,
   fecha: string,
@@ -13,7 +13,7 @@ export type Turno = {
   activo?: boolean
 }
 
-export type Paciente = {
+export interface Paciente {
   id?: string,
   nombreCompleto: string,
   dni: string,
@@ -22,7 +22,7 @@ export type Paciente = {
   turnos?: string[]
 }
 
-export type ProfesionalMed = {
+export interface ProfesionalMed {
   id?: string,
   nombreCompleto: string,
   dni: string,
@@ -33,9 +33,14 @@ export type ProfesionalMed = {
   consultorio?: number
 }
 
-export type AreaProfesional = {
+export interface AreaProfesional {
   id?: string,
   nombre: string,
   activa?: boolean,
   necesitaTurno: boolean
+}
+
+export interface Consultorio {
+  id?: string,
+  numeroConsultorio: number
 }
