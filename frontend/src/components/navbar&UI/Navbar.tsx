@@ -24,8 +24,10 @@ export function Navbar() {
   return (
     <nav id="mainNavbar">
       <header>
-        <img src="/logoEjemplo.png" alt="Logo de la clinica" />
-        <h2>Nombre clinica</h2>
+        <Link to="/">
+          <img src="/logoEjemplo.png" alt="Logo de la clinica" />
+          <h2>Nombre clinica</h2>
+        </Link>
       </header>
       <section>
         <ul className="linkList">
