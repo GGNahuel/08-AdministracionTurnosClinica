@@ -1,4 +1,4 @@
-import { FilterProfesionalsByArea, FilterTurnosByAreas } from "../../functions/FilterFunctions";
+import { filterProfesionalsByArea, filterTurnosByAreas } from "../../functions/FilterFunctions";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
 import { useGetAllProfesionales, useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetAllTurnos } from "../../hooks/TurnoRequests";
@@ -9,10 +9,10 @@ export function TurnoListado() {
   const turnos = allTurnos.results as Turno[]
   const allAreas = useGetAllAreas().results as AreaProfesional[]
   const allProfesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
-  const turnosByAreas = FilterTurnosByAreas(allAreas, turnos)
+  const turnosByAreas = filterTurnosByAreas(allAreas, turnos)
 
   const obtenerHorarios = (nombreArea: string, necesitaTurnoArea: boolean) => {
-    const profesionales = FilterProfesionalsByArea(nombreArea, allProfesionales, allAreas)
+    const profesionales = filterProfesionalsByArea(nombreArea, allProfesionales, allAreas)
     if (profesionales == null) return null
 
     const listaHorarios = profesionales.map(profesional => profesional.horarios || []).flat()
@@ -30,6 +30,7 @@ export function TurnoListado() {
   return (
     <section id="dailyTurnos">
       <h1>Turnos del día</h1>
+      <h3>Seleccione el área para ver los turnos asociados</h3>
       {allAreas.map(areaDto => {
         const nombreArea = areaDto.nombre
         const necesitaTurno = areaDto.necesitaTurno
