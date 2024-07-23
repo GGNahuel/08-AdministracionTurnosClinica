@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { GetResponseType } from "../types/APIResponses";
+import { GetResponseType, ReturnResponseType } from "../types/APIResponses";
 import { API_PREFIX } from "../constants/VariablesEntorno";
+import { ProfesionalMed } from "../types/Entities";
 
 export function useGetAllProfesionales() {
   const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
@@ -35,5 +36,31 @@ export function useGetProfesionalsByArea(nombreArea:string) {
 }
 
 export function usePostProfesional() {
-  
+  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | null>(null)
+
+  const sendProfesionalToPost = async (ev: React.FormEvent<HTMLFormElement>, areas: string[]) => {
+    ev.preventDefault()
+    const $form = ev.currentTarget
+    const formData = new FormData($form)
+
+    const profesionalToSend: ProfesionalMed = {
+      nombreCompleto: formData.get('nombreCompleto') as string,
+      dni: formData.get('dni') as string,
+      numeroContacto: Number(formData.get('numeroContacto') as string),
+      areas: areas,
+      numMatricula: 13
+    };
+
+    const request = await fetch(API_PREFIX + "/profesional", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(profesionalToSend)
+    })
+    const returned : ReturnResponseType = await request.json()
+    setReturnedPost(returned)
+  }
+
+  return {returnedPost, sendProfesionalToPost}
 }
