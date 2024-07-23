@@ -20,6 +20,7 @@ export function PacienteCreacion() {
       {returnedPost?.returnValue && (<>
         <h3>Datos del paciente registrado:</h3>
         <ReturnedElement returnedPost={returnedPost.returnValue as Paciente}/>
+        {/*Agregar boton de edición*/}
       </>)}
     </section>
   )
@@ -30,7 +31,7 @@ function ReturnedElement({returnedPost} : {returnedPost: Paciente}) {
   const pacienteRegistrado = returnedPost
 
   return (
-    <article key={pacienteRegistrado.id} className="list paciente" style={{ border: "2px solid black", margin: "10px" }}>
+    <article key={pacienteRegistrado.id} className="grid paciente" style={{ border: "2px solid black", margin: "10px" }}>
       <p>{pacienteRegistrado.id}</p>
       <p>{pacienteRegistrado.nombreCompleto}</p>
       <p>{pacienteRegistrado.dni}</p>
