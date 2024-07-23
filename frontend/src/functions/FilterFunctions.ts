@@ -1,6 +1,6 @@
 import { AreaProfesional, ProfesionalMed, Turno } from "../types/Entities";
 
-export function FilterTurnosByAreas(areasExistentes : AreaProfesional[], listadoDeTurnos : Turno[]) {
+export function filterTurnosByAreas(areasExistentes : AreaProfesional[], listadoDeTurnos : Turno[]) {
   if (!areasExistentes || !listadoDeTurnos) return null
   if (areasExistentes.length == 0 || listadoDeTurnos.length == 0) return null
   
@@ -14,7 +14,7 @@ export function FilterTurnosByAreas(areasExistentes : AreaProfesional[], listado
   return returnedObject
 }
 
-export function FilterProfesionalsByArea(areaFiltro: string, listadoProfesionales: ProfesionalMed[], listadoAreas?: AreaProfesional[]) {
+export function filterProfesionalsByArea(areaFiltro: string, listadoProfesionales: ProfesionalMed[], listadoAreas?: AreaProfesional[]) {
   if (!areaFiltro || !listadoProfesionales) return null
   if (listadoProfesionales.length == 0) return null
   if (!listadoAreas?.some(area => area.nombre == areaFiltro)) return null
