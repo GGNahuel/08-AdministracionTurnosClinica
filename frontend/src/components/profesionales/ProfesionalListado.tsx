@@ -1,8 +1,8 @@
-import { useGetAllPacientes } from "../../hooks/PacienteRequests";
+import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
 import { ProfesionalMed } from "../../types/Entities";
 
 export function ProfesionalListado() {
-  const data = useGetAllPacientes()
+  const data = useGetAllProfesionales()
   const results = data?.results as ProfesionalMed[]
 
   return (
