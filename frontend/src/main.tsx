@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './styles/index.css'
-import { pacienteRoutes, turnoRoutes } from './constants/RouteObjects'
-import App from './App'
+import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom'
 
-const navigationRoutes = turnoRoutes.concat(pacienteRoutes)
+import App from './App'
+import './styles/index.css'
+
+import { concatArrays } from './functions/Utilities'
+import { pacienteRoutes, profesionalRoutes, turnoRoutes } from './constants/RouteObjects'
+
+const navigationRoutes = concatArrays(turnoRoutes, pacienteRoutes, profesionalRoutes) as RouteObject[]
 const router = createBrowserRouter([
   {
     path: "/",
