@@ -5,7 +5,7 @@ export default function Message({messageObject} : {messageObject: MessageInterfa
 
   return (
     <div className={messageType + " resultMessage"}>
-      <h2>{text}</h2>
+      <h3>{text}</h3>
     </div>
   )
 }
