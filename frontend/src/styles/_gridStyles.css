@@ -24,4 +24,14 @@
       padding-left: 8px;
     }
   }
+
+  &.autoColumns {
+    width: 100%;
+
+    > div {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 2fr));
+    }
+  }
 }

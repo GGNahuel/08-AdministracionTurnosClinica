@@ -13,25 +13,64 @@
     align-items: flex-start;
     gap: 8px;
     
-    font-size: 1.05rem;
     background-color: rgba(28, 28, 13, 0.2);
     
-    label {
+    > label {
       width: 100%;
       display: grid;
       grid-template-columns: minmax(15ch, 25ch) auto;
       gap: 1ch;
     }
     
-    input {
-      border-radius: 8px;
+    input, select {
+      background-color: transparent;
       border: 0;
+      border-bottom: 4px solid;
       padding: 0.4rem;
-      font-size: 1.05rem;
+      font-weight: 600;
+
+      &::placeholder {
+        color: rgb(203, 203, 203);
+        font-weight: 400;
+      }
+
+      &:focus-visible {
+        outline: 0;
+        background-color: rgba(28, 28, 13, 0.2);
+      }
+    }
+
+    input[type="checkbox"] {
+      border: 1px solid;
+      border-radius: 8px;
+      width: 1.3rem;
+      aspect-ratio: 1;
+
+      appearance: none;
+      transition: background-color 200ms;
+
+      &:checked {
+        background-color: var(--colorPrimario);
+      }
+    }
+
+    option {
+      color: black;
     }
     
     > button {
       align-self: flex-end;
+    }
+
+    .checkboxContainer label {
+      display: flex;
+      align-items: center;
+      gap: 1ch;
+      width: min-content;
+
+      &, > * {
+        cursor: pointer;
+      }
     }
   }
 }

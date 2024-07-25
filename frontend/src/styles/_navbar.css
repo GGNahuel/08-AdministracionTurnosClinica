@@ -1,5 +1,5 @@
 #mainNavbar {
-  background-color: rgb(5, 5, 178);
+  background-color: var(--colorPrimario);
   color: rgba(255, 255, 255, 0.87);
   border-radius: var(--borderRadius_Sections);
   /* box-shadow: var(--shadow_MainSections); */

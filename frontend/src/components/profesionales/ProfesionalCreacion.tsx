@@ -22,7 +22,7 @@ export function ProfesionalCreacion() {
 
   return (
     <section id="registerProfesional" className="registerSection">
-      <h1>Registrar nuevo paciente</h1>
+      <h1>Registrar nuevo profesional médico</h1>
       <h3>Ingrese los datos correspondientes al profesional que quiera registrar</h3>
       {returnedPost?.message.text && <Message messageObject={returnedPost.message}/>}
       <form id="profesionalForm" onSubmit={(ev) => sendProfesionalToPost(ev, selectedAreas)}>
@@ -37,10 +37,12 @@ export function ProfesionalCreacion() {
             })}
           </select>
         </label>
-        <div className="grid">Áreas de ocupación:
-          {areas?.map(area => area.activa && (
-            <label key={area.id}><input type="checkbox" name={area.nombre} onChange={handleOnChangeAreasInput} />{area.nombre}</label>
-          ))}
+        <div className="grid autoColumns">Áreas de ocupación:
+          <div className="checkboxContainer">
+            {areas?.map(area => area.activa && (
+              <div><label key={area.id}><input type="checkbox" name={area.nombre} onChange={handleOnChangeAreasInput} />{area.nombre}</label></div>
+            ))}
+          </div>
         </div>
         <button type="submit">Enviar</button>
       </form>
