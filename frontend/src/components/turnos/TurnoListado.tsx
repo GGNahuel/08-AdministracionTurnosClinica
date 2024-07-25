@@ -7,7 +7,7 @@ import { AreaProfesional, ProfesionalMed, Turno } from "../../types/Entities";
 export function TurnoListado() {
   const allTurnos = useGetAllTurnos() // cambiar por turnos del día
   const turnos = allTurnos.results as Turno[]
-  const allAreas = useGetAllAreas().results as AreaProfesional[]
+  const allAreas = useGetAllAreas()?.results as AreaProfesional[]
   const allProfesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
   const turnosByAreas = filterTurnosByAreas(allAreas, turnos)
 
@@ -31,7 +31,8 @@ export function TurnoListado() {
     <section id="dailyTurnos">
       <h1>Turnos del día</h1>
       <h3>Seleccione el área para ver los turnos asociados</h3>
-      {allAreas.map(areaDto => {
+      {allAreas?.map(areaDto => {
+        if (areaDto.activa == false) return
         const nombreArea = areaDto.nombre
         const necesitaTurno = areaDto.necesitaTurno
         const listaHorarios = obtenerHorarios(nombreArea, necesitaTurno)
