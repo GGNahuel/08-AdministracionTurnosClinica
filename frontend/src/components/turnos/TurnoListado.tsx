@@ -84,9 +84,10 @@ function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) 
 function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horarios: string, fecha?: Date, nombreArea: string }) {
   const { turnos, horarios, nombreArea } = props
   const profesionalesInArea = useGetProfesionalsByArea(nombreArea)?.results as ProfesionalMed[]
+  const horariosFormatted = horarios.split("-")
   return (
     <article className={"grid dailyTurno byArrivalOrder"}>
-      <p className="horario">{horarios}</p>
+      <p className="horario">{horariosFormatted[0] + " - " + horariosFormatted[1]}</p>
       <div className="info">
         <p>Profesional/es:<strong>{profesionalesInArea?.map(profesionalDto => " " + profesionalDto.nombreCompleto)}</strong></p>
         <p>Consultorio: </p>
