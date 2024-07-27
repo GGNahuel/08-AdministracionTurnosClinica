@@ -1,3 +1,4 @@
+import { Horario } from "../../functions/HorarioClass";
 import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
 import { ProfesionalMed } from "../../types/Entities";
 
@@ -20,18 +21,20 @@ export function ProfesionalListado() {
         </tr></thead>
         <tbody>
           {results?.map(profesional => {
+            const { horarios } = profesional
+            const formattedHorariosList = horarios && Horario.getScheduleBlocksFromStrings(horarios)
             
             return(
               <tr key={profesional.id}>
                 <td>{profesional.nombreCompleto}</td>
                 <td>{profesional.dni}</td>
                 <td className="center">
-                  <ul>{profesional.areas?.map(area => <li>{area}</li>)}</ul>
+                  <ul>{profesional.areas?.map(area => <li key={area}>{area}</li>)}</ul>
                 </td>
                 <td className="right">{profesional.numMatricula}</td>
                 <td className="right">{profesional.numeroContacto}</td>
                 <td className="right">{profesional.consultorio || "No asignado"}</td>
-                <td className="center">"asd</td>
+                <td className="center">{formattedHorariosList}</td>
               </tr>
             )
           })}
