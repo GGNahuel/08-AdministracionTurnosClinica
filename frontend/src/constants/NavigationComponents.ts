@@ -63,6 +63,10 @@ export const navListItems : NavbarItemsType = {
       list: {
         name: "Ver consultorios y áreas",
         route: routes.area_consultorio.list
+      },
+      create: {
+        name: "Crear consultorios o áreas",
+        route: routes.area_consultorio.create
       }
     }
   }

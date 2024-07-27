@@ -16,6 +16,7 @@ export const routes = {
     search: "/profesional"
   },
   area_consultorio: {
-    list: "/areas_consultorios"
+    list: "/areas_consultorios",
+    create: "/areas_consultorios/crear"
   }
 } as const

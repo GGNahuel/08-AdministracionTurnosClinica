@@ -1,8 +1,8 @@
 import { routes } from "../constants/NavigationRoutes"
 
 type ExtractRoutesFromObject<obj> = 
-  obj extends { [key: string]: infer tipoNavbarItem }
-    ? tipoNavbarItem extends { [key: string]: infer contenidoObj }
+  obj extends { [key: string]: infer tipoNavbarItem } //saca el valor de las rutas padre ("turno", "paciente", ...)
+    ? tipoNavbarItem extends { [key: string]: infer contenidoObj } // saca el valor final de cada ruta hija
       ? contenidoObj
       : never
     : never
@@ -13,30 +13,31 @@ interface NavItem {
   route: RouteValues
 }
 
-type TurnosNav = {
+interface TurnosNav {
   today: NavItem,
   create: NavItem,
   update: NavItem,
   search: NavItem
 }
 
-type PacienteNav = {
+interface PacienteNav {
   register: NavItem,
   update: NavItem,
   search: NavItem
 }
 
-type ProfesionalNav = {
+interface ProfesionalNav {
   register: NavItem,
   update: NavItem,
   search: NavItem
 }
 
-type AreaConsultorioNav = {
-  list: NavItem
+interface AreaConsultorioNav {
+  list: NavItem,
+  create: NavItem
 }
 
-export type NavbarItem = TurnosNav | PacienteNav | ProfesionalNav | AreaConsultorioNav
+type NavbarItem = TurnosNav | PacienteNav | ProfesionalNav | AreaConsultorioNav
 
 export type NavbarDetails = {
   summaryName: string,
