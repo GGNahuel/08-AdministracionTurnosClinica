@@ -1,4 +1,5 @@
 import { filterProfesionalsByArea, filterTurnosByAreas } from "../../functions/FilterFunctions";
+import { Horario } from "../../functions/HorarioClass";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
 import { useGetAllProfesionales, useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetAllTurnos } from "../../hooks/TurnoRequests";
@@ -18,13 +19,9 @@ export function TurnoListado() {
     const listaHorarios = profesionales.map(profesional => profesional.horarios || []).flat()
     //agregar corrección en el caso que haya horarios duplicados
 
-    const start_endHorario: string[] = []
-    if (listaHorarios.length > 0) {
-      start_endHorario.push(listaHorarios[0])
-      start_endHorario.push(listaHorarios[listaHorarios.length-1])
-    }
+    const formattedHorarios: [string] = [Horario.getScheduleBlocksFromStrings(listaHorarios)]
 
-    return necesitaTurnoArea ? listaHorarios : start_endHorario
+    return necesitaTurnoArea ? listaHorarios : formattedHorarios
   }
 
   return (
@@ -38,8 +35,8 @@ export function TurnoListado() {
         const listaHorarios = obtenerHorarios(nombreArea, necesitaTurno)
         const turnosExistentes = turnosByAreas ? turnosByAreas[nombreArea] : null
 
-        const turnosElements = listaHorarios != null && (necesitaTurno ? 
-          listaHorarios.map((horario, i) => {
+        const turnosElements = listaHorarios != null && (necesitaTurno 
+          ? listaHorarios.map((horario, i) => {
             const turnoExistente = turnosExistentes?.find(turno => turno.horario === horario);
             return turnoExistente ? (
               <CasillaTurno key={turnoExistente.id} turno={turnoExistente} />
@@ -47,8 +44,7 @@ export function TurnoListado() {
               <CasillaTurno key={i} horario={horario} />
             )
           })
-          : 
-          <CasillaTurnoPorOrdenDeLlegada horarios={{start: listaHorarios[0], end: listaHorarios[1]}} nombreArea={nombreArea}/>
+          : <CasillaTurnoPorOrdenDeLlegada horarios={listaHorarios[0]} nombreArea={nombreArea}/>
         )
 
         return (
@@ -85,12 +81,12 @@ function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) 
   )
 }
 
-function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horarios: {start: string, end: string}, fecha?: Date, nombreArea: string }) {
+function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horarios: string, fecha?: Date, nombreArea: string }) {
   const { turnos, horarios, nombreArea } = props
   const profesionalesInArea = useGetProfesionalsByArea(nombreArea)?.results as ProfesionalMed[]
   return (
     <article className={"grid dailyTurno byArrivalOrder"}>
-      <p className="horario">{horarios.start + " - " + horarios.end}</p>
+      <p className="horario">{horarios}</p>
       <div className="info">
         <p>Profesional/es:<strong>{profesionalesInArea?.map(profesionalDto => " " + profesionalDto.nombreCompleto)}</strong></p>
         <p>Consultorio: </p>
