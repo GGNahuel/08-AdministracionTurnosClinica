@@ -22,8 +22,10 @@ export function ProfesionalCreacion() {
 
   return (
     <section id="registerProfesional" className="registerSection">
-      <h1>Registrar nuevo profesional médico</h1>
-      <h3>Ingrese los datos correspondientes al profesional que quiera registrar</h3>
+      <header>
+        <h1>Registrar nuevo profesional médico</h1>
+        <h3>Ingrese los datos correspondientes al profesional que quiera registrar</h3>
+      </header>
       {returnedPost?.message.text && <Message messageObject={returnedPost.message}/>}
       <form id="profesionalForm" onSubmit={(ev) => sendProfesionalToPost(ev, selectedAreas)}>
         <label>Nombre completo: <input type="text" name="nombreCompleto" placeholder="Ingrese el nombre" /></label>

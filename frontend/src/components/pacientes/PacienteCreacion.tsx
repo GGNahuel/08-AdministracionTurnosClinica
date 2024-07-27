@@ -7,8 +7,10 @@ export function PacienteCreacion() {
 
   return (
     <section id="registerPaciente" className="registerSection">
-      <h1>Registrar nuevo paciente</h1>
-      <h3>Ingrese los datos correspondientes al paciente que quiera registrar</h3>
+      <header>
+        <h1>Registrar nuevo paciente</h1>
+        <h3>Ingrese los datos correspondientes al paciente que quiera registrar</h3>
+      </header>
       {returnedPost?.message.text && <Message messageObject={returnedPost.message}/>}
       <form id="pacienteForm" onSubmit={(ev) => sendPacienteToPost(ev)}>
         <label>Nombre completo: <input type="text" name="nombreCompleto" placeholder="Ingrese el nombre" /></label>
