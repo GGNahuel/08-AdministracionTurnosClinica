@@ -35,3 +35,46 @@
     }
   }
 }
+
+.table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  background-color: var(--colorFormsTables);
+  border-radius: var(--borderRadius_Sections);
+
+  th, td{
+    padding: 0.5rem;
+    border-bottom: 1px solid;
+
+    &:not(:last-child) {
+      border-right: 1px solid;
+    }
+  }
+
+  tr:last-child > td {
+    border-bottom: 0;
+  }
+
+  td.right {
+    text-align: right;
+  }
+
+  td.center {
+    text-align: center;
+  }
+
+  ul {
+    padding: 0;
+    list-style-type: none;
+  }
+
+  tr {
+    position: relative;
+    
+    & > div {
+      position: absolute;
+      left: -16px;
+    }
+  }
+}

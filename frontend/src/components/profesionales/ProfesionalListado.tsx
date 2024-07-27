@@ -7,8 +7,8 @@ export function ProfesionalListado() {
 
   return (
     <section>
-      <h2>Listado de profesionales</h2>
-      <table>
+      <h1>Listado de profesionales</h1>
+      <table className="table">
         <thead><tr>
             <th>Nombre completo</th>
             <th>DNI</th>
@@ -19,19 +19,22 @@ export function ProfesionalListado() {
             <th>Horarios de atención</th>
         </tr></thead>
         <tbody>
-          {results?.map(profesional => (
-            <tr key={profesional.id}>
-              <td>{profesional.nombreCompleto}</td>
-              <td>{profesional.dni}</td>
-              <td>
-                <ul>{profesional.areas?.map(area => <li>{area}</li>)}</ul>
-              </td>
-              <td>{profesional.numMatricula}</td>
-              <td>{profesional.numeroContacto}</td>
-              <td>{profesional.consultorio || "No asignado"}</td>
-              <td>horarios</td>
-            </tr>
-          ))}
+          {results?.map(profesional => {
+            
+            return(
+              <tr key={profesional.id}>
+                <td>{profesional.nombreCompleto}</td>
+                <td>{profesional.dni}</td>
+                <td className="center">
+                  <ul>{profesional.areas?.map(area => <li>{area}</li>)}</ul>
+                </td>
+                <td className="right">{profesional.numMatricula}</td>
+                <td className="right">{profesional.numeroContacto}</td>
+                <td className="right">{profesional.consultorio || "No asignado"}</td>
+                <td className="center">"asd</td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </section>
