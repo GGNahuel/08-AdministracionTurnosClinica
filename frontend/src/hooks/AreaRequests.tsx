@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GetResponseType, MessageInterface } from "../types/APIResponses";
+import { GetResponseType, MessageInterface, ReturnResponseType } from "../types/APIResponses";
 import { AreaProfesional } from "../types/Entities";
 import { API_PREFIX } from "../constants/VariablesEntorno";
 
@@ -20,4 +20,24 @@ export function useGetAllAreas() {
   }, [])
 
   return getResponse
+}
+
+export function usePostArea() {
+  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | null>(null)
+
+  const sendAreaToPost = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    const $form = ev.currentTarget
+    const formData = new FormData($form)
+    
+    const nombre = formData.get("nombre") as string
+    const necesitaTurno = Boolean (formData.get("necesitaTurno"))
+
+    const response = await fetch(API_PREFIX + `/area?nombre=${nombre}&necesitaTurno=${necesitaTurno}`)
+    const returned: ReturnResponseType = await response.json()
+
+    setReturnedPost(returned)
+  }
+
+  return {returnedPost, sendAreaToPost}
 }
