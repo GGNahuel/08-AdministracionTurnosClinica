@@ -47,10 +47,11 @@ public class ConsultorioService implements IConsultorioService {
   @Transactional @Override
   public ConsultorioDTO create(Integer number) throws Exception{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"número de consultorio"} , number);
-    if (this.getByNumber(number) != null) 
+    ConsultorioEntity consultorioWithNumber = consultorioRepo.findByNumeroConsultorio(number).orElse(null);
+    if (consultorioWithNumber != null) 
       throw new EntityAlreadyExists(
         "Ya existe un consultorio con ese número", 
-        this.getByNumber(number)
+        consultorioWithNumber
       );
     
     ConsultorioEntity consultorio = new ConsultorioEntity();
