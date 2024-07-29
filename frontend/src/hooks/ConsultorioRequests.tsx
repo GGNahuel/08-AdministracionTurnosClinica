@@ -27,7 +27,7 @@ export function usePostConsultorio() {
     const formData = new FormData($form)
     const consultorio = formData.get("numeroConsultorio") as string
     
-    const response = await fetch(API_PREFIX + "/consultorio?number=" + consultorio, {
+    const response = await fetch(API_PREFIX + `/consultorio?number=${consultorio}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
