@@ -6,7 +6,7 @@
     gap: 1rem;
   }
 
-  > form, .registerForm > form {
+  form {
     padding: 2rem;
     margin-bottom: 2rem;
     border-radius: var(--borderRadius_Sections);

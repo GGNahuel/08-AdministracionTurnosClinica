@@ -1,30 +1,33 @@
 import { usePostArea } from "../../hooks/AreaRequests"
 import { usePostConsultorio } from "../../hooks/ConsultorioRequests"
+import Message from "../navbar&UI/Message"
 
 export function AreaConsCreate() {
   const {returnedPost : returnedConsultorio, sendConsultorioToPost} = usePostConsultorio()
   const {returnedPost : returnedArea, sendAreaToPost} = usePostArea()
 
   return (
-    <section className="registrSection">
+    <section className="registerSection">
       <header>
         <h1>Registrar consultorios y/o áreas</h1>
       </header>
-      <section className="registerForm">
+      <section>
         <h2>Registro de Consultorio</h2>
         <form onSubmit={(ev) => sendConsultorioToPost(ev)}>
           <label>Número de consultorio<input type="number" name="numeroConsultorio"/></label>
           <button type="submit">Enviar</button>
         </form>
-
+        {returnedConsultorio && <Message messageObject={returnedConsultorio.message}/>}
       </section>
-      <section className="registerForm">
+
+      <section>
         <h2>Registro de Área profesional</h2>
         <form onSubmit={(ev) => sendAreaToPost(ev)}>
           <label>Nombre<input type="text" name="nombre"/></label>
-          <label>Desmarque la casilla si el área es por orden de llegada<input type="checkbox" name="necesitaTurno"/></label>
+          <label>Desmarque la casilla si el área es por orden de llegada<input type="checkbox" name="necesitaTurno" defaultChecked/></label>
           <button type="submit">Enviar</button>
         </form>
+        {returnedArea && <Message messageObject={returnedArea.message}/>}
       </section>
     </section>
   )
