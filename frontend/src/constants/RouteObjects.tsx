@@ -1,11 +1,17 @@
 import { RouteObject } from "react-router-dom";
-import { PacienteCreacion } from "../components/pacientes/PacienteCreacion";
-import { TurnoCreacion } from "../components/turnos/TurnoCreacion";
-import { TurnoListado } from "../components/turnos/TurnoListado";
 import { routes } from "./NavigationRoutes"
+
+import { TurnoListado } from "../components/turnos/TurnoListado";
+import { TurnoCreacion } from "../components/turnos/TurnoCreacion";
+
 import { PacienteListado } from "../components/pacientes/PacienteListado";
+import { PacienteCreacion } from "../components/pacientes/PacienteCreacion";
+
 import { ProfesionalListado } from "../components/profesionales/ProfesionalListado";
 import { ProfesionalCreacion } from "../components/profesionales/ProfesionalCreacion";
+
+import { AreaConsList } from "../components/area_consultorio/AreaConsultorioList";
+import { AreaConsCreate } from "../components/area_consultorio/AreaConsultorioCreate";
 
 export const turnoRoutes : RouteObject[] = [
   {
@@ -43,5 +49,18 @@ export const profesionalRoutes : RouteObject[] = [
     path: routes.profesional.search,
     element: <ProfesionalListado />,
     id: "profesional_search"
+  }
+]
+
+export const AreaConsultorioRoutes : RouteObject[] = [
+  {
+    path: routes.area_consultorio.list,
+    element: <AreaConsList />,
+    id: "areaCons_list"
+  },
+  {
+    path: routes.area_consultorio.create,
+    element: <AreaConsCreate />,
+    id: "areaCons_register"
   }
 ]
