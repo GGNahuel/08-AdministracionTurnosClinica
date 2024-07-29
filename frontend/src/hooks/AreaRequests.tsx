@@ -33,7 +33,12 @@ export function usePostArea() {
     const nombre = formData.get("nombre") as string
     const necesitaTurno = Boolean (formData.get("necesitaTurno"))
 
-    const response = await fetch(API_PREFIX + `/area?nombre=${nombre}&necesitaTurno=${necesitaTurno}`)
+    const response = await fetch(API_PREFIX + `/area?nombre=${nombre}&necesitaTurno=${necesitaTurno}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
     const returned: ReturnResponseType = await response.json()
 
     setReturnedPost(returned)
