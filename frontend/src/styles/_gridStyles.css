@@ -88,18 +88,11 @@
   }
 }
 
-.warn {
-  background-color: rgb(134, 134, 0);
-}
-
 .inactive {
   background-color: rgb(84, 80, 80);
 }
 
 @media (prefers-color-scheme: light) {
-  .warn {
-    background-color: rgb(192, 166, 0);
-  }
   .inactive {
     background-color: rgb(167, 166, 166);
   }

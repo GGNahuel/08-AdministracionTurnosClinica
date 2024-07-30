@@ -14,7 +14,7 @@ export function AreaConsCreate() {
       <section>
         <h2>Registro de Consultorio</h2>
         <form onSubmit={(ev) => sendConsultorioToPost(ev)}>
-          <label>Número de consultorio<input type="number" name="numeroConsultorio"/></label>
+          <label>Número de consultorio<input type="number" name="numeroConsultorio" required/></label>
           <button type="submit">Enviar</button>
         </form>
         {returnedConsultorio && <Message messageObject={returnedConsultorio.message}/>}
@@ -23,8 +23,8 @@ export function AreaConsCreate() {
       <section>
         <h2>Registro de Área profesional</h2>
         <form onSubmit={(ev) => sendAreaToPost(ev)}>
-          <label>Nombre<input type="text" name="nombre"/></label>
-          <label>Desmarque la casilla si el área es por orden de llegada<input type="checkbox" name="necesitaTurno" defaultChecked/></label>
+          <label>Nombre<input type="text" name="nombre" required/></label>
+          <label>Desmarque la casilla si el área es por orden de llegada<input type="checkbox" name="necesitaTurno" defaultChecked required/></label>
           <button type="submit">Enviar</button>
         </form>
         {returnedArea && <Message messageObject={returnedArea.message}/>}
