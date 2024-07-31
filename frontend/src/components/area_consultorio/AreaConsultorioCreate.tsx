@@ -1,6 +1,6 @@
 import { usePostArea } from "../../hooks/AreaRequests"
 import { usePostConsultorio } from "../../hooks/ConsultorioRequests"
-import Message from "../navbar&UI/Message"
+import Message from "../utilities/Message"
 
 export function AreaConsCreate() {
   const {returnedPost : returnedConsultorio, sendConsultorioToPost} = usePostConsultorio()

@@ -1,6 +1,6 @@
 import { usePostPaciente } from "../../hooks/PacienteRequests"
 import { Paciente } from "../../types/Entities"
-import Message from "../navbar&UI/Message"
+import Message from "../utilities/Message"
 
 export function PacienteCreacion() {
   const {returnedPost, sendPacienteToPost} = usePostPaciente()

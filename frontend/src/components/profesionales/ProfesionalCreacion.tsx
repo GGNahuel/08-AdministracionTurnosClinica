@@ -3,7 +3,7 @@ import { useGetAllAreas } from "../../hooks/AreaRequests"
 import { useGetAllConsultorios } from "../../hooks/ConsultorioRequests"
 import { usePostProfesional } from "../../hooks/ProfesionalRequests"
 import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities"
-import Message from "../navbar&UI/Message"
+import Message from "../utilities/Message"
 
 export function ProfesionalCreacion() {
   const [selectedAreas, setSelectedAreas] = useState<string[]>([])
