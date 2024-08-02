@@ -43,20 +43,6 @@
       }
     }
 
-    input[type="checkbox"] {
-      border: 1px solid;
-      border-radius: 8px;
-      width: 1.3rem;
-      aspect-ratio: 1;
-
-      appearance: none;
-      transition: background-color 200ms;
-
-      &:checked {
-        background-color: var(--colorPrimario);
-      }
-    }
-
     option {
       color: black;
     }
