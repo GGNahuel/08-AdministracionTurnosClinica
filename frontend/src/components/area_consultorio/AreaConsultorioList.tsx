@@ -1,12 +1,41 @@
+import { useState } from "react";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
 import { useGetAllConsultorios } from "../../hooks/ConsultorioRequests";
 import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
-import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities";
+import { AreaProfesional, Consultorio, Entities, ProfesionalMed } from "../../types/Entities";
 
 export function AreaConsList() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
   const consultorios = useGetAllConsultorios()?.results as Consultorio[]
   const profesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
+
+  /* ej selectedCheckboxes: 
+  {
+    consultorios: {
+      consultorio_1: true,
+      consultorio_2: false
+    },
+    areas: {
+      Odontología: true,
+      ...
+    }
+  }
+  */
+  type FatherCheckboxes = "consultorios" | "areas" | "pacientes" | "turnos" | "profesionales"
+  const [selectedCheckboxes, setSeletedCheckboxes] = useState<Record<FatherCheckboxes, Record<string, boolean>>>()
+
+  const selectorFatherOnChange = (ev: React.ChangeEvent<HTMLInputElement>, fatherName: string, childElements: Entities[]) => {
+    const { checked } = ev.target
+    const fatherClass = ev.target.className.split(" ").find(className => className != "father" && /selector_\w{1,}/.test(className))
+    const updateSelectedcheckboxes = {}
+
+    if (!fatherClass) 
+      throw new Error("El selector con la función de seleccionar todos no es del tipo correcto. Debe tener la clase selector_'tipo' y 'father'")
+
+    childElements.forEach(entity => {
+      if (entity)
+    })
+  }
 
   return (
     <section>
@@ -16,6 +45,7 @@ export function AreaConsList() {
         <table className="table">
           <thead>
             <tr>
+              <th><input type="checkbox" className="selector_consultorios father" onChange={(ev)=> selectorFatherOnChange(ev)}/></th>
               <th>Número</th>
               <th>Profesional asignado</th>
             </tr>
@@ -26,6 +56,7 @@ export function AreaConsList() {
 
               return(
                 <tr key={consultorio.numeroConsultorio}>
+                  <td className="center"><input type="checkbox" name={"consultorio_" + consultorio.numeroConsultorio} className="selector_consultorios" /></td>
                   <td className="center">{consultorio.numeroConsultorio}</td>
                   <td>{profesionalAsignado ? profesionalAsignado.nombreCompleto : "No definido"}</td>
                 </tr>
