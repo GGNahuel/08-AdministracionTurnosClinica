@@ -1,4 +1,4 @@
-import { AreaProfesional, Paciente, ProfesionalMed, Turno, Consultorio } from "./Entities"
+import { AreaProfesional, Paciente, ProfesionalMed, Turno, Consultorio, Entities } from "./Entities"
 
 type MessageType = "ok" | "error" | "warn" | "common"
 
@@ -9,7 +9,7 @@ export interface MessageInterface {
 }
 
 export type ResultsInGetResponse = Paciente[] | Turno[] | ProfesionalMed[] | AreaProfesional[] | Consultorio[] | object[] | string[]
-type ReturnValuInResponseType = Paciente | Turno | ProfesionalMed | AreaProfesional | Consultorio | object
+type ReturnValueInResponseType = Entities | object
 
 export interface GetResponseType {
   message: MessageInterface,
@@ -18,7 +18,7 @@ export interface GetResponseType {
 
 export interface ReturnResponseType {
   message: MessageInterface,
-  returnValue: ReturnValuInResponseType
+  returnValue: ReturnValueInResponseType
 }
 
 export interface MessageResponseType {

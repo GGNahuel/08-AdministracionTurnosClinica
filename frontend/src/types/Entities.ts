@@ -1,3 +1,5 @@
+export type Entities = Turno | ProfesionalMed | Paciente | Consultorio | AreaProfesional
+
 export interface Turno {
   id?: string,
   pacienteDto: Paciente,
