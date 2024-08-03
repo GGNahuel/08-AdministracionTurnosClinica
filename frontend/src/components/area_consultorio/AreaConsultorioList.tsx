@@ -20,7 +20,7 @@ export function AreaConsList() {
         <table className="table">
           <thead>
             <tr>
-              <th>
+              <th className="checkbox">
                 <SelectItemCheckbox 
                   selectedCheckboxesObject={selectCheckboxesState} 
                   fatherName="consultorios" fatherOrChild="father" 
@@ -37,7 +37,7 @@ export function AreaConsList() {
 
               return(
                 <tr key={consultorio.numeroConsultorio}>
-                  <td className="center">
+                  <td className="checkbox">
                     <SelectItemCheckbox 
                       selectedCheckboxesObject={selectCheckboxesState} 
                       fatherName="consultorios" fatherOrChild="child" 
@@ -57,7 +57,7 @@ export function AreaConsList() {
         <table className="table">
           <thead>
             <tr>
-              <th>
+              <th className="checkbox">
                 <SelectItemCheckbox 
                   selectedCheckboxesObject={selectCheckboxesState} 
                   fatherName="areas" fatherOrChild="father" 
@@ -72,7 +72,7 @@ export function AreaConsList() {
           <tbody>
             {areas?.map(area => (
               <tr key={area.nombre} className={area.activa ? "" : "inactive"}>
-                <td className="center">
+                <td className="checkbox">
                   <SelectItemCheckbox 
                       selectedCheckboxesObject={selectCheckboxesState} 
                       fatherName="areas" fatherOrChild="child" 

@@ -86,6 +86,11 @@
       left: -16px;
     }
   }
+
+  .checkbox {
+    text-align: center;
+    width: 2rem;
+  }
 }
 
 .inactive {
