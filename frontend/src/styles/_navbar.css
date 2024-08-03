@@ -40,13 +40,13 @@
     ul {
       padding-left: 2rem;
 
-      li:hover {
+      a:hover {
         text-decoration: underline;
       }
     }
   }
 
-  summary, .linkList ul>li {
+  summary, .linkList a {
     cursor: pointer;
   }
 
