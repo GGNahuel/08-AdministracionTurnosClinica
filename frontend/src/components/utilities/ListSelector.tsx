@@ -1,25 +1,88 @@
-/* import { useEffect, useState } from "react";
-import { Entities } from "../../types/Entities";
+import { selectNamingAttributeFromEntity } from "../../functions/Utilities"
+import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
+import { Entities } from "../../types/Entities"
+import { FatherCheckboxes } from "../../types/Others"
 
-export function FatherListSelector({elementList, id} : {elementList: Entities[], id: string}) {
-  const [selectorList, setSelectorList] = useState<unknown[]>([])
+export function SelectItemCheckbox (
+  {selectedCheckboxesObject, fatherOrChild, fatherName, childElements, child} :
+  {selectedCheckboxesObject: ReturnType<typeof useSelectedCheckboxesObject>, fatherOrChild: "father" | "child", 
+    fatherName: FatherCheckboxes, childElements?: Entities[], child?: Entities}
+) {
+  const {selectedCheckboxes, setSeletedCheckboxes} = selectedCheckboxesObject
 
-  useEffect(() => {
-    setSelectorList(elementList)
-  }, [elementList])
+  const fatherInput = () => {
+    if (!childElements) return <p>Error</p>
 
-  const selectAllSelectors = () => {
-    selectorList.forEach(selector => {
-      
-    })
+    return (
+      <input 
+        type="checkbox" 
+        checked={setCheckedSelectorFather()} 
+        onChange={(ev)=> selectorFatherOnChange(ev, childElements)}
+      />
+    )
   }
 
+  const childInput = () => {
+    if (!child) return <p>Error</p>
+    const childKeyName = selectNamingAttributeFromEntity(child)
+
+    return (
+      <input 
+      type="checkbox" 
+      checked={selectedCheckboxes[fatherName][childKeyName] || false}
+      onChange={(ev) => selectorChildOnChange(ev, child)} 
+      />
+    )
+  }
+
+  const selectorFatherOnChange = (ev: React.ChangeEvent<HTMLInputElement>, childs: Entities[]) => {
+    const { checked } = ev.target
+    const updateSelectedcheckboxes: Record<FatherCheckboxes, Record<string, boolean>> = {... selectedCheckboxes}
+
+    updateSelectedcheckboxes[fatherName] = {}
+    childs.forEach(entity => {
+      const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
+      updateSelectedcheckboxes[fatherName][keyNameFromEntity] = checked
+    })
+
+    setSeletedCheckboxes(updateSelectedcheckboxes)
+  }
+
+  const selectorChildOnChange = (ev: React.ChangeEvent<HTMLInputElement>, childEntity: Entities) => {
+    const {checked} = ev.target
+    const keyNameFromEntity = selectNamingAttributeFromEntity(childEntity)
+
+    setSeletedCheckboxes(prev => ({
+      ...prev,
+      [fatherName]: {
+        ...prev[fatherName],
+        [keyNameFromEntity]: checked
+      }
+    }))
+  }
+
+  const setCheckedSelectorFather = () => {
+    // inicializa el selectedCheckboxes según las entidades de la tabla
+    childElements?.forEach(entity => {
+      const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
+      if (!selectedCheckboxes[fatherName][keyNameFromEntity]) {
+        selectedCheckboxes[fatherName][keyNameFromEntity] = false
+      }
+    })
+
+    const childCheckboxesValues = Object.values(selectedCheckboxes[fatherName])
+    if (childCheckboxesValues.length == 0) return false
+
+    if (childCheckboxesValues.every(value => value)) return true
+    else return false
+  }
+  
   return (
-    <input type="checkbox" className={`selectorFather id_${id}`} />
+    <>
+      {fatherOrChild == "father" ?
+        fatherInput() : fatherOrChild == "child" &&
+        childInput()
+      }
+    </>
   )
 }
-
-export function ListSelector({element, fatherSelectorId, id} : {element: Entities, fatherSelectorID: string, id: number}) {
-
-}
- */

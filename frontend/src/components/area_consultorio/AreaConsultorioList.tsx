@@ -1,77 +1,16 @@
-import React, { useState } from "react";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
 import { useGetAllConsultorios } from "../../hooks/ConsultorioRequests";
 import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
-import { AreaProfesional, Consultorio, Entities, ProfesionalMed } from "../../types/Entities";
-import { selectNamingAttributeFromEntity } from "../../functions/Utilities";
+import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
+import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities";
+import { SelectItemCheckbox } from "../utilities/ListSelector";
 
 export function AreaConsList() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
   const consultorios = useGetAllConsultorios()?.results as Consultorio[]
   const profesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
 
-  /* ej selectedCheckboxes: 
-  {
-    consultorios: {
-      consultorio_1: true,
-      consultorio_2: false
-    },
-    areas: {
-      Odontología: true,
-      ...
-    }
-  }
-  */
-  type FatherCheckboxes = "consultorios" | "areas" | "pacientes" | "turnos" | "profesionales"
-  const [selectedCheckboxes, setSeletedCheckboxes] = useState<Record<FatherCheckboxes, Record<string, boolean>>>({
-    consultorios: {}, 
-    areas: {}, 
-    pacientes: {}, 
-    turnos: {}, 
-    profesionales: {} 
-  })
-
-  const selectorFatherOnChange = (ev: React.ChangeEvent<HTMLInputElement>, fatherName: FatherCheckboxes, childElements: Entities[]) => {
-    const { checked } = ev.target
-    const updateSelectedcheckboxes: Record<FatherCheckboxes, Record<string, boolean>> = {... selectedCheckboxes}
-
-    updateSelectedcheckboxes[fatherName] = {}
-    childElements.forEach(entity => {
-      const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
-      updateSelectedcheckboxes[fatherName][keyNameFromEntity] = checked
-    })
-
-    setSeletedCheckboxes(updateSelectedcheckboxes)
-  }
-
-  const selectorChildOnChange = (ev: React.ChangeEvent<HTMLInputElement>, fatherName: FatherCheckboxes, childEntity: Entities) => {
-    const {checked} = ev.target
-    const keyNameFromEntity = selectNamingAttributeFromEntity(childEntity)
-
-    setSeletedCheckboxes(prev => ({
-      ...prev,
-      [fatherName]: {
-        ...prev[fatherName],
-        [keyNameFromEntity]: checked
-      }
-    }))
-  }
-
-  const setCheckedSelectorFather = (fatherName: FatherCheckboxes, childElements: Entities[]) => {
-    // inicializa el selectedCheckboxes según las entidades de la tabla
-    childElements?.forEach(entity => {
-      const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
-      if (!selectedCheckboxes[fatherName][keyNameFromEntity]) {
-        selectedCheckboxes[fatherName][keyNameFromEntity] = false
-      }
-    })
-
-    const childCheckboxesValues = Object.values(selectedCheckboxes[fatherName])
-    if (childCheckboxesValues.length == 0) return false
-
-    if (childCheckboxesValues.every(value => value)) return true
-    else return false
-  }
+  const selectCheckboxesState = useSelectedCheckboxesObject()
 
   return (
     <section>
@@ -81,7 +20,13 @@ export function AreaConsList() {
         <table className="table">
           <thead>
             <tr>
-              <th><input type="checkbox" checked={setCheckedSelectorFather("consultorios", consultorios)} onChange={(ev)=> selectorFatherOnChange(ev, "consultorios", consultorios)} /></th>
+              <th>
+                <SelectItemCheckbox 
+                  selectedCheckboxesObject={selectCheckboxesState} 
+                  fatherName="consultorios" fatherOrChild="father" 
+                  childElements={consultorios} 
+                />
+              </th>
               <th>Número</th>
               <th>Profesional asignado</th>
             </tr>
@@ -93,8 +38,11 @@ export function AreaConsList() {
               return(
                 <tr key={consultorio.numeroConsultorio}>
                   <td className="center">
-                    <input type="checkbox" checked={selectedCheckboxes.consultorios[consultorio.numeroConsultorio] || false}
-                      onChange={(ev) => selectorChildOnChange(ev, "consultorios", consultorio)} />
+                    <SelectItemCheckbox 
+                      selectedCheckboxesObject={selectCheckboxesState} 
+                      fatherName="consultorios" fatherOrChild="child" 
+                      child={consultorio}
+                    />
                   </td>
                   <td className="center">{consultorio.numeroConsultorio}</td>
                   <td>{profesionalAsignado ? profesionalAsignado.nombreCompleto : "No definido"}</td>
