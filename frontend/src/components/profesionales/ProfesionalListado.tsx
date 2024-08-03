@@ -1,16 +1,27 @@
 import { Horario } from "../../functions/HorarioClass";
 import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
+import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
 import { ProfesionalMed } from "../../types/Entities";
+import { SelectItemCheckbox } from "../utilities/ListSelector";
 
 export function ProfesionalListado() {
   const data = useGetAllProfesionales()
   const results = data?.results as ProfesionalMed[]
+
+  const selectedCheckboxesObject = useSelectedCheckboxesObject()
 
   return (
     <section>
       <h1>Listado de profesionales</h1>
       <table className="table">
         <thead><tr>
+            <th>
+              <SelectItemCheckbox 
+                selectedCheckboxesObject={selectedCheckboxesObject}
+                fatherName="profesionales" fatherOrChild="father"
+                childElements={results}
+              />
+            </th>
             <th>Nombre completo</th>
             <th>DNI</th>
             <th>Especialidades</th>
@@ -26,6 +37,13 @@ export function ProfesionalListado() {
             
             return(
               <tr key={profesional.id}>
+                <td>
+                  <SelectItemCheckbox
+                    selectedCheckboxesObject={selectedCheckboxesObject}
+                    fatherName="profesionales" fatherOrChild="child"
+                    child={profesional}
+                  />
+                </td>
                 <td>{profesional.nombreCompleto}</td>
                 <td>{profesional.dni}</td>
                 <td className="center">
