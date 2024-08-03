@@ -18,6 +18,7 @@ export function SelectItemCheckbox (
         type="checkbox" 
         checked={setCheckedSelectorFather()} 
         onChange={(ev)=> selectorFatherOnChange(ev, childElements)}
+        title="Seleccionar todas las filas"
       />
     )
   }
@@ -27,11 +28,14 @@ export function SelectItemCheckbox (
     const childKeyName = selectNamingAttributeFromEntity(child)
 
     return (
-      <input 
-      type="checkbox" 
-      checked={selectedCheckboxes[fatherName][childKeyName] || false}
-      onChange={(ev) => selectorChildOnChange(ev, child)} 
-      />
+      <label>
+        <input 
+        type="checkbox" 
+        checked={selectedCheckboxes[fatherName][childKeyName] || false}
+        onChange={(ev) => selectorChildOnChange(ev, child)}
+        title="Seleccionar fila"
+        />
+      </label>
     )
   }
 
