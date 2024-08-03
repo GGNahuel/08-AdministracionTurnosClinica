@@ -26,8 +26,10 @@ export function TurnoListado() {
 
   return (
     <section id="dailyTurnos">
-      <h1>Turnos del día</h1>
-      <h3>Seleccione el área para ver los turnos asociados</h3>
+      <header>
+        <h1>Turnos del día</h1>
+        <h3>Seleccione el área para ver los turnos asociados</h3>
+      </header>
       {allAreas?.map(areaDto => {
         if (areaDto.activa == false) return
         const nombreArea = areaDto.nombre
