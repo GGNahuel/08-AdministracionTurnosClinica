@@ -56,8 +56,6 @@ public class ConsultorioService implements IConsultorioService {
     
     ConsultorioEntity consultorio = new ConsultorioEntity();
     consultorio.setNumeroConsultorio(number);
-
-    System.out.println(consultorio.toString());
     
     return modelMapper.map(consultorioRepo.save(consultorio), ConsultorioDTO.class);
   }

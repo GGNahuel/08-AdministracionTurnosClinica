@@ -1,6 +1,5 @@
 package com.clinica_administracion.sistema_administracion_clinica.DTOs;
 
-import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -18,5 +17,4 @@ public class PacienteDTO {
   private String dni;
   private Long numeroContacto;
   private String obraSocial;
-  private List<UUID> turnos;
 }

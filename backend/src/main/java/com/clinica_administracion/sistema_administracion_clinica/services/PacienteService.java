@@ -15,20 +15,17 @@ import com.clinica_administracion.sistema_administracion_clinica.others.Utilitie
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IPacienteService;
 
 @Service
 public class PacienteService implements IPacienteService{
   private final PacienteRepository pacienteRepo;
-  private final TurnoRepository turnoRepo;
   private final ModelMapper modelMapper;
 
   public PacienteService(
-    PacienteRepository pacienteRepo, TurnoRepository turnoRepo, ModelMapper modelMapper
+    PacienteRepository pacienteRepo, ModelMapper modelMapper
   ) {
     this.pacienteRepo = pacienteRepo;
-    this.turnoRepo = turnoRepo;
     this.modelMapper = modelMapper;
   }
 
@@ -75,7 +72,6 @@ public class PacienteService implements IPacienteService{
       new String[]{"Paciente enviado", "dni", "nombre completo", "número de contacto"}, 
       paciente, paciente.getDni(), paciente.getNombreCompleto(), paciente.getNumeroContacto()
     );
-    UtilitiesMethods.validateTurnosInDto(paciente.getTurnos(), turnoRepo);
     if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
       throw new EntityAlreadyExists(
         "Ya existe un paciente con el dni ingresado", 
@@ -94,7 +90,6 @@ public class PacienteService implements IPacienteService{
       pacienteActualizado, pacienteActualizado.getId(), pacienteActualizado.getDni(), 
       pacienteActualizado.getNombreCompleto(), pacienteActualizado.getNumeroContacto()
     );
-    UtilitiesMethods.validateTurnosInDto(pacienteActualizado.getTurnos(), turnoRepo);
 
     PacienteEntity paciente = pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
       new ResourceNotFound("Paciente", "id", pacienteActualizado.getId().toString())

@@ -2,7 +2,6 @@ package com.clinica_administracion.sistema_administracion_clinica.others;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
@@ -14,7 +13,6 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Ar
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 
 public class UtilitiesMethods {
   public static DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -76,14 +74,6 @@ public class UtilitiesMethods {
   public static void validateProfesionalMedInDto(String dni, ProfesionalMedRepository profesionalRepo) {
     profesionalRepo.findByDni(dni).orElseThrow(
       () -> new ResourceNotFound("Profesional médico", "id", dni)
-    );
-  }
-
-  public static void validateTurnosInDto(List<UUID> turnos_id, TurnoRepository turnoRepo) {
-    turnos_id.forEach(
-      id -> turnoRepo.findById(id).orElseThrow(
-        () -> new ResourceNotFound("turno", "id", id.toString())
-      )
     );
   }
 }

@@ -3,7 +3,6 @@ package com.clinica_administracion.sistema_administracion_clinica;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.UUID;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -23,22 +22,18 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Ar
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
-import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 
 @Configuration
 public class ModelMapperConfigs {
-  private final TurnoRepository turnoRepo;
   private final PacienteRepository pacienteRepo;
   private final ProfesionalMedRepository profesionalRepo;
   private final ConsultorioRepository consultorioRepo;
   private final AreaRepository areaRepo;
 
   public ModelMapperConfigs(
-    TurnoRepository turnoRepo, 
     PacienteRepository pacienteRepo, ProfesionalMedRepository profesionalRepo, 
     ConsultorioRepository consultorioRepo, AreaRepository areaRepo
   ) {
-    this.turnoRepo = turnoRepo;
     this.pacienteRepo = pacienteRepo; this.profesionalRepo = profesionalRepo;
     this.consultorioRepo = consultorioRepo; this.areaRepo = areaRepo;
   }
@@ -47,14 +42,14 @@ public class ModelMapperConfigs {
   ModelMapper modelMapper() {
     ModelMapper modelMapper = new ModelMapper();
 
-    configurePacienteMapping(modelMapper);
+    // configurePacienteMapping(modelMapper);
     configureTurnoMapping(modelMapper);
     configureProfesionalMapping(modelMapper);
 
 		return modelMapper;
 	}
 
-  public void configurePacienteMapping(ModelMapper modelMapper) {
+/*   public void configurePacienteMapping(ModelMapper modelMapper) {
     Converter<List<UUID>, List<TurnoEntity>> convertTurnos = conv ->
       conv.getSource() == null ?
         null :
@@ -74,7 +69,7 @@ public class ModelMapperConfigs {
     modelMapper.typeMap(PacienteEntity.class, PacienteDTO.class).addMappings(
       mapper -> mapper.using(convertUuid).map(src -> src.getTurnos(), PacienteDTO::setTurnos)
     );
-  }
+  } */
 
   public void configureTurnoMapping(ModelMapper modelMapper) {
     Converter<PacienteDTO, PacienteEntity> pacienteEntityConv = conv ->
