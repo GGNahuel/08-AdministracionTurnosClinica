@@ -47,8 +47,7 @@ export function usePostPaciente() {
       nombreCompleto: formData.get('nombreCompleto') as string,
       dni: formData.get('dni') as string,
       numeroContacto: Number(formData.get('numeroContacto') as string),
-      obraSocial: formData.get('obraSocial') as string,
-      turnos: []
+      obraSocial: formData.get('obraSocial') as string
     };
 
     const request = await fetch(API_PREFIX + "/paciente", {

@@ -20,8 +20,7 @@ export interface Paciente {
   nombreCompleto: string,
   dni: string,
   numeroContacto: number,
-  obraSocial?: string,
-  turnos?: string[]
+  obraSocial?: string
 }
 
 export interface ProfesionalMed {
@@ -32,7 +31,7 @@ export interface ProfesionalMed {
   areas: string[],
   numMatricula: number,
   horarios?: string[],
-  consultorio?: number
+  consultorio: number
 }
 
 export interface AreaProfesional {

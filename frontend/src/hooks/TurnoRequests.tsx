@@ -101,7 +101,7 @@ export function useGetTurnosByPaciente() {
       }))
     }
     getPacienteTurnos()
-  }, [pacienteSelectedByDni])
+  }, [pacienteSelectedByDni.dni])
 
   return {pacienteSelectedByDni, setPacienteSelected}
 }
