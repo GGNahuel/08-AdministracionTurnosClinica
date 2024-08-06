@@ -24,7 +24,7 @@ export function AreaConsCreate() {
         <h2>Registro de Área profesional</h2>
         <form onSubmit={(ev) => sendAreaToPost(ev)}>
           <label>Nombre<input type="text" name="nombre" required/></label>
-          <label>Desmarque la casilla si el área es por orden de llegada<input type="checkbox" name="necesitaTurno" defaultChecked required/></label>
+          <label>Desmarque la casilla si el área es por orden de llegada<input type="checkbox" name="necesitaTurno" defaultChecked/></label>
           <button type="submit">Enviar</button>
         </form>
         {returnedArea && <Message messageObject={returnedArea.message}/>}
