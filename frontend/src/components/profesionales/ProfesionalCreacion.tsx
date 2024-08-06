@@ -12,11 +12,11 @@ export function ProfesionalCreacion() {
   const consultorios = useGetAllConsultorios()?.results as Consultorio[]
 
   const handleOnChangeAreasInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = ev.target
+    const { name, checked } = ev.target
 
     setSelectedAreas(prev => checked ?
-      [...prev, value] :
-      prev.filter(areaName => areaName !== value)
+      [...prev, name] :
+      prev.filter(areaName => areaName !== name)
     )
   }
 
@@ -42,14 +42,14 @@ export function ProfesionalCreacion() {
         <div className="grid autoColumns">Áreas de ocupación:
           <div className="checkboxContainer">
             {areas?.map(area => area.activa && (
-              <div><label key={area.id}><input type="checkbox" name={area.nombre} onChange={handleOnChangeAreasInput} />{area.nombre}</label></div>
+              <div key={area.id}><label><input type="checkbox" name={area.nombre} onChange={handleOnChangeAreasInput} />{area.nombre}</label></div>
             ))}
           </div>
         </div>
         <button type="submit">Enviar</button>
       </form>
       {returnedPost?.returnValue && (<>
-        <h3>Datos del paciente registrado:</h3>
+        <h3>Datos del Profesional registrado:</h3>
         <ReturnedElement returnedPost={returnedPost.returnValue as ProfesionalMed}/>
         {/*Agregar boton de edición*/}
       </>)}
@@ -59,15 +59,15 @@ export function ProfesionalCreacion() {
 
 function ReturnedElement({returnedPost} : {returnedPost: ProfesionalMed}) {
   if (!returnedPost) return
-  const pacienteRegistrado = returnedPost
+  const profesionalRegistrado = returnedPost
 
   return (
-    <article key={pacienteRegistrado.id} className="grid profesional" style={{ border: "2px solid black", margin: "10px" }}>
-      <p>{pacienteRegistrado.id}</p>
-      <p>{pacienteRegistrado.nombreCompleto}</p>
-      <p>{pacienteRegistrado.dni}</p>
-      <p>{pacienteRegistrado.numeroContacto}</p>
-      <p>{pacienteRegistrado.consultorio}</p>
+    <article key={profesionalRegistrado.id} className="grid profesional" style={{ border: "2px solid black", margin: "10px" }}>
+      <p>{profesionalRegistrado.id}</p>
+      <p>{profesionalRegistrado.nombreCompleto}</p>
+      <p>{profesionalRegistrado.dni}</p>
+      <p>{profesionalRegistrado.numeroContacto}</p>
+      <p>{profesionalRegistrado.consultorio}</p>
       <p>Áreas de ocupación</p>
     </article>
   )
