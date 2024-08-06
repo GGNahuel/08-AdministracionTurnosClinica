@@ -48,7 +48,8 @@ export function usePostProfesional() {
       dni: formData.get('dni') as string,
       numeroContacto: Number(formData.get('numeroContacto') as string),
       areas: areas,
-      numMatricula: 13
+      numMatricula: 13, 
+      consultorio: Number(formData.get('consultorio') as string)
     };
 
     const request = await fetch(API_PREFIX + "/profesional", {
