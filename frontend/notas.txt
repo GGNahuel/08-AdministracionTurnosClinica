@@ -18,14 +18,15 @@ Navbar y secciones
     Modificar turno
     Buscar turnos
   Pacientes
-    ❓✅Ver todos los pacientes (si al mostrarlos tiene que cargar los turnos asignados a pesar de tener un lazy en el back, no mostrar)
     ✅Registrar paciente
     Editar datos de paciente
-    Buscar pacientes
+    ✅Buscar pacientes
   Profesional médico
-    Registrar profesional
+    ✅Registrar profesional
     Editar datos de profesional
-    Buscar perfil del profesional
+    ✅Buscar perfil del profesional
   Consultorios y áreas
-    Ver consultorios y áreas
+    ✅Registrar consultorios y areas
+    ✅Ver consultorios y áreas
 
+poner los horarios para los profesionales

@@ -37,7 +37,7 @@ export function TurnoListado() {
         const listaHorarios = obtenerHorarios(nombreArea, necesitaTurno)
         const turnosExistentes = turnosByAreas ? turnosByAreas[nombreArea] : null
 
-        const turnosElements = listaHorarios != null && (necesitaTurno 
+        const turnosElements = listaHorarios != null && listaHorarios.length > 0 ? (necesitaTurno 
           ? listaHorarios.map((horario, i) => {
             const turnoExistente = turnosExistentes?.find(turno => turno.horario === horario);
             return turnoExistente ? (
@@ -47,7 +47,7 @@ export function TurnoListado() {
             )
           })
           : <CasillaTurnoPorOrdenDeLlegada horarios={listaHorarios[0]} nombreArea={nombreArea}/>
-        )
+        ) : <p>No hay horarios para esta área, revisar horarios de profesionales</p>
 
         return (
           <details key={nombreArea}>
