@@ -94,14 +94,14 @@ export class Horario {
       if (differenceInMinutesWithPrevious >= 60) {
         retorno += SCHEDULE_BLOCK_SEPARATOR + horario.toFormattedString()
         continue
-      }
-
-      if (index != parsedArray.length-1) {
+      } else if (index != parsedArray.length-1) {
         const nextHorario = parsedArray[index + 1]
         const differenceInMinutesWithNext = ((nextHorario.toDate().getTime() - horario.toDate().getTime()) / 1000) / 60
 
         if (differenceInMinutesWithNext >= 60) {
           retorno += SCHEDULE_BLOCK_FROM_TO + horario.toFormattedString()
+        } else {
+          continue
         }
       } else {
         retorno += SCHEDULE_BLOCK_FROM_TO + horario.toFormattedString()
