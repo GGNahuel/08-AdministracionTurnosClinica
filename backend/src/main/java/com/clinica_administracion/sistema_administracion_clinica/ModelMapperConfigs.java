@@ -1,7 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.modelmapper.Converter;
@@ -87,9 +86,6 @@ public class ModelMapperConfigs {
     Converter<String, LocalDate> fechaConv = conv -> 
       conv.getSource() == null ? 
         null : LocalDate.parse(conv.getSource(), UtilitiesMethods.formatoFecha);
-    Converter<String, LocalTime> horarioConv = conv -> 
-      conv.getSource() == null ? 
-        null : LocalTime.parse(conv.getSource());
 
     modelMapper.emptyTypeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
       (mapper) -> {
@@ -98,7 +94,6 @@ public class ModelMapperConfigs {
         mapper.using(consultorioEntityConv).map(TurnoDTO::getConsultorio, TurnoEntity::setConsultorio);
         mapper.using(areaEntityConv).map(TurnoDTO::getAreaProfesional, TurnoEntity::setAreaProfesional);
         mapper.using(fechaConv).map(TurnoDTO::getFecha, TurnoEntity::setFecha);
-        mapper.using(horarioConv).map(TurnoDTO::getHorario, TurnoEntity::setHorario);
       }
     );
 
@@ -119,19 +114,12 @@ public class ModelMapperConfigs {
     Converter<Integer, ConsultorioEntity> getterConsultorioEntity = 
       conv -> conv.getSource() == null ? 
         null : consultorioRepo.findByNumeroConsultorio(conv.getSource()).get();
-    Converter<List<String>, List<LocalTime>> getterHorarios =
-      conv -> conv.getSource() == null ?
-        null :
-        conv.getSource().stream().map(
-          horario -> LocalTime.parse(horario)
-        ).toList();
     Converter<List<String>, List<AreaEntity>> getterAreaEntities =
       conv -> conv.getSource() == null ?
         null : conv.getSource().stream().map(nombre -> areaRepo.findByNombre(nombre).get()).toList();
 
     modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
       (mapper) -> {
-        mapper.using(getterHorarios).map(ProfesionalMedDTO::getHorarios, ProfesionalMedEntity::setHorarios);
         mapper.using(getterConsultorioEntity).map(ProfesionalMedDTO::getConsultorio, ProfesionalMedEntity::setConsultorio);
         mapper.using(getterAreaEntities).map(ProfesionalMedDTO::getAreas, ProfesionalMedEntity::setAreas);
       }

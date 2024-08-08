@@ -1,6 +1,5 @@
 package com.clinica_administracion.sistema_administracion_clinica.entities;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,8 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,8 +40,8 @@ public class ProfesionalMedEntity {
     private List<AreaEntity> areas;
   @Column(nullable = false, unique = true)
     private Integer numMatricula;
-  @Temporal(TemporalType.TIME)
-    private List<LocalTime> horarios;
+  @Column(columnDefinition = "TEXT")
+    private List<String> horarios;
   @OneToOne
     private ConsultorioEntity consultorio;
 }

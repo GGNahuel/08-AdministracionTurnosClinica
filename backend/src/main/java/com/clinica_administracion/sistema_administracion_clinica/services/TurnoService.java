@@ -1,7 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.services;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -134,7 +133,7 @@ public class TurnoService implements ITurnoService {
       if (areaEntityOfTurno.getNecesitaTurno()) 
         throw new EntityAlreadyExists("Ya existe un turno con este horario para el profesional seleccionado", check.get());
     }
-    if (!turnoEntity.getProfesional().getHorarios().contains(LocalTime.parse(turno.getHorario()))) 
+    if (!turnoEntity.getProfesional().getHorarios().contains(turno.getHorario())) 
       throw new InvalidInput("horario", turno.getHorario(), "estar dentro del horario que atiende el profesional.");
 
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
