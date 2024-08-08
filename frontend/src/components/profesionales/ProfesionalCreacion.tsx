@@ -31,6 +31,7 @@ export function ProfesionalCreacion() {
         <label>Nombre completo: <input type="text" name="nombreCompleto" placeholder="Ingrese el nombre" /></label>
         <label>DNI: <input type="text" name="dni" placeholder="Ingrese el dni" /></label>
         <label>Número de telefono: <input type="number" name="numeroContacto" placeholder="Ingrese el número de teléfono" /></label>
+        <label>Número de matricula: <input type="number" name="matricula" /></label>
         <label>Consultorio: 
           <select name="consultorio">
             {consultorios?.map(consultorio => {
@@ -46,9 +47,15 @@ export function ProfesionalCreacion() {
             ))}
           </div>
         </div>
+        <label className="moreInfoLabel">Horarios: <input type="text" name="horarios" placeholder="Ingrese los horarios en los que trabaja el profesional"/></label>
+        <div className="moreInfo">
+          <p>Los horarios deben tener el siguiente formato: "hora":"minutos" (formato de 24 horas).</p>
+          <p>Se puede indicar un rango de horarios usando el "-". Ej: 08:00-12:30. Para separar horarios use ", " (coma seguida de un espacio).</p>
+          <p>Ej: "08:00-12:30, 16:00-18:30, 20:00" significa que trabaja de 8 a 12:30, de 16 a 18:30, y a las 20hs.</p>
+        </div>
         <button type="submit">Enviar</button>
       </form>
-      {returnedPost?.returnValue && (<>
+      {returnedPost?.message.messageType != "error" && returnedPost?.returnValue && (<>
         <h3>Datos del Profesional registrado:</h3>
         <ReturnedElement returnedPost={returnedPost.returnValue as ProfesionalMed}/>
         {/*Agregar boton de edición*/}

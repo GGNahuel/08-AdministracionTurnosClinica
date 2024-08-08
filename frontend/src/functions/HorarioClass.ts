@@ -1,5 +1,8 @@
-import { SCHEDULE_FORMAT } from "../constants/VariablesEntorno"
+import { SCHEDULE_BLOCK_FORMAT, SCHEDULE_FORMAT } from "../constants/VariablesEntorno"
 import { horas, minutos } from "../types/Others"
+
+const SCHEDULE_BLOCK_SEPARATOR = ", "
+const SCHEDULE_BLOCK_FROM_TO = "-"
 
 export class Horario {
   hora: horas
@@ -89,7 +92,7 @@ export class Horario {
       const differenceInMinutesWithPrevious = (differenceInMillisecondsWithPrevious / 1000) / 60
       
       if (differenceInMinutesWithPrevious >= 60) {
-        retorno += ", " + horario.toFormattedString
+        retorno += SCHEDULE_BLOCK_SEPARATOR + horario.toFormattedString()
         continue
       }
 
@@ -98,36 +101,41 @@ export class Horario {
         const differenceInMinutesWithNext = ((nextHorario.toDate().getTime() - horario.toDate().getTime()) / 1000) / 60
 
         if (differenceInMinutesWithNext >= 60) {
-          retorno += "-" + horario.toFormattedString()
+          retorno += SCHEDULE_BLOCK_FROM_TO + horario.toFormattedString()
         }
       } else {
-        retorno += "-" + horario.toFormattedString()
+        retorno += SCHEDULE_BLOCK_FROM_TO + horario.toFormattedString()
       }
     }
 
     return retorno
   }
 
-  static getStringsFromScheduleBlocks(scheduleBlocks: string) : string[] {
+  static getStringsFromScheduleBlock(scheduleBlocks: string) : string[] {
+    if (!SCHEDULE_BLOCK_FORMAT.test(scheduleBlocks)) throw new Error("El block enviado no es válido")
+
     const retorno : string[] = []
+    const timeIntervals = scheduleBlocks.split(SCHEDULE_BLOCK_SEPARATOR)
 
-    const timeIntervals = scheduleBlocks.split(", ")
-    timeIntervals.forEach((interval, index) => {
-      if (index == 0) {
-        const firstHorario = interval.match(SCHEDULE_FORMAT)
-        if (firstHorario) retorno.push(firstHorario[0])
-      }
+    timeIntervals.forEach(interval => {
+      console.log(interval)
 
-      if (interval.split("-").length > 1) {
-        const rangeOfHorarios : [string, string] = interval.split("-") as [string, string]
+      const rangeOfHorarios : [string, string] = interval.split(SCHEDULE_BLOCK_FROM_TO) as [string, string]
+      if (rangeOfHorarios.length > 1) {
+        if (rangeOfHorarios.length > 2) throw new Error("No puede haber un rango anexado a otro. Ej: '08:00-11:00-12:00' es inválido")
+
         const start = Horario.parse(rangeOfHorarios[0])
         const finish = Horario.parse(rangeOfHorarios[1])
         const iterations = Math.floor(finish.getDifferenceInMinutes(start) / 30)
 
-        for (let i = 1; i <= iterations; i ++) {
-          const previousHorario = Horario.parse(retorno[i-1])
-          retorno.push(previousHorario.newHorarioByMinutes(30).toFormattedString())
+        for (let i = 0; i < iterations; i ++) {
+          if (i == 0) retorno.push(start.toFormattedString())
+
+          const lastHorario = Horario.parse(retorno[retorno.length-1])
+          retorno.push(lastHorario.newHorarioByMinutes(30).toFormattedString())
         }
+      } else {
+        retorno.push(interval)
       }
     })
     

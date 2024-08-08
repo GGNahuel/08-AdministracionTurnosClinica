@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GetResponseType, ReturnResponseType } from "../types/APIResponses";
 import { API_PREFIX } from "../constants/VariablesEntorno";
 import { ProfesionalMed } from "../types/Entities";
+import { Horario } from "../functions/HorarioClass";
 
 export function useGetAllProfesionales() {
   const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
@@ -43,13 +44,15 @@ export function usePostProfesional() {
     const $form = ev.currentTarget
     const formData = new FormData($form)
 
+    console.log(areas)
     const profesionalToSend: ProfesionalMed = {
-      nombreCompleto: formData.get('nombreCompleto') as string,
-      dni: formData.get('dni') as string,
-      numeroContacto: Number(formData.get('numeroContacto') as string),
+      nombreCompleto: formData.get("nombreCompleto") as string,
+      dni: formData.get("dni") as string,
+      numeroContacto: Number(formData.get("numeroContacto") as string),
       areas: areas,
-      numMatricula: 13, 
-      consultorio: Number(formData.get('consultorio') as string)
+      numMatricula: Number(formData.get("matricula")), 
+      consultorio: Number(formData.get("consultorio") as string),
+      horarios: Horario.getStringsFromScheduleBlock(formData.get("horarios") as string)
     };
 
     const request = await fetch(API_PREFIX + "/profesional", {
@@ -60,6 +63,7 @@ export function usePostProfesional() {
       body: JSON.stringify(profesionalToSend)
     })
     const returned : ReturnResponseType = await request.json()
+    console.log(returned)
     setReturnedPost(returned)
   }
 
