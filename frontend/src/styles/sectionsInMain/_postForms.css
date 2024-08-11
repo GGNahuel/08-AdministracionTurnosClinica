@@ -76,5 +76,10 @@
     .moreInfoLabel:focus-within + .moreInfo, .moreInfo:hover{
       display: block;
     }
+
+    input[type="search"] {
+      border: 2px solid;
+      border-radius: 8px;
+    }
   }
 }

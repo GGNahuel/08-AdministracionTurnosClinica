@@ -33,6 +33,7 @@
     width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(150px, 2fr));
     gap: 1rem;
+    align-items: flex-end;
   }
 }
 
