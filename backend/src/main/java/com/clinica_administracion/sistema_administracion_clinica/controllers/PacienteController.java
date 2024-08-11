@@ -22,8 +22,6 @@ import com.clinica_administracion.sistema_administracion_clinica.others.response
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.PacienteService;
 
-
-
 @RestController
 @RequestMapping("/api/paciente")
 public class PacienteController {
@@ -40,7 +38,7 @@ public class PacienteController {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
-  @GetMapping("/{nombre}")
+  @GetMapping("/nombre/{nombre}")
   public ResponseEntity<ResponseDTO> getPacientesByNombre (@PathVariable String nombre) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
     response.setResults(pacienteService.getByNombreLike(nombre));
