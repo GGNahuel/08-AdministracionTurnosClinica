@@ -30,10 +30,28 @@ export function useGetProfesionalsByArea(nombreArea:string) {
 
       setGetResponse(data)
     }
-    getData()
+    if (nombreArea != "") getData()
   }, [nombreArea])
 
   return getResponse
+}
+
+export function useGetProfesionalByDni(dni:string) {
+  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [returned, setReturned] = useState<ProfesionalMed>()
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch(API_PREFIX + "/profesional/" + dni)
+      const data : GetResponseType = await response.json()
+
+      setGetResponse(data)
+      setReturned(data?.results[0] as ProfesionalMed)
+    }
+    if (dni != "") getData()
+  }, [dni])
+
+  return {returned, getResponse}
 }
 
 export function usePostProfesional() {

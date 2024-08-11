@@ -49,19 +49,26 @@ export function usePostTurno() {
   })
 
   const sendData = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
     const $form = ev.currentTarget
     const formData = new FormData($form)
 
+    const responseProfesional = await fetch(API_PREFIX + "/profesional/" + formData.get("profesional") as string)
+    const dataProfesional: GetResponseType = await responseProfesional.json()
+
+    const responsePaciente = await fetch(API_PREFIX + "/paciente/" + formData.get("paciente") as string)
+    const dataPaciente: GetResponseType = await responsePaciente.json()
+
     const dataToSend : Turno = {
-      profesionalDto: formData.get("profesionalDto") as unknown as ProfesionalMed,
-      pacienteDto: formData.get("pacienteDto") as unknown as Paciente,
+      profesionalDto: dataProfesional.results[0] as ProfesionalMed,
+      pacienteDto: dataPaciente.results[0] as Paciente,
       fecha: formatDate(new Date(formData.get("fecha") as string)),
       horario: formData.get("horario") as string,
       areaProfesional: formData.get("area") as string,
       consultorio: Number(formData.get("consultorio") as string),
       estadoPago: formData.get("estadoPago") as string
     }
-
+    
     const request = await fetch(API_PREFIX + "/turno", {
       method: "POST",
       headers: {
