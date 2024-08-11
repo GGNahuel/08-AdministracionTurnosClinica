@@ -7,7 +7,7 @@ import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
 
 public interface ITurnoService {
   List<TurnoDTO> getAll();
-  List<TurnoDTO> getAllNextTurnos(String fecha) throws Exception;
+  List<TurnoDTO> getNextTurnosByArea(String fecha, String nombreArea) throws Exception;
   TurnoDTO getById(UUID id) throws Exception;
   List<TurnoDTO> getByPacienteDni(String dni) throws Exception;
   List<TurnoDTO> getByProfesionalDni(String dni) throws Exception;

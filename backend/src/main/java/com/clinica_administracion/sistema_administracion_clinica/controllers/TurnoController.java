@@ -44,9 +44,9 @@ public class TurnoController {
   }
 
   @GetMapping("/futuros")
-  public ResponseEntity<ResponseDTO> getNextTurnosByFecha(@RequestParam String fecha) throws Exception {
+  public ResponseEntity<ResponseDTO> getNextTurnosByFecha(@RequestParam String fecha, @RequestParam String nombreArea) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
-    response.setResults(turnoService.getAllNextTurnos(fecha));
+    response.setResults(turnoService.getNextTurnosByArea(fecha, nombreArea));
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 

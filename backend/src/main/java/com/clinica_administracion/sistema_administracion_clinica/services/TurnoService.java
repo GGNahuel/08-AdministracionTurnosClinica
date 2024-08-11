@@ -53,10 +53,10 @@ public class TurnoService implements ITurnoService {
   }
 
   @Transactional(readOnly = true) @Override
-  public List<TurnoDTO> getAllNextTurnos(String fecha) throws Exception{
+  public List<TurnoDTO> getNextTurnosByArea(String fecha, String nombreArea) throws Exception{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
     return
-      turnoRepo.findNextTurnos(LocalDate.parse(fecha, UtilitiesMethods.formatoFecha)).stream().map(
+      turnoRepo.findNextTurnosInArea(LocalDate.parse(fecha, UtilitiesMethods.formatoFecha), nombreArea).stream().map(
         turnoEntity -> modelMapper.map(turnoEntity, TurnoDTO.class)
       ).toList();
   }
