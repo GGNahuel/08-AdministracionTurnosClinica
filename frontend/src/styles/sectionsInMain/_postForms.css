@@ -48,6 +48,7 @@
     }
     
     > button {
+      margin-top: 0.5rem;
       align-self: flex-end;
     }
 
@@ -60,6 +61,20 @@
       &, > * {
         cursor: pointer;
       }
+    }
+
+    .moreInfo {
+      display: none;
+      background-color: var(--colorFormsTables);
+      padding: 1rem;
+
+      p {
+        cursor: default;
+      }
+    }
+
+    .moreInfoLabel:focus-within + .moreInfo, .moreInfo:hover{
+      display: block;
     }
   }
 }

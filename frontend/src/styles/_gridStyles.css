@@ -2,6 +2,10 @@
   display: grid;
   align-items: center;
 
+  &.allWidth {
+    width: 100%;
+  }
+
   &.dailyTurno {
     grid-template: 
       "horario info" auto/
@@ -27,12 +31,8 @@
 
   &.autoColumns {
     width: 100%;
-
-    > div {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 2fr));
-    }
+    grid-template-columns: repeat(auto-fit, minmax(150px, 2fr));
+    gap: 1rem;
   }
 }
 

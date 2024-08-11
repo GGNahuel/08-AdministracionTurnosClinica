@@ -40,8 +40,8 @@ export function ProfesionalCreacion() {
             })}
           </select>
         </label>
-        <div className="grid autoColumns">Áreas de ocupación:
-          <div className="checkboxContainer">
+        <div className="grid allWidth">Áreas de ocupación:
+          <div className="grid autoColumns checkboxContainer">
             {areas?.map(area => area.activa && (
               <div key={area.id}><label><input type="checkbox" name={area.nombre} onChange={handleOnChangeAreasInput} />{area.nombre}</label></div>
             ))}
