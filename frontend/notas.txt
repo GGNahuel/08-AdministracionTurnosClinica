@@ -29,4 +29,7 @@ Navbar y secciones
     ✅Registrar consultorios y areas
     ✅Ver consultorios y áreas
 
-poner los horarios para los profesionales
+ver porqué llega al error que llega cuando se registra un profesional sin areas asignadas
+
+mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
+  tanto si viene del back como del front

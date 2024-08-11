@@ -1,4 +1,3 @@
-(❌desde el front, ya con el create estaría) agregar metodo para agregar un turno a un paciente
 ✅hacer validación en el backend del formato del dni
 ✅validar que un turno no tenga el mismo horario que otro con el mismo profesional
 ✅agregar query a turnos para buscar por area
@@ -7,13 +6,12 @@
 🔄revisar las configs de los oneTomany/manyToMany etc
 ✅validar que al crear un turno para un profesional sea dentro de los horarios que están habilitados
 ✅validar al asignar consultorio a profesional que no esté ocupado ya 🔄en esos horarios
-🔄hacer que algunas areas no sean estrictas con sus horarios (en el uso sería aquellas cosas que son por orden de llegada)
-  un atributo booleano en el entity?
+✅hacer que algunas areas no sean estrictas con sus horarios (en el uso sería aquellas cosas que son por orden de llegada)
 🔄optimizar la cantidad de solicitudes que se usarían para obtener información (que en el service estén todos los llamados que hagan falta)
   que en los dto estén los nombres o valores que se lleguen a mostrar en el front (❌uuid)
 
 (❓se tendría que hacer desde el front?) al buscar un paciente que tambien salga si debe algo o no
-  agregar query al repo que busque los turnos de un paciente que el estadoPago != pago
+✅agregar query al repo que busque los turnos de un paciente que el estadoPago != pago
 
 🔄 TESTING
 
@@ -26,6 +24,8 @@ crear un metodo especifico para dar de inactivo un turno (para no usar el update
 ✅Crear en UtilMethods, metodos para validar que los campos ingresados existan? por ejemplo para las areas, consultorios, pacientes, etc
 
 ✅en el dto de turno, las referencias al paciente y al profesional deberían ser los dto en lugar de solo los dni
-  tal vez tambien la lista de turnos en el paciente DTO
 
 ⚠️ agregar a los findAll de los services un metodo para obtener por paginación, principalmente para turnos y pacientes
+
+dar de baja profesionales y dar de baja los turnos asociados. 
+al dar de baja areas, borrar esa relacion de la lista de areas en la entidad de profesionales y dar de baja los turnos asociados (y setear en nulo esa prop?/borrar)
