@@ -44,7 +44,7 @@ export function useGetTurnosByDate(fecha: string) {
 }
 
 export function usePostTurno() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType>({
+  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | GetResponseType>({
     message: {} as MessageInterface, returnValue: {} as Turno
   })
 
@@ -59,16 +59,25 @@ export function usePostTurno() {
     const responsePaciente = await fetch(API_PREFIX + "/paciente/" + formData.get("paciente") as string)
     const dataPaciente: GetResponseType = await responsePaciente.json()
 
+    if (dataPaciente.message.messageType == "error") {
+      setReturnedPost(dataPaciente)
+      return
+    }
+    if (dataProfesional.message.messageType == "error") {
+      setReturnedPost(dataProfesional)
+      return
+    }
+
     const dataToSend : Turno = {
-      profesionalDto: dataProfesional.results[0] as ProfesionalMed,
-      pacienteDto: dataPaciente.results[0] as Paciente,
+      profesionalDto: dataProfesional.results[0] as ProfesionalMed || null,
+      pacienteDto: dataPaciente.results[0] as Paciente || null,
       fecha: formatDate(new Date(formData.get("fecha") as string)),
       horario: formData.get("horario") as string,
       areaProfesional: formData.get("area") as string,
       consultorio: Number(formData.get("consultorio") as string),
       estadoPago: formData.get("estadoPago") as string
     }
-    
+
     const request = await fetch(API_PREFIX + "/turno", {
       method: "POST",
       headers: {
