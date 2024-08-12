@@ -5,7 +5,7 @@ import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/En
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import Message from "../utilities/Message";
-import { formatDate, getMonthName } from "../../functions/formatDate";
+import { formatDate, getMonthName } from "../../functions/DateFunctions";
 
 export function TurnoCreacion() {
   const [areaSelected, setAreaSelected] = useState<string>("")

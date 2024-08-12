@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Paciente, ProfesionalMed, Turno } from "../types/Entities"
 import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
 import { GetResponseType, MessageInterface, ReturnResponseType } from "../types/APIResponses"
-import { formatDate } from "../functions/formatDate"
+import { formatDate } from "../functions/DateFunctions"
 
 export function useGetAllTurnos() {
   const [getResponse, setGetResponse] = useState<GetResponseType>({
