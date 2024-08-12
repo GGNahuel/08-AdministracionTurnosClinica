@@ -22,6 +22,25 @@ export function useGetAllAreas() {
   return getResponse
 }
 
+export function useGetAreasByActiveStatus(active: boolean) {
+  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch(API_PREFIX + "/area/actives?valor=" + String(active))
+      const data : GetResponseType = await response.json()
+
+      setGetResponse({
+        message: data.message,
+        results: data.results
+      })
+    }
+    getData()
+  }, [active])
+
+  return getResponse
+}
+
 export function usePostArea() {
   const [returnedPost, setReturnedPost] = useState<ReturnResponseType | null>(null)
 
