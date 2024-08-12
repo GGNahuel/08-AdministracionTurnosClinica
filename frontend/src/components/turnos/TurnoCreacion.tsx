@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
-import { usePostTurno } from "../../hooks/TurnoRequests";
-import { AreaProfesional, Paciente, ProfesionalMed } from "../../types/Entities";
+import { useGetNextTurnosByArea, usePostTurno } from "../../hooks/TurnoRequests";
+import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import Message from "../utilities/Message";
+import { formatDate, getMonthName } from "../../functions/formatDate";
 
 export function TurnoCreacion() {
   const [areaSelected, setAreaSelected] = useState<string>("")
@@ -15,6 +16,11 @@ export function TurnoCreacion() {
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
 
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected)?.results as ProfesionalMed[]
+
+  const todayDate = formatDate(new Date())
+  const nextTurnos = useGetNextTurnosByArea(todayDate, areaSelected)?.results as Turno[]
+  const actualMonthNumber = new Date().getMonth()
+  const nextMonths = [getMonthName(actualMonthNumber), getMonthName(actualMonthNumber + 1), getMonthName(actualMonthNumber + 2)]
 
   return (
     <section className="registerSection">
@@ -59,10 +65,22 @@ export function TurnoCreacion() {
             Fecha: 
             <input type="date" name="fecha" placeholder="Horario"/>
         </label>
+        <h5>Para los campos de horario y fecha puede ingresarlos manualmente o a traves de la agenda que aparece al final</h5>
         <button type="submit">Enviar</button>
       </form>
       <section id="turnPicker">
-        
+        <h2>Seleccionar horario</h2>
+        {areaSelected == "" ? 
+          <p>Seleccione un area para ver la agenda</p> :
+          nextMonths.map(monthName => (
+            <details>
+              <summary>{monthName}</summary>
+              <section className="schedulePicker">
+                
+              </section>
+            </details>
+          ))
+        }
       </section>
     </section>
   )

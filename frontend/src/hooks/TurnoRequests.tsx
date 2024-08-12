@@ -121,3 +121,19 @@ export function useGetTurnosByPaciente() {
 
   return {pacienteSelectedByDni, setPacienteSelected}
 }
+
+export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
+  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+
+  useEffect(() => {
+    async function generateData() {
+      const response = await fetch(API_PREFIX + "/turno/futuros?fecha=" + encodeURIComponent(fecha) + "&area=" + nombreArea)
+      const data : GetResponseType = await response.json()
+
+      setGetResponse(data)
+    }
+    if (DATE_FORMAT.test(fecha)) generateData()
+  }, [fecha, nombreArea])
+
+  return getResponse
+}
