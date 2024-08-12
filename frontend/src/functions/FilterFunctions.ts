@@ -1,5 +1,5 @@
 import { AreaProfesional, ProfesionalMed, Turno } from "../types/Entities";
-import { Horario } from "./HorarioClass";
+import { Horario } from "../classes/Horario";
 
 export function filterTurnosByAreas(areasExistentes : AreaProfesional[], listadoDeTurnos : Turno[]) {
   if (!areasExistentes || !listadoDeTurnos) return null

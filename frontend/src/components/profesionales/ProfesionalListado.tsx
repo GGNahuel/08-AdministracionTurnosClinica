@@ -1,4 +1,4 @@
-import { Horario } from "../../functions/HorarioClass";
+import { Horario } from "../../classes/Horario";
 import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
 import { ProfesionalMed } from "../../types/Entities";

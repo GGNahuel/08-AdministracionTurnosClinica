@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { GetResponseType, ReturnResponseType } from "../types/APIResponses";
 import { API_PREFIX } from "../constants/VariablesEntorno";
 import { ProfesionalMed } from "../types/Entities";
-import { Horario } from "../functions/HorarioClass";
+import { Horario } from "../classes/Horario";
 
 export function useGetAllProfesionales() {
   const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
