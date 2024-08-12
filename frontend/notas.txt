@@ -33,3 +33,5 @@ ver porqué llega al error que llega cuando se registra un profesional sin areas
 
 mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
   tanto si viene del back como del front
+
+ver funciones obtener horarios con varios profesionales en el misma area
