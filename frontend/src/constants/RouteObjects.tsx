@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import { routes } from "./NavigationRoutes"
 
-import { TurnoListado } from "../components/turnos/TurnoListado";
+import { DailyTurns } from "../components/turnos/DailyTurns";
 import { TurnoCreacion } from "../components/turnos/TurnoCreacion";
 
 import { PacienteListado } from "../components/pacientes/PacienteListado";
@@ -16,7 +16,7 @@ import { AreaConsCreate } from "../components/area_consultorio/AreaConsultorioCr
 export const turnoRoutes : RouteObject[] = [
   {
     index: true,
-    element: <TurnoListado/>,
+    element: <DailyTurns/>,
     id: "turno_today"
   },
   {
