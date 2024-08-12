@@ -15,24 +15,32 @@ export function filterTurnosByAreas(areasExistentes : AreaProfesional[], listado
   return returnedObject
 }
 
-export function filterProfesionalsByArea(areaFiltro: string, listadoProfesionales: ProfesionalMed[], listadoAreas?: AreaProfesional[]) {
-  if (!areaFiltro || !listadoProfesionales) return null
-  if (listadoProfesionales.length == 0) return null
-  if (!listadoAreas?.some(area => area.nombre == areaFiltro)) return null
+export function getSchedulesInAllAreas(profesionals: ProfesionalMed[], areas: AreaProfesional[]) {
+  if (!areas || !profesionals) return null
+  if (profesionals.length == 0) return null
 
-  const returnedArray: ProfesionalMed[] = listadoProfesionales.filter((profesional) => profesional.areas.includes(areaFiltro))
+  const returnedObject: Record<string, string[]> = {}
 
-  return returnedArray
+  for(let areaIndx = 0; areaIndx < areas.length; areaIndx++) {
+    const nombreArea = areas[areaIndx].nombre
+    const profesionalsInArea: ProfesionalMed[] = profesionals.filter((profesional) => profesional.areas.includes(nombreArea))
+
+    const listaHorarios = profesionalsInArea.map(profesional => profesional.horarios || []).flat()
+    //agregar corrección en el caso que haya horarios duplicados
+  
+    const formattedHorarios: [string] = [Horario.getScheduleBlocksFromStrings(listaHorarios)]
+
+    returnedObject[nombreArea] = areas[areaIndx].necesitaTurno ? listaHorarios : formattedHorarios
+  }
+
+  return returnedObject
 }
 
-export const obtenerHorarios = (nombreArea: string, necesitaTurnoArea: boolean, allProfesionales: ProfesionalMed[], allAreas: AreaProfesional[]) => {
-  const profesionales = filterProfesionalsByArea(nombreArea, allProfesionales, allAreas)
-  if (profesionales == null) return null
-
-  const listaHorarios = profesionales.map(profesional => profesional.horarios || []).flat()
+export function getSchedulesInSpecificArea(area: AreaProfesional, profesionalsInArea: ProfesionalMed[]) {
+  const listaHorarios = profesionalsInArea.map(profesional => profesional.horarios || []).flat()
   //agregar corrección en el caso que haya horarios duplicados
-
+  
   const formattedHorarios: [string] = [Horario.getScheduleBlocksFromStrings(listaHorarios)]
 
-  return necesitaTurnoArea ? listaHorarios : formattedHorarios
+  return area.necesitaTurno ? listaHorarios : formattedHorarios
 }
