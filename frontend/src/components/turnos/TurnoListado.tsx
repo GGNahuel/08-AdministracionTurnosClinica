@@ -1,9 +1,9 @@
-import { filterProfesionalsByArea, filterTurnosByAreas } from "../../functions/FilterFunctions";
-import { Horario } from "../../functions/HorarioClass";
+import { obtenerHorarios, filterTurnosByAreas } from "../../functions/FilterFunctions";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
-import { useGetAllProfesionales, useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
+import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
 import { useGetAllTurnos } from "../../hooks/TurnoRequests";
 import { AreaProfesional, ProfesionalMed, Turno } from "../../types/Entities";
+import { CasillaTurno, CasillaTurnoPorOrdenDeLlegada } from "./CasillaTurno";
 
 export function TurnoListado() {
   const allTurnos = useGetAllTurnos() // cambiar por turnos del día
@@ -11,18 +11,6 @@ export function TurnoListado() {
   const allAreas = useGetAllAreas()?.results as AreaProfesional[]
   const allProfesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
   const turnosByAreas = filterTurnosByAreas(allAreas, turnos)
-
-  const obtenerHorarios = (nombreArea: string, necesitaTurnoArea: boolean) => {
-    const profesionales = filterProfesionalsByArea(nombreArea, allProfesionales, allAreas)
-    if (profesionales == null) return null
-
-    const listaHorarios = profesionales.map(profesional => profesional.horarios || []).flat()
-    //agregar corrección en el caso que haya horarios duplicados
-
-    const formattedHorarios: [string] = [Horario.getScheduleBlocksFromStrings(listaHorarios)]
-
-    return necesitaTurnoArea ? listaHorarios : formattedHorarios
-  }
 
   return (
     <section id="dailyTurnos">
@@ -34,7 +22,7 @@ export function TurnoListado() {
         if (areaDto.activa == false) return
         const nombreArea = areaDto.nombre
         const necesitaTurno = areaDto.necesitaTurno
-        const listaHorarios = obtenerHorarios(nombreArea, necesitaTurno)
+        const listaHorarios = obtenerHorarios(nombreArea, necesitaTurno, allProfesionales, allAreas)
         const turnosExistentes = turnosByAreas ? turnosByAreas[nombreArea] : null
 
         const turnosElements = listaHorarios != null && listaHorarios.length > 0 ? 
@@ -63,46 +51,5 @@ export function TurnoListado() {
         )
       })}
     </section>
-  )
-}
-
-// exportar estos elementos en archivos a parte
-
-function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) {
-  const { turno, horario } = props
-  const classIfHasTurno = turno ? " unavailable" : ""
-  return (
-    <article className={"grid dailyTurno" + classIfHasTurno}>
-      <p className="horario">{turno?.horario || horario}</p>
-      <div className="info">
-        <p>Paciente: {turno?.pacienteDto.nombreCompleto}</p>
-        <p>Profesional: {turno?.profesionalDto.nombreCompleto}</p>
-        <p>Fecha: {turno?.fecha || "asd"}</p>
-        <p>Consultorio: {turno?.consultorio || ""}</p>
-      </div>
-    </article>
-  )
-}
-
-function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horarios: string, fecha?: Date, nombreArea: string }) {
-  const { turnos, horarios, nombreArea } = props
-  const profesionalesInArea = useGetProfesionalsByArea(nombreArea)?.results as ProfesionalMed[]
-  const horariosFormatted = horarios.split("-")
-  return (
-    <article className={"grid dailyTurno byArrivalOrder"}>
-      <p className="horario">{horariosFormatted[0] + " - " + horariosFormatted[1]}</p>
-      <div className="info">
-        <p>Profesional/es:<strong>{profesionalesInArea?.map(profesionalDto => " " + profesionalDto.nombreCompleto)}</strong></p>
-        <p>Consultorio: </p>
-        <section className="registeredTurns">
-          {turnos?.map(turno => (
-            <div>
-              <p>{turno.pacienteDto.nombreCompleto}</p>
-              <p>{turno.pacienteDto.dni}</p>
-            </div>
-          ))}  
-        </section>      
-      </div>
-    </article>
   )
 }

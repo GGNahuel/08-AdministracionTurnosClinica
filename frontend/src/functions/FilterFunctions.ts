@@ -1,4 +1,5 @@
 import { AreaProfesional, ProfesionalMed, Turno } from "../types/Entities";
+import { Horario } from "./HorarioClass";
 
 export function filterTurnosByAreas(areasExistentes : AreaProfesional[], listadoDeTurnos : Turno[]) {
   if (!areasExistentes || !listadoDeTurnos) return null
@@ -22,4 +23,16 @@ export function filterProfesionalsByArea(areaFiltro: string, listadoProfesionale
   const returnedArray: ProfesionalMed[] = listadoProfesionales.filter((profesional) => profesional.areas.includes(areaFiltro))
 
   return returnedArray
+}
+
+export const obtenerHorarios = (nombreArea: string, necesitaTurnoArea: boolean, allProfesionales: ProfesionalMed[], allAreas: AreaProfesional[]) => {
+  const profesionales = filterProfesionalsByArea(nombreArea, allProfesionales, allAreas)
+  if (profesionales == null) return null
+
+  const listaHorarios = profesionales.map(profesional => profesional.horarios || []).flat()
+  //agregar corrección en el caso que haya horarios duplicados
+
+  const formattedHorarios: [string] = [Horario.getScheduleBlocksFromStrings(listaHorarios)]
+
+  return necesitaTurnoArea ? listaHorarios : formattedHorarios
 }
