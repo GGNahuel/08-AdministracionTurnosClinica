@@ -1,3 +1,4 @@
+import { convertStringToDate } from "../../functions/DateFunctions"
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests"
 import { ProfesionalMed, Turno } from "../../types/Entities"
 
@@ -41,7 +42,7 @@ export function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horario
   )
 }
 
-export function CasillaDiaAgenda(props: {fecha: string, horarios: string[], turnos?: Turno[]}) {
+export function CasillaDiaAgenda(props: {fecha: string, horarios: string[] | null, turnos: Turno[] | null}) {
   const {fecha, horarios, turnos} = props
 
   // verificacion de que los turnos lleguen con la misma fecha
@@ -49,18 +50,21 @@ export function CasillaDiaAgenda(props: {fecha: string, horarios: string[], turn
   return (
     <article>
       <header>
-        <h3>{fecha}</h3>
+        <h3>{convertStringToDate(fecha)?.getDate()}</h3>
       </header>
-      {horarios.map(horario => {
-        const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == fecha)
+      {horarios && horarios.length > 0 ?
+        horarios?.map(horario => {
+          const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == fecha)
 
-        return (
-          <article className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")}>
-            <p>{horario}</p>
-            <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>
-          </article>
-        )
-      })}
+          return (
+            <article key={horario} className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")}>
+              <p>{horario}</p>
+              <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>
+            </article>
+          )
+        }) :
+        <p>No existen horarios en el área asignada, revise los datos del profesional</p>
+      }
     </article>
   )
 }
