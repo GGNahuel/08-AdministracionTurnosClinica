@@ -1,26 +1,29 @@
 import { useState } from "react";
-import { useGetAllAreas } from "../../hooks/AreaRequests";
+import { useGetAreasByActiveStatus } from "../../hooks/AreaRequests";
 import { useGetNextTurnosByArea, usePostTurno } from "../../hooks/TurnoRequests";
 import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import Message from "../utilities/Message";
 import { formatDate, getMonthName } from "../../functions/DateFunctions";
+import { getSchedulesInSpecificArea } from "../../functions/FilterFunctions";
+import { CasillaDiaAgenda } from "./CasillaTurno";
 
 export function TurnoCreacion() {
-  const [areaSelected, setAreaSelected] = useState<string>("")
+  const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: "", needSchedule: false})
   const [searchPaciente, setSearchPaciente] = useState<string>("")
 
   const {returnedPost, sendData} = usePostTurno()
-  const allAreas = useGetAllAreas()?.results as AreaProfesional[]
+  const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
 
-  const profesionalesByAreas = useGetProfesionalsByArea(areaSelected)?.results as ProfesionalMed[]
+  const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
 
   const todayDate = formatDate(new Date())
-  const nextTurnos = useGetNextTurnosByArea(todayDate, areaSelected)?.results as Turno[]
+  const nextTurnos = useGetNextTurnosByArea(todayDate, areaSelected.name)?.results as Turno[]
   const actualMonthNumber = new Date().getMonth()
   const nextMonths = [getMonthName(actualMonthNumber), getMonthName(actualMonthNumber + 1), getMonthName(actualMonthNumber + 2)]
+  const scheduleList = getSchedulesInSpecificArea(areaSelected.name, profesionalesByAreas, areaSelected.needSchedule)
 
   return (
     <section className="registerSection">
@@ -31,17 +34,21 @@ export function TurnoCreacion() {
       }}>
         <label>
           Servicio: 
-          <select name="area" onChange={(ev) => setAreaSelected(ev.target.value)} required>
-            <option value={""}>Seleccione un área</option>
-            {allAreas.map(area => (
-              <option key={area.nombre} value={area.nombre}>{area.nombre}</option>
+          <select name="area" required onChange={(ev) => {
+            const [name, needSchedule] = ev.target.value.split("##")
+            console.log(name, needSchedule, areaSelected)
+            setAreaSelected({name: name, needSchedule: needSchedule == "true"})
+          }}>
+            <option>Seleccione un área</option>
+            {activeAreas?.map(area => (
+              <option key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()}>{area.nombre}</option>
             ))}
           </select>
         </label>
         <label>
           Profesional: 
           <select name="profesional" required>
-            {areaSelected != "" ?
+            {areaSelected.name != "" ?
               profesionalesByAreas?.map(profesional => (
                 <option key={profesional.dni} value={profesional.dni}>{profesional.nombreCompleto}</option>
               )) :
@@ -70,13 +77,13 @@ export function TurnoCreacion() {
       </form>
       <section id="turnPicker">
         <h2>Seleccionar horario</h2>
-        {areaSelected == "" ? 
+        {areaSelected.name == "" ? 
           <p>Seleccione un area para ver la agenda</p> :
           nextMonths.map(monthName => (
-            <details>
+            <details key={monthName}>
               <summary>{monthName}</summary>
               <section className="schedulePicker">
-                
+                <CasillaDiaAgenda fecha={todayDate} horarios={scheduleList} turnos={nextTurnos}/>
               </section>
             </details>
           ))

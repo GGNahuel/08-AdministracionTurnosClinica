@@ -36,11 +36,14 @@ export function getSchedulesInAllAreas(profesionals: ProfesionalMed[], areas: Ar
   return returnedObject
 }
 
-export function getSchedulesInSpecificArea(area: AreaProfesional, profesionalsInArea: ProfesionalMed[]) {
+export function getSchedulesInSpecificArea(areaName: string , profesionalsInArea: ProfesionalMed[], necesitaTurno: boolean) {
+  if (!areaName || areaName == "") return null
+  if (!profesionalsInArea) return null
+
   const listaHorarios = profesionalsInArea.map(profesional => profesional.horarios || []).flat()
   //agregar corrección en el caso que haya horarios duplicados
   
   const formattedHorarios: [string] = [Horario.getScheduleBlocksFromStrings(listaHorarios)]
 
-  return area.necesitaTurno ? listaHorarios : formattedHorarios
+  return necesitaTurno ? listaHorarios : formattedHorarios
 }

@@ -132,7 +132,7 @@ export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
 
       setGetResponse(data)
     }
-    if (DATE_FORMAT.test(fecha)) generateData()
+    if (DATE_FORMAT.test(fecha) && nombreArea != "") generateData()
   }, [fecha, nombreArea])
 
   return getResponse
