@@ -5,7 +5,7 @@ import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/En
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import Message from "../utilities/Message";
-import { formatDate, getMonthName } from "../../functions/DateFunctions";
+import { formatDate, generateArrayOfNextDays, getMonthName } from "../../functions/DateFunctions";
 import { getSchedulesInSpecificArea } from "../../functions/FilterFunctions";
 import { CasillaDiaAgenda } from "./CasillaTurno";
 
@@ -22,8 +22,15 @@ export function TurnoCreacion() {
   const todayDate = formatDate(new Date())
   const nextTurnos = useGetNextTurnosByArea(todayDate, areaSelected.name)?.results as Turno[]
   const actualMonthNumber = new Date().getMonth()
+  const actualYearNumber = new Date().getFullYear()
   const nextMonths = [getMonthName(actualMonthNumber), getMonthName(actualMonthNumber + 1), getMonthName(actualMonthNumber + 2)]
   const scheduleList = getSchedulesInSpecificArea(areaSelected.name, profesionalesByAreas, areaSelected.needSchedule)
+
+  const nextMonthLenghts = [
+    generateArrayOfNextDays(actualMonthNumber, actualYearNumber, new Date().getDate()), 
+    generateArrayOfNextDays(actualMonthNumber + 1, actualYearNumber),
+    generateArrayOfNextDays(actualMonthNumber + 2, actualYearNumber)
+  ]
 
   return (
     <section className="registerSection">
@@ -79,11 +86,13 @@ export function TurnoCreacion() {
         <h2>Seleccionar horario</h2>
         {areaSelected.name == "" ? 
           <p>Seleccione un area para ver la agenda</p> :
-          nextMonths.map(monthName => (
+          nextMonths.map((monthName, index) => (
             <details key={monthName}>
               <summary>{monthName}</summary>
               <section className="schedulePicker">
-                <CasillaDiaAgenda fecha={todayDate} horarios={scheduleList} turnos={nextTurnos}/>
+                {nextMonthLenghts[index].map(dayNumber => (
+                  <CasillaDiaAgenda fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} horarios={scheduleList} turnos={nextTurnos}/>
+                ))}
               </section>
             </details>
           ))

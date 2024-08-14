@@ -1,4 +1,4 @@
-import { convertStringToDate } from "../../functions/DateFunctions"
+import { formatDate } from "../../functions/DateFunctions"
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests"
 import { ProfesionalMed, Turno } from "../../types/Entities"
 
@@ -42,19 +42,19 @@ export function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horario
   )
 }
 
-export function CasillaDiaAgenda(props: {fecha: string, horarios: string[] | null, turnos: Turno[] | null}) {
+export function CasillaDiaAgenda(props: {fecha: Date, horarios: string[] | null, turnos: Turno[] | null}) {
   const {fecha, horarios, turnos} = props
 
   // verificacion de que los turnos lleguen con la misma fecha
 
   return (
-    <article>
+    <article className="dayContainer">
       <header>
-        <h3>{convertStringToDate(fecha)?.getDate()}</h3>
+        <h3>{fecha.getDate()}</h3>
       </header>
       {horarios && horarios.length > 0 ?
         horarios?.map(horario => {
-          const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == fecha)
+          const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == formatDate(fecha))
 
           return (
             <article key={horario} className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")}>

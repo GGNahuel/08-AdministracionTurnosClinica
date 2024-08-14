@@ -25,8 +25,15 @@ export function convertStringToDate(fecha: string) {
   return new Date(year, month - 1, day)
 }
 
-export function getMaxDaysOfMonth(month: number, year: number) {
-  const actualMonthNumber = (month + 1) <= 11 ? month + 1 : month - 12
+export function generateArrayOfNextDays(actualMonth: number, actualYear: number, actualDay?: number) {
+  const returnedArray: number[] = []
 
-  return (new Date(year, actualMonthNumber, 0)).getDate()
+  const newMonthNumber = (actualMonth + 1) <= 11 ? actualMonth + 1 : actualMonth - 12
+  const monthLength = (new Date(actualYear, newMonthNumber, 0)).getDate()
+
+  for (let dayNumber = actualDay || 1; dayNumber <= monthLength; dayNumber++) {
+    returnedArray.push(dayNumber)
+  }
+
+  return returnedArray
 }
