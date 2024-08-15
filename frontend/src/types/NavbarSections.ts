@@ -16,19 +16,16 @@ interface NavItem {
 interface TurnosNav {
   today: NavItem,
   create: NavItem,
-  update: NavItem,
   search: NavItem
 }
 
 interface PacienteNav {
   register: NavItem,
-  update: NavItem,
   search: NavItem
 }
 
 interface ProfesionalNav {
   register: NavItem,
-  update: NavItem,
   search: NavItem
 }
 
