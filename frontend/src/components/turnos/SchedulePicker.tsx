@@ -49,28 +49,28 @@ export function SchedulePicker(props:{
 
   return (
     <section id="turnPicker">
-        <h2>Seleccionar horario</h2>
-        {areaSelected.name == "" ? 
-          <p>Seleccione un area para ver la agenda</p> :
-          nextMonths.map((monthName, index) => (
-            <details key={monthName} name="monthSelected">
-              <summary className="turnsSummary"><h3>{monthName}</h3><div className="detailsExpandButton"></div></summary>
-              <section className={`schedulePicker ${scheduleList && scheduleList.length > 0 ? "" : "noSchedule"}`}>
-                {scheduleList && scheduleList.length > 0 ?
-                  nextMonthLenghts[index].map(dayNumber => (
-                    <CasillaDiaAgenda 
-                      key={dayNumber}
-                      fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
-                      horarios={scheduleList} turnos={nextTurnos} dateState={turnDate}
-                      onClickFunction={handleSelectSchedule}
-                    />
-                  )) :
-                  <p>No existen horarios designados en este área, revisar servicio. <Link to={routes.area_consultorio.list} target="blank">Ver especialidades</Link></p>
-                }
-              </section>
-            </details>
-          ))
-        }
-      </section>
+      <h2>Seleccionar horario</h2>
+      {areaSelected.name == "" ? 
+        <p>Seleccione un area para ver la agenda</p> :
+        nextMonths.map((monthName, index) => (
+          <details key={monthName} name="monthSelected">
+            <summary className="turnsSummary"><h3>{monthName}</h3><div className="detailsExpandButton"></div></summary>
+            <section className={`schedulePicker ${scheduleList && scheduleList.length > 0 ? "" : "noSchedule"}`}>
+              {scheduleList && scheduleList.length > 0 ?
+                nextMonthLenghts[index].map(dayNumber => (
+                  <CasillaDiaAgenda 
+                    key={dayNumber}
+                    fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
+                    horarios={scheduleList} turnos={nextTurnos} dateState={turnDate}
+                    onClickFunction={handleSelectSchedule}
+                  />
+                )) :
+                <p>No existen horarios designados en este área, revisar servicio. <Link to={routes.area_consultorio.list} target="blank">Ver especialidades</Link></p>
+              }
+            </section>
+          </details>
+        ))
+      }
+    </section>
   )
 }
