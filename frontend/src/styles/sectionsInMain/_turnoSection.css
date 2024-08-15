@@ -9,70 +9,6 @@
   > details {
     /* overflow-y: scroll; */
 
-    > summary {
-      background-color: var(--logoMainColor);
-      list-style-type: none;
-      cursor: pointer;
-
-      padding: 0.6rem;
-      margin: 0.5rem 0;
-      position: sticky;
-      top: 0;
-      border-radius: var(--borderRadius_Sections);
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .detailsExpandButton {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-        background-color: rgba(0, 0, 0, 0.25);
-        outline: 0 solid rgba(0, 0, 0, 0.6);
-        width: 20px;
-        height: 20px;
-        border-radius: 100%;
-        padding: 8px;
-
-        transition: background-color 300ms;
-
-        &::before, &::after {
-          position: absolute;
-          content: "";
-          border: 4px solid;
-          border-radius: 10%;
-        }
-
-        &::before {
-          height: 20px;
-          width: 0;
-          transition: height 300ms ease;
-        }
-        
-        &::after {
-          width: 20px;
-          height: 0;
-        }
-      }
-
-      &:hover .detailsExpandButton {
-        background-color: rgba(0, 0, 0, 0.1);
-        outline: 4px solid rgba(0, 0, 0, 1); /* reemplazar por color contraste */
-      }
-    }
-
-    &[open] > summary {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-
-      .detailsExpandButton::before {
-        height: 0;
-      }
-    }
-
     .horariosContainer {
       border: 2px solid;
       border-top: 0;
@@ -87,6 +23,94 @@
 
       &.unavailable {
         background-color: rgba(255, 0, 0, 0.3);
+      }
+    }
+  }
+}
+
+.turnsSummary {
+  background-color: var(--logoMainColor);
+  list-style-type: none;
+  cursor: pointer;
+
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  border-radius: var(--borderRadius_Sections);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .detailsExpandButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    background-color: rgba(0, 0, 0, 0.25);
+    outline: 0 solid rgba(0, 0, 0, 0.6);
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    padding: 8px;
+
+    transition: background-color 300ms;
+
+    &::before, &::after {
+      position: absolute;
+      content: "";
+      border: 4px solid;
+      border-radius: 10%;
+    }
+
+    &::before {
+      height: 20px;
+      width: 0;
+      transition: height 300ms ease;
+    }
+    
+    &::after {
+      width: 20px;
+      height: 0;
+    }
+  }
+
+  &:hover .detailsExpandButton {
+    background-color: rgba(0, 0, 0, 0.1);
+    outline: 4px solid rgba(0, 0, 0, 1); /* reemplazar por color contraste */
+  }
+}
+
+details[open] > .turnsSummary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  .detailsExpandButton::before {
+    height: 0;
+  }
+}
+
+.schedulePicker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 2fr));
+  gap: 16px;
+
+  &.noSchedule {
+    grid-template-columns: 1fr;
+  }
+
+  .dayContainer {
+    text-align: center;
+
+    .journal {
+      margin: 6px;
+      border: 1px solid;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: var(--colorFormsTables);
       }
     }
   }

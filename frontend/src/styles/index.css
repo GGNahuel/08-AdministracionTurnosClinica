@@ -21,7 +21,7 @@
 
   --shadow_MainSections: 8px 12px 2px rgb(96, 96, 96);
 
-  --logoMainColor: rgba(64,168,179,1);
+  --logoMainColor: rgb(64,168,179);
   --colorPrimario: rgb(6, 6, 105);
   --colorFormsTables: rgba(28, 28, 13, 0.2);
 }

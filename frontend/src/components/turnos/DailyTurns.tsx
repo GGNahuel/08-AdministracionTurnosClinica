@@ -21,7 +21,7 @@ export function DailyTurns() {
         <h3>Seleccione el área para ver los turnos asociados</h3>
       </header>
       {activeAreas?.map(areaDto => (
-        <DailyTurnsInArea 
+        <DailyTurnsInArea key={areaDto.nombre}
           areaDto={areaDto} 
           turnos={turnosByAreas ? turnosByAreas[areaDto.nombre] : null} 
           horarios={listaHorarios ? listaHorarios[areaDto.nombre] : null}
@@ -53,7 +53,7 @@ function DailyTurnsInArea(props: {areaDto: AreaProfesional, turnos: Turno[] | nu
 
   return (
     <details key={nombreArea}>
-      <summary>
+      <summary className="turnsSummary">
         <h3>{nombreArea.toUpperCase()}</h3>
         <div className="detailsExpandButton"></div>
       </summary>
