@@ -123,3 +123,16 @@ details[open] > .turnsSummary {
     }
   }
 }
+
+#turnoForm .animate {
+  animation: onChangeAnimation 400ms;
+}
+
+@keyframes onChangeAnimation {
+  0% {
+    background-color: var(--colorFormsTables);
+  }
+  100% {
+    background-color: initial;
+  }
+}

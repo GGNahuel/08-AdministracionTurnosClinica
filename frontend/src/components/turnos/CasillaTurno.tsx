@@ -46,17 +46,13 @@ export function CasillaDiaAgenda(props: {
   fecha: Date, 
   horarios: string[] | null, 
   turnos: Turno[] | null, 
-  setStateOnClick: React.Dispatch<React.SetStateAction<{
-    date: string;
-    hour: string;
-  }>>,
+  onClickFunction: (fecha: string, horario: string) => void,
   dateState: {
     date: string;
     hour: string;
-  },
-  scrollRef: React.RefObject<HTMLDivElement>
+  }
 }) {
-  const {fecha, horarios, turnos, setStateOnClick, scrollRef, dateState} = props
+  const {fecha, horarios, turnos, onClickFunction, dateState} = props
 
   // verificacion de que los turnos lleguen con la misma fecha
 
@@ -78,10 +74,7 @@ export function CasillaDiaAgenda(props: {
                   " selected" : ""
               )
             } 
-            onClick={() => {
-              setStateOnClick({date: formatDate(fecha), hour: horario})
-              if (scrollRef.current) scrollRef.current.scrollTop = 0
-            }}
+            onClick={() => onClickFunction(formatDate(fecha), horario)}
           >
             <p>{horario}</p>
             <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>

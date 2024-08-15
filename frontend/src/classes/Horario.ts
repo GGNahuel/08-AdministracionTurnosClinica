@@ -141,4 +141,24 @@ export class Horario {
     
     return retorno
   }
+
+  static roundMinutes(schedule: string) : string {
+    if (schedule == "") return ""
+    if (!SCHEDULE_FORMAT.test(schedule)) throw new Error("El horario ingresado no tiene el formato válido: " + schedule)
+    const [hour, minutes] = schedule.split(":").map(string => Number(string))
+
+    const newMinutes : minutos =  
+      minutes >= 0 && minutes <= 22 ?
+        0 :
+      /* minutes > 7 && minutes <= 22 ?
+        15 : */
+      minutes > 22 && minutes <= 52 ?
+        30 :
+      /* minutes > 37 && minutes <= 52 ?
+        45 : */ 0
+    
+    const newHour = minutes > 52 ? (hour + 1 != 24 ? hour + 1 : 0 ) : hour
+
+    return new Horario(newHour as horas, newMinutes).toFormattedString()
+  }
 }

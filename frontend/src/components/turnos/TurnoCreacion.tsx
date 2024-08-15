@@ -1,21 +1,23 @@
 import { useRef, useState } from "react";
-import { useGetAreasByActiveStatus } from "../../hooks/AreaRequests";
-import { useGetNextTurnosByArea, usePostTurno } from "../../hooks/TurnoRequests";
-import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
-import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
-import { useGetPacientesByName } from "../../hooks/PacienteRequests";
-import Message from "../utilities/Message";
+import { Link } from "react-router-dom";
+import { Horario } from "../../classes/Horario";
+import { routes } from "../../constants/NavigationRoutes";
 import { dateInputValueToDBFormat, dateToInputFormat, formatDate, generateArrayOfNextDays, getMonthName } from "../../functions/DateFunctions";
 import { getSchedulesInSpecificArea } from "../../functions/FilterFunctions";
+import { useGetAreasByActiveStatus } from "../../hooks/AreaRequests";
+import { useGetPacientesByName } from "../../hooks/PacienteRequests";
+import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
+import { useGetNextTurnosByArea, usePostTurno } from "../../hooks/TurnoRequests";
+import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
+import Message from "../utilities/Message";
 import { CasillaDiaAgenda } from "./CasillaTurno";
-import { Link } from "react-router-dom";
-import { routes } from "../../constants/NavigationRoutes";
 
 export function TurnoCreacion() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: "", needSchedule: false})
   const [searchPaciente, setSearchPaciente] = useState<string>("")
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: "", hour: ""})
+  const [playInputAnimation, setPlayInputAnimation] = useState(false)
 
   const {returnedPost, sendData} = usePostTurno()
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
@@ -35,6 +37,15 @@ export function TurnoCreacion() {
     generateArrayOfNextDays(actualMonthNumber + 1, actualYearNumber),
     generateArrayOfNextDays(actualMonthNumber + 2, actualYearNumber)
   ]
+
+  const handleSelectSchedule = (fecha: string, horario: string) => {
+    setTurnDate({date: fecha, hour: horario})
+    if (scrollRef.current) scrollRef.current.scrollTop = 0
+    setPlayInputAnimation(true)
+    setTimeout(() => {
+      setPlayInputAnimation(false)
+    }, 400);
+  }
 
   return (
     <section className="registerSection" ref={scrollRef}>
@@ -78,20 +89,20 @@ export function TurnoCreacion() {
             </select>
           </div>
         </label>
-        <label>
-            Fecha: 
-            <input type="date" value={turnDate.date != "" ? dateToInputFormat(turnDate.date) : ""}
-              onChange={(ev) => 
-                setTurnDate(prev => ({...prev, date: dateInputValueToDBFormat(ev.target.value)}))
-              }
-            />
+        <label className={playInputAnimation ? "animate" : ""}>
+          Fecha: 
+          <input type="date" value={turnDate.date != "" ? dateToInputFormat(turnDate.date) : ""}
+            onChange={(ev) => {
+              setTurnDate(prev => ({...prev, date: dateInputValueToDBFormat(ev.target.value)}))
+            }}
+          />
         </label>
-        <label>
+        <label className={playInputAnimation ? "animate" : ""}>
           Horario: 
           <input type="time" value={turnDate.hour}
-            onChange={(ev) =>
-              setTurnDate(prev => ({...prev, hour: ev.target.value}))
-            }
+            onChange={(ev) => {
+              setTurnDate(prev => ({...prev, hour: Horario.roundMinutes(ev.target.value)}))
+            }}
           />
         </label>
         <h5>Para los campos de horario y fecha puede ingresarlos manualmente o a traves de la agenda que aparece al final</h5>
@@ -111,7 +122,7 @@ export function TurnoCreacion() {
                       key={dayNumber}
                       fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
                       horarios={scheduleList} turnos={nextTurnos} dateState={turnDate}
-                      setStateOnClick={setTurnDate} scrollRef={scrollRef}
+                      onClickFunction={handleSelectSchedule}
                     />
                   )) :
                   <p>No existen horarios designados en este área, revisar servicio. <Link to={routes.area_consultorio.list} target="blank">Ver especialidades</Link></p>
