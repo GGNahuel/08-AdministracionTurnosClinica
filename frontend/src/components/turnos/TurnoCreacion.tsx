@@ -1,16 +1,17 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { Horario } from "../../classes/Horario";
-import { routes } from "../../constants/NavigationRoutes";
-import { dateInputValueToDBFormat, dateToInputFormat, formatDate, generateArrayOfNextDays, getMonthName } from "../../functions/DateFunctions";
-import { getSchedulesInSpecificArea } from "../../functions/FilterFunctions";
+import { dateInputValueToDBFormat, dateToInputFormat } from "../../functions/DateFunctions";
+
 import { useGetAreasByActiveStatus } from "../../hooks/AreaRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
-import { useGetNextTurnosByArea, usePostTurno } from "../../hooks/TurnoRequests";
-import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
+import { usePostTurno } from "../../hooks/TurnoRequests";
+
+import { AreaProfesional, Paciente, ProfesionalMed } from "../../types/Entities";
+
 import Message from "../utilities/Message";
-import { CasillaDiaAgenda } from "./CasillaTurno";
+import { SchedulePicker } from "./SchedulePicker";
 
 export function TurnoCreacion() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -24,28 +25,6 @@ export function TurnoCreacion() {
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
 
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
-
-  const todayDate = formatDate(new Date())
-  const nextTurnos = useGetNextTurnosByArea(todayDate, areaSelected.name)?.results as Turno[]
-  const actualMonthNumber = new Date().getMonth()
-  const actualYearNumber = new Date().getFullYear()
-  const nextMonths = [getMonthName(actualMonthNumber), getMonthName(actualMonthNumber + 1), getMonthName(actualMonthNumber + 2)]
-  const scheduleList = getSchedulesInSpecificArea(areaSelected.name, profesionalesByAreas, areaSelected.needSchedule)
-
-  const nextMonthLenghts = [
-    generateArrayOfNextDays(actualMonthNumber, actualYearNumber, new Date().getDate()), 
-    generateArrayOfNextDays(actualMonthNumber + 1, actualYearNumber),
-    generateArrayOfNextDays(actualMonthNumber + 2, actualYearNumber)
-  ]
-
-  const handleSelectSchedule = (fecha: string, horario: string) => {
-    setTurnDate({date: fecha, hour: horario})
-    if (scrollRef.current) scrollRef.current.scrollTop = 0
-    setPlayInputAnimation(true)
-    setTimeout(() => {
-      setPlayInputAnimation(false)
-    }, 400);
-  }
 
   return (
     <section className="registerSection" ref={scrollRef}>
@@ -108,30 +87,8 @@ export function TurnoCreacion() {
         <h5>Para los campos de horario y fecha puede ingresarlos manualmente o a traves de la agenda que aparece al final</h5>
         <button type="submit">Enviar</button>
       </form>
-      <section id="turnPicker">
-        <h2>Seleccionar horario</h2>
-        {areaSelected.name == "" ? 
-          <p>Seleccione un area para ver la agenda</p> :
-          nextMonths.map((monthName, index) => (
-            <details key={monthName} name="monthSelected">
-              <summary className="turnsSummary"><h3>{monthName}</h3><div className="detailsExpandButton"></div></summary>
-              <section className={`schedulePicker ${scheduleList && scheduleList.length > 0 ? "" : "noSchedule"}`}>
-                {scheduleList && scheduleList.length > 0 ?
-                  nextMonthLenghts[index].map(dayNumber => (
-                    <CasillaDiaAgenda 
-                      key={dayNumber}
-                      fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
-                      horarios={scheduleList} turnos={nextTurnos} dateState={turnDate}
-                      onClickFunction={handleSelectSchedule}
-                    />
-                  )) :
-                  <p>No existen horarios designados en este área, revisar servicio. <Link to={routes.area_consultorio.list} target="blank">Ver especialidades</Link></p>
-                }
-              </section>
-            </details>
-          ))
-        }
-      </section>
+      <SchedulePicker areaSelected={areaSelected} profesionalesByAreas={profesionalesByAreas} turnDateState={{turnDate, setTurnDate}} 
+      scrollRef={scrollRef} setPlayInputAnimation={setPlayInputAnimation}/>
     </section>
   )
 }
