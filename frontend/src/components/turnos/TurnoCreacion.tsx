@@ -110,7 +110,7 @@ export function TurnoCreacion() {
                     <CasillaDiaAgenda 
                       key={dayNumber}
                       fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
-                      horarios={scheduleList} turnos={nextTurnos}
+                      horarios={scheduleList} turnos={nextTurnos} dateState={turnDate}
                       setStateOnClick={setTurnDate} scrollRef={scrollRef}
                     />
                   )) :

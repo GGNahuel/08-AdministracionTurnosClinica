@@ -38,3 +38,5 @@ ver funciones obtener horarios con varios profesionales en el misma area
 
 ⚠️ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
   en caso de que el profesional tenga horarios distintos en distintas áreas)
+
+si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search params que correspondan (fehca, hora, paciente)?

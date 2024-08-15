@@ -50,9 +50,13 @@ export function CasillaDiaAgenda(props: {
     date: string;
     hour: string;
   }>>,
+  dateState: {
+    date: string;
+    hour: string;
+  },
   scrollRef: React.RefObject<HTMLDivElement>
 }) {
-  const {fecha, horarios, turnos, setStateOnClick, scrollRef} = props
+  const {fecha, horarios, turnos, setStateOnClick, scrollRef, dateState} = props
 
   // verificacion de que los turnos lleguen con la misma fecha
 
@@ -66,7 +70,14 @@ export function CasillaDiaAgenda(props: {
 
         return (
           <article 
-            key={horario} className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")} 
+            key={horario} 
+            className={"grid dailyTurno journal" + 
+              (turnoAssigned ? 
+                " unavailable" 
+                : (dateState.date == formatDate(fecha) && dateState.hour == horario) ? 
+                  " selected" : ""
+              )
+            } 
             onClick={() => {
               setStateOnClick({date: formatDate(fecha), hour: horario})
               if (scrollRef.current) scrollRef.current.scrollTop = 0

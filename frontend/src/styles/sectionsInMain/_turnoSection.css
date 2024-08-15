@@ -108,6 +108,14 @@ details[open] > .turnsSummary {
       margin: 6px;
       border: 1px solid;
       cursor: pointer;
+
+      &.selected {
+        background-color: var(--logoMainColor);
+      }
+
+      &.unavailable {
+        background-color: rgba(162, 0, 0, 0.3);
+      }
       
       &:hover {
         background-color: var(--colorFormsTables);
