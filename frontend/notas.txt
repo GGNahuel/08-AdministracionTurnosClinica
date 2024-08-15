@@ -35,3 +35,6 @@ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y v
   tanto si viene del back como del front
 
 ver funciones obtener horarios con varios profesionales en el misma area
+
+⚠️ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
+  en caso de que el profesional tenga horarios distintos en distintas áreas)
