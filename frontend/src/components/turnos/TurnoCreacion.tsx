@@ -5,13 +5,16 @@ import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/En
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import Message from "../utilities/Message";
-import { formatDate, generateArrayOfNextDays, getMonthName } from "../../functions/DateFunctions";
+import { dateInputValueToDBFormat, dateToInputFormat, formatDate, generateArrayOfNextDays, getMonthName } from "../../functions/DateFunctions";
 import { getSchedulesInSpecificArea } from "../../functions/FilterFunctions";
 import { CasillaDiaAgenda } from "./CasillaTurno";
+import { Link } from "react-router-dom";
+import { routes } from "../../constants/NavigationRoutes";
 
 export function TurnoCreacion() {
   const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: "", needSchedule: false})
   const [searchPaciente, setSearchPaciente] = useState<string>("")
+  const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: "", hour: ""})
 
   const {returnedPost, sendData} = usePostTurno()
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
@@ -41,9 +44,8 @@ export function TurnoCreacion() {
       }}>
         <label>
           Servicio: 
-          <select name="area" required onChange={(ev) => {
+          <select required onChange={(ev) => {
             const [name, needSchedule] = ev.target.value.split("##")
-            console.log(name, needSchedule, areaSelected)
             setAreaSelected({name: name, needSchedule: needSchedule == "true"})
           }}>
             <option>Seleccione un área</option>
@@ -68,7 +70,7 @@ export function TurnoCreacion() {
           <div className="grid autoColumns">
             <input type="search" onChange={(ev) => setSearchPaciente(ev.target.value)}/>
             <select name="paciente" required>
-              {pacientesList?.length == 0 && <option value={""}>Ingrese el nombre para seleccionar el paciente</option>}
+              {pacientesList?.length == 0 && <option>Ingrese un nombre para seleccionar el paciente</option>}
               {pacientesList?.map(paciente => (
                 <option key={paciente.dni} value={paciente.dni}>{paciente.nombreCompleto}</option>
               ))}
@@ -77,7 +79,19 @@ export function TurnoCreacion() {
         </label>
         <label>
             Fecha: 
-            <input type="date" name="fecha" placeholder="Horario"/>
+            <input type="date" value={turnDate.date != "" ? dateToInputFormat(turnDate.date) : ""}
+              onChange={(ev) => 
+                setTurnDate(prev => ({...prev, date: dateInputValueToDBFormat(ev.target.value)}))
+              }
+            />
+        </label>
+        <label>
+          Horario: 
+          <input type="time" value={turnDate.hour}
+            onChange={(ev) =>
+              setTurnDate(prev => ({...prev, hour: ev.target.value}))
+            }
+          />
         </label>
         <h5>Para los campos de horario y fecha puede ingresarlos manualmente o a traves de la agenda que aparece al final</h5>
         <button type="submit">Enviar</button>
@@ -88,11 +102,14 @@ export function TurnoCreacion() {
           <p>Seleccione un area para ver la agenda</p> :
           nextMonths.map((monthName, index) => (
             <details key={monthName}>
-              <summary>{monthName}</summary>
-              <section className="schedulePicker">
-                {nextMonthLenghts[index].map(dayNumber => (
-                  <CasillaDiaAgenda fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} horarios={scheduleList} turnos={nextTurnos}/>
-                ))}
+              <summary className="turnsSummary">{monthName}<div className="detailsExpandButton"></div></summary>
+              <section className={`schedulePicker ${scheduleList && scheduleList.length > 0 ? "" : "noSchedule"}`}>
+                {scheduleList && scheduleList.length > 0 ?
+                  nextMonthLenghts[index].map(dayNumber => (
+                    <CasillaDiaAgenda fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} horarios={scheduleList} turnos={nextTurnos}/>
+                  )) :
+                  <p>No existen horarios designados en este área, revisar servicio. <Link to={routes.area_consultorio.list} target="blank">Ver especialidades</Link></p>
+                }
               </section>
             </details>
           ))

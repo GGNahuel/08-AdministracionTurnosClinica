@@ -52,19 +52,16 @@ export function CasillaDiaAgenda(props: {fecha: Date, horarios: string[] | null,
       <header>
         <h3>{fecha.getDate()}</h3>
       </header>
-      {horarios && horarios.length > 0 ?
-        horarios?.map(horario => {
-          const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == formatDate(fecha))
+      {horarios?.map(horario => {
+        const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == formatDate(fecha))
 
-          return (
-            <article key={horario} className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")}>
-              <p>{horario}</p>
-              <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>
-            </article>
-          )
-        }) :
-        <p>No existen horarios en el área asignada, revise los datos del profesional</p>
-      }
+        return (
+          <article key={horario} className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")}>
+            <p>{horario}</p>
+            <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>
+          </article>
+        )
+      })}
     </article>
   )
 }

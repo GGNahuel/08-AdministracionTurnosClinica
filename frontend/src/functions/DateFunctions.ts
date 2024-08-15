@@ -1,5 +1,5 @@
 import { meses } from "../constants/Others";
-import { DATE_FORMAT } from "../constants/VariablesEntorno";
+import { DATE_FORMAT, DATE_INPUT_FORMAT } from "../constants/VariablesEntorno";
 
 export function formatDate(fecha : Date) {
   const day = String(fecha.getDate()).padStart(2, '0')
@@ -36,4 +36,20 @@ export function generateArrayOfNextDays(actualMonth: number, actualYear: number,
   }
 
   return returnedArray
+}
+
+export function dateInputValueToDBFormat(date: string) {
+  if (!DATE_INPUT_FORMAT.test(date)) throw new Error("La fecha se recibió desde el input con un formato desconocido: " + date)
+
+  const [year, month, day] = date.split("-")
+
+  return `${day}/${month}/${year}`
+}
+
+export function dateToInputFormat(date: string) {
+  if (!DATE_FORMAT.test(date)) throw new Error("La fecha se recibió desde el calendario con un formato desconocido: " + date)
+
+  const [day, month, year] = date.split("/")
+
+  return `${year}-${month}-${day}`
 }
