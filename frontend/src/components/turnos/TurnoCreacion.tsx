@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useGetAreasByActiveStatus } from "../../hooks/AreaRequests";
 import { useGetNextTurnosByArea, usePostTurno } from "../../hooks/TurnoRequests";
 import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { routes } from "../../constants/NavigationRoutes";
 
 export function TurnoCreacion() {
+  const scrollRef = useRef<HTMLDivElement>(null)
   const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: "", needSchedule: false})
   const [searchPaciente, setSearchPaciente] = useState<string>("")
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: "", hour: ""})
@@ -36,7 +37,7 @@ export function TurnoCreacion() {
   ]
 
   return (
-    <section className="registerSection">
+    <section className="registerSection" ref={scrollRef}>
       <h1>Registrar turno</h1>
       {returnedPost?.message.text && <Message messageObject={returnedPost.message}/>}
       <form id="turnoForm" onSubmit={(ev) => {
@@ -101,12 +102,17 @@ export function TurnoCreacion() {
         {areaSelected.name == "" ? 
           <p>Seleccione un area para ver la agenda</p> :
           nextMonths.map((monthName, index) => (
-            <details key={monthName}>
-              <summary className="turnsSummary">{monthName}<div className="detailsExpandButton"></div></summary>
+            <details key={monthName} name="monthSelected">
+              <summary className="turnsSummary"><h3>{monthName}</h3><div className="detailsExpandButton"></div></summary>
               <section className={`schedulePicker ${scheduleList && scheduleList.length > 0 ? "" : "noSchedule"}`}>
                 {scheduleList && scheduleList.length > 0 ?
                   nextMonthLenghts[index].map(dayNumber => (
-                    <CasillaDiaAgenda fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} horarios={scheduleList} turnos={nextTurnos}/>
+                    <CasillaDiaAgenda 
+                      key={dayNumber}
+                      fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
+                      horarios={scheduleList} turnos={nextTurnos}
+                      setStateOnClick={setTurnDate} scrollRef={scrollRef}
+                    />
                   )) :
                   <p>No existen horarios designados en este área, revisar servicio. <Link to={routes.area_consultorio.list} target="blank">Ver especialidades</Link></p>
                 }

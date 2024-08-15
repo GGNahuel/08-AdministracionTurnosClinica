@@ -42,8 +42,17 @@ export function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horario
   )
 }
 
-export function CasillaDiaAgenda(props: {fecha: Date, horarios: string[] | null, turnos: Turno[] | null}) {
-  const {fecha, horarios, turnos} = props
+export function CasillaDiaAgenda(props: {
+  fecha: Date, 
+  horarios: string[] | null, 
+  turnos: Turno[] | null, 
+  setStateOnClick: React.Dispatch<React.SetStateAction<{
+    date: string;
+    hour: string;
+  }>>,
+  scrollRef: React.RefObject<HTMLDivElement>
+}) {
+  const {fecha, horarios, turnos, setStateOnClick, scrollRef} = props
 
   // verificacion de que los turnos lleguen con la misma fecha
 
@@ -56,7 +65,13 @@ export function CasillaDiaAgenda(props: {fecha: Date, horarios: string[] | null,
         const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == formatDate(fecha))
 
         return (
-          <article key={horario} className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")}>
+          <article 
+            key={horario} className={"grid dailyTurno journal" + (turnoAssigned ? "unavailable" : "")} 
+            onClick={() => {
+              setStateOnClick({date: formatDate(fecha), hour: horario})
+              if (scrollRef.current) scrollRef.current.scrollTop = 0
+            }}
+          >
             <p>{horario}</p>
             <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>
           </article>
