@@ -49,7 +49,7 @@ export function TurnoCreacion() {
             const [name, needSchedule] = ev.target.value.split("##")
             setAreaSelected({name: name, needSchedule: needSchedule == "true"})
           }}>
-            <option>Seleccione un área</option>
+            <option value={""}>Seleccione un área</option>
             {activeAreas?.map(area => (
               <option key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()}>{area.nombre}</option>
             ))}
