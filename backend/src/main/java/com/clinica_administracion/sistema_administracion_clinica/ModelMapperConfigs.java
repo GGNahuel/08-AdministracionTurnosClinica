@@ -102,12 +102,17 @@ public class ModelMapperConfigs {
       }
     );
 
+    Converter<LocalDate, String> fechaEntityConv = conv ->
+      conv.getSource() == null ?
+        null : conv.getSource().format(UtilitiesMethods.formatoFecha);
+
     modelMapper.typeMap(TurnoEntity.class, TurnoDTO.class).addMappings(
       (mapper) -> {
         mapper.map(src -> src.getPaciente(), TurnoDTO::setPacienteDto);
         mapper.map(src -> src.getProfesional(), TurnoDTO::setProfesionalDto);
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), TurnoDTO::setConsultorio);
         mapper.map(src -> src.getAreaProfesional().getNombre(), TurnoDTO::setAreaProfesional);
+        mapper.using(fechaEntityConv).map(TurnoEntity::getFecha, TurnoDTO::setFecha);
       }
     );
   }
