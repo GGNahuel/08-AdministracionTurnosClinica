@@ -57,22 +57,23 @@ export function usePostTurno() {
     if (dniProfesional && dniProfesional != "") {
       const responseProfesional = await fetch(API_PREFIX + "/profesional/" + formData.get("profesional") as string)
       dataProfesional = await responseProfesional.json()
+      
+      if (dataProfesional && dataProfesional.message) {
+        setReturnedPost(dataProfesional)
+        return
+      }
     }
-
+    
     const dniPaciente = formData.get("paciente") as string
     let dataPaciente: GetResponseType | null = null
     if (dniPaciente && dniPaciente != "") {
       const responsePaciente = await fetch(API_PREFIX + "/paciente/" + formData.get("paciente") as string)
       dataPaciente = await responsePaciente.json()
-    }
-
-    if (dataPaciente?.message.messageType == "error") {
-      setReturnedPost(dataPaciente)
-      return
-    }
-    if (dataProfesional?.message.messageType == "error") {
-      setReturnedPost(dataProfesional)
-      return
+      
+      if (dataPaciente && dataPaciente.message) {
+        setReturnedPost(dataPaciente)
+        return
+      }
     }
 
     const dataToSend : Turno = {
@@ -82,6 +83,7 @@ export function usePostTurno() {
       horario: turnDate.hour,
       areaProfesional: areaSelected,
       consultorio: (dataProfesional?.results[0] as ProfesionalMed).consultorio,
+      obraSocial: (dataPaciente?.results[0] as Paciente).obraSocial,
       estadoPago: formData.get("estadoPago") as string,
       comentario: formData.get("comentario") as string
     }

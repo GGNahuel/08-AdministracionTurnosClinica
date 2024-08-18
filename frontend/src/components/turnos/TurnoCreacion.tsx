@@ -90,7 +90,7 @@ export function TurnoCreacion() {
         <label>
           Estado pago: 
           <select name="estadoPago" required>
-            {EstadoPago.map(estado => (<option value={estado}>{cutPascalCase(estado)}</option>))}
+            {EstadoPago.map(estado => (<option key={estado} value={estado}>{cutPascalCase(estado)}</option>))}
           </select>
         </label>
         <label>
