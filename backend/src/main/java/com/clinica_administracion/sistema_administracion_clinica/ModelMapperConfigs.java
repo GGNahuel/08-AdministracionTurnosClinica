@@ -1,6 +1,7 @@
 package com.clinica_administracion.sistema_administracion_clinica;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.modelmapper.Converter;
@@ -86,6 +87,9 @@ public class ModelMapperConfigs {
     Converter<String, LocalDate> fechaConv = conv -> 
       conv.getSource() == null ? 
         null : LocalDate.parse(conv.getSource(), UtilitiesMethods.formatoFecha);
+    Converter<String, LocalTime> horarioConv = conv ->
+      conv.getSource() == null ?
+        null : LocalTime.parse(conv.getSource());
 
     modelMapper.emptyTypeMap(TurnoDTO.class, TurnoEntity.class).addMappings(
       (mapper) -> {
@@ -94,6 +98,7 @@ public class ModelMapperConfigs {
         mapper.using(consultorioEntityConv).map(TurnoDTO::getConsultorio, TurnoEntity::setConsultorio);
         mapper.using(areaEntityConv).map(TurnoDTO::getAreaProfesional, TurnoEntity::setAreaProfesional);
         mapper.using(fechaConv).map(TurnoDTO::getFecha, TurnoEntity::setFecha);
+        mapper.using(horarioConv).map(TurnoDTO::getHorario, TurnoEntity::setHorario);
       }
     );
 
