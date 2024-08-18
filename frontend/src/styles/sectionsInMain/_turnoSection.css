@@ -115,6 +115,11 @@ details[open] > .turnsSummary {
 
       &.unavailable {
         background-color: rgba(162, 0, 0, 0.3);
+        cursor: default;
+
+        &:hover {
+          background-color: rgba(162, 0, 0, 0.3);
+        }
       }
       
       &:hover {

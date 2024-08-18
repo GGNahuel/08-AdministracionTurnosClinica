@@ -74,7 +74,7 @@ export function CasillaDiaAgenda(props: {
                   " selected" : ""
               )
             } 
-            onClick={() => onClickFunction(formatDate(fecha), horario)}
+            onClick={() => turnoAssigned ? null : onClickFunction(formatDate(fecha), horario)}
           >
             <p>{horario}</p>
             <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>
