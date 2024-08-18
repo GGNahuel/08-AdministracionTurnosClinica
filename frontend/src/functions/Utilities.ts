@@ -30,3 +30,15 @@ export function selectNamingAttributeFromEntity(entity: Entities) {
     return String ((entity as Consultorio).numeroConsultorio)
   }
 }
+
+export function cutPascalCase(string: string) : string {
+  const result: string[] = []
+  string.split("").forEach((char, indx) => {
+    if (indx > 0 && char == char.toUpperCase()) {
+      result.push(" ")
+    }
+    result.push(indx == 0 ? char : char.toLowerCase())
+  })
+
+  return result.join("")
+}

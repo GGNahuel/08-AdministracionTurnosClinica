@@ -12,6 +12,8 @@ import { AreaProfesional, Paciente, ProfesionalMed } from "../../types/Entities"
 
 import Message from "../utilities/Message";
 import { SchedulePicker } from "./SchedulePicker";
+import { EstadoPago } from "../../types/BackendEnums";
+import { cutPascalCase } from "../../functions/Utilities";
 
 export function TurnoCreacion() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -31,7 +33,7 @@ export function TurnoCreacion() {
       <h1>Registrar turno</h1>
       {returnedPost?.message.text && <Message messageObject={returnedPost.message}/>}
       <form id="turnoForm" onSubmit={(ev) => {
-        sendData(ev)
+        sendData(ev, areaSelected.name, turnDate)
       }}>
         <label>
           Servicio: 
@@ -61,7 +63,7 @@ export function TurnoCreacion() {
           <div className="grid autoColumns">
             <input type="search" onChange={(ev) => setSearchPaciente(ev.target.value)}/>
             <select name="paciente" required>
-              {pacientesList?.length == 0 && <option>Ingrese un nombre para seleccionar el paciente</option>}
+              {pacientesList?.length == 0 && <option value={""}>Ingrese un nombre para seleccionar el paciente</option>}
               {pacientesList?.map(paciente => (
                 <option key={paciente.dni} value={paciente.dni}>{paciente.nombreCompleto}</option>
               ))}
@@ -85,6 +87,16 @@ export function TurnoCreacion() {
           />
         </label>
         <h5>Para los campos de horario y fecha puede ingresarlos manualmente o a traves de la agenda que aparece al final</h5>
+        <label>
+          Estado pago: 
+          <select name="estadoPago" required>
+            {EstadoPago.map(estado => (<option value={estado}>{cutPascalCase(estado)}</option>))}
+          </select>
+        </label>
+        <label>
+          Comentario: 
+          <textarea name="comentario" cols={3} />
+        </label>
         <button type="submit">Enviar</button>
       </form>
       <SchedulePicker areaSelected={areaSelected} profesionalesByAreas={profesionalesByAreas} turnDateState={{turnDate, setTurnDate}} 

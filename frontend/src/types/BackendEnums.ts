@@ -1,3 +1,1 @@
-export enum EstadoPago {
-  Pago, DebeDocumentación, aReiterar, Debe
-}
+export const EstadoPago = [ "Pagado", "DebeDocumentacionMedica", "ADevolver", "DebePago" ]

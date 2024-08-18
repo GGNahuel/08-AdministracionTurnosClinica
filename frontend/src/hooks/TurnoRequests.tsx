@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { Paciente, ProfesionalMed, Turno } from "../types/Entities"
 import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
 import { GetResponseType, MessageInterface, ReturnResponseType } from "../types/APIResponses"
-import { formatDate } from "../functions/DateFunctions"
 
 export function useGetAllTurnos() {
   const [getResponse, setGetResponse] = useState<GetResponseType>({
@@ -48,34 +47,43 @@ export function usePostTurno() {
     message: {} as MessageInterface, returnValue: {} as Turno
   })
 
-  const sendData = async (ev: React.FormEvent<HTMLFormElement>) => {
+  const sendData = async (ev: React.FormEvent<HTMLFormElement>, areaSelected: string, turnDate: {date: string, hour: string}) => {
     ev.preventDefault()
     const $form = ev.currentTarget
     const formData = new FormData($form)
 
-    const responseProfesional = await fetch(API_PREFIX + "/profesional/" + formData.get("profesional") as string)
-    const dataProfesional: GetResponseType = await responseProfesional.json()
+    const dniProfesional = formData.get("profesional") as string
+    let dataProfesional: GetResponseType | null = null
+    if (dniProfesional && dniProfesional != "") {
+      const responseProfesional = await fetch(API_PREFIX + "/profesional/" + formData.get("profesional") as string)
+      dataProfesional = await responseProfesional.json()
+    }
 
-    const responsePaciente = await fetch(API_PREFIX + "/paciente/" + formData.get("paciente") as string)
-    const dataPaciente: GetResponseType = await responsePaciente.json()
+    const dniPaciente = formData.get("paciente") as string
+    let dataPaciente: GetResponseType | null = null
+    if (dniPaciente && dniPaciente != "") {
+      const responsePaciente = await fetch(API_PREFIX + "/paciente/" + formData.get("paciente") as string)
+      dataPaciente = await responsePaciente.json()
+    }
 
-    if (dataPaciente.message.messageType == "error") {
+    if (dataPaciente?.message.messageType == "error") {
       setReturnedPost(dataPaciente)
       return
     }
-    if (dataProfesional.message.messageType == "error") {
+    if (dataProfesional?.message.messageType == "error") {
       setReturnedPost(dataProfesional)
       return
     }
 
     const dataToSend : Turno = {
-      profesionalDto: dataProfesional.results[0] as ProfesionalMed || null,
-      pacienteDto: dataPaciente.results[0] as Paciente || null,
-      fecha: formatDate(new Date(formData.get("fecha") as string)),
-      horario: formData.get("horario") as string,
-      areaProfesional: formData.get("area") as string,
-      consultorio: Number(formData.get("consultorio") as string),
-      estadoPago: formData.get("estadoPago") as string
+      profesionalDto: dataProfesional?.results[0] as ProfesionalMed || null,
+      pacienteDto: dataPaciente?.results[0] as Paciente || null,
+      fecha: turnDate.date,
+      horario: turnDate.hour,
+      areaProfesional: areaSelected,
+      consultorio: (dataProfesional?.results[0] as ProfesionalMed).consultorio,
+      estadoPago: formData.get("estadoPago") as string,
+      comentario: formData.get("comentario") as string
     }
 
     const request = await fetch(API_PREFIX + "/turno", {

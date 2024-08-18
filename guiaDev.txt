@@ -36,3 +36,6 @@ Entidades Base de datos:
     id
     numero consultorio
     profesional 🧑‍🔬
+
+
+agregar costo en la entidad de turno, puede ser $, bonos, ordenes
