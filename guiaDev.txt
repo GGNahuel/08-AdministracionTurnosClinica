@@ -39,3 +39,11 @@ Entidades Base de datos:
 
 
 agregar costo en la entidad de turno, puede ser $, bonos, ordenes
+
+parametros de busqueda y filtro en turnos
+  busqueda (input texto/date)
+    nombre paciente / nombre profesional
+    fecha
+  filtros (selects y checkboxes)
+    area
+    estadoPago

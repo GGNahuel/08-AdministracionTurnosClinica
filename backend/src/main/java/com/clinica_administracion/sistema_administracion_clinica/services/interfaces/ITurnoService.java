@@ -3,6 +3,7 @@ package com.clinica_administracion.sistema_administracion_clinica.services.inter
 import java.util.List;
 import java.util.UUID;
 
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.SearchTurnoDto;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
 
 public interface ITurnoService {
@@ -14,8 +15,8 @@ public interface ITurnoService {
   List<TurnoDTO> getByProfesional(String nombre) throws Exception;
   List<TurnoDTO> getByDate(String fecha) throws Exception;
   List<TurnoDTO> getByArea(String nombre) throws Exception;
-  // List<TurnoDTO> getByAreaAndDate() throws Exception;
   TurnoDTO create(TurnoDTO turno) throws Exception;
   TurnoDTO update(TurnoDTO turno) throws Exception;
   void deleteAlreadyPassed(String fecha) throws Exception;
+  List<TurnoDTO> searchTurnos(SearchTurnoDto searchProps);
 }

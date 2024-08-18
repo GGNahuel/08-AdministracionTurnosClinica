@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.SearchTurnoDto;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
@@ -43,6 +44,14 @@ public class TurnoController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
+  @GetMapping("/search")
+  public ResponseEntity<ResponseDTO> searchTurnos(@RequestBody SearchTurnoDto params) {
+    GetResponseDTO response = new GetResponseDTO();
+    response.setResults(turnoService.searchTurnos(params));
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
   @GetMapping("/futuros")
   public ResponseEntity<ResponseDTO> getNextTurnosByFecha(@RequestParam String fecha, @RequestParam String area) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
@@ -64,7 +73,7 @@ public class TurnoController {
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
-    
+
   @GetMapping("/profesional/{dni}")
   public ResponseEntity<ResponseDTO> getTurnosByProfesionalDni(@PathVariable String dni) throws Exception {
     GetResponseDTO response = new GetResponseDTO();

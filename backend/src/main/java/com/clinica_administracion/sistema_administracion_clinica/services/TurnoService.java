@@ -10,10 +10,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.SearchTurnoDto;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
+import com.clinica_administracion.sistema_administracion_clinica.others.enums.EstadoPago;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
@@ -165,5 +167,21 @@ public class TurnoService implements ITurnoService {
     LocalDate fechaDate = LocalDate.parse(fecha, UtilitiesMethods.formatoFecha);
     List<TurnoEntity> list = turnoRepo.selectTurnosAlreadyPassed(fechaDate);
     if (list.size() > 0) turnoRepo.deleteAll(list);
+  }
+
+  @Transactional @Override
+  public List<TurnoDTO> searchTurnos(SearchTurnoDto searchProps) {
+    LocalDate date = null;
+    if (searchProps.getDate() != null && !searchProps.getDate().equalsIgnoreCase("")) {
+      date = LocalDate.parse(searchProps.getDate());
+    }
+    EstadoPago state = null;
+    if (searchProps.getEstadoPago() != null && !searchProps.getEstadoPago().equalsIgnoreCase("")) {
+      state = EstadoPago.valueOf(searchProps.getEstadoPago());
+    }
+
+    return turnoRepo.searchTurnos(searchProps.getSearchName(), searchProps.getAreaName(), state, date).stream().map(
+      (turn) -> modelMapper.map(turn, TurnoDTO.class)
+    ).toList();
   }
 }

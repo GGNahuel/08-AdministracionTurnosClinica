@@ -8,9 +8,11 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
+import com.clinica_administracion.sistema_administracion_clinica.others.enums.EstadoPago;
 
 @Repository
 public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
@@ -28,9 +30,6 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
   
   List<TurnoEntity> findByFecha(LocalDate fecha);
 
-  /* @Query("select t from TurnoEntity t where t.areaProfesional.nombre like ?1 and t.fecha = ?2")
-  List<TurnoEntity> findByAreaAndFecha(String nombreArea, LocalDate fecha); */
-
   @Query("select t from TurnoEntity t where t.fecha >= ?1 and t.areaProfesional.nombre = ?2")
   List<TurnoEntity> findNextTurnosInArea(LocalDate fecha, String nombreArea);
 
@@ -39,4 +38,12 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
 
   @Query("select t from TurnoEntity t where t.fecha < ?1 and t.estadoPago = 'Pago'")
   List<TurnoEntity> selectTurnosAlreadyPassed(LocalDate fecha);
+
+  @Query(value = "select t from TurnoEntity t where " + 
+    "(t.paciente.nombreCompleto like :nombre or t.profesional.nombreCompleto like :nombre or :nombre = '') and " +
+    "(t.areaProfesional.nombre = :area or :area = '') and " +
+    "(t.estadoPago = :estadoPago or :estadoPago = null) and " +
+    "(t.fecha = :fecha or :fecha = null)")
+  List<TurnoEntity> searchTurnos(@Param("nombre") String nombre, @Param("area") String nombreArea, 
+    @Param("estadoPago") EstadoPago estado, @Param("fecha") LocalDate fecha);
 }
