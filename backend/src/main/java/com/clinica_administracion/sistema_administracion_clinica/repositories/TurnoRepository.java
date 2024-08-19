@@ -36,11 +36,11 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
   @Query("select t from TurnoEntity t where t.profesional.id = ?1 and t.fecha = ?2 and t.horario = ?3")
   Optional<TurnoEntity> findTurnosExistingInDate(UUID id, LocalDate fecha, LocalTime hora);
 
-  @Query("select t from TurnoEntity t where t.fecha < ?1 and t.estadoPago = 'Pago'")
+  @Query("select t from TurnoEntity t where t.fecha < ?1 and t.estadoPago = 'Pagado'")
   List<TurnoEntity> selectTurnosAlreadyPassed(LocalDate fecha);
 
   @Query(value = "select t from TurnoEntity t where " + 
-    "(t.paciente.nombreCompleto like :nombre or t.profesional.nombreCompleto like :nombre or :nombre = '') and " +
+    "(t.paciente.nombreCompleto like %:nombre% or t.profesional.nombreCompleto like %:nombre% or :nombre = '') and " +
     "(t.areaProfesional.nombre = :area or :area = '') and " +
     "(t.estadoPago = :estadoPago or :estadoPago = null) and " +
     "(t.fecha = :fecha or :fecha = null)")
