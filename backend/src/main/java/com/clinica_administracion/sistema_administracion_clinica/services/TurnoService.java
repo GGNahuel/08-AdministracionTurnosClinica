@@ -173,7 +173,7 @@ public class TurnoService implements ITurnoService {
   public List<TurnoDTO> searchTurnos(SearchTurnoDto searchProps) {
     LocalDate date = null;
     if (searchProps.getDate() != null && !searchProps.getDate().equalsIgnoreCase("")) {
-      date = LocalDate.parse(searchProps.getDate());
+      date = LocalDate.parse(searchProps.getDate(), UtilitiesMethods.formatoFecha);
     }
     EstadoPago state = null;
     if (searchProps.getEstadoPago() != null && !searchProps.getEstadoPago().equalsIgnoreCase("")) {
