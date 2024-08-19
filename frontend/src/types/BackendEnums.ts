@@ -1,1 +1,1 @@
-export const EstadoPago = [ "Pagado", "DebeDocumentacionMedica", "ADevolver", "DebePago" ]
+export const EstadoPago = [ "Pagado", "DebeDocumentacionMedica", "ADevolver", "DebePago", "" ] as const

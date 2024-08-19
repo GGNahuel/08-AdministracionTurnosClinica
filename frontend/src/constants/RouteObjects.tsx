@@ -12,6 +12,7 @@ import { ProfesionalCreacion } from "../components/profesionales/ProfesionalCrea
 
 import { AreaConsList } from "../components/area_consultorio/AreaConsultorioList";
 import { AreaConsCreate } from "../components/area_consultorio/AreaConsultorioCreate";
+import { SearchTurnos } from "../components/turnos/SearchTurnos";
 
 export const turnoRoutes : RouteObject[] = [
   {
@@ -24,6 +25,11 @@ export const turnoRoutes : RouteObject[] = [
     element: <TurnoCreacion/>,
     id: "turno_register"
   },
+  {
+    path: routes.turno.search,
+    element: <SearchTurnos />,
+    id: "turno_search"    
+  }
 ]
 
 export const pacienteRoutes : RouteObject[] = [
