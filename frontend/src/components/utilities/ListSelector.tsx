@@ -23,6 +23,19 @@ export function SelectItemCheckbox (
     )
   }
 
+  const selectorFatherOnChange = (ev: React.ChangeEvent<HTMLInputElement>, childs: Entities[]) => {
+    const { checked } = ev.target
+    const updateSelectedcheckboxes: Record<FatherCheckboxes, Record<string, boolean>> = {... selectedCheckboxes}
+
+    updateSelectedcheckboxes[fatherName] = {}
+    childs.forEach(entity => {
+      const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
+      updateSelectedcheckboxes[fatherName][keyNameFromEntity] = checked
+    })
+
+    setSeletedCheckboxes(updateSelectedcheckboxes)
+  }
+ 
   const childInput = () => {
     if (!child) return <p>Error</p>
     const childKeyName = selectNamingAttributeFromEntity(child)
@@ -37,19 +50,6 @@ export function SelectItemCheckbox (
         />
       </label>
     )
-  }
-
-  const selectorFatherOnChange = (ev: React.ChangeEvent<HTMLInputElement>, childs: Entities[]) => {
-    const { checked } = ev.target
-    const updateSelectedcheckboxes: Record<FatherCheckboxes, Record<string, boolean>> = {... selectedCheckboxes}
-
-    updateSelectedcheckboxes[fatherName] = {}
-    childs.forEach(entity => {
-      const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
-      updateSelectedcheckboxes[fatherName][keyNameFromEntity] = checked
-    })
-
-    setSeletedCheckboxes(updateSelectedcheckboxes)
   }
 
   const selectorChildOnChange = (ev: React.ChangeEvent<HTMLInputElement>, childEntity: Entities) => {
