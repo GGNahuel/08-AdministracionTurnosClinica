@@ -42,8 +42,8 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
   @Query(value = "select t from TurnoEntity t where " + 
     "(t.paciente.nombreCompleto like %:nombre% or t.profesional.nombreCompleto like %:nombre% or :nombre = '') and " +
     "(t.areaProfesional.nombre = :area or :area = '') and " +
-    "(t.estadoPago = :estadoPago or :estadoPago = null) and " +
-    "(t.fecha = :fecha or :fecha = null)")
+    "(t.estadoPago = :estadoPago or :estadoPago is null) and " +
+    "(t.fecha = :fecha or :fecha is null)")
   List<TurnoEntity> searchTurnos(@Param("nombre") String nombre, @Param("area") String nombreArea, 
     @Param("estadoPago") EstadoPago estado, @Param("fecha") LocalDate fecha);
 }
