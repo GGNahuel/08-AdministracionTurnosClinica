@@ -7,48 +7,13 @@
   }
 
   form {
-    padding: 2rem;
-    border-radius: var(--borderRadius_Sections);
-    
-    display: flex;
-    flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
-    
-    background-color: var(--colorFormsTables);
     
     > label {
       width: 100%;
       display: grid;
       grid-template-columns: minmax(15ch, 25ch) auto;
       gap: 1ch;
-    }
-    
-    input, select {
-      background-color: transparent;
-      border: 0;
-      border-bottom: 4px solid;
-      padding: 0.4rem;
-      font-weight: 600;
-
-      &::placeholder {
-        color: rgb(203, 203, 203);
-        font-weight: 400;
-      }
-
-      &:focus-visible {
-        outline: 0;
-        background-color: var(--colorFormsTables);
-      }
-    }
-
-    option {
-      color: black;
-    }
-    
-    > button {
-      margin-top: 0.5rem;
-      align-self: flex-end;
     }
 
     .checkboxContainer label {
@@ -60,25 +25,6 @@
       &, > * {
         cursor: pointer;
       }
-    }
-
-    .moreInfo {
-      display: none;
-      background-color: var(--colorFormsTables);
-      padding: 1rem;
-
-      p {
-        cursor: default;
-      }
-    }
-
-    .moreInfoLabel:focus-within + .moreInfo, .moreInfo:hover{
-      display: block;
-    }
-
-    input[type="search"] {
-      border: 2px solid;
-      border-radius: 8px;
     }
   }
 }

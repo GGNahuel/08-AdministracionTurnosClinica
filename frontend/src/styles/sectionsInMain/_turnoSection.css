@@ -133,6 +133,38 @@ details[open] > .turnsSummary {
   animation: onChangeAnimation 400ms;
 }
 
+#searchTurns form {
+  align-items: center;
+  background-color: var(--colorPrimario);
+  color: var(--fontColor_darkScheme);
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .searchers {
+    width: 100%;
+    justify-content: space-around;
+
+    & > div {
+      width: 50%;
+    }
+
+    input[type="search"] {
+      width: calc(90% - 24px);
+    }
+
+    label {
+      min-width: 30%;
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
 @keyframes onChangeAnimation {
   0% {
     background-color: var(--colorFormsTables);

@@ -188,7 +188,6 @@ export function useGetSearchedTurnos() {
       const data: GetResponseType = await response.json()
 
       setGetResponse(data)
-      console.log(data)
     }
     if (searchParams != defaultSearchObject) getData()
     else setGetResponse(null)

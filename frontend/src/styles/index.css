@@ -8,7 +8,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgb(225, 225, 225); /* 0.87 alpha*/
+  color: var(--fontColor_darkScheme); /* 0.87 alpha*/
   background-color: #242424;
 
   font-synthesis: none;
@@ -24,6 +24,8 @@
   --logoMainColor: rgb(64,168,179);
   --colorPrimario: rgb(6, 6, 105);
   --colorFormsTables: rgba(28, 28, 13, 0.2);
+
+  --fontColor_darkScheme: rgb(225, 225, 225);
 }
 
 a {
@@ -100,6 +102,67 @@ input[type="checkbox"] {
 
 textarea {
   resize: none;
+}
+
+form {
+  padding: 2rem;
+  border-radius: var(--borderRadius_Sections);
+  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
+  background-color: var(--colorFormsTables);
+  
+  input, select {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 4px solid;
+    padding: 0.4rem;
+    font-weight: 600;
+
+    &::placeholder {
+      color: rgb(203, 203, 203);
+      font-weight: 400;
+    }
+
+    &:focus-visible {
+      outline: 0;
+      background-color: var(--colorFormsTables);
+    }
+  }
+
+  option {
+    color: black;
+  }
+  
+  > button {
+    margin-top: 0.5rem;
+    align-self: flex-end;
+  }
+
+  .moreInfo {
+    display: none;
+    background-color: var(--colorFormsTables);
+    padding: 1rem;
+
+    p {
+      cursor: default;
+    }
+  }
+
+  .moreInfoLabel:focus-within + .moreInfo, .moreInfo:hover{
+    display: block;
+  }
+
+  input[type="search"] {
+    border: 2px solid;
+    border-radius: 8px;
+
+    & + .searchIcon {
+      width: 24px;
+    }
+  }
 }
 
 @media (prefers-color-scheme: light) {

@@ -6,6 +6,8 @@ import { EstadoPago } from "../../types/BackendEnums"
 import { AreaProfesional, Turno } from "../../types/Entities"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
 
+import loupeSvg from "../../assets/loupeSvg.svg"
+
 export function SearchTurnos() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
   const {getResponse, buildObject} = useGetSearchedTurnos()
@@ -13,27 +15,37 @@ export function SearchTurnos() {
   const selectedCheckboxes = useSelectedCheckboxesObject()
 
   return (
-    <section>
+    <section id="searchTurns">
       <header>
         <form onSubmit={(ev) => buildObject(ev)}>
-          <input type="search" name="searchName" placeholder="Nombre de paciente o profesional" />
-          <input type="date" name="date" placeholder="fecha"/>
-          <div>
-            Filtros:
-            <select name="areaName">
-              <option value={""}>Área profesional</option>
-              {areas.map(area => (<option key={area.nombre} value={area.nombre}>{area.nombre}</option>))}
-            </select>
-            <select name="estadoPago">
-              <option value={""}>Estado administrativo</option>
-              {EstadoPago.map(estado => (<option key={estado} value={estado}>{cutPascalCase(estado)}</option>))}
-            </select>
+          <div className="searchers">
+            <div>
+              <input type="search" name="searchName" placeholder="Nombre de paciente o profesional" />
+              <img src={loupeSvg} alt="search icon" className="searchIcon" />
+            </div>
+            <label>
+              Buscar por fecha
+              <input type="date" name="date" placeholder="fecha"/>
+            </label>
+          </div>
+          <div className="filters">
+            <p>Filtros:</p>
+            <div>
+              <select name="areaName">
+                <option value={""}>Área profesional</option>
+                {areas.map(area => (<option key={area.nombre} value={area.nombre}>{area.nombre}</option>))}
+              </select>
+              <select name="estadoPago">
+                <option value={""}>Estado administrativo</option>
+                {EstadoPago.map(estado => (<option key={estado} value={estado}>{cutPascalCase(estado)}</option>))}
+              </select>
+            </div>
           </div>
           <button type="submit">Aplicar</button>
         </form>
       </header>
       <section>
-        <table>
+        <table className="table">
           <thead><tr>
             <th><SelectItemCheckbox 
               selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="father" 
@@ -45,22 +57,26 @@ export function SearchTurnos() {
             <th>Paciente</th>
             <th>Profesional</th>
             <th>Consultorio</th>
+            <th>Estado</th>
+            <th>Comentario</th>
           </tr></thead>
           <tbody>
-            {resultsOfSearch?.map(turno => {console.log(turno); return(
+            {resultsOfSearch?.map(turno => (
               <tr key={turno.id}>
                 <td><SelectItemCheckbox 
                   selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="child" 
                   fatherName="turnos" child={turno}
                 /></td>
-                <td>{turno.fecha}</td>
-                <td>{turno.horario}</td>
+                <td className="right">{turno.fecha}</td>
+                <td className="right">{turno.horario}</td>
                 <td>{turno.areaProfesional}</td>
                 <td>{turno.pacienteDto.nombreCompleto}</td>
                 <td>{turno.profesionalDto.nombreCompleto}</td>
-                <td>{turno.consultorio}</td>
+                <td className="right">{turno.consultorio}</td>
+                <td>{cutPascalCase(turno.estadoPago)}</td>
+                <td>{turno.comentario}</td>
               </tr>
-            )})}
+            ))}
           </tbody>
         </table>
       </section>
