@@ -14,6 +14,7 @@ import Message from "../utilities/Message";
 import { SchedulePicker } from "./SchedulePicker";
 import { EstadoPago } from "../../types/BackendEnums";
 import { cutPascalCase } from "../../functions/Utilities";
+import { SearchVar } from "../utilities/Searchvar";
 
 export function TurnoCreacion() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -59,9 +60,9 @@ export function TurnoCreacion() {
           </select>
         </label>
         <label>
-          Nombre del paciente: (Ingrese el nombre y seleccione de la lista)
+          Nombre del paciente:
           <div className="grid autoColumns">
-            <input type="search" onChange={(ev) => setSearchPaciente(ev.target.value)}/>
+            <SearchVar onChangeFunction={(ev) => setSearchPaciente(ev.target.value)} placeholder="Búsqueda del paciente"/>
             <select name="paciente" required>
               {pacientesList?.length == 0 && <option value={""}>Ingrese un nombre para seleccionar el paciente</option>}
               {pacientesList?.map(paciente => (

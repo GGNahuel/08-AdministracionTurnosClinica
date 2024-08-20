@@ -159,10 +159,6 @@ form {
     border: 2px solid;
     border-radius: 8px;
   }
-
-  .searchIcon {
-    width: 20px;
-  }
 }
 
 @media (prefers-color-scheme: light) {

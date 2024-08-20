@@ -1,12 +1,13 @@
-import { cutPascalCase } from "../../functions/Utilities"
 import { useGetAllAreas } from "../../hooks/AreaRequests"
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
 import { useGetSearchedTurnos } from "../../hooks/TurnoRequests"
+
+import { cutPascalCase } from "../../functions/Utilities"
 import { EstadoPago } from "../../types/BackendEnums"
 import { AreaProfesional, Turno } from "../../types/Entities"
-import { SelectItemCheckbox } from "../utilities/ListSelector"
 
-import loupeSvg from "../../assets/loupeSvg.svg"
+import { SelectItemCheckbox } from "../utilities/ListSelector"
+import { SearchVar } from "../utilities/Searchvar"
 
 export function SearchTurnos() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
@@ -19,10 +20,7 @@ export function SearchTurnos() {
       <header>
         <form onSubmit={(ev) => buildObject(ev)}>
           <div className="searchers">
-            <div className="searchElement">
-              <img src={loupeSvg} alt="search icon" className="searchIcon" />
-              <input type="search" name="searchName" placeholder="Nombre de paciente o profesional" />
-            </div>
+            <SearchVar placeholder="Nombre de paciente o profesional" name="searchName"/>
             <label>
               Buscar por fecha
               <input type="date" name="date" placeholder="fecha"/>

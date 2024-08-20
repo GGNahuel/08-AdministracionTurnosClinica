@@ -161,26 +161,6 @@ details[open] > .turnsSummary {
   }
 }
 
-.searchElement {
-  border: 2px solid;
-  border-radius: 8px;
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  input[type="search"] {
-    border: 0;
-    border-radius: 0;
-    width: 100%;
-    text-indent: 40px;
-  }
-
-  .searchIcon {
-    margin-left: calc(10px + 0.2rem);
-    position: absolute;
-  }
-}
-
 @keyframes onChangeAnimation {
   0% {
     background-color: var(--colorFormsTables);
