@@ -152,16 +152,32 @@ details[open] > .turnsSummary {
       width: 50%;
     }
 
-    input[type="search"] {
-      width: calc(90% - 24px);
-    }
-
     label {
       min-width: 30%;
       input {
         width: 100%;
       }
     }
+  }
+}
+
+.searchElement {
+  border: 2px solid;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input[type="search"] {
+    border: 0;
+    border-radius: 0;
+    width: 100%;
+    text-indent: 40px;
+  }
+
+  .searchIcon {
+    margin-left: calc(10px + 0.2rem);
+    position: absolute;
   }
 }
 

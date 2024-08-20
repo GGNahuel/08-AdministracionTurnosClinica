@@ -158,10 +158,10 @@ form {
   input[type="search"] {
     border: 2px solid;
     border-radius: 8px;
+  }
 
-    & + .searchIcon {
-      width: 24px;
-    }
+  .searchIcon {
+    width: 20px;
   }
 }
 

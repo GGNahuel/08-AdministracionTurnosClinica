@@ -19,9 +19,9 @@ export function SearchTurnos() {
       <header>
         <form onSubmit={(ev) => buildObject(ev)}>
           <div className="searchers">
-            <div>
-              <input type="search" name="searchName" placeholder="Nombre de paciente o profesional" />
+            <div className="searchElement">
               <img src={loupeSvg} alt="search icon" className="searchIcon" />
+              <input type="search" name="searchName" placeholder="Nombre de paciente o profesional" />
             </div>
             <label>
               Buscar por fecha
