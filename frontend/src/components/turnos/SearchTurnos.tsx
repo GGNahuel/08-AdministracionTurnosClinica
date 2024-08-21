@@ -8,6 +8,7 @@ import { AreaProfesional, Turno } from "../../types/Entities"
 
 import { SelectItemCheckbox } from "../utilities/ListSelector"
 import { SearchVar } from "../utilities/Searchvar"
+import React from "react"
 
 export function SearchTurnos() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
@@ -56,24 +57,28 @@ export function SearchTurnos() {
             <th>Profesional</th>
             <th>Consultorio</th>
             <th>Estado</th>
-            <th>Comentario</th>
           </tr></thead>
           <tbody>
             {resultsOfSearch?.map(turno => (
-              <tr key={turno.id}>
-                <td><SelectItemCheckbox 
-                  selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="child" 
-                  fatherName="turnos" child={turno}
-                /></td>
-                <td className="right">{turno.fecha}</td>
-                <td className="right">{turno.horario}</td>
-                <td>{turno.areaProfesional}</td>
-                <td>{turno.pacienteDto.nombreCompleto}</td>
-                <td>{turno.profesionalDto.nombreCompleto}</td>
-                <td className="right">{turno.consultorio}</td>
-                <td>{cutPascalCase(turno.estadoPago)}</td>
-                <td>{turno.comentario}</td>
-              </tr>
+              <React.Fragment key={turno.id}>
+                <tr>
+                  <td><SelectItemCheckbox 
+                    selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="child" 
+                    fatherName="turnos" child={turno}
+                    /></td>
+                  <td className="right">{turno.fecha}</td>
+                  <td className="right">{turno.horario}</td>
+                  <td>{turno.areaProfesional}</td>
+                  <td>{turno.pacienteDto.nombreCompleto}</td>
+                  <td>{turno.profesionalDto.nombreCompleto}</td>
+                  <td className="right">{turno.consultorio}</td>
+                  <td>{cutPascalCase(turno.estadoPago)}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td colSpan={7}><strong>Comentario: </strong>{turno.comentario}</td>
+                </tr>
+              </React.Fragment>
             ))}
           </tbody>
         </table>

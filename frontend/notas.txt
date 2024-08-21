@@ -43,3 +43,7 @@ si hay un turno ocupado, tanto en el listado diario, como en el formulario, debe
   params que correspondan (fehca, hora, paciente)?
 
 ver cómo se implementa la obra social al crear turno
+
+estilar cómo se muestra lo creado en forms
+
+🔄 edicion de entidades

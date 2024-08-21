@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useGetAllAreas } from "../../hooks/AreaRequests";
 import { useGetAllConsultorios } from "../../hooks/ConsultorioRequests";
 import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
-import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities";
+import { AreaProfesional, Consultorio, Entities, ProfesionalMed } from "../../types/Entities";
 import { SelectItemCheckbox } from "../utilities/ListSelector";
+import { FatherCheckboxes } from "../../types/Others";
+import { concatArrays } from "../../functions/Utilities";
 
 export function AreaConsList() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
@@ -12,11 +15,46 @@ export function AreaConsList() {
 
   const selectCheckboxesState = useSelectedCheckboxesObject()
 
+  /* para las acciones al seleccionar. Funcion en el elemento de la seccion que contiene la tabla, es función se ejecutará al hacer click en un input,
+  es decir se ejecuta en el selectItemCheckbox (función que recibe como parametro). Esta función le va a pasar a un estado las entidades seleccionadas,
+  otro componente recibirá/ tendrá ese estado y se encargará de aplicar las funciones correspondientes
+  */
+  const [selectedEntities, setSelectedEntities] = useState<Record<FatherCheckboxes, Entities[]>>({
+    turnos: [],
+    pacientes: [],
+    profesionales: [],
+    consultorios: [],
+    areas: []
+  })
+  const selectedEntitiesFunction = (entityType: FatherCheckboxes, entity: Entities, inputChecked: boolean) => {
+    let updatedEntities: Entities[] = []
+
+    if (inputChecked) {
+      const temporalArray: Entities[] = []
+      temporalArray.push(entity)
+      updatedEntities = concatArrays(selectedEntities[entityType], temporalArray) as Entities[]
+    } else {
+      updatedEntities = selectedEntities[entityType].filter(entitySelected => entitySelected.id != entity.id)
+    }
+    console.log(updatedEntities)
+
+    setSelectedEntities(prev => ({
+        ...prev,
+        [entityType]: updatedEntities 
+      })
+    )
+  }
+
   return (
     <section>
       <h1>Listados</h1>
       <section>
         <h2>Consultorios existentes</h2>
+        <nav>
+          {selectedEntities.consultorios.length == 1 && <button>Editar</button>}
+          {selectedEntities.consultorios.length > 0 && <button>Dar de baja</button>}
+          {selectedEntities.consultorios.length > 0 && <button>Eliminar</button>}
+        </nav>
         <table className="table">
           <thead>
             <tr>
@@ -24,7 +62,7 @@ export function AreaConsList() {
                 <SelectItemCheckbox 
                   selectedCheckboxesObject={selectCheckboxesState} 
                   fatherName="consultorios" fatherOrChild="father" 
-                  childElements={consultorios} 
+                  childElements={consultorios} markSelectedEntitiesFunction={selectedEntitiesFunction}
                 />
               </th>
               <th>Número</th>
@@ -41,7 +79,7 @@ export function AreaConsList() {
                     <SelectItemCheckbox 
                       selectedCheckboxesObject={selectCheckboxesState} 
                       fatherName="consultorios" fatherOrChild="child" 
-                      child={consultorio}
+                      child={consultorio} markSelectedEntitiesFunction={selectedEntitiesFunction}
                     />
                   </td>
                   <td className="center">{consultorio.numeroConsultorio}</td>
@@ -61,7 +99,7 @@ export function AreaConsList() {
                 <SelectItemCheckbox 
                   selectedCheckboxesObject={selectCheckboxesState} 
                   fatherName="areas" fatherOrChild="father" 
-                  childElements={areas} 
+                  childElements={areas} markSelectedEntitiesFunction={selectedEntitiesFunction} 
                 />
               </th>
               <th>Nombre</th>
@@ -76,7 +114,7 @@ export function AreaConsList() {
                   <SelectItemCheckbox 
                       selectedCheckboxesObject={selectCheckboxesState} 
                       fatherName="areas" fatherOrChild="child" 
-                      child={area}
+                      child={area} markSelectedEntitiesFunction={selectedEntitiesFunction}
                     />
                 </td>
                 <td>{area.nombre}</td>

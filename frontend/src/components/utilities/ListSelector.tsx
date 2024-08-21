@@ -4,9 +4,10 @@ import { Entities } from "../../types/Entities"
 import { FatherCheckboxes } from "../../types/Others"
 
 export function SelectItemCheckbox (
-  {selectedCheckboxesObject, fatherOrChild, fatherName, childElements, child} :
+  {selectedCheckboxesObject, fatherOrChild, fatherName, childElements, child, markSelectedEntitiesFunction} :
   {selectedCheckboxesObject: ReturnType<typeof useSelectedCheckboxesObject>, fatherOrChild: "father" | "child", 
-    fatherName: FatherCheckboxes, childElements?: Entities[], child?: Entities}
+    fatherName: FatherCheckboxes, childElements?: Entities[], child?: Entities, 
+    markSelectedEntitiesFunction: (entityType: FatherCheckboxes, entity: Entities, inputChecked: boolean) => void}
 ) {
   const {selectedCheckboxes, setSeletedCheckboxes} = selectedCheckboxesObject
 
@@ -31,6 +32,8 @@ export function SelectItemCheckbox (
     childs.forEach(entity => {
       const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
       updateSelectedcheckboxes[fatherName][keyNameFromEntity] = checked
+
+      markSelectedEntitiesFunction(fatherName, entity, checked)
     })
 
     setSeletedCheckboxes(updateSelectedcheckboxes)
@@ -63,6 +66,8 @@ export function SelectItemCheckbox (
         [keyNameFromEntity]: checked
       }
     }))
+
+    markSelectedEntitiesFunction(fatherName, childEntity, checked)
   }
 
   const setCheckedSelectorFather = () => {
