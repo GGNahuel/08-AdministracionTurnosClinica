@@ -5,7 +5,7 @@ import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
 import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities";
 import { SelectItemCheckbox } from "../utilities/ListSelector";
 
-import { useTableOptions } from "../utilities/TableOptions";
+import { useTableOptions } from "../../hooks/useTableOptions";
 
 export function AreaConsList() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]

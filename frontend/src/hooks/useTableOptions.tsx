@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { concatArrays } from "../../functions/Utilities"
-import { Entities } from "../../types/Entities"
-import { FatherCheckboxes } from "../../types/Others"
+import { concatArrays } from "../functions/Utilities"
+import { Entities } from "../types/Entities"
+import { FatherCheckboxes } from "../types/Others"
 
 export function useTableOptions() {
   const [selectedEntities, setSelectedEntities] = useState<Record<FatherCheckboxes, Entities[]>>({
