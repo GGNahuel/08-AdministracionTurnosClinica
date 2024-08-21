@@ -2,6 +2,8 @@ import { useState } from "react"
 import { concatArrays } from "../functions/Utilities"
 import { Entities } from "../types/Entities"
 import { FatherCheckboxes } from "../types/Others"
+import { SelectItemCheckbox } from "../components/utilities/ListSelector"
+import { useSelectedCheckboxesObject } from "./SelectChecboxes"
 
 export function useTableOptions() {
   const [selectedEntities, setSelectedEntities] = useState<Record<FatherCheckboxes, Entities[]>>({
@@ -41,11 +43,18 @@ export function useTableOptions() {
     )
   }
 
-  const component = (props : {entityType: FatherCheckboxes}) => {
-    const {entityType} = props
+  const component = (props : {entityType: FatherCheckboxes, selectedCheckboxesState: ReturnType<typeof useSelectedCheckboxesObject>, childs: Entities[]}) => {
+    const {entityType, selectedCheckboxesState, childs} = props
     
     return (
       <nav>
+        <div className="checkbox">
+          <SelectItemCheckbox 
+            selectedCheckboxesObject={selectedCheckboxesState} 
+            fatherName={entityType} fatherOrChild="father" 
+            childElements={childs} markSelectedEntitiesFunction={selectedEntitiesFunction} 
+          />
+        </div>
         <button disabled={selectedEntities[entityType].length != 1}>Editar</button>
         <button disabled={selectedEntities[entityType].length == 0}>Dar de baja</button>
         <button disabled={selectedEntities[entityType].length == 0}>Eliminar</button>

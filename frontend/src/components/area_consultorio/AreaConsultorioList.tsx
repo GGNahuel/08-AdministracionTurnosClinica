@@ -20,17 +20,11 @@ export function AreaConsList() {
       <h1>Listados</h1>
       <section>
         <h2>Consultorios existentes</h2>
-        <TableOptions entityType="consultorios" />
+        <TableOptions entityType="consultorios" selectedCheckboxesState={selectCheckboxesState} childs={consultorios}/>
         <table className="table">
           <thead>
             <tr>
-              <th className="checkbox">
-                <SelectItemCheckbox 
-                  selectedCheckboxesObject={selectCheckboxesState} 
-                  fatherName="consultorios" fatherOrChild="father" 
-                  childElements={consultorios} markSelectedEntitiesFunction={selectedEntitiesFunction}
-                />
-              </th>
+              <th className="checkbox"></th>
               <th>Número</th>
               <th>Profesional asignado</th>
             </tr>
@@ -58,17 +52,11 @@ export function AreaConsList() {
       </section>
       <section>
         <h2>Áreas profesionales</h2>
-        <TableOptions entityType="areas" />
+        <TableOptions entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas}/>
         <table className="table">
           <thead>
             <tr>
-              <th className="checkbox">
-                <SelectItemCheckbox 
-                  selectedCheckboxesObject={selectCheckboxesState} 
-                  fatherName="areas" fatherOrChild="father" 
-                  childElements={areas} markSelectedEntitiesFunction={selectedEntitiesFunction} 
-                />
-              </th>
+              <th className="checkbox"></th>
               <th>Nombre</th>
               <th>Tipo</th>
               <th>Activa</th>

@@ -15,7 +15,7 @@ export function ProfesionalListado() {
   return (
     <section>
       <h1>Listado de profesionales</h1>
-      <TableOptions entityType="profesionales" />
+      <TableOptions entityType="profesionales" selectedCheckboxesState={selectedCheckboxesObject} childs={results}/>
       <table className="table">
         <thead><tr>
             <th>
@@ -40,7 +40,7 @@ export function ProfesionalListado() {
             
             return(
               <tr key={profesional.id}>
-                <td>
+                <td className="checkbox">
                   <SelectItemCheckbox
                     selectedCheckboxesObject={selectedCheckboxesObject}
                     fatherName="profesionales" fatherOrChild="child"

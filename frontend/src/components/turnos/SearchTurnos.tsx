@@ -46,13 +46,10 @@ export function SearchTurnos() {
         </form>
       </header>
       <section>
-        <TableOptions entityType="turnos" />
+        <TableOptions entityType="turnos" selectedCheckboxesState={selectedCheckboxes} childs={resultsOfSearch}/>
         <table className="table">
           <thead><tr>
-            <th><SelectItemCheckbox 
-              selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="father" 
-              fatherName="turnos" childElements={resultsOfSearch} markSelectedEntitiesFunction={selectedEntitiesFunction}
-            /></th>
+            <th></th>
             <th>Fecha</th>
             <th>Horario</th>
             <th>Area profesional</th>

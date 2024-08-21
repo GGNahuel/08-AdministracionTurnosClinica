@@ -33,17 +33,11 @@ export function PacienteListado() {
     <>
       <section>
         <h2>Listado de pacientes</h2>
-        <TableOptions entityType="pacientes" />
+        <TableOptions entityType="pacientes" selectedCheckboxesState={selectCheckboxesState} childs={results}/>
         <table className="table">
           <thead>
             <tr>
-              <th className="checkbox">
-                <SelectItemCheckbox 
-                  selectedCheckboxesObject={selectCheckboxesState} 
-                  fatherName="pacientes" fatherOrChild="father" 
-                  childElements={results} markSelectedEntitiesFunction={selectedEntitiesFunction}
-                />
-              </th>
+              <th className="checkbox"></th>
               <th>Nombre del paciente</th>
               <th>Dni</th>
               <th>Número de contacto</th>
