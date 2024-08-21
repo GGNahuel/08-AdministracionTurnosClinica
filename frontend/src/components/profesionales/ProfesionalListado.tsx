@@ -1,6 +1,7 @@
 import { Horario } from "../../classes/Horario";
 import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
+import { useTableOptions } from "../../hooks/useTableOptions";
 import { ProfesionalMed } from "../../types/Entities";
 import { SelectItemCheckbox } from "../utilities/ListSelector";
 
@@ -9,17 +10,19 @@ export function ProfesionalListado() {
   const results = data?.results as ProfesionalMed[]
 
   const selectedCheckboxesObject = useSelectedCheckboxesObject()
+  const {selectedEntitiesFunction, component: TableOptions} = useTableOptions()
 
   return (
     <section>
       <h1>Listado de profesionales</h1>
+      <TableOptions entityType="profesionales" />
       <table className="table">
         <thead><tr>
             <th>
               <SelectItemCheckbox 
                 selectedCheckboxesObject={selectedCheckboxesObject}
                 fatherName="profesionales" fatherOrChild="father"
-                childElements={results}
+                childElements={results} markSelectedEntitiesFunction={selectedEntitiesFunction}
               />
             </th>
             <th>Nombre completo</th>
@@ -41,7 +44,7 @@ export function ProfesionalListado() {
                   <SelectItemCheckbox
                     selectedCheckboxesObject={selectedCheckboxesObject}
                     fatherName="profesionales" fatherOrChild="child"
-                    child={profesional}
+                    child={profesional} markSelectedEntitiesFunction={selectedEntitiesFunction}
                   />
                 </td>
                 <td>{profesional.nombreCompleto}</td>

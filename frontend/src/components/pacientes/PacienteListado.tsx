@@ -4,6 +4,7 @@ import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
 import { useGetTurnosByPaciente } from "../../hooks/TurnoRequests"
 import { Paciente } from "../../types/Entities"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
+import { useTableOptions } from "../../hooks/useTableOptions"
 
 export function PacienteListado() {
   const allPacientes = useGetAllPacientes()
@@ -26,11 +27,13 @@ export function PacienteListado() {
   }
 
   const selectCheckboxesState = useSelectedCheckboxesObject()
+  const {selectedEntitiesFunction, component: TableOptions} = useTableOptions()
 
   return (
     <>
       <section>
         <h2>Listado de pacientes</h2>
+        <TableOptions entityType="pacientes" />
         <table className="table">
           <thead>
             <tr>
@@ -38,7 +41,7 @@ export function PacienteListado() {
                 <SelectItemCheckbox 
                   selectedCheckboxesObject={selectCheckboxesState} 
                   fatherName="pacientes" fatherOrChild="father" 
-                  childElements={results} 
+                  childElements={results} markSelectedEntitiesFunction={selectedEntitiesFunction}
                 />
               </th>
               <th>Nombre del paciente</th>
@@ -57,7 +60,7 @@ export function PacienteListado() {
                       <SelectItemCheckbox 
                         selectedCheckboxesObject={selectCheckboxesState} 
                         fatherName="pacientes" fatherOrChild="child" 
-                        child={paciente}
+                        child={paciente} markSelectedEntitiesFunction={selectedEntitiesFunction}
                       />
                     </td>
                     <td>{paciente.nombreCompleto}</td>

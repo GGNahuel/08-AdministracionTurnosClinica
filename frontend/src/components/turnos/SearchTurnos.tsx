@@ -1,6 +1,7 @@
 import { useGetAllAreas } from "../../hooks/AreaRequests"
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
 import { useGetSearchedTurnos } from "../../hooks/TurnoRequests"
+import { useTableOptions } from "../../hooks/useTableOptions"
 
 import { cutPascalCase } from "../../functions/Utilities"
 import { EstadoPago } from "../../types/BackendEnums"
@@ -15,6 +16,7 @@ export function SearchTurnos() {
   const {getResponse, buildObject} = useGetSearchedTurnos()
   const resultsOfSearch = getResponse?.results as Turno[]
   const selectedCheckboxes = useSelectedCheckboxesObject()
+  const {selectedEntitiesFunction, component: TableOptions} = useTableOptions()
 
   return (
     <section id="searchTurns">
@@ -44,11 +46,12 @@ export function SearchTurnos() {
         </form>
       </header>
       <section>
+        <TableOptions entityType="turnos" />
         <table className="table">
           <thead><tr>
             <th><SelectItemCheckbox 
               selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="father" 
-              fatherName="turnos" childElements={resultsOfSearch}
+              fatherName="turnos" childElements={resultsOfSearch} markSelectedEntitiesFunction={selectedEntitiesFunction}
             /></th>
             <th>Fecha</th>
             <th>Horario</th>
@@ -64,7 +67,7 @@ export function SearchTurnos() {
                 <tr>
                   <td><SelectItemCheckbox 
                     selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="child" 
-                    fatherName="turnos" child={turno}
+                    fatherName="turnos" child={turno} markSelectedEntitiesFunction={selectedEntitiesFunction}
                     /></td>
                   <td className="right">{turno.fecha}</td>
                   <td className="right">{turno.horario}</td>
