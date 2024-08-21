@@ -26,17 +26,27 @@ export function AreaConsList() {
     consultorios: [],
     areas: []
   })
-  const selectedEntitiesFunction = (entityType: FatherCheckboxes, entity: Entities, inputChecked: boolean) => {
+  const selectedEntitiesFunction = (params : {entityType: FatherCheckboxes, inputChecked: boolean, entity?: Entities, entities?: Entities[]}) => {
+    const {entityType, inputChecked, entity, entities} = params
+
+    if ((entity == undefined && entities == undefined) || (entity != undefined && entities != undefined)) 
+      throw new Error("La función debe recibir o una entidad o una lista de entidades")
+
     let updatedEntities: Entities[] = []
 
     if (inputChecked) {
-      const temporalArray: Entities[] = []
-      temporalArray.push(entity)
-      updatedEntities = concatArrays(selectedEntities[entityType], temporalArray) as Entities[]
+      if (entity != undefined) {
+        const temporalArray: Entities[] = []
+        temporalArray.push(entity)
+        updatedEntities = concatArrays(selectedEntities[entityType], temporalArray) as Entities[]
+      } else if (entities != undefined) {
+        entities.forEach(entitySelected => {
+          updatedEntities.push(entitySelected)
+        })
+      }
     } else {
-      updatedEntities = selectedEntities[entityType].filter(entitySelected => entitySelected.id != entity.id)
+      updatedEntities = entity != undefined ? selectedEntities[entityType].filter(entitySelected => entitySelected.id != entity.id) : []
     }
-    console.log(updatedEntities)
 
     setSelectedEntities(prev => ({
         ...prev,
@@ -51,9 +61,9 @@ export function AreaConsList() {
       <section>
         <h2>Consultorios existentes</h2>
         <nav>
-          {selectedEntities.consultorios.length == 1 && <button>Editar</button>}
-          {selectedEntities.consultorios.length > 0 && <button>Dar de baja</button>}
-          {selectedEntities.consultorios.length > 0 && <button>Eliminar</button>}
+          <button disabled={selectedEntities.consultorios.length != 1}>Editar</button>
+          <button disabled={selectedEntities.consultorios.length == 0}>Dar de baja</button>
+          <button disabled={selectedEntities.consultorios.length == 0}>Eliminar</button>
         </nav>
         <table className="table">
           <thead>

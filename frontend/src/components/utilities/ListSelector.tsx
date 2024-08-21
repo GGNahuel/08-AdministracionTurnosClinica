@@ -7,7 +7,9 @@ export function SelectItemCheckbox (
   {selectedCheckboxesObject, fatherOrChild, fatherName, childElements, child, markSelectedEntitiesFunction} :
   {selectedCheckboxesObject: ReturnType<typeof useSelectedCheckboxesObject>, fatherOrChild: "father" | "child", 
     fatherName: FatherCheckboxes, childElements?: Entities[], child?: Entities, 
-    markSelectedEntitiesFunction: (entityType: FatherCheckboxes, entity: Entities, inputChecked: boolean) => void}
+    markSelectedEntitiesFunction: 
+      (params : {entityType: FatherCheckboxes, inputChecked: boolean, entity?: Entities, entities?: Entities[]}) => void
+  }
 ) {
   const {selectedCheckboxes, setSeletedCheckboxes} = selectedCheckboxesObject
 
@@ -32,11 +34,11 @@ export function SelectItemCheckbox (
     childs.forEach(entity => {
       const keyNameFromEntity = selectNamingAttributeFromEntity(entity)
       updateSelectedcheckboxes[fatherName][keyNameFromEntity] = checked
-
-      markSelectedEntitiesFunction(fatherName, entity, checked)
     })
-
+    
     setSeletedCheckboxes(updateSelectedcheckboxes)
+
+    markSelectedEntitiesFunction({entityType: fatherName, inputChecked: checked, entities: childs})
   }
  
   const childInput = () => {
@@ -67,7 +69,7 @@ export function SelectItemCheckbox (
       }
     }))
 
-    markSelectedEntitiesFunction(fatherName, childEntity, checked)
+    markSelectedEntitiesFunction({entityType: fatherName, inputChecked: checked, entity: childEntity})
   }
 
   const setCheckedSelectorFather = () => {
