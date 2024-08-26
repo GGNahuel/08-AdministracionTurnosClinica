@@ -6,6 +6,7 @@ import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entiti
 import { SelectItemCheckbox } from "../utilities/ListSelector";
 
 import { useTableOptions } from "../../hooks/useTableOptions";
+import { TableOptions } from "../utilities/TableOptions";
 
 export function AreaConsList() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
@@ -13,14 +14,17 @@ export function AreaConsList() {
   const profesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
 
   const selectCheckboxesState = useSelectedCheckboxesObject()
-  const {selectedEntitiesFunction, component: TableOptions} = useTableOptions()
+  const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
 
   return (
     <section>
       <h1>Listados</h1>
       <section>
         <h2>Consultorios existentes</h2>
-        <TableOptions entityType="consultorios" selectedCheckboxesState={selectCheckboxesState} childs={consultorios}/>
+        <TableOptions 
+          entityType="consultorios" selectedCheckboxesState={selectCheckboxesState} childs={consultorios} 
+          selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
+        />
         <table className="table">
           <thead>
             <tr>
@@ -52,7 +56,10 @@ export function AreaConsList() {
       </section>
       <section>
         <h2>Áreas profesionales</h2>
-        <TableOptions entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas}/>
+        <TableOptions 
+          entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas}
+          selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
+        />
         <table className="table">
           <thead>
             <tr>

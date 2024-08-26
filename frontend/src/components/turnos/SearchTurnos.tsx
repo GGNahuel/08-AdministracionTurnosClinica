@@ -10,13 +10,14 @@ import { AreaProfesional, Turno } from "../../types/Entities"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
 import { SearchVar } from "../utilities/Searchvar"
 import React from "react"
+import { TableOptions } from "../utilities/TableOptions"
 
 export function SearchTurnos() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
   const {getResponse, buildObject} = useGetSearchedTurnos()
   const resultsOfSearch = getResponse?.results as Turno[]
   const selectedCheckboxes = useSelectedCheckboxesObject()
-  const {selectedEntitiesFunction, component: TableOptions} = useTableOptions()
+  const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
 
   return (
     <section id="searchTurns">
@@ -46,7 +47,10 @@ export function SearchTurnos() {
         </form>
       </header>
       <section>
-        <TableOptions entityType="turnos" selectedCheckboxesState={selectedCheckboxes} childs={resultsOfSearch}/>
+        <TableOptions 
+          entityType="turnos" selectedCheckboxesState={selectedCheckboxes} childs={resultsOfSearch}
+          selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
+        />
         <table className="table">
           <thead><tr>
             <th className="checkbox"></th>

@@ -5,6 +5,7 @@ import { useGetTurnosByPaciente } from "../../hooks/TurnoRequests"
 import { Paciente } from "../../types/Entities"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
 import { useTableOptions } from "../../hooks/useTableOptions"
+import { TableOptions } from "../utilities/TableOptions"
 
 export function PacienteListado() {
   const allPacientes = useGetAllPacientes()
@@ -27,14 +28,17 @@ export function PacienteListado() {
   }
 
   const selectCheckboxesState = useSelectedCheckboxesObject()
-  const {selectedEntitiesFunction, component: TableOptions} = useTableOptions()
+  const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
 
   return (
     <>
       <section>
         <h2>Listado de pacientes</h2>
         <section>  
-          <TableOptions entityType="pacientes" selectedCheckboxesState={selectCheckboxesState} childs={results}/>
+          <TableOptions 
+            entityType="pacientes" selectedCheckboxesState={selectCheckboxesState} childs={results}
+            selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
+          />
           <table className="table">
             <thead>
               <tr>
