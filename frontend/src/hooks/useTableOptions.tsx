@@ -5,6 +5,9 @@ import { FatherCheckboxes } from "../types/Others"
 import { SelectItemCheckbox } from "../components/utilities/ListSelector"
 import { useSelectedCheckboxesObject } from "./SelectChecboxes"
 
+import editIcon from "../assets/pencilSvg.svg"
+import deleteIcon from "../assets/trashCanSvg.svg"
+
 export function useTableOptions() {
   const [selectedEntities, setSelectedEntities] = useState<Record<FatherCheckboxes, Entities[]>>({
     turnos: [],
@@ -47,7 +50,7 @@ export function useTableOptions() {
     const {entityType, selectedCheckboxesState, childs} = props
     
     return (
-      <nav>
+      <nav className="tableNavbar">
         <div className="checkbox">
           <SelectItemCheckbox 
             selectedCheckboxesObject={selectedCheckboxesState} 
@@ -55,9 +58,9 @@ export function useTableOptions() {
             childElements={childs} markSelectedEntitiesFunction={selectedEntitiesFunction} 
           />
         </div>
-        <button disabled={selectedEntities[entityType].length != 1}>Editar</button>
-        <button disabled={selectedEntities[entityType].length == 0}>Dar de baja</button>
-        <button disabled={selectedEntities[entityType].length == 0}>Eliminar</button>
+        <button disabled={selectedEntities[entityType].length != 1} className="iconButton"><img src={editIcon} className="icon"/>Editar</button>
+        <button disabled={selectedEntities[entityType].length == 0} className="iconButton"><img src={deleteIcon} className="icon"/>Dar de baja</button>
+        <button disabled={selectedEntities[entityType].length == 0} className="iconButton"><img src={deleteIcon} className="icon"/>Eliminar</button>
       </nav>
     )
   }

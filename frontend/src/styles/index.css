@@ -77,6 +77,10 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+
+  &:disabled {
+    cursor: default;
+  }
 }
 button:hover {
   border-color: #646cff;
@@ -92,12 +96,7 @@ input[type="checkbox"] {
   width: 1.1rem;
   aspect-ratio: 1;
 
-  /* appearance: none; */
   transition: background-color 200ms;
-
-  /* &:checked {
-    background-color: var(--colorPrimario);
-  } */
 }
 
 textarea {

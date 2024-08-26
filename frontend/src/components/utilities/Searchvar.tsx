@@ -8,7 +8,7 @@ export function SearchVar(
 
   return (
     <div className="searchElement">
-      <img src={loupeSvg} alt="search icon" className="searchIcon" />
+      <img src={loupeSvg} alt="search icon" className="icon" />
       <input type="search" name={name} placeholder={placeholder} onChange={onChangeFunction} />
     </div>
   )

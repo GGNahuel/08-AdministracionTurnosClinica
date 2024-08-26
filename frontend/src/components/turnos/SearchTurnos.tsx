@@ -49,7 +49,7 @@ export function SearchTurnos() {
         <TableOptions entityType="turnos" selectedCheckboxesState={selectedCheckboxes} childs={resultsOfSearch}/>
         <table className="table">
           <thead><tr>
-            <th></th>
+            <th className="checkbox"></th>
             <th>Fecha</th>
             <th>Horario</th>
             <th>Area profesional</th>
@@ -62,7 +62,7 @@ export function SearchTurnos() {
             {resultsOfSearch?.map(turno => (
               <React.Fragment key={turno.id}>
                 <tr>
-                  <td><SelectItemCheckbox 
+                  <td className="checkbox"><SelectItemCheckbox 
                     selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="child" 
                     fatherName="turnos" child={turno} markSelectedEntitiesFunction={selectedEntitiesFunction}
                     /></td>

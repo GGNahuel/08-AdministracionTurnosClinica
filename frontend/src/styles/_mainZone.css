@@ -36,12 +36,38 @@ main {
     width: 100%;
     text-indent: 40px;
   }
+}
 
-  .searchIcon {
-    margin-left: calc(10px + 0.2rem);
-    position: absolute;
-    width: 20px;
+.tableNavbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem;
+  padding-left: 0;
+  border-top-left-radius: var(--borderRadius_Sections);
+  border-top-right-radius: var(--borderRadius_Sections);
+
+  background-color: var(--colorPrimario);
+}
+
+.iconButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.4rem 0.6rem;
+
+  .icon {
+    left: 0;
+    position: static;
+    margin: 0;
   }
+}
+
+.icon {
+  margin-left: calc(10px + 0.2rem);
+  position: absolute;
+  width: 20px;
 }
 
 @media (prefers-color-scheme: light) {
