@@ -57,7 +57,7 @@ export function AreaConsList() {
       <section>
         <h2>Áreas profesionales</h2>
         <TableOptions 
-          entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas}
+          entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas} desactivateButton
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
         />
         <table className="table">

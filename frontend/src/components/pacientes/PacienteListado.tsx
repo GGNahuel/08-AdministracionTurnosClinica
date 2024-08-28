@@ -75,7 +75,7 @@ export function PacienteListado() {
                         pacienteSelectedByDni.turnos?.map((turno) => (
                           <tr className="list turno">
                             <td colSpan={6}>
-                              <table>
+                              <table className="table">
                                 <thead>
                                   <tr>
                                     <th>Fecha</th>
