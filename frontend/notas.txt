@@ -47,3 +47,5 @@ ver cómo se implementa la obra social al crear turno
 estilar cómo se muestra lo creado en forms
 
 🔄 edicion de entidades
+
+placholder en modo claro

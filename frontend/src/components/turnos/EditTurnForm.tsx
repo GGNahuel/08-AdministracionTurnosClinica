@@ -4,7 +4,7 @@ export function EditTurnModal(props: {turnToEdit: Turno}) {
   const {turnToEdit} = props
 
   return (
-    <dialog open>
+    <dialog>
       <img src="/logoeEjemplo.png" alt="" />
       asdasd
       {turnToEdit.fecha}
