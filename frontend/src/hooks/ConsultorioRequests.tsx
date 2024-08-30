@@ -39,3 +39,23 @@ export function usePostConsultorio() {
 
   return {returnedPost, sendConsultorioToPost}
 }
+
+export function usePutConsultorio() {
+  const [returnValue, setReturnValue] = useState<ReturnResponseType | null>(null)
+
+  const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    const $form = new FormData(ev.currentTarget)
+    const id = $form.get("id") as string
+    const number = Number ($form.get("numeroConsultorio"))
+
+    const response = await fetch(API_PREFIX + `/consultorio?id=${id}&number=${number}`, {
+      method: "PUT"
+    })
+    const returned: ReturnResponseType = await response.json();
+    console.log(returned)
+    setReturnValue(returned)
+  }
+
+  return {returnValue, sendPutRequest}
+}
