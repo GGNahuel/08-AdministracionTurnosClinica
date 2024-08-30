@@ -64,8 +64,8 @@ public class ConsultorioController {
   }
 
   @PutMapping("")
-  public ResponseEntity<ResponseDTO> updateConsultorio(@RequestParam UUID id, @RequestParam Integer number) throws Exception {
-    ConsultorioDTO consultorio = consultorioService.update(id, number);
+  public ResponseEntity<ResponseDTO> updateConsultorio(@RequestParam String id, @RequestParam Integer number) throws Exception {
+    ConsultorioDTO consultorio = consultorioService.update(UUID.fromString(id), number);
     ReturnResponseDTO respuesta = new ReturnResponseDTO();
     respuesta.setReturnValue(consultorio);
     respuesta.setMessage(UtilitiesMethods.messageCreator("Consultorio actualizado exitosamente", MessageTypes.ok));
@@ -74,8 +74,8 @@ public class ConsultorioController {
   }
 
   @DeleteMapping("")
-  public ResponseEntity<ResponseDTO> deleteConsultorio(@RequestParam UUID id) throws Exception {
-    consultorioService.delete(id);
+  public ResponseEntity<ResponseDTO> deleteConsultorio(@RequestParam String id) throws Exception {
+    consultorioService.delete(UUID.fromString(id));
     MessageResponseDTO response = new MessageResponseDTO();
     response.setMessage(UtilitiesMethods.messageCreator("Consultorio eliminado", MessageTypes.ok));
 

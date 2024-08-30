@@ -49,3 +49,5 @@ estilar cómo se muestra lo creado en forms
 🔄 edicion de entidades
 
 placholder en modo claro
+
+ver que se actualice sola la tabla después de editar entidad
