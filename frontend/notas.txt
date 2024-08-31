@@ -14,40 +14,43 @@ Navbar y secciones
   ✅Página de inicio (Turnos/Ver turnos del día)
   Turnos
     ✅Ver turnos del día
-    🔄Crear turno
-    Modificar turno
-    Buscar turnos
+    ✅Crear turno
+    🔄Modificar turno
+    ✅Buscar turnos
   Pacientes
     ✅Registrar paciente
-    Editar datos de paciente
+    ✅Editar datos de paciente
     ✅Buscar pacientes
   Profesional médico
     ✅Registrar profesional
-    Editar datos de profesional
+    🔄Editar datos de profesional
     ✅Buscar perfil del profesional
   Consultorios y áreas
     ✅Registrar consultorios y areas
     ✅Ver consultorios y áreas
+    ✅Editar consultorios
+    ✅Editar areas
 
-ver porqué llega al error que llega cuando se registra un profesional sin areas asignadas
 
-⚠️ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
-  tanto si viene del back como del front
+Tareas:
+  Generales
+    ⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
+      tanto si viene del back como del front
+    ⚠️❗ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
+      en caso de que el profesional tenga horarios distintos en distintas áreas)
+    ⚠️agregar búsquedas en tablas que faltan
+    ver que se actualice sola la tabla después de editar entidad
 
-ver funciones obtener horarios con varios profesionales en el misma area
+  Funciones que faltarian
+    si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 
+      params que correspondan (fehca, hora, paciente)?
+    ver cómo se implementa la obra social al crear turno
 
-⚠️ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
-  en caso de que el profesional tenga horarios distintos en distintas áreas)
+  Errores y correcciones
+    ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
+    ver funciones obtener horarios con varios profesionales en el misma area
 
-si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 
-  params que correspondan (fehca, hora, paciente)?
-
-ver cómo se implementa la obra social al crear turno
-
-estilar cómo se muestra lo creado en forms
-
-🔄 edicion de entidades
-
-placholder en modo claro
-
-ver que se actualice sola la tabla después de editar entidad
+  Estilo css
+    estilar cómo se muestra lo creado en forms
+    placholder en modo claro
+    editar como se muestra el rango de horarios en el dailyTurns component en las areas sin turno cuando no hay horarios
