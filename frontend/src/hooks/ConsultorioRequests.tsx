@@ -53,7 +53,7 @@ export function usePutConsultorio() {
       method: "PUT"
     })
     const returned: ReturnResponseType = await response.json();
-    console.log(returned)
+
     setReturnValue(returned)
   }
 

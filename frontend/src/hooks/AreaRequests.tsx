@@ -65,3 +65,24 @@ export function usePostArea() {
 
   return {returnedPost, sendAreaToPost}
 }
+
+export function usePutArea() {
+  const [returnValue, setReturnValue] = useState<ReturnResponseType | null>(null)
+
+  const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    const $form = new FormData(ev.currentTarget)
+    const id = $form.get("id") as string
+    const name = $form.get("nombre") as string
+    const needSchedule = Boolean ($form.get("necesitaTurno") as string)
+
+    const response = await fetch(API_PREFIX + `/area?id=${id}&nombre=${name}&necesitaTurno=${needSchedule}`, {
+      method: "PUT"
+    })
+    const returned: ReturnResponseType = await response.json();
+    console.log(returned)
+    setReturnValue(returned)
+  }
+
+  return {returnValue, sendPutRequest}
+}
