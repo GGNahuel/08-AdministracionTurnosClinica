@@ -41,16 +41,20 @@ Tareas:
     ⚠️agregar búsquedas en tablas que faltan
     ver que se actualice sola la tabla después de editar entidad
 
-  Funciones que faltarian
+  Funciones
     si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 
       params que correspondan (fehca, hora, paciente)?
     ver cómo se implementa la obra social al crear turno
 
   Errores y correcciones
+    corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
     ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
     ver funciones obtener horarios con varios profesionales en el misma area
 
-  Estilo css
+  Estilo css UI/UX
+    agregar animación de carga
+    probar otros estilos para los details y summaries que aparecen en dailyTurns
+      dar padding cuando no hay horarios en el area
     estilar cómo se muestra lo creado en forms
     placholder en modo claro
     editar como se muestra el rango de horarios en el dailyTurns component en las areas sin turno cuando no hay horarios
