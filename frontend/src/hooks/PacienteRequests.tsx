@@ -78,15 +78,39 @@ export function usePostPaciente() {
       body: JSON.stringify(pacienteToSend)
     })
     const returned : ReturnResponseType = await request.json()
-    setReturnedPost({
-      message: {
-        text: returned.message.text,
-        messageType: returned.message.messageType,
-        exceptionCause: returned.message.exceptionCause
-      },
-      returnValue: returned.returnValue
-    })
+    setReturnedPost(returned)
   }
 
   return {returnedPost, sendPacienteToPost}
+}
+
+export function usePutPaciente() {
+  const [returnedValue, setReturnedValue] = useState<ReturnResponseType | null>(null)
+
+  const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    const $form = ev.currentTarget
+    const formData = new FormData($form)
+
+    const pacienteToSend: Paciente = {
+      id: formData.get("id") as string,
+      nombreCompleto: formData.get('nombreCompleto') as string,
+      dni: formData.get('dni') as string,
+      numeroContacto: Number(formData.get('numeroContacto') as string),
+      obraSocial: formData.get('obraSocial') as string
+    };
+
+    const request = await fetch(API_PREFIX + "/paciente", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(pacienteToSend)
+    })
+    const returned : ReturnResponseType = await request.json()
+    console.log(returned)
+    setReturnedValue(returned)
+  }
+
+  return {returnedValue, sendPutRequest}
 }
