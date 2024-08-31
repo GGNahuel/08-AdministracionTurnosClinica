@@ -38,8 +38,10 @@ Tareas:
       tanto si viene del back como del front
     ⚠️❗ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
       en caso de que el profesional tenga horarios distintos en distintas áreas)
+    ⚠️renombrar areas a Servicios
     ⚠️agregar búsquedas en tablas que faltan
     ver que se actualice sola la tabla después de editar entidad
+    eliminar console.log que hayan quedado por ahí xd
 
   Funciones
     si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 

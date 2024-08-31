@@ -81,9 +81,43 @@ export function usePostProfesional() {
       body: JSON.stringify(profesionalToSend)
     })
     const returned : ReturnResponseType = await request.json()
-    console.log(returned)
+
     setReturnedPost(returned)
   }
 
   return {returnedPost, sendProfesionalToPost}
+}
+
+export function usePutProfesional() {
+  const [returnValue, setReturnValue] = useState<ReturnResponseType | null>(null)
+
+  const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>, areas: string[]) => {
+    ev.preventDefault()
+    const $form = ev.currentTarget
+    const formData = new FormData($form)
+
+    const profesionalToSend: ProfesionalMed = {
+      id: formData.get("id") as string,
+      nombreCompleto: formData.get("nombreCompleto") as string,
+      dni: formData.get("dni") as string,
+      numeroContacto: Number(formData.get("numeroContacto") as string),
+      areas: areas,
+      numMatricula: Number(formData.get("matricula")), 
+      consultorio: Number(formData.get("consultorio") as string),
+      horarios: Horario.getStringsFromScheduleBlock(formData.get("horarios") as string)
+    };
+
+    const request = await fetch(API_PREFIX + "/profesional", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(profesionalToSend)
+    })
+    const returned : ReturnResponseType = await request.json()
+    console.log(returned)
+    setReturnValue(returned)
+  }
+
+  return {returnValue, sendPutRequest}
 }
