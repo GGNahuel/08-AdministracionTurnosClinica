@@ -5,7 +5,7 @@ main {
   border-radius: var(--borderRadius_Sections);
   /* box-shadow: var(--shadow_MainSections); */
   /* outline: var(--border_MainSections); */
-  background-color: rgba(255, 228, 196, 0.4);
+  background-color: rgba(211, 211, 211, 0.4);
   
   width: 100%;
   padding: 1.5rem;
