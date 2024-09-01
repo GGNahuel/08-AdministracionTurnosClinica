@@ -22,6 +22,30 @@ export function useGetAllAreas() {
   return getResponse
 }
 
+export function useGetAreasByName(name: string, areaSelectedSetter?: React.Dispatch<React.SetStateAction<{
+  name: string;
+  needSchedule: boolean;
+}>>) {
+  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch(API_PREFIX + "/area/" + encodeURIComponent(name))
+      const data : GetResponseType = await response.json()
+      console.log(data)
+      setGetResponse(data)
+
+      if (areaSelectedSetter && !data.message) {
+        const returnedArea = data.results[0] as AreaProfesional
+        areaSelectedSetter({name: returnedArea.nombre, needSchedule: returnedArea.necesitaTurno})
+      }
+    }
+    if (name != "") getData()
+  }, [name, areaSelectedSetter])
+
+  return getResponse
+}
+
 export function useGetAreasByActiveStatus(active: boolean) {
   const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
 
