@@ -1,10 +1,11 @@
 import { forwardRef, ReactNode, useState } from "react"
 import { getEntityType } from "../../functions/Validations"
-import { AreaProfesional, Consultorio, Entities, Paciente, ProfesionalMed } from "../../types/Entities"
+import { AreaProfesional, Consultorio, Entities, Paciente, ProfesionalMed, Turno } from "../../types/Entities"
 import { EditAreaForm } from "../area_consultorio/AreaEdit"
 import { EditConsultorioForm } from "../area_consultorio/ConsultorioEdit"
 import { EditPacienteForm } from "../pacientes/PacienteEdit"
 import { EditProfesionalForm } from "../profesionales/ProfesionalEdit"
+import { EditTurnForm } from "../turnos/TurnEdit"
 
 export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handleDialog: () => void}>(
   ({entity, handleDialog}, ref) => {
@@ -28,7 +29,7 @@ export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handle
       profesional: <EditProfesionalForm fieldsValuesState={fieldsValues as ProfesionalMed} handleOnChange={handleOnChange}/>,
       consultorio: <EditConsultorioForm fieldsValuesState={fieldsValues as Consultorio} handleOnChange={handleOnChange}/>,
       area: <EditAreaForm fieldsValuesState={fieldsValues as AreaProfesional} handleOnChange={handleOnChange}/>,
-      turno: <p></p>
+      turno: <EditTurnForm fieldsValuesState={fieldsValues as Turno} handleOnChange={handleOnChange}/>
     }
 
     return (
