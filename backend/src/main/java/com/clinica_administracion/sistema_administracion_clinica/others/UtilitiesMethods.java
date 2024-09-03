@@ -1,5 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.others;
 
+import java.text.Normalizer;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -51,6 +52,16 @@ public class UtilitiesMethods {
     mapa.setText(message);
     mapa.setType(messageType);
     return mapa;
+  }
+
+  public static String normaliceString(String string) {
+    String normalized = string.toLowerCase();
+    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+
+    normalized = Normalizer.normalize(normalized, Normalizer.Form.NFD);
+    normalized = pattern.matcher(normalized).replaceAll("");
+
+    return normalized;
   }
 
   public static void validateAreaInDto(String areaName, AreaRepository areaRepo) {

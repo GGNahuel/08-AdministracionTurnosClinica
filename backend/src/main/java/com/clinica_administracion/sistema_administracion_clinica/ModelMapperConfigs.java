@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.PacienteDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
@@ -144,6 +145,20 @@ public class ModelMapperConfigs {
       (mapper) -> {
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), ProfesionalMedDTO::setConsultorio);
         mapper.using(extractIds).map(ProfesionalMedEntity::getAreas, ProfesionalMedDTO::setAreas);
+      }
+    );
+  }
+
+  public void configureAreaMapping(ModelMapper modelMapper) {
+    if (modelMapper.getTypeMap(AreaDTO.class, AreaEntity.class) != null) 
+      return ;
+
+    modelMapper.typeMap(AreaDTO.class, AreaEntity.class).addMappings(
+      (mapper) -> {
+        mapper.map(src -> {
+          if (src.getNombre() != null && src.getNombre() != "") return UtilitiesMethods.normaliceString(src.getNombre());
+          else return src.getNombre();
+        }, AreaEntity::setSearchName);
       }
     );
   }

@@ -55,7 +55,7 @@ public class AreaService implements IAreaService{
   @Transactional(readOnly = true) @Override
   public List<AreaDTO> getByName(String nombre) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, nombre);
-    List<AreaEntity> areaEntities = areaRepo.findByNombreLike(nombre);
+    List<AreaEntity> areaEntities = areaRepo.findByNombreLike(UtilitiesMethods.normaliceString(nombre));
     if (areaEntities.size() == 0)
       throw new ResourceNotFound("Área", "nombre", nombre);
       
@@ -73,6 +73,7 @@ public class AreaService implements IAreaService{
 
     AreaEntity area = new AreaEntity();
     area.setNombre(nombre);
+    area.setSearchName(UtilitiesMethods.normaliceString(nombre));
     area.setActiva(true);
     area.setNecesitaTurno(necesitaTurno);
 
