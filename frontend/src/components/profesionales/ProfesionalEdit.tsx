@@ -5,12 +5,12 @@ import { ProfesionalMed, AreaProfesional, Consultorio } from "../../types/Entiti
 import { usePutProfesional } from "../../hooks/ProfesionalRequests"
 import { Horario } from "../../classes/Horario"
 
-export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void}) {
-  const {fieldsValuesState, handleOnChange} = props
+export function EditProfesionalForm(props : {entity: ProfesionalMed}) {
+  const {entity} = props
   const {sendPutRequest} = usePutProfesional()
 
-  const [selectedAreas, setSelectedAreas] = useState(fieldsValuesState.areas)
-  const [scheduleBlock, setScheduleBlock] = useState(fieldsValuesState.horarios ? Horario.getScheduleBlocksFromStrings(fieldsValuesState.horarios) : "")
+  const [selectedAreas, setSelectedAreas] = useState(entity.areas)
+  const [scheduleBlock, setScheduleBlock] = useState(entity.horarios ? Horario.getScheduleBlocksFromStrings(entity.horarios) : "")
   const areas = useGetAllAreas()?.results as AreaProfesional[]
   const consultorios = useGetAllConsultorios()?.results as Consultorio[]
 
@@ -25,24 +25,24 @@ export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, 
 
   return (
     <form onSubmit={(e) => sendPutRequest(e, selectedAreas)}>
-      <input type="hidden" name="id" value={fieldsValuesState.id} />
+      <input type="hidden" name="id" value={entity.id} />
       <label>Nombre completo: 
-        <input type="text" name="nombreCompleto" value={fieldsValuesState.nombreCompleto} onChange={(e) => handleOnChange(e)}/>
+        <input type="text" name="nombreCompleto" value={entity.nombreCompleto}/>
       </label>
       <label>DNI: 
-        <input type="text" name="dni" value={fieldsValuesState.dni} onChange={(e) => handleOnChange(e)}/>
+        <input type="text" name="dni" value={entity.dni}/>
       </label>
       <label>Número de telefono: 
-        <input type="number" name="numeroContacto" value={fieldsValuesState.numeroContacto} onChange={(e) => handleOnChange(e)}/>
+        <input type="number" name="numeroContacto" value={entity.numeroContacto}/>
       </label>
       <label>Número de matricula: 
-        <input type="number" name="matricula" value={fieldsValuesState.numMatricula} onChange={(e) => handleOnChange(e)}/>
+        <input type="number" name="matricula" value={entity.numMatricula}/>
       </label>
       <label>Consultorio: 
         <select name="consultorio">
           {consultorios?.map(consultorio => {
             const numero = consultorio.numeroConsultorio
-            return <option key={numero} value={numero}>{numero}</option>
+            return <option key={numero} value={numero} selected={numero == entity.consultorio}>{numero}</option>
           })}
         </select>
       </label>
