@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Horario } from "../../classes/Horario";
 import { dateToInputFormat, dateInputValueToDBFormat } from "../../functions/DateFunctions";
-import { cutPascalCase } from "../../functions/Utilities";
+import { cutPascalCase, normaliceString } from "../../functions/Utilities";
 import { useGetAreasByActiveStatus, useGetAreasByName } from "../../hooks/AreaRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
@@ -17,14 +17,14 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: fieldsValuesState.areaProfesional, needSchedule: false})
   const [searchPaciente, setSearchPaciente] = useState<string>(fieldsValuesState.pacienteDto.nombreCompleto)
-  const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: "", hour: ""})
+  const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: fieldsValuesState.fecha, hour: fieldsValuesState.horario})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
 
   // const {sendPutRequest} = usePutTurno()
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
-  const defaultArea = useGetAreasByName(fieldsValuesState.areaProfesional, setAreaSelected)
+  useGetAreasByName(normaliceString(fieldsValuesState.areaProfesional), setAreaSelected)
 
   return (
     <section>
@@ -90,12 +90,12 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
         <label>
           Estado pago: 
           <select name="estadoPago" required>
-            {EstadoPago.map(estado => (<option key={estado} value={estado}>{cutPascalCase(estado)}</option>))}
+            {EstadoPago.map(estado => (<option key={estado} value={estado} selected={fieldsValuesState.estadoPago == estado}>{cutPascalCase(estado)}</option>))}
           </select>
         </label>
         <label>
           Comentario: 
-          <textarea name="comentario" cols={3} />
+          <textarea name="comentario" cols={3} value={fieldsValuesState.comentario}/>
         </label>
         <button type="submit">Enviar</button>
       </form>

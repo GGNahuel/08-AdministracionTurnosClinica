@@ -42,3 +42,13 @@ export function cutPascalCase(string: string) : string {
 
   return result.join("")
 }
+
+export function normaliceString(input: string): string {
+  if (!input) return input
+
+  let normalized = input.toLowerCase();
+  normalized = normalized.normalize("NFD");
+  normalized = normalized.replace(/[\u0300-\u036f]/g, "");
+
+  return normalized;
+}

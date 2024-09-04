@@ -32,7 +32,6 @@ export function useGetAreasByName(name: string, areaSelectedSetter?: React.Dispa
     async function getData() {
       const response = await fetch(API_PREFIX + "/area/" + encodeURIComponent(name))
       const data : GetResponseType = await response.json()
-      console.log(data)
       setGetResponse(data)
 
       if (areaSelectedSetter && !data.message) {
