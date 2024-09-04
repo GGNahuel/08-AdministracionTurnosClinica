@@ -52,6 +52,7 @@ Tareas:
     corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
     ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
     ver funciones obtener horarios con varios profesionales en el misma area
+    ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
 
   Estilo css UI/UX
     agregar animación de carga

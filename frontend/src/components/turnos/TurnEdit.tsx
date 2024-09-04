@@ -5,7 +5,7 @@ import { cutPascalCase, normaliceString } from "../../functions/Utilities";
 import { useGetAreasByActiveStatus, useGetAreasByName } from "../../hooks/AreaRequests";
 import { useGetPacientesByName } from "../../hooks/PacienteRequests";
 import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
-// import { usePutTurno } from "../../hooks/TurnoRequests";
+import { usePutTurno } from "../../hooks/TurnoRequests";
 import { EstadoPago } from "../../types/BackendEnums";
 import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
 import { SearchVar } from "../utilities/Searchvar";
@@ -20,7 +20,7 @@ export function EditTurnForm(props : {entity: Turno}) {
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: entity.fecha, hour: entity.horario})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
 
-  // const {sendPutRequest} = usePutTurno()
+  const {sendPutRequest} = usePutTurno()
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
@@ -29,7 +29,7 @@ export function EditTurnForm(props : {entity: Turno}) {
   return (
     <section>
       <form onSubmit={(ev) => {
-        // sendPutRequest(ev, areaSelected.name, turnDate)
+        sendPutRequest(ev, areaSelected.name, turnDate)
       }}>
         <input type="hidden" name="id" value={entity.id}/>
         <label>
@@ -52,7 +52,7 @@ export function EditTurnForm(props : {entity: Turno}) {
           <select name="profesional" required>
             {areaSelected.name != "" ?
               profesionalesByAreas?.map(profesional => (
-                <option key={profesional.dni} value={profesional.dni} selected={profesional.id == entity.profesionalDto.id}>{profesional.nombreCompleto}</option>
+                <option key={profesional.dni} value={profesional.dni} defaultChecked={profesional.id == entity.profesionalDto.id}>{profesional.nombreCompleto}</option>
               )) :
               <option value={""}>Seleccione un área para ver los profesionales disponibles</option>
             }
@@ -89,13 +89,13 @@ export function EditTurnForm(props : {entity: Turno}) {
         <h5>Para los campos de horario y fecha puede ingresarlos manualmente o a traves de la agenda que aparece al final</h5>
         <label>
           Estado pago: 
-          <select name="estadoPago" required>
-            {EstadoPago.map(estado => (<option key={estado} value={estado} selected={entity.estadoPago == estado}>{cutPascalCase(estado)}</option>))}
+          <select name="estadoPago" required defaultValue={entity.estadoPago}>
+            {EstadoPago.map(estado => (<option key={estado} value={estado}>{cutPascalCase(estado)}</option>))}
           </select>
         </label>
         <label>
           Comentario: 
-          <textarea name="comentario" cols={3} value={entity.comentario}/>
+          <textarea name="comentario" cols={3} defaultValue={entity.comentario || ""}/>
         </label>
         <button type="submit">Enviar</button>
       </form>

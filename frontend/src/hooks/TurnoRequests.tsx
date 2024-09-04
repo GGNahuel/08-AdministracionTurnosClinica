@@ -108,6 +108,68 @@ export function usePostTurno() {
   return {returnedPost, sendData}
 }
 
+export function usePutTurno() {
+  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | GetResponseType>({
+    message: {} as MessageInterface, returnValue: {} as Turno
+  })
+
+  const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>, areaSelected: string, turnDate: {date: string, hour: string}) => {
+    ev.preventDefault()
+    const $form = ev.currentTarget
+    const formData = new FormData($form)
+
+    const dniProfesional = formData.get("profesional") as string
+    let dataProfesional: GetResponseType | null = null
+    if (dniProfesional && dniProfesional != "") {
+      const responseProfesional = await fetch(API_PREFIX + "/profesional/" + formData.get("profesional") as string)
+      dataProfesional = await responseProfesional.json()
+      
+      if (dataProfesional && dataProfesional.message) {
+        setReturnedPost(dataProfesional)
+        return
+      }
+    }
+    
+    const dniPaciente = formData.get("paciente") as string
+    let dataPaciente: GetResponseType | null = null
+    if (dniPaciente && dniPaciente != "") {
+      const responsePaciente = await fetch(API_PREFIX + "/paciente/" + formData.get("paciente") as string)
+      dataPaciente = await responsePaciente.json()
+      
+      if (dataPaciente && dataPaciente.message) {
+        setReturnedPost(dataPaciente)
+        return
+      }
+    }
+
+    const dataToSend : Turno = {
+      id: formData.get("id") as string,
+      profesionalDto: dataProfesional?.results[0] as ProfesionalMed || null,
+      pacienteDto: dataPaciente?.results[0] as Paciente || null,
+      fecha: turnDate.date,
+      horario: turnDate.hour,
+      areaProfesional: areaSelected,
+      consultorio: (dataProfesional?.results[0] as ProfesionalMed).consultorio,
+      obraSocial: (dataPaciente?.results[0] as Paciente).obraSocial,
+      estadoPago: formData.get("estadoPago") as string,
+      comentario: formData.get("comentario") as string
+    }
+
+    const request = await fetch(API_PREFIX + "/turno", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dataToSend)
+    })
+    const returned : ReturnResponseType = await request.json()
+
+    setReturnedPost(returned)
+  }
+
+  return {returnedPost, sendPutRequest}
+}
+
 export function useGetTurnosByPaciente() {
   const [pacienteSelectedByDni, setPacienteSelected] = useState<{
     dni: string,
