@@ -34,6 +34,7 @@ Navbar y secciones
 
 Tareas:
   Generales
+    ⚠️❗🌎 logueo
     ⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
       tanto si viene del back como del front
     ⚠️❗ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
@@ -58,7 +59,7 @@ Tareas:
   Estilo css UI/UX
     🔄 terminar estilos en dailyTurns y turnCreation
     agregar animación de carga
-    cambiar estilos de navbar y main element para que parezca una interfaz de un programa
+    🔄 cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     probar otros estilos para los details y summaries que aparecen en dailyTurns
       dar padding cuando no hay horarios en el area
     estilar cómo se muestra lo creado en forms

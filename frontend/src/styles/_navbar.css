@@ -90,8 +90,14 @@
 
     .iconButton {
       border-radius: 100%;
+      border-color: var(--logoMainColor);
       aspect-ratio: 1;
       background-color: rgb(192, 226, 255);
+      transition: background-color 600ms;
+
+      &:hover {
+        background-color: var(--logoMainColor);
+      }
     }
   }
 
