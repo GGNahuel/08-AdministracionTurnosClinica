@@ -9,7 +9,7 @@
 
   color-scheme: light dark;
   color: var(--fontColor_darkScheme); /* 0.87 alpha*/
-  background-color: #242424;
+  background-color: var(--backgrounColor_darkScheme);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,6 +26,7 @@
   --colorFormsTables: rgba(35, 35, 31, 0.2);
 
   --fontColor_darkScheme: rgb(225, 225, 225);
+  --backgrounColor_darkScheme: #242424;
 
   --maxWidthViewport: 1366px;
 }
@@ -165,13 +166,13 @@ form {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: var(--fontColor_darkScheme);
     --colorPrimario: rgb(5, 5, 178);
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--fontColor_darkScheme);
   }
 }

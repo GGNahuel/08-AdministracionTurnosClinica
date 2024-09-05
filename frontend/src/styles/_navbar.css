@@ -81,10 +81,19 @@
   .buttonList {
     position: absolute;
     align-self: center;
+    width: 100%;
+    right: 0;
     bottom: 0;
+    box-sizing: border-box;
   
     display: flex;
-    gap: 8px;
+    justify-content: space-evenly;
+
+    .iconButton {
+      border-radius: 100%;
+      aspect-ratio: 1;
+      background-color: rgb(192, 226, 255);
+    }
   }
 
   a, a:hover {
