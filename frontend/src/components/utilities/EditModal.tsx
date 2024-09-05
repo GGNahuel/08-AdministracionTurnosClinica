@@ -7,8 +7,8 @@ import { EditPacienteForm } from "../pacientes/PacienteEdit"
 import { EditProfesionalForm } from "../profesionales/ProfesionalEdit"
 import { EditTurnForm } from "../turnos/TurnEdit"
 
-export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handleDialog: () => void}>(
-  ({entity, handleDialog}, ref) => {
+export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handleDialog: () => void, isOpen: boolean}>(
+  ({entity, handleDialog, isOpen}, ref) => {
     const entityType = getEntityType(entity)
 
     const formComponent: Record<ReturnType<typeof getEntityType>, ReactNode> = {
@@ -23,7 +23,7 @@ export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handle
       <dialog ref={ref}>
         <section>
           <h2>Editar {entityType}</h2>
-          {formComponent[entityType]}
+          {isOpen && formComponent[entityType]}
         </section>
         <button onClick={handleDialog}>✖️</button>
       </dialog>

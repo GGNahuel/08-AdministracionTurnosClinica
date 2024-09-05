@@ -3,7 +3,7 @@ import { Entities } from "../../types/Entities"
 import { FatherCheckboxes } from "../../types/Others"
 import { SelectItemCheckbox } from "./ListSelector"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import editIcon from "../../assets/pencilSvg.svg"
 import deleteIcon from "../../assets/trashCanSvg.svg"
 import { EditModal } from "./EditModal"
@@ -18,6 +18,7 @@ export function TableOptions(props :
 ) {
   const {entityType, selectedCheckboxesState, childs, selectedEntities, selectedEntitiesFunction, desactivateButton} = props
   const dialogRef = useRef<HTMLDialogElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleDialog = () => {
     if (!dialogRef.current) return
@@ -26,6 +27,7 @@ export function TableOptions(props :
     } else {
       dialogRef.current.showModal()
     }
+    setIsOpen(dialogRef.current.open)
   }
   
   return (
@@ -40,7 +42,9 @@ export function TableOptions(props :
       <button disabled={selectedEntities[entityType].length != 1} className="iconButton" onClick={handleDialog}>
         <img src={editIcon} className="icon"/>Editar
       </button>
-      {selectedEntities[entityType].length == 1 && <EditModal entity={selectedEntities[entityType][0]} ref={dialogRef} handleDialog={handleDialog}/>}
+      {selectedEntities[entityType].length == 1 &&
+        <EditModal entity={selectedEntities[entityType][0]} ref={dialogRef} handleDialog={handleDialog} isOpen={isOpen}/>
+      }
       {desactivateButton && 
       <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
         <img src={deleteIcon} className="icon"/>Dar de baja
