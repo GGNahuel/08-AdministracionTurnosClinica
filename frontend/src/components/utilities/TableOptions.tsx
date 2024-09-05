@@ -4,8 +4,7 @@ import { FatherCheckboxes } from "../../types/Others"
 import { SelectItemCheckbox } from "./ListSelector"
 
 import { useRef, useState } from "react"
-import editIcon from "../../assets/pencilSvg.svg"
-import deleteIcon from "../../assets/trashCanSvg.svg"
+import { PencilIcon, TrashCanIcon } from "./Icons"
 import { EditModal } from "./EditModal"
 
 export function TableOptions(props : 
@@ -40,17 +39,17 @@ export function TableOptions(props :
         />
       </div>
       <button disabled={selectedEntities[entityType].length != 1} className="iconButton" onClick={handleDialog}>
-        <img src={editIcon} className="icon"/>Editar
+        <PencilIcon color="#fff"/>Editar
       </button>
       {selectedEntities[entityType].length == 1 &&
         <EditModal entity={selectedEntities[entityType][0]} ref={dialogRef} handleDialog={handleDialog} isOpen={isOpen}/>
       }
       {desactivateButton && 
       <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
-        <img src={deleteIcon} className="icon"/>Dar de baja
+        <TrashCanIcon color="#fff"/>Dar de baja
       </button>}
       <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
-        <img src={deleteIcon} className="icon"/>Eliminar
+        <TrashCanIcon color="#fff"/>Eliminar
       </button>
     </nav>
   )

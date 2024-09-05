@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from "react"
-import loupeSvg from "../../assets/loupeSvg.svg"
+import { LoupeIcon } from "./Icons"
 
 export function SearchVar(
   {name = "", onChangeFunction = () => {}, placeholder = ""} : 
@@ -8,7 +8,8 @@ export function SearchVar(
 
   return (
     <div className="searchElement">
-      <img src={loupeSvg} alt="search icon" className="icon" />
+      {/* <img src={loupeSvg} alt="search icon" className="icon" /> */}
+      <LoupeIcon color="#fff"/>
       <input type="search" name={name} placeholder={placeholder} onChange={onChangeFunction} />
     </div>
   )

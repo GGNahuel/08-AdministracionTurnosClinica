@@ -58,17 +58,17 @@ main {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.6rem;
   padding: 0.4rem 0.6rem;
 
   .icon {
     left: 0;
     position: static;
-    margin: 0;
   }
 }
 
 .icon {
   position: absolute;
   width: 20px;
+  height: 20px;
 }
