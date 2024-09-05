@@ -47,18 +47,19 @@ body {
   display: flex;
   flex-direction: column;
   place-items: center;
+  padding: 2rem;
 }
 
 #root {
-  padding: 2rem;
   min-width: 320px;
   width: 100%;
   max-width: var(--maxWidthViewport);
-  height: 100vh;
+  height: calc(100vh - 4rem);
   box-sizing: border-box;
 
   display: flex;
-  gap: 1rem;
+  border-radius: var(--borderRadius_Sections);
+  overflow: hidden;
 }
 
 h1 {

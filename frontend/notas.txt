@@ -44,6 +44,7 @@ Tareas:
     eliminar console.log que hayan quedado por ahí xd
 
   Funciones
+    ⚠️ en el calendario de creación poner un checkbox para que solo aparezcan los horarios que están disponibles en los dias que corresponda
     si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 
       params que correspondan (fehca, hora, paciente)?
     ver cómo se implementa la obra social al crear turno
@@ -55,10 +56,12 @@ Tareas:
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
 
   Estilo css UI/UX
+    🔄 terminar estilos en dailyTurns y turnCreation
     agregar animación de carga
+    cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     probar otros estilos para los details y summaries que aparecen en dailyTurns
       dar padding cuando no hay horarios en el area
     estilar cómo se muestra lo creado en forms
     placholder en modo claro
     editar como se muestra el rango de horarios en el dailyTurns component en las areas sin turno cuando no hay horarios
-    estilo a los botones de nav
+    ✅ estilo a los botones de nav

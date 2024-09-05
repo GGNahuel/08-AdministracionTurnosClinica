@@ -2,7 +2,6 @@
 @import "./sectionsInMain/_postForms.css";
 
 main {
-  border-radius: var(--borderRadius_Sections);
   /* box-shadow: var(--shadow_MainSections); */
   /* outline: var(--border_MainSections); */
   background-color: rgba(211, 211, 211, 0.4);
