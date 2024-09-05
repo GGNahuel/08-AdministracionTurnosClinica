@@ -1,8 +1,6 @@
 #mainNavbar {
   background-color: var(--colorPrimario);
   color: rgba(255, 255, 255, 0.87);
-  /* box-shadow: var(--shadow_MainSections); */
-  /* outline: var(--border_MainSections); */
 
   min-width: 250px;
   width: min-content;
