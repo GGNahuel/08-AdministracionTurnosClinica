@@ -19,7 +19,8 @@
   --borderRadius_Sections: 16px;
   --border_MainSections: 4px solid rgb(128, 128, 128);
 
-  --shadow_MainSections: 8px 12px 2px rgb(96, 96, 96);
+  --shadow_darkScheme: 5px 5px 2px rgb(73, 73, 73);
+  --shadow_lightScheme: 5px 5px 2px rgb(148, 148, 148);
 
   --logoMainColor: rgb(64,168,179);
   --colorPrimario: rgb(6, 6, 105);
@@ -60,6 +61,8 @@ body {
   display: flex;
   border-radius: var(--borderRadius_Sections);
   overflow: hidden;
+
+  filter: drop-shadow(var(--shadow_darkScheme));
 }
 
 h1 {
