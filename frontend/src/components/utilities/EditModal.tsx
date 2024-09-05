@@ -20,12 +20,12 @@ export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handle
     }
 
     return (
-      <dialog ref={ref}>
-        <section>
+      <dialog ref={ref} className="editDialog">
+        <section className="registerSection">
           <h2>Editar {entityType}</h2>
           {isOpen && formComponent[entityType]}
         </section>
-        <button onClick={handleDialog}>✖️</button>
+        <button onClick={handleDialog} className="iconButton">×</button>
       </dialog>
     )
   }

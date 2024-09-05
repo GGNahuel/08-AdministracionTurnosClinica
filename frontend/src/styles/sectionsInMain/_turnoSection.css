@@ -133,7 +133,7 @@ details[open] > .turnsSummary {
   animation: onChangeAnimation 400ms;
 }
 
-#searchTurns form {
+#searchTurns > header > form {
   align-items: center;
   background-color: var(--colorPrimario);
   color: var(--fontColor_darkScheme);

@@ -26,6 +26,8 @@
   --colorFormsTables: rgba(35, 35, 31, 0.2);
 
   --fontColor_darkScheme: rgb(225, 225, 225);
+
+  --maxWidthViewport: 1366px;
 }
 
 a {
@@ -50,7 +52,7 @@ body {
   padding: 2rem;
   min-width: 320px;
   width: 100%;
-  max-width: 1366px;
+  max-width: var(--maxWidthViewport);
   height: 100vh;
   box-sizing: border-box;
 

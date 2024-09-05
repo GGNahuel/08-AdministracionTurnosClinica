@@ -61,3 +61,4 @@ Tareas:
     estilar cómo se muestra lo creado en forms
     placholder en modo claro
     editar como se muestra el rango de horarios en el dailyTurns component en las areas sin turno cuando no hay horarios
+    estilo a los botones de nav

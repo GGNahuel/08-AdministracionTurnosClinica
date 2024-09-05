@@ -28,3 +28,24 @@
     }
   }
 }
+
+.editDialog {
+  width: 80%;
+  max-width: calc(var(--maxWidthViewport) - 250px);
+  position: relative;
+  border-radius: var(--borderRadius_Sections);
+
+  .iconButton {
+    border: 0;
+    font-size: 1.5rem;
+
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+
+    &:hover {
+      color: red;
+      transition: color 300ms;
+    }
+  }
+}
