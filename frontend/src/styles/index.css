@@ -23,7 +23,6 @@
 
   --logoMainColor: rgb(64,168,179);
   --colorPrimario: rgb(6, 6, 105);
-  --colorFormsTables: rgba(97, 97, 97);
   --color_contrastMain: rgb(88,88,88);
 
   --fontColor_darkScheme: rgb(225, 225, 225);
@@ -136,10 +135,6 @@ form {
       outline: 0;
       background-color: var(--color_contrastMain);
     }
-  }
-
-  option {
-    color: black;
   }
   
   > button {

@@ -9,16 +9,6 @@
   > details {
     /* overflow-y: scroll; */
 
-    .horariosContainer {
-      padding: 1rem;
-      border: 2px solid;
-      border-top: 0;
-      border-bottom-left-radius: var(--borderRadius_Sections);
-      border-bottom-right-radius: var(--borderRadius_Sections);
-
-      background-color: var(--color_contrastMain);
-    }
-
     article.dailyTurno {
       border: 1px solid;
       border-radius: var(--borderRadius_Sections);
@@ -34,6 +24,20 @@
 
 .mainDetails {
   filter: drop-shadow(var(--shadow));
+
+  > section {
+    padding: 1rem;
+    border: 2px solid;
+    border-top: 0;
+    border-bottom-left-radius: var(--borderRadius_Sections);
+    border-bottom-right-radius: var(--borderRadius_Sections);
+
+    background-color: var(--color_contrastMain);
+  }
+
+  &:last-child {
+    margin-bottom: 1rem;
+  }
 }
 
 .turnsSummary {
@@ -115,6 +119,7 @@ details[open] > .turnsSummary {
     .journal {
       margin: 6px;
       border: 1px solid;
+      border-radius: 8px;
       cursor: pointer;
 
       &.selected {
@@ -124,14 +129,14 @@ details[open] > .turnsSummary {
       &.unavailable {
         background-color: rgba(162, 0, 0, 0.3);
         cursor: default;
-
-        &:hover {
-          background-color: rgba(162, 0, 0, 0.3);
-        }
       }
       
       &:hover {
-        background-color: var(--color_contrastMain);
+        outline: 2px solid;
+      }
+      
+      > p:first-child {
+        font-weight: 500;
       }
     }
   }
