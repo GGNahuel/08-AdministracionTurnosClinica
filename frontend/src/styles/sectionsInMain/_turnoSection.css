@@ -8,7 +8,6 @@
 
   > details {
     /* overflow-y: scroll; */
-    filter: drop-shadow(var(--shadow_darkScheme));
 
     .horariosContainer {
       padding: 1rem;
@@ -17,7 +16,7 @@
       border-bottom-left-radius: var(--borderRadius_Sections);
       border-bottom-right-radius: var(--borderRadius_Sections);
 
-      background-color: rgb(88, 88, 88);
+      background-color: var(--color_contrastMain_darkScheme);
     }
 
     article.dailyTurno {
@@ -31,6 +30,10 @@
       }
     }
   }
+}
+
+.mainDetails {
+  filter: drop-shadow(var(--shadow_darkScheme));
 }
 
 .turnsSummary {
@@ -73,7 +76,7 @@
     &::before {
       height: 20px;
       width: 0;
-      transition: height 300ms ease;
+      transition: height 200ms ease;
     }
     
     &::after {
@@ -134,6 +137,12 @@ details[open] > .turnsSummary {
   }
 }
 
+#turnPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 #turnoForm .animate {
   animation: onChangeAnimation 400ms;
 }
@@ -183,6 +192,6 @@ details[open] > .turnsSummary {
   }
 
   .horariosContainer {
-    background-color: rgb(211, 211, 211) !important;
+    background-color: var(--color_contrastMain_lightScheme) !important;
   }
 }

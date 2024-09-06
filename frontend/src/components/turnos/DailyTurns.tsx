@@ -52,7 +52,7 @@ function DailyTurnsInArea(props: {areaDto: AreaProfesional, turnos: Turno[] | nu
     ) : <p>No hay horarios para esta área, revisar horarios de profesionales</p>
 
   return (
-    <details key={nombreArea}>
+    <details key={nombreArea} className="mainDetails">
       <summary className="turnsSummary">
         <h3>{nombreArea.toUpperCase()}</h3>
         <div className="detailsExpandButton"></div>

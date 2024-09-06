@@ -24,7 +24,9 @@
 
   --logoMainColor: rgb(64,168,179);
   --colorPrimario: rgb(6, 6, 105);
-  --colorFormsTables: rgba(35, 35, 31, 0.2);
+  --colorFormsTables: rgba(97, 97, 97);
+  --color_contrastMain_darkScheme: rgb(88,88,88);
+  --color_contrastMain_lightScheme: rgb(211,211,211);
 
   --fontColor_darkScheme: rgb(225, 225, 225);
   --backgrounColor_darkScheme: #242424;

@@ -53,7 +53,7 @@ export function SchedulePicker(props:{
       {areaSelected.name == "" ? 
         <p>Seleccione un area para ver la agenda</p> :
         nextMonths.map((monthName, index) => (
-          <details key={monthName} name="monthSelected">
+          <details key={monthName} name="monthSelected" className="mainDetails">
             <summary className="turnsSummary"><h3>{monthName}</h3><div className="detailsExpandButton"></div></summary>
             <section className={`schedulePicker ${scheduleList && scheduleList.length > 0 ? "" : "noSchedule"}`}>
               {scheduleList && scheduleList.length > 0 ?
