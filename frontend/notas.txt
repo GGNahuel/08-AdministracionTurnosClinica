@@ -47,6 +47,7 @@ Tareas:
     si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 
       params que correspondan (fehca, hora, paciente)?
     ver cómo se implementa la obra social al crear turno
+    en el dailyTurns component en las areas sin turno cuando no hay horarios agregar enlace para editar el area
 
   Errores y correcciones
     corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
@@ -55,12 +56,12 @@ Tareas:
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
 
   Estilo css UI/UX
+    ⚠️❗ navbar responsive con el alto y ancho de la pantalla
+    ⚠️❗ mensajes de error y de exito
     🔄 terminar estilos en dailyTurns y turnCreation
-    agregar animación de carga
+    ⚠️ agregar animación de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
-    probar otros estilos para los details y summaries que aparecen en dailyTurns
-      dar padding cuando no hay horarios en el area
+    ✅ probar otros estilos para los details y summaries que aparecen en dailyTurns
     estilar cómo se muestra lo creado en forms
     placholder en modo claro de la nav de busqueda en turnos
-    editar como se muestra el rango de horarios en el dailyTurns component en las areas sin turno cuando no hay horarios
     ✅ estilo a los botones de nav

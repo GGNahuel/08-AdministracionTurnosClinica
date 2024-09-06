@@ -39,7 +39,7 @@ export function SearchTurnos() {
               </select>
               <select name="estadoPago">
                 <option value={""}>Estado administrativo</option>
-                {EstadoPago.map(estado => (<option key={estado} value={estado}>{cutPascalCase(estado)}</option>))}
+                {EstadoPago.map(estado => (estado != "" ? <option key={estado} value={estado}>{cutPascalCase(estado)}</option> : ""))}
               </select>
             </div>
           </div>
