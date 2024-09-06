@@ -19,14 +19,12 @@
   --borderRadius_Sections: 16px;
   --border_MainSections: 4px solid rgb(128, 128, 128);
 
-  --shadow_darkScheme: 5px 5px 2px rgb(73, 73, 73);
-  --shadow_lightScheme: 5px 5px 2px rgb(148, 148, 148);
+  --shadow: 5px 5px 2px rgb(73, 73, 73);
 
   --logoMainColor: rgb(64,168,179);
   --colorPrimario: rgb(6, 6, 105);
   --colorFormsTables: rgba(97, 97, 97);
-  --color_contrastMain_darkScheme: rgb(88,88,88);
-  --color_contrastMain_lightScheme: rgb(211,211,211);
+  --color_contrastMain: rgb(88,88,88);
 
   --fontColor_darkScheme: rgb(225, 225, 225);
   --backgrounColor_darkScheme: #242424;
@@ -64,7 +62,7 @@ body {
   border-radius: var(--borderRadius_Sections);
   overflow: hidden;
 
-  filter: drop-shadow(var(--shadow_darkScheme));
+  filter: drop-shadow(var(--shadow));
 }
 
 h1 {
@@ -120,7 +118,7 @@ form {
   flex-direction: column;
   gap: 8px;
   
-  background-color: var(--colorFormsTables);
+  background-color: var(--color_contrastMain);
   
   input, select {
     background-color: transparent;
@@ -136,7 +134,7 @@ form {
 
     &:focus-visible {
       outline: 0;
-      background-color: var(--colorFormsTables);
+      background-color: var(--color_contrastMain);
     }
   }
 
@@ -151,7 +149,7 @@ form {
 
   .moreInfo {
     display: none;
-    background-color: var(--colorFormsTables);
+    background-color: var(--color_contrastMain);
     padding: 1rem;
 
     p {
@@ -173,7 +171,10 @@ form {
   :root {
     color: #213547;
     background-color: var(--fontColor_darkScheme);
+
     --colorPrimario: rgb(5, 5, 178);
+    --shadow: 5px 5px 2px rgb(148, 148, 148);
+    --color_contrastMain: rgb(211,211,211);
   }
   a:hover {
     color: #747bff;

@@ -41,7 +41,7 @@
   width: 100%;
   table-layout: auto;
   border-collapse: collapse;
-  background-color: var(--colorFormsTables);
+  background-color: var(--color_contrastMain);
   border-bottom-right-radius: var(--borderRadius_Sections);
   border-bottom-left-radius: var(--borderRadius_Sections);
 
@@ -50,7 +50,7 @@
   }
 
   thead {
-    background-color: var(--colorFormsTables);
+    background-color: var(--color_contrastMain);
   }
 
   th, td{

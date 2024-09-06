@@ -57,10 +57,10 @@ Tareas:
   Estilo css UI/UX
     🔄 terminar estilos en dailyTurns y turnCreation
     agregar animación de carga
-    🔄 cambiar estilos de navbar y main element para que parezca una interfaz de un programa
+    ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     probar otros estilos para los details y summaries que aparecen en dailyTurns
       dar padding cuando no hay horarios en el area
     estilar cómo se muestra lo creado en forms
-    placholder en modo claro
+    placholder en modo claro de la nav de busqueda en turnos
     editar como se muestra el rango de horarios en el dailyTurns component en las areas sin turno cuando no hay horarios
     ✅ estilo a los botones de nav
