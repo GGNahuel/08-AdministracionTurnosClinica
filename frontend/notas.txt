@@ -10,24 +10,24 @@ Funcionamiento general
 
 Navbar y secciones
   ✅Página de inicio (Turnos/Ver turnos del día)
-  Turnos
-    ✅Ver turnos del día
-    ✅Crear turno
-    🔄Modificar turno
-    ✅Buscar turnos
-  Pacientes
-    ✅Registrar paciente
-    ✅Editar datos de paciente
-    ✅Buscar pacientes
-  Profesional médico
-    ✅Registrar profesional
-    🔄Editar datos de profesional
-    ✅Buscar perfil del profesional
-  Consultorios y áreas
-    ✅Registrar consultorios y areas
-    ✅Ver consultorios y áreas
-    ✅Editar consultorios
-    ✅Editar areas
+  ✅Turnos
+    Ver turnos del día
+    Crear turno
+    Modificar turno
+    Buscar turnos
+  ✅Pacientes
+    Registrar paciente
+    Editar datos de paciente
+    Buscar pacientes
+  ✅Profesional médico
+    Registrar profesional
+    Editar datos de profesional
+    Buscar perfil del profesional
+  ✅Consultorios y áreas
+    Registrar consultorios y areas
+    Ver consultorios y áreas
+    Editar consultorios
+    Editar areas
 
 
 Tareas:
@@ -48,17 +48,19 @@ Tareas:
       params que correspondan (fehca, hora, paciente)?
     ver cómo se implementa la obra social al crear turno
     en el dailyTurns component en las areas sin turno cuando no hay horarios agregar enlace para editar el area
+    ⚠️ agregar funciones de orden al TableOptions
 
   Errores y correcciones
-    corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
+    ⚠️ corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
+    ✅⚠️ error cuando se ingresa la fecha manualmente en un formulario de turno
     ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
     ver funciones obtener horarios con varios profesionales en el misma area
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
 
   Estilo css UI/UX
-    ⚠️❗ navbar responsive con el alto y ancho de la pantalla
+    🔄⚠️❗ navbar responsive con el alto y ancho de la pantalla
     ⚠️❗ mensajes de error y de exito
-    🔄 terminar estilos en dailyTurns y turnCreation
+    ✅ terminar estilos en dailyTurns y turnCreation
     ⚠️ agregar animación de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     ✅ probar otros estilos para los details y summaries que aparecen en dailyTurns

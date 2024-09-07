@@ -39,7 +39,7 @@ export function generateArrayOfNextDays(actualMonth: number, actualYear: number,
 }
 
 export function dateInputValueToDBFormat(date: string) {
-  if (!DATE_INPUT_FORMAT.test(date)) throw new Error("La fecha se recibió desde el input con un formato desconocido: " + date)
+  if (!DATE_INPUT_FORMAT.test(date)) return ""
 
   const [year, month, day] = date.split("-")
 
