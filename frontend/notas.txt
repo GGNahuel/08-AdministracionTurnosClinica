@@ -49,6 +49,7 @@ Tareas:
     ver cómo se implementa la obra social al crear turno
     en el dailyTurns component en las areas sin turno cuando no hay horarios agregar enlace para editar el area
     ⚠️ agregar funciones de orden al TableOptions
+    ❗ agregar las nav de búsquedas en las entidades que falten
 
   Errores y correcciones
     ⚠️ corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
@@ -58,12 +59,12 @@ Tareas:
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
 
   Estilo css UI/UX
-    🔄⚠️❗ navbar responsive con el alto y ancho de la pantalla
+    ⚠️❗ navbar responsive con el alto y ancho de la pantalla
     ⚠️❗ mensajes de error y de exito
     ✅ terminar estilos en dailyTurns y turnCreation
     ⚠️ agregar animación de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     ✅ probar otros estilos para los details y summaries que aparecen en dailyTurns
     estilar cómo se muestra lo creado en forms
-    placholder en modo claro de la nav de busqueda en turnos
+    ✅ placholder en modo claro de la nav de busqueda en turnos
     ✅ estilo a los botones de nav

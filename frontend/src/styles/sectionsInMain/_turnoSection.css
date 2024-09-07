@@ -178,6 +178,19 @@ details[open] > .turnsSummary {
       }
     }
   }
+
+  input, select {
+    color: var(--fontColor_darkScheme);
+    background-color: var(--colorPrimario);
+
+    &:focus-visible {
+      background-color: transparent;
+    }
+  }
+
+  option {
+    color: var(--backgrounColor_darkScheme);
+  }
 }
 
 @keyframes onChangeAnimation {

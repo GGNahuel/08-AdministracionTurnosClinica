@@ -68,10 +68,22 @@ main {
   position: absolute;
   width: 20px;
   height: 20px;
+
+  path {
+    stroke: var(--fontColor_darkScheme);
+  }
+
+  &.dark path {
+    stroke: var(--backgrounColor_darkScheme);
+  }
 }
 
 @media (prefers-color-scheme: light) {
   main {
     background-color: rgb(187, 187, 187);
+  }
+
+  .icon path {
+    stroke: var(--backgrounColor_darkScheme);
   }
 }
