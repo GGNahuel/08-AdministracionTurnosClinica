@@ -348,7 +348,7 @@ public class AreaServiceTest {
     when(areaRepo.save(any(AreaEntity.class))).thenReturn(updatedArea);
     when(modelMapper.map(updatedArea, AreaDTO.class)).thenReturn(expectedDto);
 
-    AreaDTO returnedDto = areaService.changeActiveStatus(areaDto1.getId(), false);
+    AreaDTO returnedDto = areaService.changeActiveStatus(areaDto1.getId(), false, false);
 
     assertNotNull(returnedDto);
     assertTrue(expectedDto.equals(returnedDto), "El dto retornado no es el esperado");
@@ -359,13 +359,13 @@ public class AreaServiceTest {
   public void areaService_changeActiveStatus_throwsResourceNotFound() throws Exception {
     when(areaRepo.findById(any(UUID.class))).thenReturn(Optional.empty());
 
-    assertThrows(ResourceNotFound.class, () -> areaService.changeActiveStatus(UUID.randomUUID(), false),
+    assertThrows(ResourceNotFound.class, () -> areaService.changeActiveStatus(UUID.randomUUID(), false, false),
       "Debería arrojar ResourceNotFound cuando no se encuentre un área con la id dada");
   }
 
   @Test public void areaService_changeActiveStatus_throwsNotNullFieldIsNull() throws Exception {
     assertAll("Debería arrojar la excepción correspondiente cuando se ingrese un campo nulo o vacío",
-      () -> assertThrows(NotNullFieldIsNull.class, () -> areaService.changeActiveStatus(null, false),
+      () -> assertThrows(NotNullFieldIsNull.class, () -> areaService.changeActiveStatus(null, false, false),
       "id fue ingresado null")
     );
   }

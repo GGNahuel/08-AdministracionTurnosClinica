@@ -14,15 +14,17 @@ import com.clinica_administracion.sistema_administracion_clinica.others.Utilitie
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IAreaService;
 
 @Service
 public class AreaService implements IAreaService{
   private final AreaRepository areaRepo;
+  private final TurnoRepository turnoRepo;
   private final ModelMapper modelMapper;
 
-  public AreaService(AreaRepository areaRepo, ModelMapper modelMapper) {
-    this.areaRepo = areaRepo; this.modelMapper = modelMapper;
+  public AreaService(AreaRepository areaRepo, TurnoRepository turnoRepo, ModelMapper modelMapper) {
+    this.areaRepo = areaRepo; this.modelMapper = modelMapper; this.turnoRepo = turnoRepo;
   }
 
   @Transactional(readOnly = true) @Override
@@ -101,13 +103,22 @@ public class AreaService implements IAreaService{
   }
   
   @Transactional @Override
-  public AreaDTO changeActiveStatus(UUID id, Boolean valor) throws Exception {
-    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id"}, id);
+  public AreaDTO changeActiveStatus(UUID id, Boolean activeStatus, Boolean changeActiveInTurns) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id", "estado de actividad"}, id, activeStatus);
     
     AreaEntity area = areaRepo.findById(id).orElseThrow(
       () -> new ResourceNotFound("Área médica", "id", id.toString())
     );
-    area.setActiva(valor);  
+    area.setActiva(activeStatus);  
+
+    if (changeActiveInTurns) {
+      turnoRepo.findByArea(area.getNombre()).forEach(
+        turno -> {
+          turno.setActivo(activeStatus);
+          turnoRepo.save(turno);
+        }
+      );;
+    }
       
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
   }

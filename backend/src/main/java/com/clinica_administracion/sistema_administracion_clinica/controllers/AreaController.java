@@ -76,7 +76,7 @@ public class AreaController {
   }
 
   @PutMapping("")
-  public ResponseEntity<ResponseDTO> update(@RequestParam String id, @RequestParam String nombre, @RequestParam boolean necesitaTurno) throws Exception {
+  public ResponseEntity<ResponseDTO> update(@RequestParam String id, @RequestParam String nombre, @RequestParam Boolean necesitaTurno) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(areaService.update(UUID.fromString(id), nombre, necesitaTurno));
     response.setMessage(UtilitiesMethods.messageCreator("Área actualizada con éxito", MessageTypes.ok));
@@ -85,9 +85,9 @@ public class AreaController {
   }
 
   @PatchMapping("")
-  public ResponseEntity<ResponseDTO> changeActiveStatus(@RequestParam String id, @RequestParam Boolean valor) throws Exception {
+  public ResponseEntity<ResponseDTO> changeActiveStatus(@RequestParam String id, @RequestParam Boolean valor, @RequestParam Boolean turnsAction) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
-    response.setReturnValue(areaService.changeActiveStatus(UUID.fromString(id), valor));
+    response.setReturnValue(areaService.changeActiveStatus(UUID.fromString(id), valor, turnsAction));
     response.setMessage(UtilitiesMethods.messageCreator(!valor ? "Área desactivada" : "Área reactivada", MessageTypes.ok));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);

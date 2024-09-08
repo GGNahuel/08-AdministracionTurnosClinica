@@ -28,4 +28,6 @@ crear un metodo especifico para dar de inactivo un turno (para no usar el update
 ⚠️ agregar a los findAll de los services un metodo para obtener por paginación, principalmente para turnos y pacientes
 
 ✅ dar de baja profesionales y dar de baja los turnos asociados. 
-al dar de baja areas, borrar esa relacion de la lista de areas en la entidad de profesionales y dar de baja los turnos asociados (y setear en nulo esa prop?/borrar)
+✅ al dar de baja areas, 
+  ❌ borrar esa relacion de la lista de areas en la entidad de profesionales y 
+  ✅ dar de baja los turnos asociados (y setear en nulo esa prop?/borrar)
