@@ -35,12 +35,12 @@ Tareas:
     ⚠️❗🌎 logueo
     ⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
       tanto si viene del back como del front
-    ⚠️❗ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
+    ❔⚠️ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
       en caso de que el profesional tenga horarios distintos en distintas áreas)
     ⚠️renombrar areas a Servicios
     ⚠️agregar búsquedas en tablas que faltan
     ver que se actualice sola la tabla después de editar entidad
-    eliminar console.log que hayan quedado por ahí xd
+    🔄 eliminar console.log que hayan quedado por ahí xd
 
   Funciones
     ⚠️ en el calendario de creación poner un checkbox para que solo aparezcan los horarios que están disponibles en los dias que corresponda

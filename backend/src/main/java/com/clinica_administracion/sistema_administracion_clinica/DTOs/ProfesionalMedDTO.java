@@ -21,4 +21,5 @@ public class ProfesionalMedDTO {
   private Integer numMatricula;
   private List<String> horarios;
   private Integer consultorio;
+  private Boolean active;
 }

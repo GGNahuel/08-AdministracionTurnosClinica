@@ -44,4 +44,5 @@ public class ProfesionalMedEntity {
     private List<String> horarios;
   @OneToOne
     private ConsultorioEntity consultorio;
+  private Boolean active;
 }

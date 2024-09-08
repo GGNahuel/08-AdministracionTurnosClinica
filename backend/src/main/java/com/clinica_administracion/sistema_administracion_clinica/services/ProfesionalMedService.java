@@ -17,6 +17,7 @@ import com.clinica_administracion.sistema_administracion_clinica.others.exceptio
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IProfesionalMedService;
 
 @Service
@@ -24,15 +25,16 @@ public class ProfesionalMedService implements IProfesionalMedService {
   private final ProfesionalMedRepository profesionalRepo;
   private final AreaRepository areaRepo;
   private final ConsultorioRepository consultorioRepo;
+  private final TurnoRepository turnoRepo;
   private final ModelMapper modelMapper;
 
   public ProfesionalMedService(
     ProfesionalMedRepository profesionalRepo,
-    AreaRepository areaRepo, ConsultorioRepository consultorioRepo,
+    AreaRepository areaRepo, ConsultorioRepository consultorioRepo, TurnoRepository turnoRepo,
     ModelMapper modelMapper
   ) {
     this.profesionalRepo = profesionalRepo;
-    this.areaRepo = areaRepo; this.consultorioRepo = consultorioRepo;
+    this.areaRepo = areaRepo; this.consultorioRepo = consultorioRepo; this.turnoRepo = turnoRepo;
     this.modelMapper = modelMapper;
   }
 
@@ -79,6 +81,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
       profesional, profesional.getNombreCompleto(), profesional.getDni(), profesional.getNumeroContacto(), 
       profesional.getAreas(), profesional.getNumMatricula()
     );
+    UtilitiesMethods.validateDniFormat(profesional.getDni());
     UtilitiesMethods.validateConsultorioInDto(profesional.getConsultorio(), consultorioRepo);
     for (String nombre : profesional.getAreas()) {
       UtilitiesMethods.validateAreaInDto(nombre, areaRepo);
@@ -87,6 +90,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     if (check.isPresent())
       throw new EntityAlreadyExists("Ya existe un profesional asignado al consutorio " + profesional.getConsultorio().toString(), check.get());
 
+    profesional.setActive(true);
     ProfesionalMedEntity profesionalMedEntity = modelMapper.map(profesional, ProfesionalMedEntity.class);
     return modelMapper.map(profesionalRepo.save(profesionalMedEntity), ProfesionalMedDTO.class);
   }
@@ -98,6 +102,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
       profesional, profesional.getId(), profesional.getNombreCompleto(), profesional.getDni(), profesional.getNumeroContacto(), 
       profesional.getAreas(), profesional.getNumMatricula()
     );
+    UtilitiesMethods.validateDniFormat(profesional.getDni());
     UtilitiesMethods.validateConsultorioInDto(profesional.getConsultorio(), consultorioRepo);
     for (String nombre : profesional.getAreas()) {
       UtilitiesMethods.validateAreaInDto(nombre, areaRepo);
@@ -108,5 +113,29 @@ public class ProfesionalMedService implements IProfesionalMedService {
 
     ProfesionalMedEntity profesionalMedEntity = modelMapper.map(profesional, ProfesionalMedEntity.class);
     return modelMapper.map(profesionalRepo.save(profesionalMedEntity), ProfesionalMedDTO.class);
+  }
+
+  @Transactional @Override
+  public ProfesionalMedDTO changeActiveStatus(String profesionalDni, Boolean activeStatus, Boolean changeActiveInTurns) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
+      new String[]{"dni del profesional", "estado de actividad", "acción para los turnos"}, 
+      profesionalDni, activeStatus, changeActiveInTurns
+    );
+    
+    ProfesionalMedEntity entityFromDni = profesionalRepo.findByDni(profesionalDni).orElseThrow(
+      () -> new ResourceNotFound("Profesional médico", "dni", profesionalDni)
+    );
+    
+    if (changeActiveInTurns) {
+      turnoRepo.findByProfesionalDNI(profesionalDni).forEach(
+        turno -> {
+          turno.setActivo(activeStatus);
+          turnoRepo.save(turno);
+        }
+      );;
+    }
+    
+    entityFromDni.setActive(activeStatus);
+    return modelMapper.map(profesionalRepo.save(entityFromDni), ProfesionalMedDTO.class);
   }
 }

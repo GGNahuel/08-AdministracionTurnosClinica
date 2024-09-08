@@ -47,3 +47,6 @@ parametros de busqueda y filtro en turnos
   filtros (selects y checkboxes)
     area
     estadoPago
+
+
+🔄 Trabajar en los mensajes de error del back al front y el método en común de peticiones:

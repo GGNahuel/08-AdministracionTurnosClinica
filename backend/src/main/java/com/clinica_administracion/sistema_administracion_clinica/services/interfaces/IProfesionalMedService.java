@@ -12,4 +12,5 @@ public interface IProfesionalMedService {
   ProfesionalMedDTO getByDni(String dni) throws Exception;
   ProfesionalMedDTO create(ProfesionalMedDTO profesional) throws Exception;
   ProfesionalMedDTO update(ProfesionalMedDTO profesional) throws Exception;
+  ProfesionalMedDTO changeActiveStatus(String profesionalDni, Boolean activeStatus, Boolean turnsAction) throws Exception;
 }
