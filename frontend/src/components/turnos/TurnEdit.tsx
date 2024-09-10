@@ -11,27 +11,27 @@ import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/En
 import { SearchVar } from "../utilities/Searchvar";
 import { SchedulePicker } from "./SchedulePicker";
 
-export function EditTurnForm(props : {entity: Turno}) {
-  const {entity} = props
+export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void}) {
+  const {fieldsValuesState, handleOnChange} = props
 
   const scrollRef = useRef<HTMLDivElement>(null)
-  const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: entity.areaProfesional, needSchedule: false})
-  const [searchPaciente, setSearchPaciente] = useState<string>(entity.pacienteDto.nombreCompleto)
-  const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: entity.fecha, hour: entity.horario})
+  const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: fieldsValuesState.areaProfesional, needSchedule: false})
+  const [searchPaciente, setSearchPaciente] = useState<string>(fieldsValuesState.pacienteDto.nombreCompleto)
+  const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: fieldsValuesState.fecha, hour: fieldsValuesState.horario})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
 
   const {sendPutRequest} = usePutTurno()
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
-  useGetAreasByName(normaliceString(entity.areaProfesional), setAreaSelected)
+  useGetAreasByName(normaliceString(fieldsValuesState.areaProfesional), setAreaSelected)
 
   return (
     <section>
       <form onSubmit={(ev) => {
         sendPutRequest(ev, areaSelected.name, turnDate)
       }}>
-        <input type="hidden" name="id" value={entity.id}/>
+        <input type="hidden" name="id" value={fieldsValuesState.id}/>
         <label>
           Servicio: 
           <select required onChange={(ev) => {
@@ -42,7 +42,7 @@ export function EditTurnForm(props : {entity: Turno}) {
             {activeAreas?.map(area => (
               <option 
                 key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()} 
-                selected={area.nombre == entity.areaProfesional}
+                selected={area.nombre == fieldsValuesState.areaProfesional}
               >{area.nombre}</option>
             ))}
           </select>
@@ -52,7 +52,7 @@ export function EditTurnForm(props : {entity: Turno}) {
           <select name="profesional" required>
             {areaSelected.name != "" ?
               profesionalesByAreas?.map(profesional => (
-                <option key={profesional.dni} value={profesional.dni} defaultChecked={profesional.id == entity.profesionalDto.id}>{profesional.nombreCompleto}</option>
+                <option key={profesional.dni} value={profesional.dni} defaultChecked={profesional.id == fieldsValuesState.profesionalDto.id}>{profesional.nombreCompleto}</option>
               )) :
               <option value={""}>Seleccione un área para ver los profesionales disponibles</option>
             }
@@ -65,7 +65,7 @@ export function EditTurnForm(props : {entity: Turno}) {
             <select name="paciente" required>
               {pacientesList?.length == 0 && <option value={""}>Ingrese un nombre para seleccionar el paciente</option>}
               {pacientesList?.map(paciente => (
-                <option key={paciente.dni} value={paciente.dni} defaultChecked={paciente.id == entity.pacienteDto.id}>{paciente.nombreCompleto}</option>
+                <option key={paciente.dni} value={paciente.dni} defaultChecked={paciente.id == fieldsValuesState.pacienteDto.id}>{paciente.nombreCompleto}</option>
               ))}
             </select>
           </div>
@@ -89,13 +89,13 @@ export function EditTurnForm(props : {entity: Turno}) {
         <h5>Para los campos de horario y fecha puede ingresarlos manualmente o a traves de la agenda que aparece al final</h5>
         <label>
           Estado pago: 
-          <select name="estadoPago" required defaultValue={entity.estadoPago}>
+          <select name="estadoPago" required defaultValue={fieldsValuesState.estadoPago}>
             {EstadoPago.map(estado => (<option key={estado} value={estado}>{cutPascalCase(estado)}</option>))}
           </select>
         </label>
         <label>
           Comentario: 
-          <textarea name="comentario" cols={3} defaultValue={entity.comentario || ""}/>
+          <textarea name="comentario" cols={3} value={fieldsValuesState.comentario} onChange={(e) => handleOnChange(e)}/>
         </label>
         <button type="submit">Enviar</button>
       </form>
