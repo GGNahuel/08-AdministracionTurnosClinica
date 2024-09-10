@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
-import { API_PREFIX } from "../constants/VariablesEntorno"
 import { handleRequest } from "../functions/RequestHandler"
 
 export function useGetAllConsultorios() {
@@ -16,42 +15,33 @@ export function useGetAllConsultorios() {
 }
 
 export function usePostConsultorio() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | null>(null)
+  const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
-  const sendConsultorioToPost = async (ev : React.FormEvent<HTMLFormElement>) => {
+  const sendConsultorioToPost = (ev : React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const $form = ev.currentTarget
-    const formData = new FormData($form)
-    const consultorio = formData.get("numeroConsultorio") as string
+    const formData = new FormData(ev.currentTarget)
+    const number = formData.get("numeroConsultorio") as string
     
-    const response = await fetch(API_PREFIX + `/consultorio?number=${consultorio}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
+    handleRequest(`/consultorio?number=${number}`, "POST").then(returned => {
+      setReturnedPost(returned as HandledResponse<ReturnResponseType>)
     })
-    const returned: ReturnResponseType = await response.json()
-    setReturnedPost(returned)
   }
 
   return {returnedPost, sendConsultorioToPost}
 }
 
 export function usePutConsultorio() {
-  const [returnValue, setReturnValue] = useState<ReturnResponseType | null>(null)
+  const [returnValue, setReturnValue] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
-  const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>) => {
+  const sendPutRequest = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const $form = new FormData(ev.currentTarget)
-    const id = $form.get("id") as string
-    const number = Number ($form.get("numeroConsultorio"))
+    const formData = new FormData(ev.currentTarget)
+    const id = formData.get("id") as string
+    const number = Number (formData.get("numeroConsultorio"))
 
-    const response = await fetch(API_PREFIX + `/consultorio?id=${id}&number=${number}`, {
-      method: "PUT"
+    handleRequest(`/consultorio?id=${id}&number=${number}`, "PUT").then(returned => {
+      setReturnValue(returned as HandledResponse<ReturnResponseType>)
     })
-    const returned: ReturnResponseType = await response.json();
-
-    setReturnValue(returned)
   }
 
   return {returnValue, sendPutRequest}

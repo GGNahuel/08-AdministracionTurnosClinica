@@ -11,7 +11,7 @@ export async function handleRequest(
     headers: {
       "Content-Type": "application/json"
     },
-    body: body && JSON.stringify(body)
+    body: /* body && */ JSON.stringify(body)
   }
   console.log(requestBody)
 
