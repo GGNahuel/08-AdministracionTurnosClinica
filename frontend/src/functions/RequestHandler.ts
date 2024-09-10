@@ -11,13 +11,13 @@ export async function handleRequest(
     headers: {
       "Content-Type": "application/json"
     },
-    body: /* body && */ JSON.stringify(body)
+    body: body && JSON.stringify(body)
   }
-  console.log(requestBody)
 
-  const request = await fetch(API_PREFIX + path, body == undefined ? undefined : requestBody)
+  const request = await fetch(API_PREFIX + path, body == undefined && method == "GET" ? undefined : requestBody)
   const status = request.status
   const response: ResponseType = await request.json()
+  console.log(response)
 
   if (response.message != null && response.message.messageType == "warn") {
     // en lugar del console error iria algo para registrar ese error en algún lugar
