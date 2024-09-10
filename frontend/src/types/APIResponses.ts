@@ -7,20 +7,20 @@ export interface MessageInterface {
   messageType: MessageType,
   exceptionCause: string
 }
+export interface MessageResponseType {
+  message: MessageInterface
+}
 
-export type ResultsInGetResponse = Paciente[] | Turno[] | ProfesionalMed[] | AreaProfesional[] | Consultorio[] | object[] | string[]
-type ReturnValueInResponseType = Entities | object
+export type ResponseType = GetResponseType | ReturnResponseType
 
 export interface GetResponseType {
-  message: MessageInterface,
+  message: MessageInterface | null,
   results: ResultsInGetResponse,
 }
+export type ResultsInGetResponse = Paciente[] | Turno[] | ProfesionalMed[] | AreaProfesional[] | Consultorio[] | object[] | string[]
 
 export interface ReturnResponseType {
   message: MessageInterface,
   returnValue: ReturnValueInResponseType
 }
-
-export interface MessageResponseType {
-  message: MessageInterface
-}
+type ReturnValueInResponseType = Entities | object

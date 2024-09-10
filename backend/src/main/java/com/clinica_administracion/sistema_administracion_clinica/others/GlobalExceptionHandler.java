@@ -66,8 +66,15 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ResponseDTO> GeneralExceptionHandler(Exception ex) {
+    MessagesDTO message = new MessagesDTO();
+    message.setText(ex.getMessage());
+    message.setType(MessageTypes.warn);
+    if (ex.getCause() != null)
+      message.setExceptionCause(ex.getCause().toString());
+    else message.setExceptionCause(ex.getLocalizedMessage());
+
     GetResponseDTO response = new GetResponseDTO();
-    response.setMessage(generateMessageDTO(ex));
+    response.setMessage(message);
     response.setResults(Arrays.asList(ex.getStackTrace()));
 
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
