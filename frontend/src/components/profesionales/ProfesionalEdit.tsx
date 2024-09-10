@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { useGetAllAreas } from "../../hooks/AreaRequests"
-import { useGetAllConsultorios } from "../../hooks/ConsultorioRequests"
+import { useGetAllAreas } from "../../requests/AreaRequests"
+import { useGetAllConsultorios } from "../../requests/ConsultorioRequests"
 import { ProfesionalMed, AreaProfesional, Consultorio } from "../../types/Entities"
-import { usePutProfesional } from "../../hooks/ProfesionalRequests"
+import { usePutProfesional } from "../../requests/ProfesionalRequests"
 import { Horario } from "../../classes/Horario"
 
 export function EditProfesionalForm(props : {entity: ProfesionalMed}) {

@@ -1,7 +1,7 @@
 import { getSchedulesInAllAreas, filterTurnosByAreas } from "../../functions/FilterFunctions";
-import { useGetAreasByActiveStatus } from "../../hooks/AreaRequests";
-import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
-import { useGetAllTurnos } from "../../hooks/TurnoRequests";
+import { useGetAreasByActiveStatus } from "../../requests/AreaRequests";
+import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
+import { useGetAllTurnos } from "../../requests/TurnoRequests";
 import { AreaProfesional, ProfesionalMed, Turno } from "../../types/Entities";
 import { CasillaTurno, CasillaTurnoPorOrdenDeLlegada } from "./CasillaTurno";
 

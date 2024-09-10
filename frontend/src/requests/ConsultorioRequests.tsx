@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react"
-import { GetResponseType, ReturnResponseType } from "../types/APIResponses"
+import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
 import { API_PREFIX } from "../constants/VariablesEntorno"
+import { handleRequest } from "../functions/RequestHandler"
 
 export function useGetAllConsultorios() {
-  const [getResponse, setGetResponse] = useState<GetResponseType>()
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
 
   useEffect(() => {
-    async function getData() {
-      const response = await fetch(API_PREFIX + "/consultorio")
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    getData()
+    handleRequest("/consultorio","GET").then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
   }, [])
 
   return getResponse

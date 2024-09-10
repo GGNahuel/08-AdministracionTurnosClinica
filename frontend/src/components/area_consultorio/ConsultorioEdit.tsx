@@ -1,4 +1,4 @@
-import { usePutConsultorio } from "../../hooks/ConsultorioRequests"
+import { usePutConsultorio } from "../../requests/ConsultorioRequests"
 import { Consultorio } from "../../types/Entities"
 
 export function EditConsultorioForm(props : {entity: Consultorio}) {

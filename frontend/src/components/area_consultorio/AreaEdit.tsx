@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { AreaProfesional } from "../../types/Entities"
-import { usePutArea } from "../../hooks/AreaRequests"
+import { usePutArea } from "../../requests/AreaRequests"
 
 export function EditAreaForm(props : {entity: AreaProfesional}) {
   const {entity} = props

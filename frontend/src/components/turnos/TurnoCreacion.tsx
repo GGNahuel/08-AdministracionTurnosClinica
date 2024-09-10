@@ -3,10 +3,10 @@ import { useRef, useState } from "react";
 import { Horario } from "../../classes/Horario";
 import { dateInputValueToDBFormat, dateToInputFormat } from "../../functions/DateFunctions";
 
-import { useGetAreasByActiveStatus } from "../../hooks/AreaRequests";
-import { useGetPacientesByName } from "../../hooks/PacienteRequests";
-import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests";
-import { usePostTurno } from "../../hooks/TurnoRequests";
+import { useGetAreasByActiveStatus } from "../../requests/AreaRequests";
+import { useGetPacientesByName } from "../../requests/PacienteRequests";
+import { useGetProfesionalsByArea } from "../../requests/ProfesionalRequests";
+import { usePostTurno } from "../../requests/TurnoRequests";
 
 import { AreaProfesional, Paciente, ProfesionalMed } from "../../types/Entities";
 

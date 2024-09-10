@@ -1,6 +1,6 @@
-import { useGetAllAreas } from "../../hooks/AreaRequests"
+import { useGetAllAreas } from "../../requests/AreaRequests"
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
-import { useGetSearchedTurnos } from "../../hooks/TurnoRequests"
+import { useGetSearchedTurnos } from "../../requests/TurnoRequests"
 import { useTableOptions } from "../../hooks/useTableOptions"
 
 import { cutPascalCase } from "../../functions/Utilities"

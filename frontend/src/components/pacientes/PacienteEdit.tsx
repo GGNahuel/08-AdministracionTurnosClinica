@@ -1,4 +1,4 @@
-import { usePutPaciente } from "../../hooks/PacienteRequests"
+import { usePutPaciente } from "../../requests/PacienteRequests"
 import { Paciente } from "../../types/Entities"
 
 export function EditPacienteForm(props : {entity: Paciente}) {

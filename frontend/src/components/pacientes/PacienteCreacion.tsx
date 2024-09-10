@@ -1,4 +1,4 @@
-import { usePostPaciente } from "../../hooks/PacienteRequests"
+import { usePostPaciente } from "../../requests/PacienteRequests"
 import { Paciente } from "../../types/Entities"
 import Message from "../utilities/Message"
 

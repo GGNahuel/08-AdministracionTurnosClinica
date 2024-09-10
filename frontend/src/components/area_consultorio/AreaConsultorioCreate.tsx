@@ -1,5 +1,5 @@
-import { usePostArea } from "../../hooks/AreaRequests"
-import { usePostConsultorio } from "../../hooks/ConsultorioRequests"
+import { usePostArea } from "../../requests/AreaRequests"
+import { usePostConsultorio } from "../../requests/ConsultorioRequests"
 import Message from "../utilities/Message"
 
 export function AreaConsCreate() {

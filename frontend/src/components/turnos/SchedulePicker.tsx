@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { formatDate, generateArrayOfNextDays, getMonthName } from "../../functions/DateFunctions"
 import { getSchedulesInSpecificArea } from "../../functions/FilterFunctions"
-import { useGetNextTurnosByArea } from "../../hooks/TurnoRequests"
+import { useGetNextTurnosByArea } from "../../requests/TurnoRequests"
 import { ProfesionalMed, Turno } from "../../types/Entities"
 import { CasillaDiaAgenda } from "./CasillaTurno"
 import { routes } from "../../constants/NavigationRoutes"

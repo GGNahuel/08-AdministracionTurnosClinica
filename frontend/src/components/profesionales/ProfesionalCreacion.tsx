@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { useGetAllAreas } from "../../hooks/AreaRequests"
-import { useGetAllConsultorios } from "../../hooks/ConsultorioRequests"
-import { usePostProfesional } from "../../hooks/ProfesionalRequests"
+import { useGetAllAreas } from "../../requests/AreaRequests"
+import { useGetAllConsultorios } from "../../requests/ConsultorioRequests"
+import { usePostProfesional } from "../../requests/ProfesionalRequests"
 import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities"
 import Message from "../utilities/Message"
 

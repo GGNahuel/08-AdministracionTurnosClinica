@@ -1,6 +1,6 @@
-import { useGetAllAreas } from "../../hooks/AreaRequests";
-import { useGetAllConsultorios } from "../../hooks/ConsultorioRequests";
-import { useGetAllProfesionales } from "../../hooks/ProfesionalRequests";
+import { useGetAllAreas } from "../../requests/AreaRequests";
+import { useGetAllConsultorios } from "../../requests/ConsultorioRequests";
+import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
 import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities";
 import { SelectItemCheckbox } from "../utilities/ListSelector";

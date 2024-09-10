@@ -1,5 +1,5 @@
 import { formatDate } from "../../functions/DateFunctions"
-import { useGetProfesionalsByArea } from "../../hooks/ProfesionalRequests"
+import { useGetProfesionalsByArea } from "../../requests/ProfesionalRequests"
 import { ProfesionalMed, Turno } from "../../types/Entities"
 
 export function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) {
