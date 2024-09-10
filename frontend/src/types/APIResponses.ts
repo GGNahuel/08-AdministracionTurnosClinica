@@ -17,10 +17,12 @@ export interface GetResponseType {
   message: MessageInterface | null,
   results: ResultsInGetResponse,
 }
-export type ResultsInGetResponse = Paciente[] | Turno[] | ProfesionalMed[] | AreaProfesional[] | Consultorio[] | object[] | string[]
+type ResultsInGetResponse = Paciente[] | Turno[] | ProfesionalMed[] | AreaProfesional[] | Consultorio[] | object[] | string[]
 
 export interface ReturnResponseType {
   message: MessageInterface,
   returnValue: ReturnValueInResponseType
 }
 type ReturnValueInResponseType = Entities | object
+
+export type HandledResponse<responseType extends ResponseType> = responseType & {status: number}

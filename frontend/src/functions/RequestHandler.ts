@@ -1,6 +1,6 @@
 import { json } from "react-router-dom";
 import { API_PREFIX } from "../constants/VariablesEntorno";
-import { ResponseType } from "../types/APIResponses";
+import { HandledResponse, ResponseType } from "../types/APIResponses";
 
 export async function handleRequest(
   path: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
@@ -15,16 +15,18 @@ export async function handleRequest(
   }
   console.log(requestBody)
 
-  const request = await fetch(API_PREFIX + path, method == "GET" ? undefined : requestBody)
+  const request = await fetch(API_PREFIX + path, body == undefined ? undefined : requestBody)
+  const status = request.status
   const response: ResponseType = await request.json()
 
   if (response.message != null && response.message.messageType == "warn") {
     // en lugar del console error iria algo para registrar ese error en algún lugar
     console.error(response.message.text)
+
     throw json({
-      text: "Ocurrió un error inesperado, vuelva a intentarlo más tarde"
+      text: "Ocurrió un error inesperado en el servidor, vuelva a intentarlo más tarde"
     }, {status: 500})
   }
 
-  return response
+  return {...response, status} as HandledResponse<ResponseType>
 }

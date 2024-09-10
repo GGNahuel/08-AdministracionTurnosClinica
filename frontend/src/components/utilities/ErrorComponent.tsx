@@ -5,10 +5,10 @@ export function ErrorComponent() {
   const error: any = useRouteError()
 
   return (
-    <section>
-      <h1>Error</h1>
+    <section className="errorMessage">
+      <h1>Lo sentimos, algo salió mal</h1>
       <h2>{error.data ? error.data.text : error.message}</h2>
-      <p>{error.status}</p>
+      <p>Error {error.status}</p>
     </section>
   )
 }
