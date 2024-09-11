@@ -57,6 +57,8 @@ Tareas:
     ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
     ver funciones obtener horarios con varios profesionales en el misma area
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
+    reestructurar uso y funcionamiento de la peticion getTurnosByPaciente dni
+    cambiar el search turnos para que la peticion sea con un body y no con parametros (eso de los parametros sería para la ruta del cliente)
 
   Estilo css UI/UX
     ⚠️❗ navbar responsive con el alto y ancho de la pantalla

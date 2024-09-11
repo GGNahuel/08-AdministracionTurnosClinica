@@ -4,14 +4,14 @@ import { HandledResponse, ResponseType } from "../types/APIResponses";
 
 export async function handleRequest(
   path: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-  body?: BodyInit
+  body?: unknown
 ) {
   const requestBody: RequestInit = {
     method: method,
     headers: {
       "Content-Type": "application/json"
     },
-    body: body && JSON.stringify(body)
+    body: body ? JSON.stringify(body) : undefined
   }
 
   const request = await fetch(API_PREFIX + path, body == undefined && method == "GET" ? undefined : requestBody)

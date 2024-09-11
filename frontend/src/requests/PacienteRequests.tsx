@@ -1,62 +1,53 @@
 import { useEffect, useState } from "react";
-import { GetResponseType, ReturnResponseType } from "../types/APIResponses";
-import { API_PREFIX } from "../constants/VariablesEntorno";
+import { handleRequest } from "../functions/RequestHandler";
+import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { Paciente } from "../types/Entities";
 
 export function useGetAllPacientes() {
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function generateData() {
-      const response = await fetch(API_PREFIX + "/paciente")
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    generateData()
+    handleRequest("/paciente", "GET").then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
   }, [])
 
   return getResponse
 }
 
 export function useGetPacienteByDni(dniPaciente : string) {
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function getData() {
-      const response = await fetch(API_PREFIX + "/paciente/" + dniPaciente)
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    getData()
+    handleRequest("/paciente/" + dniPaciente, "GET").then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
   }, [dniPaciente])
 
   return getResponse
 }
 
 export function useGetPacientesByName(nombre: string) {
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function generateData() {
-      const response = await fetch(API_PREFIX + "/paciente/nombre/" + nombre)
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    if (nombre != null && nombre != "") generateData()
-    else setGetResponse(prev => ({
-      ...prev,
-      results: []
-    } as GetResponseType))
+    if (nombre != null && nombre != "") 
+      handleRequest("/paciente/nombre/" + nombre, "GET").then(response => {
+        setGetResponse(response as HandledResponse<GetResponseType>)
+      })
+    else 
+      setGetResponse(prev => ({
+        ...prev,
+        results: [],
+        status: 200
+      } as HandledResponse<GetResponseType>))
   }, [nombre])
 
   return getResponse
 }
 
 export function usePostPaciente() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | null>(null)
+  const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
   const sendPacienteToPost = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -70,22 +61,15 @@ export function usePostPaciente() {
       obraSocial: formData.get('obraSocial') as string
     };
 
-    const request = await fetch(API_PREFIX + "/paciente", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(pacienteToSend)
-    })
-    const returned : ReturnResponseType = await request.json()
-    setReturnedPost(returned)
+    const returned = await handleRequest("/paciente", "POST", pacienteToSend)
+    setReturnedPost(returned as HandledResponse<ReturnResponseType>)
   }
 
   return {returnedPost, sendPacienteToPost}
 }
 
 export function usePutPaciente() {
-  const [returnedValue, setReturnedValue] = useState<ReturnResponseType | null>(null)
+  const [returnedValue, setReturnedValue] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
   const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -100,16 +84,8 @@ export function usePutPaciente() {
       obraSocial: formData.get('obraSocial') as string
     };
 
-    const request = await fetch(API_PREFIX + "/paciente", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(pacienteToSend)
-    })
-    const returned : ReturnResponseType = await request.json()
-    console.log(returned)
-    setReturnedValue(returned)
+    const returned = await handleRequest("/paciente", "PUT", pacienteToSend)
+    setReturnedValue(returned as HandledResponse<ReturnResponseType>)
   }
 
   return {returnedValue, sendPutRequest}
