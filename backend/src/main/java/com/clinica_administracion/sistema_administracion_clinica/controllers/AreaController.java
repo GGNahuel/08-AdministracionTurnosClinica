@@ -39,6 +39,15 @@ public class AreaController {
     response.setResults(areaService.getAll());
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
+
+  @GetMapping("/search")
+  public ResponseEntity<ResponseDTO> search(@RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean schedule) {
+    GetResponseDTO response = new GetResponseDTO();
+    response.setResults(areaService.searchArea(status, schedule));
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+  
   
   @GetMapping("/actives")
   public ResponseEntity<ResponseDTO> getByActiveStatus(@RequestParam Boolean valor) throws Exception {

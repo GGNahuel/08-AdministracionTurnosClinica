@@ -36,6 +36,14 @@ public class AreaService implements IAreaService{
   }
 
   @Transactional(readOnly = true) @Override
+  public List<AreaDTO> searchArea(Boolean activeStatus, Boolean needSchedule) {
+    return
+      areaRepo.searchAreas(activeStatus, needSchedule).stream().map(
+        (area) -> modelMapper.map(area, AreaDTO.class)
+      ).toList();
+  }
+
+  @Transactional(readOnly = true) @Override
   public List<AreaDTO> getByActiveState(Boolean valor) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"Estado de actividad"}, valor);
     return

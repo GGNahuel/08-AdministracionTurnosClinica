@@ -7,6 +7,7 @@ import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
 
 public interface IAreaService {
   List<AreaDTO> getAll();
+  List<AreaDTO> searchArea(Boolean activeStatus, Boolean needSchedule);
   List<AreaDTO> getByActiveState(Boolean valor) throws Exception;
   AreaDTO getById(UUID id) throws Exception;
   List<AreaDTO> getByName(String nombre) throws Exception;
