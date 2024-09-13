@@ -179,13 +179,12 @@ export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
 
 export function useGetSearchedTurnos() {
   const [searchParams, setSearchParams] = useState<SearchTurno>({searchName: "", areaName: "", date: "", estadoPago: ""})
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
   const defaultSearchObject: SearchTurno = useMemo(() => ({searchName: "", areaName: "", date: "", estadoPago: ""}), [])
 
   const buildObject = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const $form = ev.currentTarget
-    const formData = new FormData($form)
+    const formData = new FormData(ev.currentTarget)
 
     if (!EstadoPago.includes((formData.get("estadoPago") as string) as typeof EstadoPago[number])) {
       throw new Error("El estado de pago que se quiere buscar no está dentro de los valores aceptados")
@@ -203,19 +202,10 @@ export function useGetSearchedTurnos() {
   }
 
   useEffect(() => {
-    async function getData() {
-      const controllerParams = {search: "search", area: "area", date: "date", state: "state"}
-
-      const response = await fetch(`${API_PREFIX}/turno/search?`+ 
-        `${controllerParams.search}=${searchParams.searchName}` + 
-        `&${controllerParams.area}=${searchParams.areaName}` +
-        `&${controllerParams.date}=${encodeURIComponent(searchParams.date)}` +
-        `&${controllerParams.state}=${searchParams.estadoPago}`)
-      const data: GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    if (searchParams != defaultSearchObject) getData()
+    if (searchParams != defaultSearchObject) 
+      handleRequest("/turno/search", "GET", searchParams).then(response => {
+        setGetResponse(response as HandledResponse<GetResponseType>)
+      })
     else setGetResponse(null)
   }, [searchParams, defaultSearchObject])
 
