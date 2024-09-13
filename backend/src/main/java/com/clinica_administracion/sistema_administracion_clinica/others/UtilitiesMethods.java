@@ -43,7 +43,7 @@ public class UtilitiesMethods {
   public static void validateDniFormat(String dni) {
     String regex = "\\d{7,8}[a-zA-Z]{0,1}";
 
-    if (Pattern.matches(regex, dni))
+    if (!Pattern.matches(regex, dni))
       throw new InvalidInput("dni", dni, "tener de 7 a 8 digitos (y opcionalmente una letra).");
   }
 

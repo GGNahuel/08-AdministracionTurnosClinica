@@ -72,6 +72,7 @@ public class PacienteService implements IPacienteService{
       new String[]{"Paciente enviado", "dni", "nombre completo", "número de contacto"}, 
       paciente, paciente.getDni(), paciente.getNombreCompleto(), paciente.getNumeroContacto()
     );
+    UtilitiesMethods.validateDniFormat(paciente.getDni());
     if (paciente.getDni() != null && pacienteRepo.findByDni(paciente.getDni()).isPresent()) 
       throw new EntityAlreadyExists(
         "Ya existe un paciente con el dni ingresado", 
@@ -90,6 +91,7 @@ public class PacienteService implements IPacienteService{
       pacienteActualizado, pacienteActualizado.getId(), pacienteActualizado.getDni(), 
       pacienteActualizado.getNombreCompleto(), pacienteActualizado.getNumeroContacto()
     );
+    UtilitiesMethods.validateDniFormat(pacienteActualizado.getDni());
 
     PacienteEntity paciente = pacienteRepo.findById(pacienteActualizado.getId()).orElseThrow(() ->
       new ResourceNotFound("Paciente", "id", pacienteActualizado.getId().toString())
