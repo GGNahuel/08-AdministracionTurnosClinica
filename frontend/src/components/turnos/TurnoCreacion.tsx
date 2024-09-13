@@ -32,7 +32,7 @@ export function TurnoCreacion() {
   return (
     <section className="registerSection" ref={scrollRef}>
       <h1>Registrar turno</h1>
-      {returnedPost?.message.text && <Message messageObject={returnedPost.message}/>}
+      {returnedPost?.message?.text && <Message messageObject={returnedPost.message}/>}
       <form id="turnoForm" onSubmit={(ev) => {
         sendData(ev, areaSelected.name, turnDate)
       }}>

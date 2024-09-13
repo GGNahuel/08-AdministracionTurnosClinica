@@ -1,4 +1,4 @@
-import { useGetAllAreas } from "../../requests/AreaRequests";
+import { useSearchArea } from "../../requests/AreaRequests";
 import { useGetAllConsultorios } from "../../requests/ConsultorioRequests";
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
@@ -9,7 +9,8 @@ import { useTableOptions } from "../../hooks/useTableOptions";
 import { TableOptions } from "../utilities/TableOptions";
 
 export function AreaConsList() {
-  const areas = useGetAllAreas()?.results as AreaProfesional[]
+  const {getResponse: areaSearchResponse, sendSearchParams: sendAreaParams} = useSearchArea()
+  const areas = areaSearchResponse?.results as AreaProfesional[]
   const consultorios = useGetAllConsultorios()?.results as Consultorio[]
   const profesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
 
@@ -56,7 +57,7 @@ export function AreaConsList() {
       </section>
       <section>
         <h2>Áreas profesionales</h2>
-        <form className="searchForm">
+        <form className="searchForm" onSubmit={(e) => sendAreaParams(e)}>
           <div className="filters">
             <p>Filtros: </p>
             <select name="activeStatus">
