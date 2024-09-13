@@ -39,17 +39,17 @@ export function TableOptions(props :
         />
       </div>
       <button disabled={selectedEntities[entityType].length != 1} className="iconButton" onClick={handleDialog}>
-        <PencilIcon color="#fff"/>Editar
+        <PencilIcon />Editar
       </button>
       {selectedEntities[entityType].length == 1 &&
         <EditModal entity={selectedEntities[entityType][0]} ref={dialogRef} handleDialog={handleDialog} isOpen={isOpen}/>
       }
       {desactivateButton && 
       <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
-        <TrashCanIcon color="#fff"/>Dar de baja
+        <TrashCanIcon />Dar de baja
       </button>}
       <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
-        <TrashCanIcon color="#fff"/>Eliminar
+        <TrashCanIcon />Eliminar
       </button>
     </nav>
   )
