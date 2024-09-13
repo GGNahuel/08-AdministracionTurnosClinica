@@ -56,6 +56,22 @@ export function AreaConsList() {
       </section>
       <section>
         <h2>Áreas profesionales</h2>
+        <form className="searchForm">
+          <div className="filters">
+            <p>Filtros: </p>
+            <select name="activeStatus">
+              <option value="">Estado</option>
+              <option value="true">Activa</option>
+              <option value="false">Inactiva</option>
+            </select>
+            <select name="needSchedule">
+              <option value="">Tipo de servicio</option>
+              <option value="true">Con turnos</option>
+              <option value="false">Por orden de llegada</option>
+            </select>
+          </div>
+          <button type="submit">Aplicar</button>
+        </form>
         <TableOptions 
           entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas} desactivateButton
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}

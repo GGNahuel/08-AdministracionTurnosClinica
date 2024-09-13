@@ -20,9 +20,9 @@ export function SearchTurnos() {
   const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
 
   return (
-    <section id="searchTurns">
+    <section>
       <header>
-        <form onSubmit={(ev) => buildObject(ev)}>
+        <form onSubmit={(ev) => buildObject(ev)} className="searchForm">
           <div className="searchers">
             <SearchVar placeholder="Nombre de paciente o profesional" name="searchName"/>
             <label>
