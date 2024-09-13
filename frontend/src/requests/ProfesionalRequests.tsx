@@ -1,68 +1,55 @@
 import { useEffect, useState } from "react";
-import { GetResponseType, ReturnResponseType } from "../types/APIResponses";
-import { API_PREFIX } from "../constants/VariablesEntorno";
-import { ProfesionalMed } from "../types/Entities";
 import { Horario } from "../classes/Horario";
+import { handleRequest } from "../functions/RequestHandler";
+import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
+import { ProfesionalMed } from "../types/Entities";
 
 export function useGetAllProfesionales() {
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function getData() {
-      const response = await fetch(API_PREFIX + "/profesional")
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    getData()
+    handleRequest("/profesional", "GET").then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
   }, [])
 
   return getResponse
 }
 
 export function useGetProfesionalsByArea(nombreArea:string) {
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function getData() {
-      const response = await fetch(API_PREFIX + "/profesional/area/" + nombreArea)
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    if (nombreArea != "") getData()
+    if (nombreArea != "")
+      handleRequest("/profesional/area/" + nombreArea, "GET").then(response => {
+        setGetResponse(response as HandledResponse<GetResponseType>)
+      })
   }, [nombreArea])
 
   return getResponse
 }
 
 export function useGetProfesionalByDni(dni:string) {
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
-  const [returned, setReturned] = useState<ProfesionalMed>()
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function getData() {
-      const response = await fetch(API_PREFIX + "/profesional/" + dni)
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-      setReturned(data?.results[0] as ProfesionalMed)
-    }
-    if (dni != "") getData()
+    if (dni != "")
+      handleRequest("/profesional/" + dni, "GET").then(response => {
+        setGetResponse(response as HandledResponse<GetResponseType>)
+      })
   }, [dni])
 
-  return {returned, getResponse}
+  return getResponse
 }
 
 export function usePostProfesional() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | null>(null)
+  const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
   const sendProfesionalToPost = async (ev: React.FormEvent<HTMLFormElement>, areas: string[]) => {
     ev.preventDefault()
     const $form = ev.currentTarget
     const formData = new FormData($form)
 
-    console.log(areas)
     const profesionalToSend: ProfesionalMed = {
       nombreCompleto: formData.get("nombreCompleto") as string,
       dni: formData.get("dni") as string,
@@ -73,23 +60,16 @@ export function usePostProfesional() {
       horarios: Horario.getStringsFromScheduleBlock(formData.get("horarios") as string)
     };
 
-    const request = await fetch(API_PREFIX + "/profesional", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(profesionalToSend)
-    })
-    const returned : ReturnResponseType = await request.json()
+    const returned = await handleRequest("/profesional", "POST", profesionalToSend)
 
-    setReturnedPost(returned)
+    setReturnedPost(returned as HandledResponse<ReturnResponseType>)
   }
 
   return {returnedPost, sendProfesionalToPost}
 }
 
 export function usePutProfesional() {
-  const [returnValue, setReturnValue] = useState<ReturnResponseType | null>(null)
+  const [returnValue, setReturnValue] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
   const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>, areas: string[]) => {
     ev.preventDefault()
@@ -107,16 +87,8 @@ export function usePutProfesional() {
       horarios: Horario.getStringsFromScheduleBlock(formData.get("horarios") as string)
     };
 
-    const request = await fetch(API_PREFIX + "/profesional", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(profesionalToSend)
-    })
-    const returned : ReturnResponseType = await request.json()
-    console.log(returned)
-    setReturnValue(returned)
+    const returned = await handleRequest("/profesional", "PUT", profesionalToSend)
+    setReturnValue(returned as HandledResponse<ReturnResponseType>)
   }
 
   return {returnValue, sendPutRequest}

@@ -1,54 +1,40 @@
 import { useEffect, useMemo, useState } from "react"
-import { Paciente, ProfesionalMed, Turno } from "../types/Entities"
 import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
-import { GetResponseType, MessageInterface, ReturnResponseType } from "../types/APIResponses"
-import { SearchTurno } from "../types/Others"
-import { EstadoPago } from "../types/BackendEnums"
 import { dateInputValueToDBFormat } from "../functions/DateFunctions"
+import { handleRequest } from "../functions/RequestHandler"
+import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
+import { EstadoPago } from "../types/BackendEnums"
+import { Paciente, ProfesionalMed, Turno } from "../types/Entities"
+import { SearchTurno } from "../types/Others"
 
 export function useGetAllTurnos() {
-  const [getResponse, setGetResponse] = useState<GetResponseType>({
-    message: {} as MessageInterface,
-    results: [] as Turno[]
-  })
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
 
   useEffect(() => {
-    async function generateData() {
-      const response = await fetch(API_PREFIX + "/turno")
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    generateData()
+    handleRequest("/turno", "GET").then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
   }, [])
 
   return getResponse
 }
 
 export function useGetTurnosByDate(fecha: string) {
-  const [getResponse, setGetResponse] = useState<GetResponseType>({
-    message: {} as MessageInterface,
-    results: [] as Turno[]
-  })
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
 
   useEffect(() => {
-    async function generateData() {
-      const response = await fetch(API_PREFIX + "/turno/?fecha=" + encodeURIComponent(fecha))
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    if (DATE_FORMAT.test(fecha)) generateData()
-    else console.log("La fecha ingresada no tiene el formato adecuado")
+    if (DATE_FORMAT.test(fecha))
+      handleRequest("/turno/?fecha=" + encodeURIComponent(fecha), "GET").then(response => {
+        setGetResponse(response as HandledResponse<GetResponseType>)
+      })
+    else throw new Error("La fecha ingresada no tiene el formato adecuado")
   }, [fecha])
 
   return getResponse
 }
 
 export function usePostTurno() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | GetResponseType>({
-    message: {} as MessageInterface, returnValue: {} as Turno
-  })
+  const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | GetResponseType>()
 
   const sendData = async (ev: React.FormEvent<HTMLFormElement>, areaSelected: string, turnDate: {date: string, hour: string}) => {
     ev.preventDefault()
@@ -91,27 +77,15 @@ export function usePostTurno() {
       comentario: formData.get("comentario") as string
     }
 
-    const request = await fetch(API_PREFIX + "/turno", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(dataToSend)
-    })
-    const returned : ReturnResponseType = await request.json()
-    setReturnedPost({
-      message: returned.message,
-      returnValue: returned.returnValue
-    })
+    const returned = await handleRequest("/turno", "POST", dataToSend)
+    setReturnedPost(returned)
   }
 
   return {returnedPost, sendData}
 }
 
 export function usePutTurno() {
-  const [returnedPost, setReturnedPost] = useState<ReturnResponseType | GetResponseType>({
-    message: {} as MessageInterface, returnValue: {} as Turno
-  })
+  const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | GetResponseType>()
 
   const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>, areaSelected: string, turnDate: {date: string, hour: string}) => {
     ev.preventDefault()
@@ -155,16 +129,9 @@ export function usePutTurno() {
       comentario: formData.get("comentario") as string
     }
 
-    const request = await fetch(API_PREFIX + "/turno", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(dataToSend)
-    })
-    const returned : ReturnResponseType = await request.json()
+    const returned = await handleRequest("/turno", "PUT", dataToSend)
 
-    setReturnedPost(returned)
+    setReturnedPost(returned as HandledResponse<ReturnResponseType>)
   }
 
   return {returnedPost, sendPutRequest}
@@ -198,16 +165,13 @@ export function useGetTurnosByPaciente() {
 }
 
 export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
-  const [getResponse, setGetResponse] = useState<GetResponseType | null>(null)
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function generateData() {
-      const response = await fetch(API_PREFIX + "/turno/futuros?fecha=" + encodeURIComponent(fecha) + "&area=" + nombreArea)
-      const data : GetResponseType = await response.json()
-
-      setGetResponse(data)
-    }
-    if (DATE_FORMAT.test(fecha) && nombreArea != "") generateData()
+    if (DATE_FORMAT.test(fecha) && nombreArea != "") 
+      handleRequest(`/turno/futuros?fecha=${encodeURIComponent(fecha)}&area=${nombreArea}`, "GET").then(response => {
+        setGetResponse(response as HandledResponse<GetResponseType>)
+      })
   }, [fecha, nombreArea])
 
   return getResponse
