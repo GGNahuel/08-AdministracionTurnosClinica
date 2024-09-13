@@ -35,7 +35,7 @@ export function SearchTurnos() {
             <div>
               <select name="areaName">
                 <option value={""}>Área profesional</option>
-                {areas.map(area => (<option key={area.nombre} value={area.nombre}>{area.nombre}</option>))}
+                {areas?.map(area => (<option key={area.nombre} value={area.nombre}>{area.nombre}</option>))}
               </select>
               <select name="estadoPago">
                 <option value={""}>Estado administrativo</option>

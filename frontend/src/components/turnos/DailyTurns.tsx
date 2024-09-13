@@ -7,7 +7,7 @@ import { CasillaTurno, CasillaTurnoPorOrdenDeLlegada } from "./CasillaTurno";
 
 export function DailyTurns() {
   const allTurnos = useGetAllTurnos() // cambiar por turnos del día
-  const turnos = allTurnos.results as Turno[]
+  const turnos = allTurnos?.results as Turno[]
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const allProfesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
 
