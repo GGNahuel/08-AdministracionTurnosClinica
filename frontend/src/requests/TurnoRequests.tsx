@@ -188,7 +188,7 @@ export function useGetSearchedTurnos() {
 
   useEffect(() => {
     if (searchParams != defaultSearchObject) 
-      handleRequest("/turno/search", "GET", searchParams).then(response => {
+      handleRequest("/turno/search", "POST", searchParams).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
       })
     else setGetResponse(null)

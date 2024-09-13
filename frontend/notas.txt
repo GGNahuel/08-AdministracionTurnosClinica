@@ -1,3 +1,11 @@
+✅ realizado
+🔄 en proceso
+⚠️ importante
+❗ importante para antes de publicar
+❔ revisar
+⏩ para cuándo ya esté publicado
+🌍 características tanto de front y de back
+
 Funcionamiento general
   Al entrar, página de inicio, se mostrarán una lista con los horarios del día de todas las areas, 
     listas separadas por área
@@ -33,11 +41,11 @@ Navbar y secciones
 Tareas:
   Generales
     ⚠️❗🌎 logueo
-    🔄⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
+    ✅⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
       tanto si viene del back como del front
     ❔⚠️ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
       en caso de que el profesional tenga horarios distintos en distintas áreas)
-    ⚠️renombrar areas a Servicios
+    ⏩ renombrar areas a Servicios
     ⚠️agregar búsquedas en tablas que faltan
     ver que se actualice sola la tabla después de editar entidad
     🔄 eliminar console.log que hayan quedado por ahí xd
@@ -57,16 +65,16 @@ Tareas:
     ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
     ver funciones obtener horarios con varios profesionales en el misma area
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
-    reestructurar uso y funcionamiento de la peticion getTurnosByPaciente dni
+    ✅ reestructurar uso y funcionamiento de la peticion getTurnosByPaciente dni
     ✅ cambiar el search turnos para que la peticion sea con un body y no con parametros (eso de los parametros sería para la ruta del cliente)
 
   Estilo css UI/UX
     ⚠️❗ navbar responsive con el alto y ancho de la pantalla
     ⚠️❗ mensajes de error y de exito
     ✅ terminar estilos en dailyTurns y turnCreation
-    ⚠️ agregar animación de carga
+    ⚠️⏩ agregar animación de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     ✅ probar otros estilos para los details y summaries que aparecen en dailyTurns
-    estilar cómo se muestra lo creado en forms
+    ❗ estilar cómo se muestra lo creado en forms
     ✅ placholder en modo claro de la nav de busqueda en turnos
     ✅ estilo a los botones de nav

@@ -44,7 +44,7 @@ public class TurnoController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
-  @GetMapping("/search")
+  @PostMapping("/search")
   public ResponseEntity<ResponseDTO> searchTurnos(@RequestBody SearchTurnoDto params) {
     GetResponseDTO response = new GetResponseDTO();
     response.setResults(turnoService.searchTurnos(params));
