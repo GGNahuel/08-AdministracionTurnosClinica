@@ -1,32 +1,20 @@
-import React from "react"
+import React, { useState } from "react"
 import { useGetAllPacientes } from "../../requests/PacienteRequests"
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
 import { useGetTurnosByPaciente } from "../../requests/TurnoRequests"
-import { Paciente } from "../../types/Entities"
+import { Paciente, Turno } from "../../types/Entities"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
 import { useTableOptions } from "../../hooks/useTableOptions"
 import { TableOptions } from "../utilities/TableOptions"
 
 export function PacienteListado() {
+  const [dniSelected, setDniSelected] = useState("")
   const allPacientes = useGetAllPacientes()
   const results = allPacientes?.results as Paciente[]
 
-  const { pacienteSelectedByDni, setPacienteSelected } = useGetTurnosByPaciente()
-  const showTurnos = (dniPaciente: string) => {
-    if (pacienteSelectedByDni.dni != dniPaciente) {
-      setPacienteSelected(prevState => ({
-        ...prevState,
-        dni: dniPaciente
-      }))
-    }
-    else {
-      setPacienteSelected(prevState => ({
-        ...prevState,
-        dni: ""
-      }))
-    }
-  }
-
+  const turnsInPaciente = useGetTurnosByPaciente(dniSelected)
+  const showTurnos = (dniPaciente: string) => setDniSelected(dniPaciente != dniSelected ? dniPaciente : "")
+  
   const selectCheckboxesState = useSelectedCheckboxesObject()
   const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
 
@@ -70,9 +58,9 @@ export function PacienteListado() {
                         <p>Ver turnos: </p>
                       </td>
                     </tr>
-                    {pacienteSelectedByDni.dni === paciente.dni && 
-                      (pacienteSelectedByDni.turnos.length > 0 ? 
-                        pacienteSelectedByDni.turnos?.map((turno) => (
+                    {dniSelected === paciente.dni && 
+                      ((turnsInPaciente?.results as Turno[]).length > 0 ? 
+                        (turnsInPaciente?.results as Turno[]).map((turno) => (
                           <tr className="list turno">
                             <td colSpan={6}>
                               <table className="table">
@@ -81,6 +69,7 @@ export function PacienteListado() {
                                     <th>Fecha</th>
                                     <th>Horario</th>
                                     <th>Area profesional</th>
+                                    <th>Estado Pago</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -88,6 +77,7 @@ export function PacienteListado() {
                                     <td>{turno.fecha} - {turno.fecha}</td>
                                     <td>{turno.horario}:{turno.horario}</td>
                                     <td>{turno.areaProfesional}</td>
+                                    <td>{turno.estadoPago}</td>
                                   </tr>
                                 </tbody>
                               </table>

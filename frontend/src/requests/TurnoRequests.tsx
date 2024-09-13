@@ -137,31 +137,16 @@ export function usePutTurno() {
   return {returnedPost, sendPutRequest}
 }
 
-export function useGetTurnosByPaciente() {
-  const [pacienteSelectedByDni, setPacienteSelected] = useState<{
-    dni: string,
-    turnos: Turno[]
-  }>({
-    dni: "",
-    turnos: []
-  })
+export function useGetTurnosByPaciente(dni: string) {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    async function getPacienteTurnos() {
-      if (pacienteSelectedByDni.dni == "") return
+    handleRequest("/turno/paciente/" + dni, "GET").then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
+  }, [dni])
 
-      const response = await fetch(API_PREFIX + "/turno/paciente/" + pacienteSelectedByDni.dni)
-      const data : GetResponseType = await response.json()
-
-      setPacienteSelected(prev => ({
-        ...prev,
-        turnos: data.results as Turno[]
-      }))
-    }
-    getPacienteTurnos()
-  }, [pacienteSelectedByDni.dni])
-
-  return {pacienteSelectedByDni, setPacienteSelected}
+  return getResponse
 }
 
 export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
