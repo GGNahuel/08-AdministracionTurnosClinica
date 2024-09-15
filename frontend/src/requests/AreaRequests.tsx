@@ -87,6 +87,7 @@ export function usePutArea() {
 
 export function useSearchArea() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+  const [params, setParams] = useState<{active: boolean | null, schedule: boolean | null}>({active: null, schedule: null})
 
   const sendSearchParams = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -95,21 +96,24 @@ export function useSearchArea() {
     const activeStatus = formData.get("activeStatus")
     const needSchedule = formData.get("needSchedule")
     const params = {
-      active: activeStatus != "" ? Boolean (activeStatus) : null,
-      schedule: needSchedule != "" ? Boolean (needSchedule) : null
+      active: activeStatus != "" ? activeStatus == "true" : null,
+      schedule: needSchedule != "" ? needSchedule == "true" : null
     }
-
-    const requestRoute = `
-      /area/search${(params.active != null || params.schedule != null) ? "?" : ""}
-      ${params.active != null ? "active=" + params.active.toString() : ""}
-      ${params.active != null && params.schedule != null ? "&" : ""}
-      ${params.schedule != null ? "schedule=" + params.schedule : ""}
-    `
-
+    
+    setParams(params)
+  }
+  
+  useEffect(() => {
+    const requestRoute = 
+      "/area/search" + (params.active != null || params.schedule != null ? "?" : "") +
+      (params.active != null ? ("status=" + params.active) : "") +
+      (params.active != null && params.schedule != null ? "&" : "") +
+      (params.schedule != null ? ("schedule=" + params.schedule) : "")
+    
     handleRequest(requestRoute, "GET").then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
-  }
+  }, [params])
 
   return {getResponse, sendSearchParams}
 }

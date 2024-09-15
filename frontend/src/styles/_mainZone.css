@@ -82,6 +82,12 @@ main {
   align-items: center;
   background-color: var(--colorPrimario);
   color: var(--fontColor_darkScheme);
+  margin: 1rem 0;
+
+  &.simple {
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
 
   div {
     display: flex;

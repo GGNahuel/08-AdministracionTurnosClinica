@@ -57,7 +57,7 @@ export function AreaConsList() {
       </section>
       <section>
         <h2>Áreas profesionales</h2>
-        <form className="searchForm" onSubmit={(e) => sendAreaParams(e)}>
+        <form className="searchForm simple" onSubmit={(e) => sendAreaParams(e)}>
           <div className="filters">
             <p>Filtros: </p>
             <select name="activeStatus">
