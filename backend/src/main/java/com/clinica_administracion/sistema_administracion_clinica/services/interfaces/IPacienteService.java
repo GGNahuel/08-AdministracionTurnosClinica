@@ -12,4 +12,5 @@ public interface IPacienteService {
   PacienteDTO getById(UUID id) throws Exception;
   PacienteDTO create(PacienteDTO paciente) throws Exception;
   PacienteDTO update(PacienteDTO pacienteActualizado) throws Exception;
+  List<PacienteDTO> searchPacientes(String busqueda, String obraSocial);
 }

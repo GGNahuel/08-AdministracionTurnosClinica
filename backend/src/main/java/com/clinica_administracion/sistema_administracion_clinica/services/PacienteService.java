@@ -38,6 +38,13 @@ public class PacienteService implements IPacienteService{
   }
 
   @Transactional(readOnly = true) @Override
+  public List<PacienteDTO> searchPacientes(String busqueda, String obraSocial) {
+    return pacienteRepo.searchPacientes(busqueda, obraSocial).stream().map(
+      paciente -> modelMapper.map(paciente, PacienteDTO.class)
+    ).toList();
+  }
+
+  @Transactional(readOnly = true) @Override
   public List<PacienteDTO> getByNombreLike(String nombre) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre o apellido del paciente"}, nombre);
     
