@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
 import { handleRequest } from "../functions/RequestHandler"
+import { Consultorio, ProfesionalMed } from "../types/Entities"
 
 export function useGetAllConsultorios() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
@@ -45,4 +46,37 @@ export function usePutConsultorio() {
   }
 
   return {returnValue, sendPutRequest}
+}
+
+export function useSearchConsulrory() {
+  const [allConsultories, setAllConsultories] = useState<Consultorio[]>([])
+  const [results, setResults] = useState<Consultorio[]>([])
+
+  const filterOcuppedConsultories = (ev: React.FormEvent<HTMLFormElement>, proffesionals: ProfesionalMed[]) => {
+    ev.preventDefault()
+    const formData = new FormData(ev.currentTarget)
+    const inputValue = formData.get("ocupped")
+    const value = inputValue == "true" ? true : inputValue == "" ? null : false
+
+    const filteredConsultories = allConsultories.filter(consultory => {
+      return value ? 
+        proffesionals.some(proffesional => proffesional.consultorio == consultory.numeroConsultorio) : 
+        proffesionals.every(proffesional => proffesional.consultorio != consultory.numeroConsultorio)
+    })
+    console.log(filteredConsultories, value, inputValue)
+  
+    setResults(value != null ?
+      filteredConsultories :
+      allConsultories)
+  }
+
+  useEffect(() => {
+    handleRequest("/consultorio", "GET").then(response => {
+      const results = (response as HandledResponse<GetResponseType>).results as Consultorio[]
+      setAllConsultories(results)
+      setResults(results)
+    })
+  }, [])
+
+  return {results, filterOcuppedConsultories}
 }

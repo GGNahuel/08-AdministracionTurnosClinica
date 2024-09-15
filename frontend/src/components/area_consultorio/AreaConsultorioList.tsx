@@ -1,8 +1,8 @@
 import { useSearchArea } from "../../requests/AreaRequests";
-import { useGetAllConsultorios } from "../../requests/ConsultorioRequests";
+import { useSearchConsulrory } from "../../requests/ConsultorioRequests";
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
-import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities";
+import { AreaProfesional, ProfesionalMed } from "../../types/Entities";
 import { SelectItemCheckbox } from "../utilities/ListSelector";
 
 import { useTableOptions } from "../../hooks/useTableOptions";
@@ -11,7 +11,7 @@ import { TableOptions } from "../utilities/TableOptions";
 export function AreaConsList() {
   const {getResponse: areaSearchResponse, sendSearchParams: sendAreaParams} = useSearchArea()
   const areas = areaSearchResponse?.results as AreaProfesional[]
-  const consultorios = useGetAllConsultorios()?.results as Consultorio[]
+  const {results: consultorios, filterOcuppedConsultories} = useSearchConsulrory()
   const profesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
 
   const selectCheckboxesState = useSelectedCheckboxesObject()
@@ -22,6 +22,14 @@ export function AreaConsList() {
       <h1>Listados</h1>
       <section>
         <h2>Consultorios existentes</h2>
+        <form className="searchForm simple" onSubmit={ev => filterOcuppedConsultories(ev, profesionales)}>
+          <select name="ocupped">
+            <option value="">Desactivado</option>
+            <option value="true">Asignados</option>
+            <option value="false">Libres</option>
+          </select>
+          <button type="submit">Aplicar</button>
+        </form>
         <TableOptions 
           entityType="consultorios" selectedCheckboxesState={selectCheckboxesState} childs={consultorios} 
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
