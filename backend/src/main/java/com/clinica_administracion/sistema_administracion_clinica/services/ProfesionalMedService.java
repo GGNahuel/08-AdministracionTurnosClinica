@@ -47,6 +47,14 @@ public class ProfesionalMedService implements IProfesionalMedService {
   }
 
   @Transactional(readOnly = true) @Override
+  public List<ProfesionalMedDTO> search(String busqueda, String matricula, String nombreArea) {
+    return
+      profesionalRepo.searchProffesionals(busqueda, matricula, nombreArea).stream().map(
+        profesional -> modelMapper.map(profesional, ProfesionalMedDTO.class)
+      ).toList();
+  }
+
+  @Transactional(readOnly = true) @Override
   public List<ProfesionalMedDTO> getAllByArea(String nombreArea) throws Exception {
     return
       profesionalRepo.findByAreaName(nombreArea).stream().map(
