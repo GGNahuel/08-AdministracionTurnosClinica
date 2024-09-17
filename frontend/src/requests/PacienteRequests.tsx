@@ -90,3 +90,31 @@ export function usePutPaciente() {
 
   return {returnedValue, sendPutRequest}
 }
+
+export function useSearchPatients() {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
+  const [params, setParams] = useState<{search: string, obraSocial: string}>({search: "", obraSocial: ""})
+
+  const setSearchParams = (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    const formData = new FormData(ev.currentTarget)
+    const formParams = {
+      search: formData.get("search") as string,
+      obraSocial: formData.get("obraSocial") as string
+    }
+
+    setParams(formParams)
+  }
+
+  useEffect(() => {
+    const route = "/paciente/search" +
+      ((params.search != "" || params.obraSocial != "") ? "?" : "") +
+      (params.search != "" ? "busqueda=" + params.search : "") +
+      ((params.search != "" && params.obraSocial != "") ? "&" : "") +
+      (params.obraSocial != "" ? "obrasocial=" + params.obraSocial : "")
+    
+    handleRequest(route,"GET").then(response => setGetResponse(response as HandledResponse<GetResponseType>))
+  }, [params])
+
+  return {getResponse, setSearchParams}
+}

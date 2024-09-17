@@ -20,8 +20,8 @@ public interface PacienteRepository extends JpaRepository<PacienteEntity, UUID> 
   Optional<PacienteEntity> findByDni(String dni);
 
   @Query(value = "select p from PacienteEntity p where " +
-    "(p.nombreComple like :busqueda or p.dni like :busqueda or :busqueda = '') and " +
-    "(p.obraSocial like :obrasocial or :obrasocial = '')"
+    "(p.nombreCompleto like %:busqueda% or p.dni like %:busqueda% or :busqueda is null) and " +
+    "(p.obraSocial like %:obrasocial% or :obrasocial is null)"
   )
   List<PacienteEntity> searchPacientes(@Param("busqueda") String busqueda, @Param("obrasocial") String obraSocial);
 }
