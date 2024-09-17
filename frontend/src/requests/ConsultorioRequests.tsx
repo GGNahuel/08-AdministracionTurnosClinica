@@ -63,7 +63,6 @@ export function useSearchConsulrory() {
         proffesionals.some(proffesional => proffesional.consultorio == consultory.numeroConsultorio) : 
         proffesionals.every(proffesional => proffesional.consultorio != consultory.numeroConsultorio)
     })
-    console.log(filteredConsultories, value, inputValue)
   
     setResults(value != null ?
       filteredConsultories :
