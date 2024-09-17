@@ -3,6 +3,7 @@ import { Horario } from "../classes/Horario";
 import { handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { ProfesionalMed } from "../types/Entities";
+import { generateSearchRoute } from "../functions/Utilities";
 
 export function useGetAllProfesionales() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
@@ -92,4 +93,33 @@ export function usePutProfesional() {
   }
 
   return {returnValue, sendPutRequest}
+}
+
+export function useSearchProffesionals() {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
+
+  interface params {search: string, matricula: string, areaName: string}
+  const [params, setParams] = useState<params>({search: "", matricula: "", areaName: ""})
+
+  const getParams = (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    const formData = new FormData(ev.currentTarget)
+
+    const newParam: params = {
+      search: formData.get("search") as string,
+      matricula: formData.get("matricula") as string,
+      areaName: formData.get("area") as string
+    }
+    setParams(newParam)
+  }
+
+  useEffect(() => {
+    const route = "/profesional/search" + generateSearchRoute(params)
+
+    handleRequest(route, "GET").then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
+  }, [params])
+
+  return {getParams, getResponse}
 }

@@ -52,3 +52,24 @@ export function normaliceString(input: string): string {
 
   return normalized;
 }
+
+export function generateSearchRoute(params: object): string {
+  let result = ""
+  const entries = Object.entries(params)
+  const values = Object.values(params)
+
+  if (values.some(value => value != "" && value)) {
+    result += "?"
+  
+    entries.forEach((entrie, index) => {
+      const [key, value] = entrie
+
+      result += value && value != "" ? 
+        index != 0 && entries[index - 1][1] != "" ?
+          `&${key}=${value}` : `${key}=${value}`
+        : ""
+    })
+  }
+
+  return result
+}
