@@ -42,10 +42,10 @@ public class ProfesionalMedController {
 
   @GetMapping("/search")
   public ResponseEntity<ResponseDTO> search(
-    @RequestParam(required = false) String busqueda, @RequestParam(required = false) String matricula, @RequestParam(required = false) String nombreArea
+    @RequestParam(required = false) String search, @RequestParam(required = false) String matricula, @RequestParam(required = false) String area
   ) {
     GetResponseDTO response = new GetResponseDTO();
-    response.setResults(profesionalMedService.search(busqueda, matricula, nombreArea));
+    response.setResults(profesionalMedService.search(search, matricula, area));
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
