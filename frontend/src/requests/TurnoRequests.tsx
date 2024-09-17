@@ -141,7 +141,7 @@ export function useGetTurnosByPaciente(dni: string) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    handleRequest("/turno/paciente/" + dni, "GET").then(response => {
+    if(dni && dni != "") handleRequest("/turno/paciente/" + dni, "GET").then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [dni])
