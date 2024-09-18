@@ -1,14 +1,17 @@
 import { Horario } from "../../classes/Horario";
-import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
 import { useTableOptions } from "../../hooks/useTableOptions";
-import { ProfesionalMed } from "../../types/Entities";
+import { useGetAllAreas } from "../../requests/AreaRequests";
+import { useSearchProffesionals } from "../../requests/ProfesionalRequests";
+import { AreaProfesional, ProfesionalMed } from "../../types/Entities";
 import { SelectItemCheckbox } from "../utilities/ListSelector";
+import { SearchVar } from "../utilities/Searchvar";
 import { TableOptions } from "../utilities/TableOptions";
 
 export function ProfesionalListado() {
-  const data = useGetAllProfesionales()
+  const {getResponse: data, getParams} = useSearchProffesionals()
   const results = data?.results as ProfesionalMed[]
+  const areas = useGetAllAreas()?.results as AreaProfesional[]
 
   const selectedCheckboxesObject = useSelectedCheckboxesObject()
   const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
@@ -17,6 +20,15 @@ export function ProfesionalListado() {
     <section>
       <h1>Listado de profesionales</h1>
       <section>
+        <form className="formSearch" onSubmit={(ev) => getParams(ev)}>
+          <SearchVar name="search" placeholder="Nombre o dni" />
+          <label>Buscar por matricula<SearchVar name="matricula" /></label>
+          <select name="area">
+            <option value="">Seleccione area para filtrar</option>
+            {areas.map(area => <option key={area.nombre} value={area.nombre}>{area.nombre}</option>)}
+          </select>
+          <button type="submit">Aplicar</button>
+        </form>
         <TableOptions 
           entityType="profesionales" selectedCheckboxesState={selectedCheckboxesObject} childs={results}
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}

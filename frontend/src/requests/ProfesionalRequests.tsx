@@ -98,8 +98,8 @@ export function usePutProfesional() {
 export function useSearchProffesionals() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
 
-  interface params {search: string, matricula: string, areaName: string}
-  const [params, setParams] = useState<params>({search: "", matricula: "", areaName: ""})
+  interface params {search: string, matricula: string, area: string}
+  const [params, setParams] = useState<params>({search: "", matricula: "", area: ""})
 
   const getParams = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -108,7 +108,7 @@ export function useSearchProffesionals() {
     const newParam: params = {
       search: formData.get("search") as string,
       matricula: formData.get("matricula") as string,
-      areaName: formData.get("area") as string
+      area: formData.get("area") as string
     }
     setParams(newParam)
   }
