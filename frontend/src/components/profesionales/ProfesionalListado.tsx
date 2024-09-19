@@ -21,11 +21,11 @@ export function ProfesionalListado() {
       <h1>Listado de profesionales</h1>
       <section>
         <form className="formSearch" onSubmit={(ev) => getParams(ev)}>
-          <SearchVar name="search" placeholder="Nombre o dni" />
+          <label>Buscar por nombre o DNI<SearchVar name="search" placeholder="Nombre o dni" /></label>
           <label>Buscar por matricula<SearchVar name="matricula" /></label>
           <select name="area">
             <option value="">Seleccione area para filtrar</option>
-            {areas.map(area => <option key={area.nombre} value={area.nombre}>{area.nombre}</option>)}
+            {areas?.map(area => <option key={area.nombre} value={area.nombre}>{area.nombre}</option>)}
           </select>
           <button type="submit">Aplicar</button>
         </form>
