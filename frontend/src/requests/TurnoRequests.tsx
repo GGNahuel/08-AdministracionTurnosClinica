@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
 import { dateInputValueToDBFormat } from "../functions/DateFunctions"
 import { handleRequest } from "../functions/RequestHandler"
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
 import { EstadoPago } from "../types/BackendEnums"
 import { Paciente, ProfesionalMed, Turno } from "../types/Entities"
-import { SearchTurno } from "../types/Others"
+import { SearchTurno } from "../types/SearchFormTypes"
+import { URLSearchParamsInit, useSearchParams } from "react-router-dom"
 
 export function useGetAllTurnos() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
@@ -164,8 +165,8 @@ export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
 
 export function useGetSearchedTurnos() {
   const [searchParams, setSearchParams] = useState<SearchTurno>({searchName: "", areaName: "", date: "", estadoPago: ""})
+  const [searchParamss, setSearchParamss] = useSearchParams({searchName: "", areaName: "", date: "", estadoPago: ""})
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
-  const defaultSearchObject: SearchTurno = useMemo(() => ({searchName: "", areaName: "", date: "", estadoPago: ""}), [])
 
   const buildObject = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -177,22 +178,27 @@ export function useGetSearchedTurnos() {
 
     const date = formData.get("date") != "" ? dateInputValueToDBFormat(formData.get("date") as string) : ""
     const formSearchParams: SearchTurno = {
-      searchName: formData.get("searchName") as string | "",
-      areaName: formData.get("areaName") as string | "",
+      searchName: formData.get("searchName") as string || "",
+      areaName: formData.get("areaName") as string || "",
       estadoPago: (formData.get("estadoPago") as string) as typeof EstadoPago[number],
       date: date
     }
 
-    setSearchParams(formSearchParams != defaultSearchObject ? formSearchParams : defaultSearchObject)
+    const paramsToUrl: Record<string, string> = {}
+    for (const key in formSearchParams) {
+      const valueOfKey = formSearchParams[key as keyof typeof formSearchParams]
+      if (valueOfKey != "") paramsToUrl[key] = valueOfKey
+    }
+
+    setSearchParamss(paramsToUrl)
+    setSearchParams(formSearchParams)
   }
 
   useEffect(() => {
-    if (searchParams != defaultSearchObject) 
-      handleRequest("/turno/search", "POST", searchParams).then(response => {
-        setGetResponse(response as HandledResponse<GetResponseType>)
-      })
-    else setGetResponse(null)
-  }, [searchParams, defaultSearchObject])
+    handleRequest("/turno/search", "POST", searchParams).then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
+  }, [searchParams])
 
   return {buildObject, getResponse}
 }
