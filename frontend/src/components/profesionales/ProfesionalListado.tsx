@@ -20,7 +20,7 @@ export function ProfesionalListado() {
     <section>
       <h1>Listado de profesionales</h1>
       <section>
-        <form className="formSearch" onSubmit={(ev) => getParams(ev)}>
+        <form className="searchForm simple" onSubmit={(ev) => getParams(ev)}>
           <label>Buscar por nombre o DNI<SearchVar name="search" placeholder="Nombre o dni" /></label>
           <label>Buscar por matricula<SearchVar name="matricula" /></label>
           <select name="area">
