@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react"
 import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
-import { dateInputValueToDBFormat } from "../functions/DateFunctions"
 import { handleRequest } from "../functions/RequestHandler"
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
 import { EstadoPago } from "../types/BackendEnums"
 import { Paciente, ProfesionalMed, Turno } from "../types/Entities"
 import { SearchTurno } from "../types/SearchFormTypes"
-import { URLSearchParamsInit, useSearchParams } from "react-router-dom"
 
 export function useGetAllTurnos() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
@@ -163,35 +161,28 @@ export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
   return getResponse
 }
 
-export function useGetSearchedTurnos() {
-  const [searchParams, setSearchParams] = useState<SearchTurno>({searchName: "", areaName: "", date: "", estadoPago: ""})
-  const [searchParamss, setSearchParamss] = useSearchParams({searchName: "", areaName: "", date: "", estadoPago: ""})
+export function useGetSearchedTurnos(urlParams: URLSearchParams) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+  const [searchParams, setSearchParams] = useState<SearchTurno>({
+    searchName: urlParams.get("searchName") || "",
+    areaName: urlParams.get("areaName") || "",
+    date: urlParams.get("date") || "",
+    estadoPago: urlParams.get("estadoPago") as typeof EstadoPago[number] || ""
+  })
 
   const buildObject = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const formData = new FormData(ev.currentTarget)
 
-    if (!EstadoPago.includes((formData.get("estadoPago") as string) as typeof EstadoPago[number])) {
+    if (!EstadoPago.includes(searchParams.estadoPago as typeof EstadoPago[number])) {
       throw new Error("El estado de pago que se quiere buscar no está dentro de los valores aceptados")
     }
 
-    const date = formData.get("date") != "" ? dateInputValueToDBFormat(formData.get("date") as string) : ""
-    const formSearchParams: SearchTurno = {
-      searchName: formData.get("searchName") as string || "",
-      areaName: formData.get("areaName") as string || "",
-      estadoPago: (formData.get("estadoPago") as string) as typeof EstadoPago[number],
-      date: date
-    }
-
-    const paramsToUrl: Record<string, string> = {}
-    for (const key in formSearchParams) {
-      const valueOfKey = formSearchParams[key as keyof typeof formSearchParams]
-      if (valueOfKey != "") paramsToUrl[key] = valueOfKey
-    }
-
-    setSearchParamss(paramsToUrl)
-    setSearchParams(formSearchParams)
+    setSearchParams(({
+      searchName: urlParams.get("searchName") || "",
+      areaName: urlParams.get("areaName") || "",
+      date: urlParams.get("date") || "",
+      estadoPago: urlParams.get("estadoPago") as typeof EstadoPago[number] || ""
+    }))
   }
 
   useEffect(() => {

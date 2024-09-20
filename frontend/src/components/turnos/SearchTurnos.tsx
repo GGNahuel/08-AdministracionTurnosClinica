@@ -1,33 +1,55 @@
-import { useGetAllAreas } from "../../requests/AreaRequests"
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
-import { useGetSearchedTurnos } from "../../requests/TurnoRequests"
 import { useTableOptions } from "../../hooks/useTableOptions"
+import { useGetAllAreas } from "../../requests/AreaRequests"
+import { useGetSearchedTurnos } from "../../requests/TurnoRequests"
 
 import { cutPascalCase } from "../../functions/Utilities"
 import { EstadoPago } from "../../types/BackendEnums"
 import { AreaProfesional, Turno } from "../../types/Entities"
 
+import React from "react"
+import { useSearchParams } from "react-router-dom"
+import { dateInputValueToDBFormat, dateToInputFormat } from "../../functions/DateFunctions"
+import { SearchTurno } from "../../types/SearchFormTypes"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
 import { SearchVar } from "../utilities/Searchvar"
-import React from "react"
 import { TableOptions } from "../utilities/TableOptions"
 
 export function SearchTurnos() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
-  const {getResponse, buildObject} = useGetSearchedTurnos()
-  const resultsOfSearch = getResponse?.results as Turno[]
   const selectedCheckboxes = useSelectedCheckboxesObject()
   const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
+  
+  const [urlParams, setParamsUrl] = useSearchParams()
+  
+  const handleSearchFormInputChange = (ev: React.ChangeEvent<HTMLInputElement>, paramName: keyof SearchTurno, alternativeValue?: string) => {
+    const value = ev.currentTarget.value
+    if (value && value != "") {
+      urlParams.set(paramName, alternativeValue || value)
+    } else {
+      urlParams.delete(paramName)
+    }
+    setParamsUrl(urlParams)
+  }
+
+  const {getResponse, buildObject} = useGetSearchedTurnos(urlParams)
+  const resultsOfSearch = getResponse?.results as Turno[]
 
   return (
     <section>
       <header>
         <form onSubmit={(ev) => buildObject(ev)} className="searchForm">
           <div className="searchers">
-            <SearchVar placeholder="Nombre de paciente o profesional" name="searchName"/>
+            <SearchVar 
+              placeholder="Nombre de paciente o profesional" name="searchName" 
+              value={urlParams.get("searchName") || ""} onChangeFunction={(e) => handleSearchFormInputChange(e, "searchName")}
+            />
             <label>
               Buscar por fecha
-              <input type="date" name="date" placeholder="fecha"/>
+              <input type="date" name="date" placeholder="fecha" 
+                value={urlParams.get("areaName") && urlParams.get("areaName") != "" ? dateToInputFormat(urlParams.get("areaName") as string) : undefined} 
+                onChange={(e) => handleSearchFormInputChange(e, "date", dateInputValueToDBFormat(e.currentTarget.value))}
+              />
             </label>
           </div>
           <div className="filters">
