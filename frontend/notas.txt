@@ -51,7 +51,7 @@ Tareas:
     🔄 eliminar console.log que hayan quedado por ahí xd
 
   Funciones
-    🔄⚠️ en el calendario de creación poner un checkbox para que solo aparezcan los horarios que están disponibles en los dias que corresponda
+    ✅⚠️ en el calendario de creación poner un checkbox para que solo aparezcan los horarios que están disponibles en los dias que corresponda
     si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 
       params que correspondan (fehca, hora, paciente)?
     ver cómo se implementa la obra social al crear turno

@@ -5,6 +5,7 @@ import { useGetNextTurnosByArea } from "../../requests/TurnoRequests"
 import { ProfesionalMed, Turno } from "../../types/Entities"
 import { CasillaDiaAgenda } from "./CasillaTurno"
 import { routes } from "../../constants/NavigationRoutes"
+import { useState } from "react"
 
 export function SchedulePicker(props:{
   areaSelected: {name: string, needSchedule: boolean},
@@ -25,6 +26,11 @@ export function SchedulePicker(props:{
   const {areaSelected, setPlayInputAnimation, profesionalesByAreas, scrollRef} = props
   const {turnDate, setTurnDate} = props.turnDateState
 
+  const [availableFilter, setFilter] = useState(false)
+  const handleOnChangeAvailableFilter = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(ev.currentTarget.checked)
+  }
+
   const todayDate = formatDate(new Date())
   const nextTurnos = useGetNextTurnosByArea(todayDate, areaSelected.name)?.results as Turno[]
   const actualMonthNumber = new Date().getMonth()
@@ -44,12 +50,15 @@ export function SchedulePicker(props:{
     setPlayInputAnimation(true)
     setTimeout(() => {
       setPlayInputAnimation(false)
-    }, 400);
+    }, 400); // animation length
   }
 
   return (
     <section id="turnPicker">
-      <h2>Seleccionar horario</h2>
+      <header>
+        <h2>Seleccionar horario</h2>
+        <label><input type="checkbox" checked={availableFilter} onChange={(e) => handleOnChangeAvailableFilter(e)}/>Mostrar solo horarios disponibles</label>
+      </header>
       {areaSelected.name == "" ? 
         <p>Seleccione un area para ver la agenda</p> :
         nextMonths.map((monthName, index) => (
@@ -62,7 +71,7 @@ export function SchedulePicker(props:{
                     key={dayNumber}
                     fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
                     horarios={scheduleList} turnos={nextTurnos} dateState={turnDate}
-                    onClickFunction={handleSelectSchedule}
+                    onClickFunction={handleSelectSchedule} activeFilter={availableFilter}
                   />
                 )) :
                 <p>No existen horarios designados en este área, revisar servicio. <Link to={routes.area_consultorio.list} target="blank">Ver especialidades</Link></p>

@@ -50,18 +50,23 @@ export function CasillaDiaAgenda(props: {
   dateState: {
     date: string;
     hour: string;
-  }
+  },
+  activeFilter: boolean
 }) {
-  const {fecha, horarios, turnos, onClickFunction, dateState} = props
+  const {fecha, horarios, turnos, onClickFunction, dateState, activeFilter} = props
 
   // verificacion de que los turnos lleguen con la misma fecha
+
+  const filteredHorarios = turnos && activeFilter ? 
+    horarios?.filter(horario => !turnos.some(turno => turno.horario == horario && turno.fecha == formatDate(fecha))) 
+    : horarios
 
   return (
     <article className="dayContainer">
       <header>
         <h3>{fecha.getDate()}</h3>
       </header>
-      {horarios?.map(horario => {
+      {filteredHorarios?.map(horario => {
         const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == formatDate(fecha))
 
         return (
