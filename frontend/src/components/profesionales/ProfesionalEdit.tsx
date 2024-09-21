@@ -42,7 +42,7 @@ export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, 
         <select name="consultorio">
           {consultorios?.map(consultorio => {
             const numero = consultorio.numeroConsultorio
-            return <option key={numero} value={numero}>{numero}</option>
+            return <option key={numero} value={numero} defaultChecked={numero == fieldsValuesState.consultorio}>{numero}</option>
           })}
         </select>
       </label>
