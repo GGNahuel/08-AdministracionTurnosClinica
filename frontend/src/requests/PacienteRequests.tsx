@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { Paciente } from "../types/Entities";
+import { SearchPaciente } from "../types/SearchFormTypes";
+import { generateSearchRoute } from "../functions/Utilities";
 
 export function useGetAllPacientes() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
@@ -91,30 +93,29 @@ export function usePutPaciente() {
   return {returnedValue, sendPutRequest}
 }
 
-export function useSearchPatients() {
+export function useSearchPatients(urlParams: URLSearchParams) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
-  const [params, setParams] = useState<{search: string, obraSocial: string}>({search: "", obraSocial: ""})
+  const [searchParams, setSearchParams] = useState<SearchPaciente>({
+    search: urlParams.get("search") || "", 
+    obraSocial: urlParams.get("obraSocial") || ""
+  })
 
-  const setSearchParams = (ev: React.FormEvent<HTMLFormElement>) => {
+  const getSearchParams = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const formData = new FormData(ev.currentTarget)
-    const formParams = {
-      search: formData.get("search") as string,
-      obraSocial: formData.get("obraSocial") as string
+
+    const newParams = {
+      search: urlParams.get("search") || "", 
+    obraSocial: urlParams.get("obraSocial") || ""
     }
 
-    setParams(formParams)
+    setSearchParams(newParams)
   }
 
   useEffect(() => {
-    const route = "/paciente/search" +
-      ((params.search != "" || params.obraSocial != "") ? "?" : "") +
-      (params.search != "" ? "busqueda=" + params.search : "") +
-      ((params.search != "" && params.obraSocial != "") ? "&" : "") +
-      (params.obraSocial != "" ? "obrasocial=" + params.obraSocial : "")
+    const route = "/paciente/search" + generateSearchRoute(searchParams)
     
     handleRequest(route,"GET").then(response => setGetResponse(response as HandledResponse<GetResponseType>))
-  }, [params])
+  }, [searchParams])
 
-  return {getResponse, setSearchParams}
+  return {getResponse, getSearchParams}
 }

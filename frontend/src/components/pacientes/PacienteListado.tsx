@@ -7,10 +7,14 @@ import { Paciente, Turno } from "../../types/Entities"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
 import { SearchVar } from "../utilities/Searchvar"
 import { TableOptions } from "../utilities/TableOptions"
+import { useSearchParamsURL } from "../../hooks/SearchParams"
+import { SearchPaciente } from "../../types/SearchFormTypes"
 
 export function PacienteListado() {
+  const {urlParams, handleSearchFormInputChange} = useSearchParamsURL()
+
   const [dniSelected, setDniSelected] = useState("")
-  const {getResponse, setSearchParams} = useSearchPatients()
+  const {getResponse, getSearchParams} = useSearchPatients(urlParams)
   const results = getResponse?.results as Paciente[]
 
   const turnsInPaciente = useGetTurnosByPaciente(dniSelected)
@@ -23,11 +27,13 @@ export function PacienteListado() {
     <section>
       <h2>Listado de pacientes</h2>
       <section>
-        <form className="searchForm simple" onSubmit={ev => setSearchParams(ev)}>
-          <div>
-            <SearchVar name="search" placeholder="Nombre o dni del paciente"/>
-            <SearchVar name="obraSocial" placeholder="Obra social"/>
-          </div>
+        <form className="searchForm simple" onSubmit={ev => getSearchParams(ev)}>
+          <label>Buscar por nombre o dni<SearchVar 
+            value={urlParams.get("search") || ""} onChangeFunction={(e) => handleSearchFormInputChange<SearchPaciente>(e, "search")}
+          /></label>
+          <label>Buscar por obra social<SearchVar
+            value={urlParams.get("obraSocial") || ""} onChangeFunction={(e) => handleSearchFormInputChange<SearchPaciente>(e, "obraSocial")}
+          /></label>
           <button type="submit">Aplicar</button>
         </form>  
         <TableOptions 

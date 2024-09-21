@@ -40,9 +40,9 @@ public class PacienteController {
   }
 
   @GetMapping("/search")
-  public ResponseEntity<ResponseDTO> searchPacientes (@RequestParam(required = false) String busqueda, @RequestParam(required = false) String obrasocial) {
+  public ResponseEntity<ResponseDTO> searchPacientes (@RequestParam(required = false) String search, @RequestParam(required = false) String obraSocial) {
     GetResponseDTO response = new GetResponseDTO();
-    response.setResults(pacienteService.searchPacientes(busqueda, obrasocial));
+    response.setResults(pacienteService.searchPacientes(search, obraSocial));
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
