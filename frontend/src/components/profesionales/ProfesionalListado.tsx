@@ -1,14 +1,18 @@
 import { Horario } from "../../classes/Horario";
+import { useSearchParamsURL } from "../../hooks/SearchParams";
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes";
 import { useTableOptions } from "../../hooks/useTableOptions";
 import { useGetAllAreas } from "../../requests/AreaRequests";
 import { useSearchProffesionals } from "../../requests/ProfesionalRequests";
 import { AreaProfesional, ProfesionalMed } from "../../types/Entities";
+import { SearchProffesional } from "../../types/SearchFormTypes";
 import { SelectItemCheckbox } from "../utilities/ListSelector";
 import { SearchVar } from "../utilities/Searchvar";
 import { TableOptions } from "../utilities/TableOptions";
 
 export function ProfesionalListado() {
+  const { urlParams, handleSearchFormInputChange } = useSearchParamsURL()
+
   const {getResponse: data, getParams} = useSearchProffesionals()
   const results = data?.results as ProfesionalMed[]
   const areas = useGetAllAreas()?.results as AreaProfesional[]
@@ -21,11 +25,17 @@ export function ProfesionalListado() {
       <h1>Listado de profesionales</h1>
       <section>
         <form className="searchForm simple" onSubmit={(ev) => getParams(ev)}>
-          <label>Buscar por nombre o DNI<SearchVar name="search" placeholder="Nombre o dni" /></label>
-          <label>Buscar por matricula<SearchVar name="matricula" /></label>
-          <select name="area">
+          <label>Buscar por nombre o DNI<SearchVar 
+            value={urlParams.get("search") || ""} 
+            onChangeFunction={(e) => handleSearchFormInputChange<SearchProffesional>(e, "search")}
+          /></label>
+          <label>Buscar por matricula<SearchVar 
+            value={urlParams.get("matricula") || ""}
+            onChangeFunction={(e) => handleSearchFormInputChange<SearchProffesional>(e, "matricula")}
+          /></label>
+          <select name="area" onChange={(e) => handleSearchFormInputChange<SearchProffesional>(e, "area")}>
             <option value="">Seleccione area para filtrar</option>
-            {areas?.map(area => <option key={area.nombre} value={area.nombre}>{area.nombre}</option>)}
+            {areas?.map(area => <option key={area.nombre} value={area.nombre} defaultChecked={urlParams.get("area") == area.nombre}>{area.nombre}</option>)}
           </select>
           <button type="submit">Aplicar</button>
         </form>
