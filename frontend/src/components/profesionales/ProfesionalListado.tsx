@@ -13,7 +13,7 @@ import { TableOptions } from "../utilities/TableOptions";
 export function ProfesionalListado() {
   const { urlParams, handleSearchFormInputChange } = useSearchParamsURL()
 
-  const {getResponse: data, getParams} = useSearchProffesionals()
+  const {getResponse: data, getParams} = useSearchProffesionals(urlParams)
   const results = data?.results as ProfesionalMed[]
   const areas = useGetAllAreas()?.results as AreaProfesional[]
 
@@ -33,7 +33,7 @@ export function ProfesionalListado() {
             value={urlParams.get("matricula") || ""}
             onChangeFunction={(e) => handleSearchFormInputChange<SearchProffesional>(e, "matricula")}
           /></label>
-          <select name="area" onChange={(e) => handleSearchFormInputChange<SearchProffesional>(e, "area")}>
+          <select onChange={(e) => handleSearchFormInputChange<SearchProffesional>(e, "area")}>
             <option value="">Seleccione area para filtrar</option>
             {areas?.map(area => <option key={area.nombre} value={area.nombre} defaultChecked={urlParams.get("area") == area.nombre}>{area.nombre}</option>)}
           </select>

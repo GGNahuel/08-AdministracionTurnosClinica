@@ -4,6 +4,7 @@ import { handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { ProfesionalMed } from "../types/Entities";
 import { generateSearchRoute } from "../functions/Utilities";
+import { SearchProffesional } from "../types/SearchFormTypes";
 
 export function useGetAllProfesionales() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
@@ -95,31 +96,32 @@ export function usePutProfesional() {
   return {returnValue, sendPutRequest}
 }
 
-export function useSearchProffesionals() {
+export function useSearchProffesionals(urlParams: URLSearchParams) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
-
-  interface params {search: string, matricula: string, area: string}
-  const [params, setParams] = useState<params>({search: "", matricula: "", area: ""})
+  const [searchParams, setSearchParams] = useState<SearchProffesional>({
+    search: urlParams.get("search") || "",
+    matricula: urlParams.get("matricula") || "",
+    area: urlParams.get("area") || ""
+  })
 
   const getParams = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const formData = new FormData(ev.currentTarget)
 
-    const newParam: params = {
-      search: formData.get("search") as string,
-      matricula: formData.get("matricula") as string,
-      area: formData.get("area") as string
+    const newParam: SearchProffesional = {
+      search: urlParams.get("search") || "",
+      matricula: urlParams.get("matricula") || "",
+      area: urlParams.get("area") || ""
     }
-    setParams(newParam)
+    setSearchParams(newParam)
   }
 
   useEffect(() => {
-    const route = "/profesional/search" + generateSearchRoute(params)
+    const route = "/profesional/search" + generateSearchRoute(searchParams)
 
     handleRequest(route, "GET").then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
-  }, [params])
+  }, [searchParams])
 
   return {getParams, getResponse}
 }
