@@ -36,7 +36,7 @@ export function SearchTurnos() {
             <label>
               Buscar por fecha
               <input type="date" name="date" placeholder="fecha" 
-                value={urlParams.get("areaName") && urlParams.get("areaName") != "" ? dateToInputFormat(urlParams.get("areaName") as string) : undefined} 
+                value={urlParams.get("date") && urlParams.get("date") != "" ? dateToInputFormat(urlParams.get("date") as string) : undefined} 
                 onChange={(e) => handleSearchFormInputChange<SearchTurno>(e, "date", dateInputValueToDBFormat(e.currentTarget.value))}
               />
             </label>
