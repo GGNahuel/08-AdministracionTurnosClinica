@@ -33,9 +33,9 @@ export function ProfesionalListado() {
             value={urlParams.get("matricula") || ""}
             onChangeFunction={(e) => handleSearchFormInputChange<SearchProffesional>(e, "matricula")}
           /></label>
-          <select onChange={(e) => handleSearchFormInputChange<SearchProffesional>(e, "area")}>
+          <select onChange={(e) => handleSearchFormInputChange<SearchProffesional>(e, "area")} value={urlParams.get("area") || ""}>
             <option value="">Seleccione area para filtrar</option>
-            {areas?.map(area => <option key={area.nombre} value={area.nombre} defaultChecked={urlParams.get("area") == area.nombre}>{area.nombre}</option>)}
+            {areas?.map(area => <option key={area.nombre} value={area.nombre}>{area.nombre}</option>)}
           </select>
           <button type="submit">Aplicar</button>
         </form>
