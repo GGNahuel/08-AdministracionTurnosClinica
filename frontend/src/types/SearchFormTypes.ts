@@ -25,6 +25,6 @@ export interface SearchConsultorio {
 }
 
 export interface SearchArea {
-  status: string, 
-  schedule: string
+  status: boolean | null, 
+  schedule: boolean | null
 }

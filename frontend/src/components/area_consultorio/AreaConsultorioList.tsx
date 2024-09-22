@@ -7,9 +7,13 @@ import { SelectItemCheckbox } from "../utilities/ListSelector";
 
 import { useTableOptions } from "../../hooks/useTableOptions";
 import { TableOptions } from "../utilities/TableOptions";
+import { useSearchParamsURL } from "../../hooks/SearchParams";
+import { SearchArea } from "../../types/SearchFormTypes";
 
 export function AreaConsList() {
-  const {getResponse: areaSearchResponse, sendSearchParams: sendAreaParams} = useSearchArea()
+  const {urlParams, handleSearchFormInputChange} = useSearchParamsURL()
+
+  const {getResponse: areaSearchResponse, sendSearchParams: sendAreaParams} = useSearchArea(urlParams)
   const areas = areaSearchResponse?.results as AreaProfesional[]
   const {results: consultorios, filterOcuppedConsultories} = useSearchConsulrory()
   const profesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
@@ -68,7 +72,7 @@ export function AreaConsList() {
         <form className="searchForm simple" onSubmit={(e) => sendAreaParams(e)}>
           <div className="filters">
             <p>Filtros: </p>
-            <select name="activeStatus">
+            <select onChange={e => handleSearchFormInputChange<SearchArea>(e, "status")} value={urlParams.get("status") || ""}>
               <option value="">Estado</option>
               <option value="true">Activa</option>
               <option value="false">Inactiva</option>

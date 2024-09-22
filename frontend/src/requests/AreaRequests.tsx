@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { AreaProfesional } from "../types/Entities";
+import { SearchArea } from "../types/SearchFormTypes";
 
 export function useGetAllAreas() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
@@ -85,35 +86,40 @@ export function usePutArea() {
   return {returnValue, sendPutRequest}
 }
 
-export function useSearchArea() {
+export function useSearchArea(urlParams: URLSearchParams) {
+  const status = urlParams.get("status")
+  const schedule = urlParams.get("schedule")
+
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
-  const [params, setParams] = useState<{active: boolean | null, schedule: boolean | null}>({active: null, schedule: null})
+  const [searchParams, setSearchParams] = useState<SearchArea>({
+    status: status != undefined ? status == "true" : null,
+    schedule: schedule != undefined ? schedule == "true" : null
+  })
 
   const sendSearchParams = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const formData = new FormData(ev.currentTarget)
 
-    const activeStatus = formData.get("activeStatus")
-    const needSchedule = formData.get("needSchedule")
-    const params = {
-      active: activeStatus != "" ? activeStatus == "true" : null,
-      schedule: needSchedule != "" ? needSchedule == "true" : null
+    const params: SearchArea = {
+      status: status != undefined ? status == "true" : null,
+      schedule: schedule != undefined ? schedule == "true" : null
     }
+    console.log(params)
     
-    setParams(params)
+    setSearchParams(params)
   }
   
   useEffect(() => {
     const requestRoute = 
-      "/area/search" + (params.active != null || params.schedule != null ? "?" : "") +
-      (params.active != null ? ("status=" + params.active) : "") +
-      (params.active != null && params.schedule != null ? "&" : "") +
-      (params.schedule != null ? ("schedule=" + params.schedule) : "")
+      "/area/search" + (searchParams.status != null || searchParams.schedule != null ? "?" : "") +
+      (searchParams.status != null ? ("status=" + searchParams.status) : "") +
+      (searchParams.status != null && searchParams.schedule != null ? "&" : "") +
+      (searchParams.schedule != null ? ("schedule=" + searchParams.schedule) : "")
+
     
     handleRequest(requestRoute, "GET").then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
-  }, [params])
+  }, [searchParams])
 
   return {getResponse, sendSearchParams}
 }
