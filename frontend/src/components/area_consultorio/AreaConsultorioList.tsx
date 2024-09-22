@@ -77,7 +77,7 @@ export function AreaConsList() {
               <option value="true">Activa</option>
               <option value="false">Inactiva</option>
             </select>
-            <select name="needSchedule">
+            <select name="needSchedule" onChange={e => handleSearchFormInputChange<SearchArea>(e, "schedule")} value={urlParams.get("schedule") || ""}>
               <option value="">Tipo de servicio</option>
               <option value="true">Con turnos</option>
               <option value="false">Por orden de llegada</option>

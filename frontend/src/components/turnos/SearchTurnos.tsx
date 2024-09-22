@@ -44,11 +44,11 @@ export function SearchTurnos() {
           <div className="filters">
             <p>Filtros:</p>
             <div>
-              <select name="areaName">
+              <select name="areaName" onChange={e => handleSearchFormInputChange<SearchTurno>(e, "areaName")} value={urlParams.get("areaName") || ""}>
                 <option value={""}>Área profesional</option>
                 {areas?.map(area => (<option key={area.nombre} value={area.nombre}>{area.nombre}</option>))}
               </select>
-              <select name="estadoPago">
+              <select name="estadoPago" onChange={e => handleSearchFormInputChange<SearchTurno>(e, "estadoPago")} value={urlParams.get("estadoPago") || ""}>
                 <option value={""}>Estado administrativo</option>
                 {EstadoPago.map(estado => (estado != "" ? <option key={estado} value={estado}>{cutPascalCase(estado)}</option> : ""))}
               </select>
