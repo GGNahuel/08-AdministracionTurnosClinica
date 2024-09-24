@@ -87,7 +87,7 @@ export function usePutProfesional() {
       numMatricula: Number(formData.get("matricula")), 
       consultorio: Number(formData.get("consultorio") as string),
       horarios: Horario.getStringsFromScheduleBlock(formData.get("horarios") as string)
-    };
+    }
 
     const returned = await handleRequest("/profesional", "PUT", profesionalToSend)
     setReturnValue(returned as HandledResponse<ReturnResponseType>)

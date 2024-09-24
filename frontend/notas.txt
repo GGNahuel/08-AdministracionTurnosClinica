@@ -54,6 +54,7 @@ Tareas:
     ✅⚠️ en el calendario de creación poner un checkbox para que solo aparezcan los horarios que están disponibles en los dias que corresponda
     🔄si hay un turno ocupado, tanto en el listado diario, como en el formulario, deberá llevar a la vista de Turnos/busqueda con los search 
       params que correspondan (fehca, hora, paciente)?
+      agregar a la query y dto de busqueda de turno la hora
     ✅agregar urlParams a los search de cada tabla
     ver cómo se implementa la obra social al crear turno
     ⏩ en el dailyTurns component en las areas sin turno cuando no hay horarios agregar enlace para editar el area
@@ -63,7 +64,7 @@ Tareas:
   Errores y correcciones
     ⚠️ corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
     ✅⚠️ error cuando se ingresa la fecha manualmente en un formulario de turno
-    ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
+    ✅ ver porqué llega el error que llega cuando se registra un profesional sin areas asignadas
     ver funciones obtener horarios con varios profesionales en el misma area
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
     ✅ reestructurar uso y funcionamiento de la peticion getTurnosByPaciente dni

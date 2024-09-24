@@ -39,10 +39,10 @@ export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, 
         <input type="number" name="matricula" value={fieldsValuesState.numMatricula} onChange={(e) => handleOnChange(e)}/>
       </label>
       <label>Consultorio: 
-        <select name="consultorio">
+        <select name="consultorio" value={fieldsValuesState.consultorio}>
           {consultorios?.map(consultorio => {
             const numero = consultorio.numeroConsultorio
-            return <option key={numero} value={numero} defaultChecked={numero == fieldsValuesState.consultorio}>{numero}</option>
+            return <option key={numero} value={numero}>{numero}</option>
           })}
         </select>
       </label>
