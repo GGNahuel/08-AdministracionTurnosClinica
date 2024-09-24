@@ -20,10 +20,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserEntity {
   @Id @GeneratedValue
-  public UUID id;
+  private UUID id;
   @Column(unique = true)
-  public String username;
-  public String password;
+  private String username;
+  private String password;
   @Enumerated(EnumType.STRING)
-  public Roles role;
+  private Roles role;
 }
