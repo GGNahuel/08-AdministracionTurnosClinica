@@ -1,6 +1,11 @@
+import { Link } from "react-router-dom"
 import { formatDate } from "../../functions/DateFunctions"
 import { useGetProfesionalsByArea } from "../../requests/ProfesionalRequests"
 import { ProfesionalMed, Turno } from "../../types/Entities"
+import { routes } from "../../constants/NavigationRoutes"
+import { SearchTurno } from "../../types/SearchFormTypes"
+import { generateSearchRoute } from "../../functions/Utilities"
+import { EstadoPago } from "../../types/BackendEnums"
 
 export function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) {
   const { turno, horario } = props
@@ -68,6 +73,12 @@ export function CasillaDiaAgenda(props: {
       </header>
       {filteredHorarios?.map(horario => {
         const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == formatDate(fecha))
+        const turnSearchData: SearchTurno | null = turnoAssigned ? {
+          searchName: turnoAssigned.pacienteDto.nombreCompleto,
+          areaName: turnoAssigned.areaProfesional,
+          date: turnoAssigned.fecha,
+          estadoPago: turnoAssigned.estadoPago as typeof EstadoPago[number]
+        } : null
 
         return (
           <article 
@@ -83,6 +94,7 @@ export function CasillaDiaAgenda(props: {
           >
             <p>{horario}</p>
             <p>{turnoAssigned ? turnoAssigned.pacienteDto.nombreCompleto : "---"}</p>
+            {turnoAssigned && turnSearchData && <Link to={routes.turno.search + generateSearchRoute(turnSearchData)}>Ver</Link>}
           </article>
         )
       })}
