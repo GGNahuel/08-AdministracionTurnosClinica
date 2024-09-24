@@ -10,7 +10,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
-public class SeguridadWeb {
+public class Security {
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
