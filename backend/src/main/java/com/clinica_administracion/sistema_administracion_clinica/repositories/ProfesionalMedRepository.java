@@ -23,10 +23,10 @@ public interface ProfesionalMedRepository extends JpaRepository<ProfesionalMedEn
   @Query("Select p from ProfesionalMedEntity p join p.areas a where a.nombre like ?1")
   List<ProfesionalMedEntity> findByAreaName(String nombreArea);
 
-  @Query(value = "select p from ProfesionalMedEntity p join p.areas a where " +
+  @Query(value = "select p from ProfesionalMedEntity p left join p.areas a where " +
   "(p.nombreCompleto like %:busqueda% or p.dni like %:busqueda% or :busqueda is null) and " +
   "(cast(p.numMatricula as string) like %:matricula% or :matricula is null) and " +
-  "(a.nombre like %:nombrearea% or :nombrearea is null)"
+  "(a.nombre like %:nombrearea% or :nombrearea is null or SIZE(p.areas) = 0)" 
   )
   List<ProfesionalMedEntity> searchProffesionals(@Param("busqueda") String busqueda, @Param("matricula") String matricula, @Param("nombrearea") String area);
 }
