@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
+
 @Configuration
 @EnableWebSecurity
 public class Security {
@@ -36,6 +38,11 @@ public class Security {
           .logoutUrl("/logout")
           .logoutSuccessUrl("/login")
           .permitAll()
+      )
+      .rememberMe(
+        (remember) -> remember
+          .key(UtilitiesMethods.generateKey(16))
+          .tokenValiditySeconds(43200)
       );
     return http.build();
   }

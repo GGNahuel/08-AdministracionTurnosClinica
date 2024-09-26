@@ -1,5 +1,6 @@
 package com.clinica_administracion.sistema_administracion_clinica.others;
 
+import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -86,5 +87,17 @@ public class UtilitiesMethods {
     profesionalRepo.findByDni(dni).orElseThrow(
       () -> new ResourceNotFound("Profesional médico", "id", dni)
     );
+  }
+
+  public static String generateKey(int length) {
+    SecureRandom random = new SecureRandom();
+    StringBuilder sb = new StringBuilder(length);
+    String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    
+    for (int i = 0; i < length; i++) {
+      sb.append(characters.charAt(random.nextInt(characters.length())));
+    }
+    
+    return sb.toString();
   }
 }
