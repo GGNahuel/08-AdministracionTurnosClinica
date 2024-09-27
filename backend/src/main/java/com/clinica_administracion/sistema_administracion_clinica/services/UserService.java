@@ -16,10 +16,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserDTO;
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.Roles;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
+import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.UserRepository;
@@ -67,12 +69,15 @@ public class UserService implements IUserService {
   }
 
   @Transactional @Override
-  public UserDTO create(UserDTO user) throws Exception {
+  public UserDTO create(UserRegistrationDTO user) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
-      new String[]{"nombre de usuario", "contraseña", "rol"}, user.getUsername(), user.getPassword(), user.getRole()
+      new String[]{"nombre de usuario", "contraseña", "repetición de contraseña", "rol", "email", "es profesional"}, 
+      user.getUsername(), user.getPassword(), user.getPassword2(), user.getRole(), user.getEmail(), user.getIsProffesional()
     );
     if (userRepo.findByUsername(user.getUsername()).isPresent())
       throw new EntityAlreadyExists("Nombre de usuario ya ocupado", user.getUsername());
+    if (!user.getPassword().equals(user.getPassword2()))
+      throw new InvalidInput("repetición de contraseña");
     
     UserEntity userEntity = modelMapper.map(user, UserEntity.class);
     userEntity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

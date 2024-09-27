@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserDTO;
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.Roles;
@@ -58,7 +59,7 @@ public class UserContoller {
   }
 
   @PostMapping("")
-  public ResponseEntity<ResponseDTO> create(@RequestBody UserDTO user) throws Exception {
+  public ResponseEntity<ResponseDTO> create(@RequestBody UserRegistrationDTO user) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(userService.create(user));
     response.setMessage(UtilitiesMethods.messageCreator("Usuario registrado exitosamente", MessageTypes.ok));

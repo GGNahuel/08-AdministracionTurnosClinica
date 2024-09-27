@@ -40,28 +40,6 @@ public class ModelMapperConfigs {
 		return modelMapper;
 	}
 
-/*   public void configurePacienteMapping(ModelMapper modelMapper) {
-    Converter<List<UUID>, List<TurnoEntity>> convertTurnos = conv ->
-      conv.getSource() == null ?
-        null :
-        conv.getSource().stream().map(
-          uuid -> turnoRepo.findById(uuid).get()
-        ).toList();
-    modelMapper.typeMap(PacienteDTO.class, PacienteEntity.class).addMappings(
-      mapper -> mapper.using(convertTurnos).map(PacienteDTO::getTurnos, PacienteEntity::setTurnos)
-    );
-
-    Converter<List<TurnoEntity>, List<UUID>> convertUuid = conv ->
-      conv.getSource() == null ? 
-      null :
-      conv.getSource().stream().map(
-        turnoE -> turnoE.getId()
-      ).toList();
-    modelMapper.typeMap(PacienteEntity.class, PacienteDTO.class).addMappings(
-      mapper -> mapper.using(convertUuid).map(src -> src.getTurnos(), PacienteDTO::setTurnos)
-    );
-  } */
-
   public void configureTurnoMapping(ModelMapper modelMapper) {
     Converter<Integer, ConsultorioEntity> consultorioEntityConv = conv -> 
       conv.getSource() == null ? 

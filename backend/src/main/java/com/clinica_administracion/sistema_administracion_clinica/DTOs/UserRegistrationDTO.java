@@ -11,10 +11,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class UserRegistrationDTO {
   private UUID id;
   private String username;
   private String password;
+  private String password2;
   private Roles role;
   private String email;
+  private Boolean isProffesional;
+  private String proffesionalDni;
 }
