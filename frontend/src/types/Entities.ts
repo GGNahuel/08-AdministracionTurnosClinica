@@ -1,3 +1,5 @@
+import { Roles } from "./BackendEnums"
+
 export type Entities = Turno | ProfesionalMed | Paciente | Consultorio | AreaProfesional
 
 export interface Turno {
@@ -44,4 +46,15 @@ export interface AreaProfesional {
 export interface Consultorio {
   id?: string,
   numeroConsultorio: number
+}
+
+export interface UserRegistration {
+  id?: string,
+  username: string, 
+  password: string,
+  password2: string,
+  email: string,
+  isProffesional: boolean,
+  proffesionalDni: string,
+  role: Roles
 }
