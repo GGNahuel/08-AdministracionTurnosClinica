@@ -4,14 +4,16 @@ import { HandledResponse, ResponseType } from "../types/APIResponses";
 
 export async function handleRequest(
   path: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-  body?: unknown
+  body?: unknown, isAuthentication?: boolean, alternativeBody?: BodyInit
 ) {
   const requestBody: RequestInit = {
     method: method,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": isAuthentication ? "application/x-www-form-urlencoded" : "application/json",
+      "X-XSRF-TOKEN": getCookie("XSRF-TOKEN")
     },
-    body: body ? JSON.stringify(body) : undefined
+    body: alternativeBody ? alternativeBody : body ? JSON.stringify(body) : undefined,
+    credentials: "include"
   }
 
   const request = await fetch(API_PREFIX + path, body == undefined && method == "GET" ? undefined : requestBody)
@@ -29,4 +31,12 @@ export async function handleRequest(
   }
 
   return {...response, status} as HandledResponse<ResponseType>
+}
+
+function getCookie(name: string) : string {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  console.log(value, parts)
+  const check = parts.pop()?.split(';').shift()
+  return parts.length === 2 && check ? check : ""
 }
