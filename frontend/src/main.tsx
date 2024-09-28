@@ -6,9 +6,11 @@ import App from './App'
 import './styles/index.css'
 
 import { concatArrays } from './functions/Utilities'
-import { AreaConsultorioRoutes, pacienteRoutes, profesionalRoutes, turnoRoutes } from './constants/RouteObjects'
+import { AreaConsultorioRoutes, pacienteRoutes, profesionalRoutes, turnoRoutes, UsuarioRoutes } from './constants/RouteObjects'
 
-const navigationRoutes = concatArrays(turnoRoutes, pacienteRoutes, profesionalRoutes, AreaConsultorioRoutes) as RouteObject[]
+const navigationRoutes = concatArrays(
+  turnoRoutes, pacienteRoutes, profesionalRoutes, AreaConsultorioRoutes, UsuarioRoutes
+) as RouteObject[]
 const router = createBrowserRouter([
   {
     path: "/",

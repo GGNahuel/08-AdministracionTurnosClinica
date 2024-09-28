@@ -15,5 +15,9 @@ export const routes = {
   area_consultorio: {
     list: "/areas_consultorios",
     create: "/areas_consultorios/crear"
+  },
+  usuario: {
+    login: "/login",
+    signup: "/signup"
   }
 } as const

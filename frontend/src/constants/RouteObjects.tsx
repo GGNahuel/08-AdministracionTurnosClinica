@@ -13,6 +13,7 @@ import { ProfesionalCreacion } from "../components/profesionales/ProfesionalCrea
 import { AreaConsList } from "../components/area_consultorio/AreaConsultorioList";
 import { AreaConsCreate } from "../components/area_consultorio/AreaConsultorioCreate";
 import { SearchTurnos } from "../components/turnos/SearchTurnos";
+import { LogInForm, RegisterForm } from "../components/users/LogAndRegister";
 
 export const turnoRoutes : RouteObject[] = [
   {
@@ -68,5 +69,18 @@ export const AreaConsultorioRoutes : RouteObject[] = [
     path: routes.area_consultorio.create,
     element: <AreaConsCreate />,
     id: "areaCons_register"
+  }
+]
+
+export const UsuarioRoutes: RouteObject[] = [
+  {
+    path: routes.usuario.login,
+    element: <LogInForm />,
+    id: "user_login"
+  },
+  {
+    path: routes.usuario.signup,
+    element: <RegisterForm />,
+    id: "user_register"
   }
 ]

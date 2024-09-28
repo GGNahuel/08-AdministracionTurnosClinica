@@ -3,6 +3,7 @@ import { navListItems } from "../../constants/NavigationComponents"
 import { NavbarDetails } from "../../types/NavbarSections"
 
 import { ConfigIcon, LanguageIcon, LogInIcon } from "../utilities/Icons"
+import { routes } from "../../constants/NavigationRoutes"
 
 function NavItem({ navItem } : { navItem: NavbarDetails, route: string}) {
   const itemsNames : string[] = Object.values(navItem.items).map(linkObj => linkObj.name)
@@ -43,6 +44,7 @@ export function Navbar() {
           <li><button className="iconButton"><ConfigIcon /></button></li>
           <li><button className="iconButton"><LanguageIcon /></button></li>
           <li><button className="iconButton"><LogInIcon /></button></li>
+          <li><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon />Registro</button></Link></li>
         </ul>
       </footer>
     </nav>
