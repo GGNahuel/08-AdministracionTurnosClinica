@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react"
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests"
 import { ProfesionalMed } from "../../types/Entities"
+import { useRegisterUser } from "../../requests/UserRequests"
 
 export function LogInForm() {
   return (
@@ -15,6 +16,7 @@ export function LogInForm() {
 export function RegisterForm() {
   const [isProffesional, setIsProffesional] = useState(false)
   const proffesionals = useGetAllProfesionales()?.results as ProfesionalMed[]
+  const {handleFormSubmit} = useRegisterUser()
 
   const handleIsProffesionalOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.checked
@@ -23,7 +25,7 @@ export function RegisterForm() {
 
   return (
     <section className="registerSection">
-      <form>
+      <form onSubmit={e => handleFormSubmit(e, isProffesional)}>
         <label>Nombre de usuario<input type="text" name="username" /></label>
         <label>Contraseña<input type="password" name="password" /></label>
         <label>Repetir contraseña<input type="password" name="password2" /></label>
