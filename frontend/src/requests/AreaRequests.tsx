@@ -8,7 +8,7 @@ export function useGetAllAreas() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
 
   useEffect(() => {
-    handleRequest("/area", "GET").then(response => {
+    handleRequest("/area", "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [])
@@ -24,7 +24,7 @@ export function useGetAreasByName(name: string, areaSelectedSetter?: React.Dispa
 
   useEffect(() => {
     if (name != "") {
-      handleRequest("/area/" + encodeURIComponent(name), "GET").then(response => {
+      handleRequest("/area/" + encodeURIComponent(name), "GET", {}).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
         
         if (areaSelectedSetter && !response.message) {
@@ -42,7 +42,7 @@ export function useGetAreasByActiveStatus(active: boolean) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    handleRequest(`/area/actives?valor=${String(active)}`, "GET").then(response => {
+    handleRequest(`/area/actives?valor=${String(active)}`, "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [active])
@@ -60,7 +60,7 @@ export function usePostArea() {
     const nombre = formData.get("nombre") as string
     const necesitaTurno = Boolean (formData.get("necesitaTurno"))
 
-    const returned = await handleRequest(`/area?nombre=${nombre}&necesitaTurno=${necesitaTurno}`, "POST")
+    const returned = await handleRequest(`/area?nombre=${nombre}&necesitaTurno=${necesitaTurno}`, "POST", {})
 
     setReturnedPost(returned as HandledResponse<ReturnResponseType>)
   }
@@ -79,7 +79,7 @@ export function usePutArea() {
     const name = formData.get("nombre") as string
     const needSchedule = Boolean (formData.get("necesitaTurno") as string)
 
-    const response = await handleRequest(`/area?id=${id}&nombre=${name}&necesitaTurno=${needSchedule}`, "GET")
+    const response = await handleRequest(`/area?id=${id}&nombre=${name}&necesitaTurno=${needSchedule}`, "PUT", {})
     setReturnValue(response as HandledResponse<ReturnResponseType>)
   }
 
@@ -116,7 +116,7 @@ export function useSearchArea(urlParams: URLSearchParams) {
       (searchParams.schedule != null ? ("schedule=" + searchParams.schedule) : "")
 
     
-    handleRequest(requestRoute, "GET").then(response => {
+    handleRequest(requestRoute, "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [searchParams])

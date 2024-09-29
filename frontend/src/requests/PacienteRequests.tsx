@@ -9,7 +9,7 @@ export function useGetAllPacientes() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    handleRequest("/paciente", "GET").then(response => {
+    handleRequest("/paciente", "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [])
@@ -21,7 +21,7 @@ export function useGetPacienteByDni(dniPaciente : string) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    handleRequest("/paciente/" + dniPaciente, "GET").then(response => {
+    handleRequest("/paciente/" + dniPaciente, "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [dniPaciente])
@@ -34,7 +34,7 @@ export function useGetPacientesByName(nombre: string) {
 
   useEffect(() => {
     if (nombre != null && nombre != "") 
-      handleRequest("/paciente/nombre/" + nombre, "GET").then(response => {
+      handleRequest("/paciente/nombre/" + nombre, "GET", {}).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
       })
     else 
@@ -63,7 +63,7 @@ export function usePostPaciente() {
       obraSocial: formData.get('obraSocial') as string
     };
 
-    const returned = await handleRequest("/paciente", "POST", pacienteToSend)
+    const returned = await handleRequest("/paciente", "POST", {body: pacienteToSend})
     setReturnedPost(returned as HandledResponse<ReturnResponseType>)
   }
 
@@ -86,7 +86,7 @@ export function usePutPaciente() {
       obraSocial: formData.get('obraSocial') as string
     };
 
-    const returned = await handleRequest("/paciente", "PUT", pacienteToSend)
+    const returned = await handleRequest("/paciente", "PUT", {body: pacienteToSend})
     setReturnedValue(returned as HandledResponse<ReturnResponseType>)
   }
 
@@ -114,7 +114,7 @@ export function useSearchPatients(urlParams: URLSearchParams) {
   useEffect(() => {
     const route = "/paciente/search" + generateSearchRoute(searchParams)
     
-    handleRequest(route,"GET").then(response => setGetResponse(response as HandledResponse<GetResponseType>))
+    handleRequest(route,"GET", {}).then(response => setGetResponse(response as HandledResponse<GetResponseType>))
   }, [searchParams])
 
   return {getResponse, getSearchParams}

@@ -10,7 +10,7 @@ export function useGetAllTurnos() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
 
   useEffect(() => {
-    handleRequest("/turno", "GET").then(response => {
+    handleRequest("/turno", "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [])
@@ -23,7 +23,7 @@ export function useGetTurnosByDate(fecha: string) {
 
   useEffect(() => {
     if (DATE_FORMAT.test(fecha))
-      handleRequest("/turno/?fecha=" + encodeURIComponent(fecha), "GET").then(response => {
+      handleRequest("/turno/?fecha=" + encodeURIComponent(fecha), "GET", {}).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
       })
     else throw new Error("La fecha ingresada no tiene el formato adecuado")
@@ -76,7 +76,7 @@ export function usePostTurno() {
       comentario: formData.get("comentario") as string
     }
 
-    const returned = await handleRequest("/turno", "POST", dataToSend)
+    const returned = await handleRequest("/turno", "POST", {body: dataToSend})
     setReturnedPost(returned)
   }
 
@@ -128,7 +128,7 @@ export function usePutTurno() {
       comentario: formData.get("comentario") as string
     }
 
-    const returned = await handleRequest("/turno", "PUT", dataToSend)
+    const returned = await handleRequest("/turno", "PUT", {body: dataToSend})
 
     setReturnedPost(returned as HandledResponse<ReturnResponseType>)
   }
@@ -140,7 +140,7 @@ export function useGetTurnosByPaciente(dni: string) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    if(dni && dni != "") handleRequest("/turno/paciente/" + dni, "GET").then(response => {
+    if(dni && dni != "") handleRequest("/turno/paciente/" + dni, "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [dni])
@@ -153,7 +153,7 @@ export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
 
   useEffect(() => {
     if (DATE_FORMAT.test(fecha) && nombreArea != "") 
-      handleRequest(`/turno/futuros?fecha=${encodeURIComponent(fecha)}&area=${nombreArea}`, "GET").then(response => {
+      handleRequest(`/turno/futuros?fecha=${encodeURIComponent(fecha)}&area=${nombreArea}`, "GET", {}).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
       })
   }, [fecha, nombreArea])
@@ -186,7 +186,7 @@ export function useGetSearchedTurnos(urlParams: URLSearchParams) {
   }
 
   useEffect(() => {
-    handleRequest("/turno/search", "POST", searchParams).then(response => {
+    handleRequest("/turno/search", "POST", {body: searchParams}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [searchParams])

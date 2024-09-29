@@ -24,8 +24,16 @@ export function useRegisterUser() {
   }
 
   useEffect(() => {
-    handleRequest("/api/user", "POST", userObject).then(response => setResponse(response as HandledResponse<ReturnResponseType>))
+    handleRequest("/user", "POST", {body: userObject}).then(response => setResponse(response as HandledResponse<ReturnResponseType>))
   }, [userObject])
 
   return {response, handleFormSubmit}
+}
+
+export function useLogIn() {
+  const sendLogInData = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+
+  }
 }

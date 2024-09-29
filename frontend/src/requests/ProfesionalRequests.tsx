@@ -10,7 +10,7 @@ export function useGetAllProfesionales() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
-    handleRequest("/profesional", "GET").then(response => {
+    handleRequest("/profesional", "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [])
@@ -23,7 +23,7 @@ export function useGetProfesionalsByArea(nombreArea:string) {
 
   useEffect(() => {
     if (nombreArea != "")
-      handleRequest("/profesional/area/" + nombreArea, "GET").then(response => {
+      handleRequest("/profesional/area/" + nombreArea, "GET", {}).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
       })
   }, [nombreArea])
@@ -36,7 +36,7 @@ export function useGetProfesionalByDni(dni:string) {
 
   useEffect(() => {
     if (dni != "")
-      handleRequest("/profesional/" + dni, "GET").then(response => {
+      handleRequest("/profesional/" + dni, "GET", {}).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
       })
   }, [dni])
@@ -62,7 +62,7 @@ export function usePostProfesional() {
       horarios: Horario.getStringsFromScheduleBlock(formData.get("horarios") as string)
     }
 
-    const returned = await handleRequest("/profesional", "POST", profesionalToSend)
+    const returned = await handleRequest("/profesional", "POST", {body: profesionalToSend})
 
     setReturnedPost(returned as HandledResponse<ReturnResponseType>)
   }
@@ -89,7 +89,7 @@ export function usePutProfesional() {
       horarios: Horario.getStringsFromScheduleBlock(formData.get("horarios") as string)
     }
 
-    const returned = await handleRequest("/profesional", "PUT", profesionalToSend)
+    const returned = await handleRequest("/profesional", "PUT", {body: profesionalToSend})
     setReturnValue(returned as HandledResponse<ReturnResponseType>)
   }
 
@@ -118,7 +118,7 @@ export function useSearchProffesionals(urlParams: URLSearchParams) {
   useEffect(() => {
     const route = "/profesional/search" + generateSearchRoute(searchParams)
 
-    handleRequest(route, "GET").then(response => {
+    handleRequest(route, "GET", {}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
   }, [searchParams])
