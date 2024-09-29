@@ -16,13 +16,14 @@ public class Security {
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .csrf(csrf -> csrf
-        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-      )
       .authorizeHttpRequests(
         (authorize) -> authorize
-          .requestMatchers("/dashboard").hasAnyRole("ADMIN")
+          //.requestMatchers("/dashboard").hasAnyRole("ADMIN")
+          .requestMatchers("/api/**").permitAll()
           .anyRequest().permitAll()
+      )
+      .csrf(csrf -> csrf
+        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
       )
       .formLogin(
         (form) -> form

@@ -12,8 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
       .addMapping("/api/**")
       .allowedOrigins("http://localhost:5173/")
       .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-      .allowedHeaders("*")
+      .allowedHeaders("X-XSRF-TOKEN", "Content-Type")
       .allowCredentials(true);
   }
-  
 }
