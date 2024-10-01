@@ -16,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserDTO;
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
@@ -42,34 +43,34 @@ public class UserService implements IUserService {
   }
 
   @Transactional(readOnly = true) @Override
-  public List<UserDTO> getAll() {
+  public List<UserFrontDTO> getAll() {
     return userRepo.findAll().stream().map(
-      user -> modelMapper.map(user, UserDTO.class)
+      user -> modelMapper.map(user, UserFrontDTO.class)
     ).toList();
   }
 
   @Transactional(readOnly = true) @Override
-  public List<UserDTO> getByRole(Roles role) throws Exception {
+  public List<UserFrontDTO> getByRole(Roles role) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"rol"}, role);
 
     return userRepo.findByRole(role).stream().map(
-      user -> modelMapper.map(user, UserDTO.class)
+      user -> modelMapper.map(user, UserFrontDTO.class)
     ).toList();
   }
 
   @Transactional(readOnly = true) @Override
-  public UserDTO getByUsername(String username) throws Exception {
+  public UserFrontDTO getByUsername(String username) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"usuario"}, username);
 
     UserEntity user = userRepo.findByUsername(username).orElseThrow(
       () -> new ResourceNotFound("usuario", "nombre de usuario", username)
     );
 
-    return modelMapper.map(user, UserDTO.class);
+    return modelMapper.map(user, UserFrontDTO.class);
   }
 
   @Transactional @Override
-  public UserDTO create(UserRegistrationDTO user) throws Exception {
+  public UserFrontDTO create(UserRegistrationDTO user) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"nombre de usuario", "contraseña", "repetición de contraseña", "rol", "email", "es profesional"}, 
       user.getUsername(), user.getPassword(), user.getPassword2(), user.getRole(), user.getEmail(), user.getIsProffesional()
@@ -85,11 +86,11 @@ public class UserService implements IUserService {
     // hacer la relación con el profesional en caso de que el rol sea del profesional
     // tendrá que recibir en parametro el id del profesional
 
-    return modelMapper.map(userRepo.save(userEntity), UserDTO.class);
+    return modelMapper.map(userRepo.save(userEntity), UserFrontDTO.class);
   }
 
   @Transactional @Override
-  public UserDTO update(UserDTO user) throws Exception {
+  public UserFrontDTO update(UserDTO user) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"nombre de usuario", "contraseña", "rol"}, user.getUsername(), user.getPassword(), user.getRole()
     );
@@ -105,7 +106,7 @@ public class UserService implements IUserService {
     // hacer la relación con el profesional en caso de que el rol sea del profesional
     // tendrá que recibir en parametro el id del profesional
 
-    return modelMapper.map(userRepo.save(userEntity), UserDTO.class);
+    return modelMapper.map(userRepo.save(userEntity), UserFrontDTO.class);
   }
 
   @Override

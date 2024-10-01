@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserDTO;
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
+import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.Roles;
@@ -25,6 +27,7 @@ import com.clinica_administracion.sistema_administracion_clinica.others.response
 import com.clinica_administracion.sistema_administracion_clinica.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/user")
@@ -40,7 +43,14 @@ public class UserContoller {
     CsrfToken token = (CsrfToken) servlet.getAttribute("_csrf");
     System.out.println("CSRF Token: " + token.getToken());
     return token;
-}
+  }
+
+  @GetMapping("/session")
+  public UserFrontDTO session(HttpSession session) throws Exception {
+    System.out.println(session.getAttributeNames());
+    UserEntity user = (UserEntity) session.getAttribute("loggedUser");
+    return userService.getByUsername(user.getUsername());
+  }
 
   @GetMapping("")
   public ResponseEntity<ResponseDTO> getAll() {
@@ -53,7 +63,7 @@ public class UserContoller {
   @GetMapping("/{username}")
   public ResponseEntity<ResponseDTO> getByUsername(@PathVariable String username) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
-    List<UserDTO> list = new ArrayList<>();
+    List<UserFrontDTO> list = new ArrayList<>();
     list.add(userService.getByUsername(username));
     response.setResults(list);
 
