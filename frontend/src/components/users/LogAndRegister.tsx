@@ -1,13 +1,17 @@
 import { ChangeEvent, useState } from "react"
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests"
 import { ProfesionalMed } from "../../types/Entities"
-import { useRegisterUser } from "../../requests/UserRequests"
+import { useLogIn, useRegisterUser } from "../../requests/UserRequests"
 
 export function LogInForm() {
+  const {sendLogInData} = useLogIn()
+
   return (
     <section className="registerSection">
-      <form>
-
+      <form onSubmit={e =>sendLogInData(e)}>
+        <label>Nombre de usuario:<input type="text" name="username" /></label>
+        <label>Contraseña: <input type="password" name="password" /></label>
+        <button type="submit">Iniciar sesión</button>
       </form>
     </section>
   )
