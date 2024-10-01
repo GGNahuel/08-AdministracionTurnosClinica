@@ -44,17 +44,17 @@ public class Security {
       .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
       .formLogin(
         (form) -> form
-          .loginPage("/login")
           .loginProcessingUrl("/logincheck")
           .usernameParameter("username")
           .passwordParameter("contrasena")
-          .defaultSuccessUrl("/", true)
+          .successHandler((request, response, authentication) -> {
+            response.setStatus(HttpServletResponse.SC_OK);
+          })
           .permitAll()
       )
       .logout(
         (logout) -> logout
           .logoutUrl("/logout")
-          .logoutSuccessUrl("/login")
           .permitAll()
       )
       .rememberMe(
