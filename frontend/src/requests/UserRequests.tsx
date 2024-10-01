@@ -40,7 +40,7 @@ export function useLogIn() {
     const username = formData.get("username") as string
     const password = formData.get("password") as string
 
-    fetch("/logincheck", {
+    fetch("http://localhost:8080/logincheck", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

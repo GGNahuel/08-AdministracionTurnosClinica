@@ -43,7 +43,7 @@ export function Navbar() {
         <ul className="buttonList">
           <li><button className="iconButton"><ConfigIcon /></button></li>
           <li><button className="iconButton"><LanguageIcon /></button></li>
-          <li><button className="iconButton"><LogInIcon /></button></li>
+          <li><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon />login</button></Link></li>
           <li><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon />Registro</button></Link></li>
         </ul>
       </footer>
