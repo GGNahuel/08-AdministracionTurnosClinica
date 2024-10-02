@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getCookie, handleRequest } from "../functions/RequestHandler";
 import { HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { UserRegistration } from "../types/Entities";
-import { getCookie, handleRequest } from "../functions/RequestHandler";
-import { useNavigate } from "react-router-dom";
 
 export function useRegisterUser() {
   const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
@@ -25,7 +25,8 @@ export function useRegisterUser() {
   }
 
   useEffect(() => {
-    handleRequest("/user", "POST", {body: userObject}).then(response => setResponse(response as HandledResponse<ReturnResponseType>))
+    if (userObject) 
+      handleRequest("/user", "POST", {body: userObject}).then(response => setResponse(response as HandledResponse<ReturnResponseType>))
   }, [userObject])
 
   return {response, handleFormSubmit}
@@ -48,12 +49,12 @@ export function useLogIn() {
       },
       body: new URLSearchParams({
         username: username,
-        contrasena: password, // Usa el nombre del parámetro que definiste
+        contrasena: password
       }),
       credentials: "include"
     }).then(response => {
       if (response.ok) navigateTo("/")
-      else console.log("loguin error: " + response.body)
+      else console.log("login error: " + response.body)
     })
   }
 
