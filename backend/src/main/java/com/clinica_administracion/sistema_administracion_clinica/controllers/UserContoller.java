@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,10 +47,20 @@ public class UserContoller {
   }
 
   @GetMapping("/session")
+  @PreAuthorize("authenticated()")
   public UserFrontDTO session(HttpSession session) throws Exception {
-    System.out.println(session.getAttributeNames());
     UserEntity user = (UserEntity) session.getAttribute("loggedUser");
-    return userService.getByUsername(user.getUsername());
+    return user != null ? userService.getByUsername(user.getUsername()) : null;
+    /*
+    SecurityContext context = SecurityContextHolder.getContext();
+    Authentication authContext = context.getAuthentication();
+    if (authContext != null && authContext.isAuthenticated() && !(authContext instanceof AnonymousAuthenticationToken)) {
+        System.out.println("_______________--" + authContext.getPrincipal());
+        UserEntity user = (UserEntity) authContext.getPrincipal();
+        return userService.getByUsername(user.getUsername()); // O crea un DTO a partir del UserEntity
+    }
+    else return null;
+     */
   }
 
   @GetMapping("")

@@ -1,10 +1,12 @@
 import { ChangeEvent, useState } from "react"
+import { useSessionGetter } from "../../hooks/Security"
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests"
-import { ProfesionalMed } from "../../types/Entities"
 import { useLogIn, useRegisterUser } from "../../requests/UserRequests"
+import { ProfesionalMed } from "../../types/Entities"
 
 export function LogInForm() {
   const {sendLogInData} = useLogIn()
+  const sessionchecker = useSessionGetter()
 
   return (
     <section className="registerSection">
