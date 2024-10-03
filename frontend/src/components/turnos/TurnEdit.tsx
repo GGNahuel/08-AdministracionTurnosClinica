@@ -10,6 +10,7 @@ import { EstadoPago } from "../../types/BackendEnums";
 import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
 import { SearchVar } from "../utilities/Searchvar";
 import { SchedulePicker } from "./SchedulePicker";
+import Message from "../utilities/Message";
 
 export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void}) {
   const {fieldsValuesState, handleOnChange} = props
@@ -20,7 +21,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: fieldsValuesState.fecha, hour: fieldsValuesState.horario})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
 
-  const {sendPutRequest} = usePutTurno()
+  const {sendPutRequest, returnValue} = usePutTurno()
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
@@ -28,6 +29,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
 
   return (
     <section>
+      {returnValue?.message?.text && <Message messageObject={returnValue.message} />}
       <form onSubmit={(ev) => {
         sendPutRequest(ev, areaSelected.name, turnDate)
       }}>
