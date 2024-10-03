@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
+import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.Roles;
@@ -79,18 +79,22 @@ public class UserService implements IUserService {
       throw new EntityAlreadyExists("Nombre de usuario ya ocupado", user.getUsername());
     if (!user.getPassword().equals(user.getPassword2()))
       throw new InvalidInput("repetición de contraseña");
+    ProfesionalMedEntity profesional = null;
+    if (user.getIsProffesional()) {
+      profesional = profesionalRepo.findByDni(user.getProffesionalDni()).orElseThrow(
+        () -> new ResourceNotFound("profesional", "dni", user.getProffesionalDni())
+      );
+    }
     
     UserEntity userEntity = modelMapper.map(user, UserEntity.class);
     userEntity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-
-    // hacer la relación con el profesional en caso de que el rol sea del profesional
-    // tendrá que recibir en parametro el id del profesional
+    userEntity.setProfesionalId(profesional);
 
     return modelMapper.map(userRepo.save(userEntity), UserFrontDTO.class);
   }
 
   @Transactional @Override
-  public UserFrontDTO update(UserDTO user) throws Exception {
+  public UserFrontDTO update(UserRegistrationDTO user) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"nombre de usuario", "contraseña", "rol"}, user.getUsername(), user.getPassword(), user.getRole()
     );
@@ -99,12 +103,16 @@ public class UserService implements IUserService {
     );
     if (userRepo.findByUsername(user.getUsername()).isPresent())
       throw new EntityAlreadyExists("Nombre de usuario ya ocupado", user.getUsername());
+    ProfesionalMedEntity profesional = null;
+    if (user.getIsProffesional()) {
+      profesional = profesionalRepo.findByDni(user.getProffesionalDni()).orElseThrow(
+        () -> new ResourceNotFound("profesional", "dni", user.getProffesionalDni())
+      );
+    }
     
     UserEntity userEntity = modelMapper.map(user, UserEntity.class);
     userEntity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-
-    // hacer la relación con el profesional en caso de que el rol sea del profesional
-    // tendrá que recibir en parametro el id del profesional
+    userEntity.setProfesionalId(profesional);
 
     return modelMapper.map(userRepo.save(userEntity), UserFrontDTO.class);
   }

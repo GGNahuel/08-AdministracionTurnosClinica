@@ -10,6 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,6 @@ public class UserEntity {
   @Enumerated(EnumType.STRING)
   private Roles role;
   private String email;
+  @OneToOne
+  private ProfesionalMedEntity profesionalId;
 }
