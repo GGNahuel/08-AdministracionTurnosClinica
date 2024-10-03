@@ -71,7 +71,7 @@ export function usePostPaciente() {
 }
 
 export function usePutPaciente() {
-  const [returnedValue, setReturnedValue] = useState<HandledResponse<ReturnResponseType> | null>(null)
+  const [returnValue, setReturnValue] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
   const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -87,10 +87,10 @@ export function usePutPaciente() {
     };
 
     const returned = await handleRequest("/paciente", "PUT", {body: pacienteToSend})
-    setReturnedValue(returned as HandledResponse<ReturnResponseType>)
+    setReturnValue(returned as HandledResponse<ReturnResponseType>)
   }
 
-  return {returnedValue, sendPutRequest}
+  return {returnValue, sendPutRequest}
 }
 
 export function useSearchPatients(urlParams: URLSearchParams) {

@@ -84,7 +84,7 @@ export function usePostTurno() {
 }
 
 export function usePutTurno() {
-  const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | GetResponseType>()
+  const [returnValue, setReturnValue] = useState<HandledResponse<ReturnResponseType> | GetResponseType>()
 
   const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>, areaSelected: string, turnDate: {date: string, hour: string}) => {
     ev.preventDefault()
@@ -98,7 +98,7 @@ export function usePutTurno() {
       dataProfesional = await responseProfesional.json()
       
       if (dataProfesional && dataProfesional.message) {
-        setReturnedPost(dataProfesional)
+        setReturnValue(dataProfesional)
         return
       }
     }
@@ -110,7 +110,7 @@ export function usePutTurno() {
       dataPaciente = await responsePaciente.json()
       
       if (dataPaciente && dataPaciente.message) {
-        setReturnedPost(dataPaciente)
+        setReturnValue(dataPaciente)
         return
       }
     }
@@ -130,10 +130,10 @@ export function usePutTurno() {
 
     const returned = await handleRequest("/turno", "PUT", {body: dataToSend})
 
-    setReturnedPost(returned as HandledResponse<ReturnResponseType>)
+    setReturnValue(returned as HandledResponse<ReturnResponseType>)
   }
 
-  return {returnedPost, sendPutRequest}
+  return {returnValue, sendPutRequest}
 }
 
 export function useGetTurnosByPaciente(dni: string) {
