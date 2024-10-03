@@ -125,6 +125,24 @@ main {
   }
 }
 
+.resultMessage {
+  padding: 1rem;
+  border: 3px rgba(0, 0, 0, 0.4) solid;
+  border-radius: 8px;
+
+  &.error {
+    background-color: rgb(139, 0, 0);
+  }
+
+  &.ok {
+    background-color: rgb(5, 83, 5);
+  }
+
+  &.warn {
+    background-color: rgb(138, 138, 0);
+  }
+}
+
 @media (prefers-color-scheme: light) {
   main {
     background-color: rgb(187, 187, 187);
