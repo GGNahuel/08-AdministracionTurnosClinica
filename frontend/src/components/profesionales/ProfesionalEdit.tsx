@@ -6,7 +6,7 @@ import { usePutProfesional } from "../../requests/ProfesionalRequests"
 import { Horario } from "../../classes/Horario"
 import Message from "../utilities/Message"
 
-export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void}) {
+export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, handleOnChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void}) {
   const {fieldsValuesState, handleOnChange} = props
   const {sendPutRequest, returnValue} = usePutProfesional()
 
@@ -42,7 +42,7 @@ export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, 
           <input type="number" name="matricula" value={fieldsValuesState.numMatricula} onChange={(e) => handleOnChange(e)}/>
         </label>
         <label>Consultorio: 
-          <select name="consultorio" value={fieldsValuesState.consultorio}>
+          <select name="consultorio" value={fieldsValuesState.consultorio} onChange={e => handleOnChange(e)}>
             {consultorios?.map(consultorio => {
               const numero = consultorio.numeroConsultorio
               return <option key={numero} value={numero}>{numero}</option>

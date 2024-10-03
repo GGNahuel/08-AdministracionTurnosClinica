@@ -12,7 +12,7 @@ export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handle
     const [fieldsValues, setFieldsValues] = useState<Entities>(entity)
     const entityType = getEntityType(entity)
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const newValue = e.currentTarget.value
       const field = e.currentTarget.name
 

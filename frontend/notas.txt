@@ -41,8 +41,9 @@ Navbar y secciones
 Tareas:
   Generales
     🔄⚠️❗🌎 logueo
-      🔄 vinculación con profesional
-      limitar accesos segun rol
+      ✅ vinculación con profesional
+      🔄 limitar accesos segun rol
+        rutas de front
       cambio entre login-registro y logout
       verificación de sesion e info en algun lado de la pantalla
       pantalla de edición perfil
@@ -78,7 +79,8 @@ Tareas:
 
   Estilo css UI/UX
     ⚠️❗ navbar responsive con el alto y ancho de la pantalla
-    ⚠️❗ mensajes de error y de exito
+    revisar responsive en modales y mensajes
+    ✅⚠️❗ mensajes de error y de exito
     ✅ terminar estilos en dailyTurns y turnCreation
     ⚠️⏩ agregar animación de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
