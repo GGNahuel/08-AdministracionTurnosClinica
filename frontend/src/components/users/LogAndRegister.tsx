@@ -1,12 +1,10 @@
 import { ChangeEvent, useState } from "react"
-import { useSessionGetter } from "../../hooks/Security"
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests"
 import { useLogIn, useRegisterUser } from "../../requests/UserRequests"
 import { ProfesionalMed } from "../../types/Entities"
 
 export function LogInForm() {
   const {sendLogInData} = useLogIn()
-  const sessionchecker = useSessionGetter()
 
   return (
     <section className="registerSection">
@@ -20,6 +18,8 @@ export function LogInForm() {
 }
 
 export function RegisterForm() {
+  const [samePassword, setSamePassword] = useState<{value: string, secondValue: string, areEquals: boolean}>({
+    value: "", secondValue: "", areEquals: true})
   const [isProffesional, setIsProffesional] = useState(false)
   const proffesionals = useGetAllProfesionales()?.results as ProfesionalMed[]
   const {handleFormSubmit} = useRegisterUser()
@@ -29,12 +29,29 @@ export function RegisterForm() {
     setIsProffesional(newValue)
   }
 
+  const handle2PasswordOnChange = (e: ChangeEvent<HTMLInputElement>, isFirstInput: boolean) => {
+    const value = e.currentTarget.value
+    setSamePassword(prev => {
+      if (isFirstInput) return ({
+        ...prev,
+        value,
+        areEquals: value === prev.secondValue
+      })
+      else return ({
+        ...prev,
+        secondValue: value,
+        areEquals: value === prev.value
+      })
+    })
+  }
+
   return (
     <section className="registerSection">
       <form onSubmit={e => handleFormSubmit(e, isProffesional)}>
         <label>Nombre de usuario<input type="text" name="username" /></label>
-        <label>Contraseña<input type="password" name="password" /></label>
-        <label>Repetir contraseña<input type="password" name="password2" /></label>
+        <label>Contraseña<input type="password" name="password" onChange={e => handle2PasswordOnChange(e, true)}/></label>
+        <label>Repetir contraseña<input type="password" name="password2" onChange={e => handle2PasswordOnChange(e, false)}/></label>
+        {!samePassword.areEquals && <p>Las contraseñas no coinciden</p>}
         <label>Correo electrónico<input type="email" name="email" /></label>
         <div>
           <label>
@@ -47,7 +64,7 @@ export function RegisterForm() {
             </select>
           }
         </div>
-        <button type="submit">Registrar</button>
+        <button type="submit" disabled={!samePassword.areEquals}>Registrar</button>
       </form>
     </section>
   )
