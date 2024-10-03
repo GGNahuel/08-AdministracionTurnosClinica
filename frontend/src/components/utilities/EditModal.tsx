@@ -33,7 +33,7 @@ export const EditModal = forwardRef<HTMLDialogElement, {entity: Entities, handle
     }
 
     return (
-      <dialog ref={ref}>
+      <dialog ref={ref} className="editModal">
         <section>
           <h2>Editar {entityType}</h2>
           {isOpen && formComponent[entityType]}

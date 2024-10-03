@@ -1,5 +1,6 @@
 @import "./sectionsInMain/_turnoSection.css";
 @import "./sectionsInMain/_postForms.css";
+@import "./sectionsInMain/_editModal.css";
 
 main {
   background-color: rgb(113, 113, 113);
@@ -129,6 +130,8 @@ main {
   padding: 1rem;
   border: 3px rgba(0, 0, 0, 0.4) solid;
   border-radius: 8px;
+  width: 80%;
+  align-self: center;
 
   &.error {
     background-color: rgb(139, 0, 0);

@@ -1,0 +1,17 @@
+.editModal[open] {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  min-width: 780px;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  > button {
+    position: absolute;
+    right: 1rem;
+  }
+}
