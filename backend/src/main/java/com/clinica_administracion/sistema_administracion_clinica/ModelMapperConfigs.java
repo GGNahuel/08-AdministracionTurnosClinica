@@ -12,21 +12,25 @@ import org.springframework.context.annotation.Configuration;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
 
 @Configuration
 public class ModelMapperConfigs {
   private final ConsultorioRepository consultorioRepo;
   private final AreaRepository areaRepo;
+  private final ProfesionalMedRepository profesionalRepo;
 
-  public ModelMapperConfigs(ConsultorioRepository consultorioRepo, AreaRepository areaRepo) {
-    this.consultorioRepo = consultorioRepo; this.areaRepo = areaRepo;
+  public ModelMapperConfigs(ConsultorioRepository consultorioRepo, AreaRepository areaRepo, ProfesionalMedRepository profesionalRepo) {
+    this.consultorioRepo = consultorioRepo; this.areaRepo = areaRepo; this.profesionalRepo = profesionalRepo;
   }
   
   @Bean
@@ -122,6 +126,26 @@ public class ModelMapperConfigs {
           else return src.getNombre();
         }, AreaEntity::setSearchName);
       }
+    );
+  }
+
+  public void configureUserMapping(ModelMapper modelMapper) {
+    if (modelMapper.getTypeMap(UserFrontDTO.class, UserEntity.class) != null)
+      return ;
+
+    Converter<String, ProfesionalMedEntity> profesionalEntityConv =
+      conv -> conv.getSource() == null ?
+        null :
+        profesionalRepo.findByDni(conv.getSource()).get();
+
+    modelMapper.typeMap(UserFrontDTO.class, UserEntity.class).addMappings(
+      mapper ->
+        mapper.using(profesionalEntityConv).map(src -> src.getProffesionalDni(), UserEntity::setProfesionalId) 
+    );
+
+    modelMapper.typeMap(UserEntity.class, UserFrontDTO.class).addMappings(
+      mapper ->
+        mapper.map(src -> src.getProfesionalId().getDni(), UserFrontDTO::setProffesionalDni)
     );
   }
 }

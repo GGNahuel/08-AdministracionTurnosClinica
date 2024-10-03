@@ -16,5 +16,6 @@ public class UserFrontDTO {
   private String username;
   private Roles role;
   private String email;
+  private String proffesionalDni;
 }
 
