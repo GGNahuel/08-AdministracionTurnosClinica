@@ -58,3 +58,11 @@ export interface UserRegistration {
   proffesionalDni: string,
   role: Roles
 }
+
+export interface UserBackend {
+  id?: string,
+  username: string,
+  email: string,
+  role: Roles,
+  proffesionalDni: string
+}
