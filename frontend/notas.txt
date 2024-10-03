@@ -41,6 +41,11 @@ Navbar y secciones
 Tareas:
   Generales
     🔄⚠️❗🌎 logueo
+      rol del invitado?
+      limitar accesos segun rol
+      cambio entre login-registro y logout
+      pantalla de edición perfil
+      chequeo de seguridad de contraseña
     ✅⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
       tanto si viene del back como del front
     ❔⚠️ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer

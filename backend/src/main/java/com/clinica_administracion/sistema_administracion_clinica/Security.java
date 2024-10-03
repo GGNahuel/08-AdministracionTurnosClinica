@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.clinica_administracion.sistema_administracion_clinica.others.CustomAuthEntryPoint;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 
 import jakarta.servlet.FilterChain;
@@ -33,8 +35,10 @@ public class Security {
     http
       .authorizeHttpRequests(
         (authorize) -> authorize
-          //.requestMatchers("/dashboard").hasAnyRole("ADMIN")
-          .requestMatchers("/api/**").permitAll()
+        //.requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
+          .requestMatchers(HttpMethod.GET).permitAll()
+          .requestMatchers("/logincheck", "/api/user").permitAll()
+          .requestMatchers("/api/**").authenticated()
           .anyRequest().permitAll()
       )
       .csrf(csrf -> csrf
@@ -61,6 +65,10 @@ public class Security {
         (remember) -> remember
           .key(UtilitiesMethods.generateKey(16))
           .tokenValiditySeconds(43200)
+      )
+      .exceptionHandling(
+        exceptionHandling -> exceptionHandling
+          .authenticationEntryPoint(new CustomAuthEntryPoint())
       );
     return http.build();
   }
