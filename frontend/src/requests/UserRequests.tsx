@@ -17,7 +17,7 @@ export function useRegisterUser() {
       password2: formData.get("password2") as string,
       email: formData.get("email") as string,
       isProffesional,
-      proffesionalDni: formData.get("proffesionalDni") as string || "",
+      proffesionalDni: formData.get("proffesionalDNI") as string || "",
       role: isProffesional ? "PROFFESIONAL" : "GENERAL"
     }
 
