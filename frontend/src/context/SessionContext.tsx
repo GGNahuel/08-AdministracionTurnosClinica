@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
 import { UserBackend } from "../types/Entities";
 
-interface SessionContextInterface {
+export interface SessionContextInterface {
   loggedUser: UserBackend | null,
   setLoggedUser: React.Dispatch<React.SetStateAction<UserBackend | null>>
 }

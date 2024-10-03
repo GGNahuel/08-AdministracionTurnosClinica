@@ -44,7 +44,7 @@ Tareas:
       ✅ vinculación con profesional
       🔄 limitar accesos segun rol
         rutas de front
-      cambio entre login-registro y logout
+      🔄 cambio entre login-registro y logout
       verificación de sesion e info en algun lado de la pantalla
       pantalla de edición perfil
       chequeo de seguridad de contraseña

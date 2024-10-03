@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { API_PREFIX } from "../constants/VariablesEntorno";
 import { getCookie } from "../functions/RequestHandler";
 import { UserBackend } from "../types/Entities";
+import { SessionContext, SessionContextInterface } from "../context/SessionContext";
 
 export function useCsrfTokenSetter() {
   useEffect(() => {
@@ -13,8 +14,10 @@ export function useCsrfTokenSetter() {
   }, [])
 }
 
-export function useSessionSetter(sessionContextSetter: React.Dispatch<React.SetStateAction<UserBackend | null>>) {
-  useEffect(() => {
+export function useSessionSetter() {
+  const {setLoggedUser} = useContext(SessionContext) as SessionContextInterface
+
+  const setUserInContext = () => {
     fetch(API_PREFIX + "/user/session", {
       method: "GET",
       headers: {
@@ -25,8 +28,10 @@ export function useSessionSetter(sessionContextSetter: React.Dispatch<React.SetS
     })
     .then(response => response.json())
     .then(data => {
-      if (data) sessionContextSetter(data as UserBackend)
+      if (data) setLoggedUser(data as UserBackend)
       else console.error("No se ha podido obtener la sesión del usuario desde el servidor")
     })
-  }, [sessionContextSetter])
+  }
+
+  return {setUserInContext}
 }

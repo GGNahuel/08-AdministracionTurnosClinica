@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie, handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
 import { UserRegistration } from "../types/Entities";
+import { useSessionSetter } from "../hooks/Security";
 
 export function useRegisterUser() {
   const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
@@ -35,6 +36,7 @@ export function useRegisterUser() {
 export function useLogIn() {
   const [errorInterface, setErrorInterface] = useState<MessageInterface>()
   const navigateTo = useNavigate()
+  const {setUserInContext} = useSessionSetter()
 
   const sendLogInData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -60,7 +62,10 @@ export function useLogIn() {
         }),
         credentials: "include"
       })
-      if (response.ok) navigateTo("/")
+      if (response.ok) {
+        setUserInContext()
+        navigateTo("/")
+      }
       else {
         const data = await response.json()
         console.warn(data)
