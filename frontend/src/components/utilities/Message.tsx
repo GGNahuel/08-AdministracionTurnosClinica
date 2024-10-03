@@ -1,10 +1,10 @@
 import { MessageInterface } from "../../types/APIResponses";
 
 export default function Message({messageObject} : {messageObject: MessageInterface}) {
-  const {text, messageType} = messageObject
+  const {text, type} = messageObject
 
   return (
-    <div className={messageType + " resultMessage"}>
+    <div className={type + " resultMessage"}>
       <h3>{text}</h3>
     </div>
   )

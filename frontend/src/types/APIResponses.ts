@@ -4,7 +4,7 @@ type MessageType = "ok" | "error" | "warn" | "common"
 
 export interface MessageInterface {
   text: string,
-  messageType: MessageType,
+  type: MessageType,
   exceptionCause: string
 }
 export interface MessageResponseType {
