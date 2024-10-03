@@ -2,12 +2,14 @@ import { ChangeEvent, useState } from "react"
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests"
 import { useLogIn, useRegisterUser } from "../../requests/UserRequests"
 import { ProfesionalMed } from "../../types/Entities"
+import Message from "../utilities/Message"
 
 export function LogInForm() {
-  const {sendLogInData} = useLogIn()
+  const {sendLogInData, errorInterface} = useLogIn()
 
   return (
     <section className="registerSection">
+      {errorInterface && <Message messageObject={errorInterface} />}
       <form onSubmit={e =>sendLogInData(e)}>
         <label>Nombre de usuario:<input type="text" name="username" /></label>
         <label>Contraseña: <input type="password" name="password" /></label>
@@ -22,7 +24,7 @@ export function RegisterForm() {
     value: "", secondValue: "", areEquals: true})
   const [isProffesional, setIsProffesional] = useState(false)
   const proffesionals = useGetAllProfesionales()?.results as ProfesionalMed[]
-  const {handleFormSubmit} = useRegisterUser()
+  const {handleFormSubmit, response} = useRegisterUser()
 
   const handleIsProffesionalOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.checked
@@ -47,6 +49,7 @@ export function RegisterForm() {
 
   return (
     <section className="registerSection">
+      {response?.message.text && <Message messageObject={response.message} />}
       <form onSubmit={e => handleFormSubmit(e, isProffesional)}>
         <label>Nombre de usuario<input type="text" name="username" /></label>
         <label>Contraseña<input type="password" name="password" onChange={e => handle2PasswordOnChange(e, true)}/></label>
