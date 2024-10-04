@@ -7,6 +7,7 @@ import './styles/index.css'
 
 import { concatArrays } from './functions/Utilities'
 import { AreaConsultorioRoutes, pacienteRoutes, profesionalRoutes, turnoRoutes, UsuarioRoutes } from './constants/RouteObjects'
+import { SessionContextProvider } from './context/SessionContext'
 
 const navigationRoutes = concatArrays(
   turnoRoutes, pacienteRoutes, profesionalRoutes, AreaConsultorioRoutes, UsuarioRoutes
@@ -21,6 +22,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <SessionContextProvider>
+      <RouterProvider router={router} />
+    </SessionContextProvider>
   </React.StrictMode>,
 )

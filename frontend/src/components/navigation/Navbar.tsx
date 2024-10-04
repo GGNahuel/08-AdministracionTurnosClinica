@@ -2,8 +2,11 @@ import { Link } from "react-router-dom"
 import { navListItems } from "../../constants/NavigationComponents"
 import { NavbarDetails } from "../../types/NavbarSections"
 
-import { ConfigIcon, LanguageIcon, LogInIcon } from "../utilities/Icons"
+import { ConfigIcon, LanguageIcon, LogInIcon, LogOutIcon } from "../utilities/Icons"
 import { routes } from "../../constants/NavigationRoutes"
+import { useContext } from "react"
+import { SessionContext, SessionContextInterface } from "../../context/SessionContext"
+import { useLogOut } from "../../requests/UserRequests"
 
 function NavItem({ navItem } : { navItem: NavbarDetails, route: string}) {
   const itemsNames : string[] = Object.values(navItem.items).map(linkObj => linkObj.name)
@@ -24,6 +27,9 @@ function NavItem({ navItem } : { navItem: NavbarDetails, route: string}) {
 }
 
 export function Navbar() {
+  const {loggedUser} = useContext(SessionContext) as SessionContextInterface
+  const {logout} = useLogOut()
+
   return (
     <nav id="mainNavbar">
       <header>
@@ -43,8 +49,12 @@ export function Navbar() {
         <ul className="buttonList">
           <li><button className="iconButton"><ConfigIcon /></button></li>
           <li><button className="iconButton"><LanguageIcon /></button></li>
-          <li><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon />login</button></Link></li>
-          <li><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon />Registro</button></Link></li>
+          {loggedUser ?
+            <li><button className="iconButton" onClick={() => {logout()}}><LogOutIcon />Cerrar sesión</button></li>
+            : <>
+            <li><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon />login</button></Link></li>
+            <li><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon />Registro</button></Link></li></>
+          }
         </ul>
       </footer>
     </nav>

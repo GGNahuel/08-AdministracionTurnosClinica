@@ -59,6 +59,9 @@ public class Security {
       .logout(
         (logout) -> logout
           .logoutUrl("/logout")
+          .logoutSuccessHandler((request, response, asd) -> {
+            response.setStatus(HttpServletResponse.SC_OK);
+          })
           .permitAll()
       )
       .rememberMe(

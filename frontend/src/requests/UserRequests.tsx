@@ -1,7 +1,9 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { routes } from "../constants/NavigationRoutes";
+import { SessionContext, SessionContextInterface } from "../context/SessionContext";
 import { getCookie, handleRequest } from "../functions/RequestHandler";
-import { GetResponseType, HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
+import { HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
 import { UserRegistration } from "../types/Entities";
 import { useSessionSetter } from "../hooks/Security";
 
@@ -36,7 +38,7 @@ export function useRegisterUser() {
 export function useLogIn() {
   const [errorInterface, setErrorInterface] = useState<MessageInterface>()
   const navigateTo = useNavigate()
-  const {setUserInContext} = useSessionSetter()
+  const {checkLoggedUser} = useSessionSetter()
 
   const sendLogInData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -63,8 +65,8 @@ export function useLogIn() {
         credentials: "include"
       })
       if (response.ok) {
-        setUserInContext()
         navigateTo("/")
+        checkLoggedUser()
       }
       else {
         const data = await response.json()
@@ -76,7 +78,30 @@ export function useLogIn() {
   return {sendLogInData, errorInterface}
 }
 
-export function useGetUserByUsername(username: string) {
+export function useLogOut() {
+  const {setLoggedUser} = useContext(SessionContext) as SessionContextInterface
+  const navigateTo = useNavigate()
+
+  const logout = async () => {
+    const request = await fetch("http://localhost:8080/logout", {
+      method: "POST",
+      headers: {
+        "X-XSRF-TOKEN": getCookie("XSRF-TOKEN")
+      },
+      credentials: "include"
+    })
+
+    if (request.ok) {
+      setLoggedUser(null)
+      navigateTo(routes.usuario.login)
+    }
+    else console.log("Error al cerrar sesión")
+  }
+
+  return {logout}
+}
+
+/* export function useGetUserByUsername(username: string) {
   const [response, setResponse] = useState<HandledResponse<GetResponseType>>()
 
   useEffect(() => {
@@ -84,4 +109,4 @@ export function useGetUserByUsername(username: string) {
   }, [username])
 
   return {response}
-}
+} */
