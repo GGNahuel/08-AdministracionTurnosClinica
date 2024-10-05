@@ -24,7 +24,7 @@ export function SessionContextProvider({children} : {children: ReactNode}) {
     })
     .then(response => response.json())
     .then(data => {
-      setLoggedUser(data as UserBackend)
+      if (data) setLoggedUser(data as UserBackend)
     })
   }, [])
 
