@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,6 +55,7 @@ public class ConsultorioController {
   }
 
   @PostMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> createConsultorio(@RequestParam Integer number) throws Exception {
     ConsultorioDTO consultorio = consultorioService.create(number);
     ReturnResponseDTO respuesta = new ReturnResponseDTO();
@@ -64,6 +66,7 @@ public class ConsultorioController {
   }
 
   @PutMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> updateConsultorio(@RequestParam String id, @RequestParam Integer number) throws Exception {
     ConsultorioDTO consultorio = consultorioService.update(UUID.fromString(id), number);
     ReturnResponseDTO respuesta = new ReturnResponseDTO();
@@ -74,6 +77,7 @@ public class ConsultorioController {
   }
 
   @DeleteMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> deleteConsultorio(@RequestParam String id) throws Exception {
     consultorioService.delete(UUID.fromString(id));
     MessageResponseDTO response = new MessageResponseDTO();

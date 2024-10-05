@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,6 +77,7 @@ public class AreaController {
   }
 
   @PostMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> create(@RequestParam String nombre, @RequestParam boolean necesitaTurno) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(areaService.create(nombre, necesitaTurno));
@@ -85,6 +87,7 @@ public class AreaController {
   }
 
   @PutMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> update(@RequestParam String id, @RequestParam String nombre, @RequestParam Boolean necesitaTurno) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(areaService.update(UUID.fromString(id), nombre, necesitaTurno));
@@ -94,6 +97,7 @@ public class AreaController {
   }
 
   @PatchMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> changeActiveStatus(@RequestParam String id, @RequestParam Boolean valor, @RequestParam Boolean turnsAction) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(areaService.changeActiveStatus(UUID.fromString(id), valor, turnsAction));

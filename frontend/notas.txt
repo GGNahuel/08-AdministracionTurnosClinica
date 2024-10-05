@@ -43,7 +43,7 @@ Tareas:
     🔄⚠️❗🌎 logueo
       ✅ vinculación con profesional
       🔄 limitar accesos segun rol
-        rutas de front
+      rutas de front
       ✅ cambio entre login-registro y logout
       verificación de sesion e info en algun lado de la pantalla
       pantalla de edición perfil
@@ -67,6 +67,7 @@ Tareas:
     ⚠️ agregar funciones de orden al TableOptions
     ✅❗ agregar las nav de búsquedas en las entidades que falten
     Pantalla de inicio para sesion de profesional
+    función de borrar turnos anteriores, verificación
 
   Errores y correcciones
     ⚠️ corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual

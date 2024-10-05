@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,8 +82,8 @@ public class ProfesionalMedController {
     return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
   }
   
-
   @PostMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> create(@RequestBody ProfesionalMedDTO profesional) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(profesionalMedService.create(profesional));
@@ -92,6 +93,7 @@ public class ProfesionalMedController {
   }
 
   @PutMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFFESIONAL')")
   public ResponseEntity<ResponseDTO> update(@RequestBody ProfesionalMedDTO profesional) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(profesionalMedService.update(profesional));
@@ -101,6 +103,7 @@ public class ProfesionalMedController {
   }
 
   @PatchMapping("")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> changeActiveStatus(@RequestParam String profesionalDni, @RequestParam Boolean activeStatus, 
     @RequestParam Boolean turnsAction
   ) throws Exception {
