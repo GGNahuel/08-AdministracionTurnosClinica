@@ -6,7 +6,7 @@ type ExtractRoutesFromObject<obj> =
       ? contenidoObj
       : never
     : never
-type RouteValues = ExtractRoutesFromObject<typeof routes>
+export type RouteValues = ExtractRoutesFromObject<typeof routes>
 
 interface NavItem {
   name: string,

@@ -2,7 +2,7 @@ import { meses } from "../constants/Others";
 import { DATE_FORMAT, DATE_INPUT_FORMAT } from "../constants/VariablesEntorno";
 
 export class DateExtension extends Date {
-  // acá irían los métodos DateFunctions y ver los cambios de cómo se implementarían
+  // acá irían los métodos DateFunctions y TO_DO: ver los cambios de cómo se implementarían
 
   formatDate() {
     const day = String(this.getDate()).padStart(2, '0')
