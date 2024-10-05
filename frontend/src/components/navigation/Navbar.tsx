@@ -47,13 +47,13 @@ export function Navbar() {
       </section>
       <footer>
         <ul className="buttonList">
-          <li><button className="iconButton"><ConfigIcon /></button></li>
-          <li><button className="iconButton"><LanguageIcon /></button></li>
+          <li><div><button className="iconButton"><ConfigIcon /></button><p>Configuración</p></div></li>
+          <li><div><button className="iconButton"><LanguageIcon /></button><p>Idioma</p></div></li>
           {loggedUser ?
-            <li><button className="iconButton" onClick={() => {logout()}}><LogOutIcon />Cerrar sesión</button></li>
+            <li><div><button className="iconButton" onClick={() => {logout()}}><LogOutIcon /></button><p>Cerrar sesión</p></div></li>
             : <>
-            <li><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon />login</button></Link></li>
-            <li><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon />Registro</button></Link></li></>
+            <li><div><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon /></button></Link><p>Iniciar sesión</p></div></li>
+            <li><div><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon /></button></Link><p>Registrarse</p></div></li></>
           }
         </ul>
       </footer>
