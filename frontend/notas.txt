@@ -42,10 +42,10 @@ Tareas:
   Generales
     🔄⚠️❗🌎 logueo
       ✅ vinculación con profesional
-      🔄 limitar accesos segun rol
-        🔄 front
+      ✅ limitar accesos segun rol
+        ✅ front
         ✅ back
-      rutas de front
+      ✅ rutas de front
       ✅ cambio entre login-registro y logout
       verificación de sesion e info en algun lado de la pantalla
       pantalla de edición perfil
