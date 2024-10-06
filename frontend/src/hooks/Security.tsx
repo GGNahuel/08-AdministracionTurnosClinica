@@ -17,8 +17,8 @@ export function useCsrfTokenSetter() {
 export function useSessionSetter() {
   const {setLoggedUser} = useContext(SessionContext) as SessionContextInterface
 
-  const checkLoggedUser = () => {
-    fetch(API_PREFIX + "/user/session", {
+  const checkLoggedUser = async () => {
+    const response = await fetch(API_PREFIX + "/user/session", {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -26,14 +26,18 @@ export function useSessionSetter() {
       },
       credentials: "include"
     })
-    .then(response => response.status == 200 && response.json())
-    .then(data => {
-      if (data) {
-        console.log(data)
-        setLoggedUser(data as UserBackend)
-      }
-      else console.error("No se ha podido obtener la sesión del usuario desde el servidor")
-    })
+    console.log(response)
+    
+    const data = response.status != 204 ? await response.json() : null
+    if (data && response.status == 200) {
+      console.log(data)
+      setLoggedUser(data as UserBackend)
+    }
+    else if(response.status == 500){
+      console.log(data)
+      console.error("No se ha podido obtener la sesión del usuario desde el servidor")
+    }
+    
   }
 
   return {checkLoggedUser}

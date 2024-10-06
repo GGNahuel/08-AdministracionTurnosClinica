@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +45,6 @@ public class UserContoller {
   }
 
   @GetMapping("/session")
-  @PreAuthorize("authenticated()")
   public ResponseEntity<UserFrontDTO> session(HttpSession session) throws Exception {
     UserEntity user = (UserEntity) session.getAttribute("loggedUser");
     if (user == null) return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
