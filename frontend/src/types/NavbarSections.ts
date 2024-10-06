@@ -1,4 +1,5 @@
 import { routes } from "../constants/NavigationRoutes"
+import { Roles } from "./BackendEnums"
 
 type ExtractRoutesFromObject<obj> = 
   obj extends { [key: string]: infer tipoNavbarItem } //saca el valor de las rutas padre ("turno", "paciente", ...)
@@ -8,9 +9,15 @@ type ExtractRoutesFromObject<obj> =
     : never
 export type RouteValues = ExtractRoutesFromObject<typeof routes>
 
+export interface protectedProps {
+  value: boolean,
+  roles?: Roles[]
+}
+
 interface NavItem {
   name: string,
-  route: RouteValues
+  route: RouteValues,
+  protected: protectedProps
 }
 
 interface TurnosNav {
@@ -35,6 +42,10 @@ interface AreaConsultorioNav {
 }
 
 type NavbarItem = TurnosNav | PacienteNav | ProfesionalNav | AreaConsultorioNav
+type NavbarItemsGeneric<element extends NavbarItem> = {
+  summaryName: string,
+  items: element
+}
 
 export type NavbarDetails = {
   summaryName: string,
@@ -42,20 +53,9 @@ export type NavbarDetails = {
 }
 
 export type NavbarItemsType = {
-  turno: {
-    summaryName: string,
-    items: TurnosNav
-  },
-  paciente: {
-    summaryName: string,
-    items: PacienteNav
-  },
-  profesional: {
-    summaryName: string,
-    items: ProfesionalNav
-  },
-  area_consultorio: {
-    summaryName: string,
-    items: AreaConsultorioNav
-  }
+  turno: NavbarItemsGeneric<TurnosNav>,
+  paciente: NavbarItemsGeneric<PacienteNav>,
+  profesional: NavbarItemsGeneric<ProfesionalNav>,
+  area_consultorio: NavbarItemsGeneric<AreaConsultorioNav>
 }
+

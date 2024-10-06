@@ -82,6 +82,7 @@ Tareas:
 
   Estilo css UI/UX
     ⚠️❗ navbar responsive con el alto y ancho de la pantalla
+    zona clickable de los details de la navbar
     revisar responsive en modales y mensajes
     ✅⚠️❗ mensajes de error y de exito
     ✅ terminar estilos en dailyTurns y turnCreation

@@ -7,15 +7,25 @@ export const navListItems : NavbarItemsType = {
     items: {
       today: {
         name: "Ver turnos del día",
-        route: routes.turno.today
+        route: routes.turno.today,
+        protected: {
+          value: false
+        }
       },
       create: {
         name: "Crear",
-        route: routes.turno.create
+        route: routes.turno.create,
+        protected: {
+          value: true,
+          roles: ["ADMIN", "GENERAL", "PROFFESIONAL"]
+        }
       },
       search: {
         name: "Buscar",
-        route: routes.turno.search
+        route: routes.turno.search,
+        protected: {
+          value: false
+        }
       }
     }
   },
@@ -24,11 +34,18 @@ export const navListItems : NavbarItemsType = {
     items: {
       register: {
         name: "Registrar",
-        route: routes.paciente.register
+        route: routes.paciente.register,
+        protected: {
+          value: true,
+          roles: ["ADMIN", "GENERAL", "PROFFESIONAL"]
+        }
       },
       search: {
         name: "Buscar datos",
-        route: routes.paciente.search
+        route: routes.paciente.search,
+        protected: {
+          value: false
+        }
       }
     }
   },
@@ -37,11 +54,18 @@ export const navListItems : NavbarItemsType = {
     items: {
       register: {
         name: "Registrar",
-        route: routes.profesional.register
+        route: routes.profesional.register,
+        protected: {
+          value: true,
+          roles: ["ADMIN"]
+        }
       },
       search: {
         name: "Buscar datos",
-        route: routes.profesional.search
+        route: routes.profesional.search,
+        protected: {
+          value: false
+        }
       }
     }
   },
@@ -50,11 +74,18 @@ export const navListItems : NavbarItemsType = {
     items: {
       list: {
         name: "Ver consultorios y áreas",
-        route: routes.area_consultorio.list
+        route: routes.area_consultorio.list,
+        protected: {
+          value: false
+        }
       },
       create: {
         name: "Crear consultorios o áreas",
-        route: routes.area_consultorio.create
+        route: routes.area_consultorio.create,
+        protected: {
+          value: true,
+          roles: ["ADMIN"]
+        }
       }
     }
   }

@@ -1,24 +1,39 @@
 import { Link } from "react-router-dom"
 import { navListItems } from "../../constants/NavigationComponents"
-import { NavbarDetails } from "../../types/NavbarSections"
+import { NavbarDetails, protectedProps, RouteValues } from "../../types/NavbarSections"
 
 import { ConfigIcon, LanguageIcon, LogInIcon, LogOutIcon } from "../utilities/Icons"
 import { routes } from "../../constants/NavigationRoutes"
 import { useContext } from "react"
 import { SessionContext, SessionContextInterface } from "../../context/SessionContext"
 import { useLogOut } from "../../requests/UserRequests"
+import { ProtectedLink } from "../utilities/ProtectedLink"
+import { Roles } from "../../types/BackendEnums"
+import { UserBackend } from "../../types/Entities"
 
-function NavItem({ navItem } : { navItem: NavbarDetails, route: string}) {
+function NavItem({ navItem, loggedUser } : { navItem: NavbarDetails, loggedUser: UserBackend | null}) {
   const itemsNames : string[] = Object.values(navItem.items).map(linkObj => linkObj.name)
-  const itemsRoutes = Object.values(navItem.items).map(linkObj => linkObj.route)
+  const itemsRoutes: RouteValues[] = Object.values(navItem.items).map(linkObj => linkObj.route)
+  const itemsProtectValues: protectedProps[] = Object.values(navItem.items).map(linkObj => linkObj.protected)
+
+  const finalItems = itemsNames.filter((_, index) => 
+    (!loggedUser && !itemsProtectValues[index].value) || !itemsProtectValues[index].value || (loggedUser && itemsProtectValues[index].roles?.includes(loggedUser.role))
+  )
 
   return (
     <li>
       <details name="navItem">
         <summary><h3>{navItem.summaryName}</h3></summary>
         <ul>
-          {itemsNames.map((name, index) =>
-            <li key={index}><Link to={itemsRoutes[index]}>{name}</Link></li>
+          {itemsNames.map((name, index) => 
+            <li key={index}>
+              {itemsProtectValues[index].value ?
+                itemsProtectValues[index].roles ?
+                  <ProtectedLink path={itemsRoutes[index]} allowedRoles={itemsProtectValues[index].roles as Roles[]} content={name} /> :
+                  <p>Error de configuración de permisos</p> :
+                <Link to={itemsRoutes[index]}>{name}</Link>
+              }
+            </li>
           )}
         </ul>
       </details>
@@ -41,7 +56,7 @@ export function Navbar() {
       <section>
         <ul className="linkList">
           {Object.entries(navListItems).map(details => (
-            <NavItem key={details[0]} navItem={details[1]} route={details[0]} />
+            <NavItem key={details[0]} navItem={details[1]} loggedUser={loggedUser} />
           ))}
         </ul>
       </section>

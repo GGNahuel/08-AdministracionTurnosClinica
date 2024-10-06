@@ -4,13 +4,13 @@ import { SessionContext, SessionContextInterface } from "../../context/SessionCo
 import { Link } from "react-router-dom";
 import { RouteValues } from "../../types/NavbarSections";
 
-export function ProtectedLink(props: {path: RouteValues, allowedRoles: Roles[]}) {
-  const {path, allowedRoles} = props
+export function ProtectedLink(props: {path: RouteValues, allowedRoles: Roles[], content: string}) {
+  const {path, allowedRoles, content} = props
   const {loggedUser} = useContext(SessionContext) as SessionContextInterface
 
   return (
     <>
-      {(loggedUser && allowedRoles.includes(loggedUser?.role)) && <Link to={path} />}
+      {(loggedUser && allowedRoles.includes(loggedUser.role)) && <Link to={path}>{content}</Link>}
     </>
   )
 }
