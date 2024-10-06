@@ -113,7 +113,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     UtilitiesMethods.validateDniFormat(profesional.getDni());
     UtilitiesMethods.validateConsultorioInDto(profesional.getConsultorio(), consultorioRepo);
     Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio()); // que tambien vea los horarios
-    if (check.isPresent())
+    if (check.isPresent() && check.get().getId() != profesional.getId())
       throw new EntityAlreadyExists("Ya existe un profesional asignado al consutorio " + profesional.getConsultorio().toString(), check.get());
 
     for (String nombre : profesional.getAreas()) {
