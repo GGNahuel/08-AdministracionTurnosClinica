@@ -37,7 +37,6 @@ export function useSessionSetter() {
       console.log(data)
       console.error("No se ha podido obtener la sesión del usuario desde el servidor")
     }
-    
   }
 
   return {checkLoggedUser}

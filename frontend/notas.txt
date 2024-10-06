@@ -47,8 +47,8 @@ Tareas:
         ✅ back
       ✅ rutas de front
       ✅ cambio entre login-registro y logout
-      verificación de sesion e info en algun lado de la pantalla
-      pantalla de edición perfil
+      ✅ verificación de sesion e info en algun lado de la pantalla
+      🔄 pantalla de edición perfil
       chequeo de seguridad de contraseña
     ✅⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
       tanto si viene del back como del front
@@ -70,6 +70,7 @@ Tareas:
     ✅❗ agregar las nav de búsquedas en las entidades que falten
     Pantalla de inicio para sesion de profesional
     función de borrar turnos anteriores, verificación
+    ⚠️ rutas especificas de proffesional, (filtros de busqueda para turnos tmb)
 
   Errores y correcciones
     ⚠️ corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
