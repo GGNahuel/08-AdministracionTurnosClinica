@@ -47,19 +47,12 @@ public class UserContoller {
 
   @GetMapping("/session")
   @PreAuthorize("authenticated()")
-  public UserFrontDTO session(HttpSession session) throws Exception {
+  public ResponseEntity<UserFrontDTO> session(HttpSession session) throws Exception {
     UserEntity user = (UserEntity) session.getAttribute("loggedUser");
-    return user != null ? userService.getByUsername(user.getUsername()) : null;
-    /*
-    SecurityContext context = SecurityContextHolder.getContext();
-    Authentication authContext = context.getAuthentication();
-    if (authContext != null && authContext.isAuthenticated() && !(authContext instanceof AnonymousAuthenticationToken)) {
-        System.out.println("_______________--" + authContext.getPrincipal());
-        UserEntity user = (UserEntity) authContext.getPrincipal();
-        return userService.getByUsername(user.getUsername()); // O crea un DTO a partir del UserEntity
-    }
-    else return null;
-     */
+    if (user == null) return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    
+    UserFrontDTO returnUser = userService.getByUsername(user.getUsername());
+    return new ResponseEntity<>(returnUser, HttpStatus.OK);
   }
 
   @GetMapping("")

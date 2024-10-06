@@ -26,7 +26,7 @@ export function useSessionSetter() {
       },
       credentials: "include"
     })
-    .then(response => response.json())
+    .then(response => response.status == 200 && response.json())
     .then(data => {
       if (data) {
         console.log(data)

@@ -22,7 +22,7 @@ export function SessionContextProvider({children} : {children: ReactNode}) {
       },
       credentials: "include"
     })
-    .then(response => response.json())
+    .then(response => response.status == 200 && response.json())
     .then(data => {
       if (data) setLoggedUser(data as UserBackend)
     })
