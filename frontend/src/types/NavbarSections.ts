@@ -9,15 +9,13 @@ type ExtractRoutesFromObject<obj> =
     : never
 export type RouteValues = ExtractRoutesFromObject<typeof routes>
 
-export interface protectedProps {
-  value: boolean,
-  roles?: Roles[]
-}
-
-interface NavItem {
+export interface NavItem {
   name: string,
   route: RouteValues,
-  protected: protectedProps
+  protected: {
+    value: boolean,
+    roles?: Roles[]
+  }
 }
 
 interface TurnosNav {
