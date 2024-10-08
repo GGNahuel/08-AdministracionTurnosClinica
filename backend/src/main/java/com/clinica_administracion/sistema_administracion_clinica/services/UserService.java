@@ -96,7 +96,7 @@ public class UserService implements IUserService {
   @Transactional @Override
   public UserFrontDTO update(UserRegistrationDTO user) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
-      new String[]{"nombre de usuario", "contraseña", "rol"}, user.getUsername(), user.getPassword(), user.getRole()
+      new String[]{"nombre de usuario", "rol", "email", "'Es profesional de salud'"}, user.getUsername(), user.getRole(), user.getEmail(), user.getIsProffesional()
     );
     userRepo.findById(user.getId()).orElseThrow(
       () -> new ResourceNotFound("usuario", "id", user.getId().toString())

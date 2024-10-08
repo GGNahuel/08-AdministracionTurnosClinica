@@ -94,6 +94,6 @@ public class UserContoller {
     response.setReturnValue(userService.update(user));
     response.setMessage(UtilitiesMethods.messageCreator("Usuario actualizado exitosamente", MessageTypes.ok));
 
-    return new ResponseEntity<>(response, HttpStatus.CREATED);
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }
