@@ -34,7 +34,7 @@ export async function handleRequest(
   const status = request.status
   const response: ResponseType = await request.json()
   
-  if (response.message != null && response.message.messageType == "warn") {
+  if (response.message != null && response.message.type == "warn") {
     // en lugar del console error iria algo para registrar ese error en algún lugar
     console.warn(response.message.text)
     
