@@ -9,6 +9,7 @@ export function LogInForm() {
 
   return (
     <section className="registerSection">
+      <h1>Iniciar sesión</h1>
       {errorInterface && <Message messageObject={errorInterface} />}
       <form onSubmit={e =>sendLogInData(e)}>
         <label>Nombre de usuario:<input type="text" name="username" /></label>
@@ -49,6 +50,7 @@ export function RegisterForm() {
 
   return (
     <section className="registerSection">
+      <h1>Registrarse</h1>
       {response?.message.text && <Message messageObject={response.message} />}
       <form onSubmit={e => handleFormSubmit(e, isProffesional)}>
         <label>Nombre de usuario<input type="text" name="username" /></label>
