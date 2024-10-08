@@ -59,6 +59,15 @@ export interface UserRegistration {
   role: Roles
 }
 
+export interface UserEdition {
+  id?: string,
+  username: string,
+  email: string,
+  isProffesional: boolean,
+  proffesionalDni: string,
+  role: Roles
+}
+
 export interface UserBackend {
   id?: string,
   username: string,

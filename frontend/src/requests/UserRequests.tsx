@@ -5,7 +5,7 @@ import { SessionContext, SessionContextInterface } from "../context/SessionConte
 import { getCookie, handleRequest } from "../functions/RequestHandler";
 import { sessionSetter } from "../functions/SessionSetter";
 import { HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
-import { UserRegistration } from "../types/Entities";
+import { UserEdition, UserRegistration } from "../types/Entities";
 
 export function useRegisterUser() {
   const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
@@ -114,9 +114,10 @@ export function useLogOut() {
 export function useEditUser() {
   const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
 
-  const handlePutRequest = async (e: React.FormEvent<HTMLFormElement>, newUser: UserRegistration | null) => {
+  const handlePutRequest = async (e: React.FormEvent<HTMLFormElement>, newUser: UserEdition | null) => {
     e.preventDefault()
     if (!newUser) throw new Error("No se ha podido cargar los datos del usuario, cierre e inicie sesión de ser posible y vuelva a intentar.")
+    newUser.role = newUser.isProffesional ? "PROFFESIONAL" : "GENERAL"
 
     const response = await handleRequest("/user", "PUT", {body: newUser})
     setResponse(response as HandledResponse<ReturnResponseType>)

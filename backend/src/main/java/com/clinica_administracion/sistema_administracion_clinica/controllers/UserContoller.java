@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserEditDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
@@ -89,7 +90,7 @@ public class UserContoller {
   }
 
   @PutMapping("")
-  public ResponseEntity<ResponseDTO> update(@RequestBody UserRegistrationDTO user) throws Exception {
+  public ResponseEntity<ResponseDTO> update(@RequestBody UserEditDTO user) throws Exception {
     ReturnResponseDTO response = new ReturnResponseDTO();
     response.setReturnValue(userService.update(user));
     response.setMessage(UtilitiesMethods.messageCreator("Usuario actualizado exitosamente", MessageTypes.ok));

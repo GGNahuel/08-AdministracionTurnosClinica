@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserEditDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
@@ -94,7 +95,7 @@ public class UserService implements IUserService {
   }
 
   @Transactional @Override
-  public UserFrontDTO update(UserRegistrationDTO user) throws Exception {
+  public UserFrontDTO update(UserEditDTO user) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"nombre de usuario", "rol", "email", "'Es profesional de salud'"}, user.getUsername(), user.getRole(), user.getEmail(), user.getIsProffesional()
     );
@@ -111,10 +112,12 @@ public class UserService implements IUserService {
     }
     
     UserEntity userEntity = modelMapper.map(user, UserEntity.class);
-    userEntity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
     userEntity.setProfesionalId(profesional);
+    
+    userRepo.save(userEntity);
+    loadUserByUsername(userEntity.getUsername());
 
-    return modelMapper.map(userRepo.save(userEntity), UserFrontDTO.class);
+    return modelMapper.map(userEntity, UserFrontDTO.class);
   }
 
   @Override

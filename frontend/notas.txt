@@ -48,7 +48,7 @@ Tareas:
       ✅ rutas de front
       ✅ cambio entre login-registro y logout
       ✅ verificación de sesion e info en algun lado de la pantalla
-      🔄 pantalla de edición perfil
+      ✅ pantalla de edición perfil
       chequeo de seguridad de contraseña
     ✅⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
       tanto si viene del back como del front
@@ -81,6 +81,7 @@ Tareas:
     ✅ ver cómo hacer que cuando se seleccione una entidad de alguna tabla no se cargue lo que necesita el modal hasta que no se abra
     ✅ reestructurar uso y funcionamiento de la peticion getTurnosByPaciente dni
     ✅ cambiar el search turnos para que la peticion sea con un body y no con parametros (eso de los parametros sería para la ruta del cliente)
+    ❗ mostrar mensaje de contraeña incorrecta al hacer loguin desde el back
 
   Estilo css UI/UX
     ⚠️❗ navbar responsive con el alto y ancho de la pantalla
