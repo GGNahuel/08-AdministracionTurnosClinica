@@ -114,20 +114,9 @@ export function useLogOut() {
 export function useEditUser() {
   const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
 
-  const handlePutRequest = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePutRequest = async (e: React.FormEvent<HTMLFormElement>, newUser: UserRegistration | null) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    const isProffesional = Boolean (formData.get("isProffesional"))
-    const newUser: UserRegistration = {
-      username: formData.get("username") as string,
-      password: "",
-      password2: "",
-      email: formData.get("email") as string,
-      isProffesional,
-      role: isProffesional ? "PROFFESIONAL" : "GENERAL",
-      proffesionalDni: isProffesional ? formData.get("proffesionalDni") as string : ""
-    }
+    if (!newUser) throw new Error("No se ha podido cargar los datos del usuario, cierre e inicie sesión de ser posible y vuelva a intentar.")
 
     const response = await handleRequest("/user", "PUT", {body: newUser})
     setResponse(response as HandledResponse<ReturnResponseType>)

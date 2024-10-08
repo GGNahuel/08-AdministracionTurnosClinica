@@ -7,6 +7,7 @@ import { useEditUser } from "../../requests/UserRequests";
 export function EditUser() {
   const {loggedUser} = useContext(SessionContext) as SessionContextInterface
   const [editedUser, setEditedUser] = useState<UserRegistration | null>(loggedUser ? {
+    id: loggedUser.id,
     username: loggedUser.username,
     password: "",
     password2: "",
@@ -16,7 +17,7 @@ export function EditUser() {
     role: loggedUser.role
   } : null)
   const {response, handlePutRequest} = useEditUser()
-  console.log(editedUser, loggedUser)
+
   const handleOnchangeInputs = (e: ChangeEvent<HTMLInputElement>, isCheckbox?: boolean) => {
     const name = e.target.name as keyof UserRegistration
     const value = !isCheckbox ? e.target.value : e.target.checked
@@ -31,14 +32,14 @@ export function EditUser() {
     <section>
       <h2>Editar perfil</h2>
       {response && <Message messageObject={response?.message}/>}
-      <form onSubmit={e => handlePutRequest(e)}>
-        <label><input type="text" name="username" value={editedUser.username} onChange={e => handleOnchangeInputs(e)}/></label>
-        <label><input type="email" name="email" value={editedUser.email} onChange={e => handleOnchangeInputs(e)} /></label>
+      <form onSubmit={e => handlePutRequest(e, editedUser)}>
+        <label>Nombre de usuario<input type="text" name="username" value={editedUser.username} onChange={e => handleOnchangeInputs(e)}/></label>
+        <label>E-mail<input type="email" name="email" value={editedUser.email} onChange={e => handleOnchangeInputs(e)} /></label>
         <label>Soy profesional de salud
           <input type="checkbox" name="isProffesional" checked={editedUser.isProffesional} onChange={e => handleOnchangeInputs(e, true)}></input>
         </label>
         {editedUser.isProffesional && (
-          <label><input type="text" name="proffesionalDni" value={editedUser.proffesionalDni} onChange={e => handleOnchangeInputs(e)}/></label>
+          <label>Dni<input type="text" name="proffesionalDni" value={editedUser.proffesionalDni} onChange={e => handleOnchangeInputs(e)}/></label>
         )}
         <button type="submit">Aplicar cambios</button>
       </form>
