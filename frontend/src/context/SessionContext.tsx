@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { UserBackend } from "../types/Entities";
-import { API_PREFIX } from "../constants/VariablesEntorno";
-import { getCookie } from "../functions/RequestHandler";
+import { sessionSetter } from "../functions/SessionSetter";
 
 export interface SessionContextInterface {
   loggedUser: UserBackend | null,
@@ -14,18 +13,7 @@ export function SessionContextProvider({children} : {children: ReactNode}) {
   const [loggedUser, setLoggedUser] = useState<UserBackend | null>(null)
 
   useEffect(() => {
-    fetch(API_PREFIX + "/user/session", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "X-XSRF-TOKEN" : getCookie("XSRF-TOKEN")
-      },
-      credentials: "include"
-    })
-    .then(response => response.status == 200 && response.json())
-    .then(data => {
-      if (data) setLoggedUser(data as UserBackend)
-    })
+    sessionSetter(setLoggedUser)
   }, [])
 
   return (

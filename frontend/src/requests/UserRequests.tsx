@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../constants/NavigationRoutes";
 import { SessionContext, SessionContextInterface } from "../context/SessionContext";
 import { getCookie, handleRequest } from "../functions/RequestHandler";
-import { useSessionSetter } from "../hooks/Security";
+import { sessionSetter } from "../functions/SessionSetter";
 import { HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
 import { UserRegistration } from "../types/Entities";
 
@@ -38,7 +38,7 @@ export function useRegisterUser() {
 export function useLogIn() {
   const [errorInterface, setErrorInterface] = useState<MessageInterface>()
   const navigateTo = useNavigate()
-  const {checkLoggedUser} = useSessionSetter()
+  const {setLoggedUser} = useContext(SessionContext) as SessionContextInterface
 
   const sendLogInData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -66,7 +66,7 @@ export function useLogIn() {
       })
       if (response.ok) {
         navigateTo(routes.usuario.profile)
-        checkLoggedUser()
+        sessionSetter(setLoggedUser)
       }
       else {
         const data = await response.json()
