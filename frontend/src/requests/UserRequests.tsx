@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../constants/NavigationRoutes";
 import { SessionContext, SessionContextInterface } from "../context/SessionContext";
 import { getCookie, handleRequest } from "../functions/RequestHandler";
+import { useSessionSetter } from "../hooks/Security";
 import { HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
 import { UserRegistration } from "../types/Entities";
-import { useSessionSetter } from "../hooks/Security";
 
 export function useRegisterUser() {
   const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
@@ -110,3 +110,28 @@ export function useLogOut() {
 
   return {response}
 } */
+
+export function useEditUser() {
+  const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
+
+  const handlePutRequest = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+
+    const isProffesional = Boolean (formData.get("isProffesional"))
+    const newUser: UserRegistration = {
+      username: formData.get("username") as string,
+      password: "",
+      password2: "",
+      email: formData.get("email") as string,
+      isProffesional,
+      role: isProffesional ? "PROFFESIONAL" : "GENERAL",
+      proffesionalDni: isProffesional ? formData.get("proffesionalDni") as string : ""
+    }
+
+    const response = await handleRequest("/user", "PUT", {body: newUser})
+    setResponse(response as HandledResponse<ReturnResponseType>)
+  }
+
+  return {response, handlePutRequest}
+}

@@ -1,6 +1,8 @@
 import { ChangeEvent, useContext, useState } from "react";
 import { SessionContext, SessionContextInterface } from "../../context/SessionContext";
 import { UserRegistration } from "../../types/Entities";
+import Message from "../utilities/Message";
+import { useEditUser } from "../../requests/UserRequests";
 
 export function EditUser() {
   const {loggedUser} = useContext(SessionContext) as SessionContextInterface
@@ -13,6 +15,7 @@ export function EditUser() {
     proffesionalDni: loggedUser.proffesionalDni,
     role: loggedUser.role
   } : null)
+  const {response, handlePutRequest} = useEditUser()
 
   const handleOnchangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name as keyof UserRegistration
@@ -25,16 +28,19 @@ export function EditUser() {
   }
 
   return loggedUser && editedUser ? (
-    <form>
-      <label><input type="text" name="username" value={editedUser.username} onChange={e => handleOnchangeInputs(e)}/></label>
-      <label><input type="email" name="email" value={editedUser.email} onChange={e => handleOnchangeInputs(e)} /></label>
-      <label>Soy profesional de salud
-        <input type="checkbox" name="isProffesional" checked={editedUser.isProffesional} onChange={e => handleOnchangeInputs(e)}></input>
-      </label>
-      {editedUser.isProffesional && (
-        <label><input type="text" name="proffesionalDni" value={editedUser.proffesionalDni} onChange={e => handleOnchangeInputs(e)}/></label>
-      )}
-      <button type="submit">Aplicar cambios</button>
-    </form>
-  ) : <></>
+    <section>
+      {response && <Message messageObject={response?.message}/>}
+      <form onSubmit={e => handlePutRequest(e)}>
+        <label><input type="text" name="username" value={editedUser.username} onChange={e => handleOnchangeInputs(e)}/></label>
+        <label><input type="email" name="email" value={editedUser.email} onChange={e => handleOnchangeInputs(e)} /></label>
+        <label>Soy profesional de salud
+          <input type="checkbox" name="isProffesional" checked={editedUser.isProffesional} onChange={e => handleOnchangeInputs(e)}></input>
+        </label>
+        {editedUser.isProffesional && (
+          <label><input type="text" name="proffesionalDni" value={editedUser.proffesionalDni} onChange={e => handleOnchangeInputs(e)}/></label>
+        )}
+        <button type="submit">Aplicar cambios</button>
+      </form>
+    </section>
+  ) : <h2>Error: Inicie sesión para editar perfil</h2>
 }
