@@ -3,7 +3,7 @@
 ⚠️ importante
 ❗ importante para antes de publicar
 ❔ revisar
-⏩ para cuándo ya esté publicado
+💤 para cuándo ya esté publicado
 🌍 características tanto de front y de back
 
 Funcionamiento general
@@ -40,7 +40,7 @@ Navbar y secciones
 
 Tareas:
   Generales
-    🔄⚠️❗🌎 logueo
+    ✅⚠️❗🌎 logueo
       ✅ vinculación con profesional
       ✅ limitar accesos segun rol
         ✅ front
@@ -49,15 +49,16 @@ Tareas:
       ✅ cambio entre login-registro y logout
       ✅ verificación de sesion e info en algun lado de la pantalla
       ✅ pantalla de edición perfil
-      chequeo de seguridad de contraseña
+      ✅ chequeo de seguridad de contraseña
     ✅⚠️❗ mover las peticiones a un metodo en comun, en el que se haga con un trycatch y vea la forma de mostrar el mensaje de error.
       tanto si viene del back como del front
     ❔⚠️ cambiar tanto en el back como front dónde se almacenan los horarios. Ahora ponerlos en el area (si quedan en los profesionales se podrían sobreponer
       en caso de que el profesional tenga horarios distintos en distintas áreas)
-    ⏩ renombrar areas a Servicios
+    💤 renombrar areas a Servicios
     ✅⚠️agregar búsquedas en tablas que faltan
-    ver que se actualice sola la tabla después de editar entidad (tal vez quitando el preventDefault?)
+    🔄 ver que se actualice sola la tabla después de editar entidad (tal vez quitando el preventDefault?)
     🔄 eliminar console.log que hayan quedado por ahí xd
+    💤 Cambio de idioma
 
   Funciones
     ✅⚠️ en el calendario de creación poner un checkbox para que solo aparezcan los horarios que están disponibles en los dias que corresponda
@@ -65,10 +66,12 @@ Tareas:
       params que correspondan (fehca, hora, paciente)?
     ✅ agregar urlParams a los search de cada tabla
     ver cómo se implementa la obra social al crear turno
-    ⏩ en el dailyTurns component en las areas sin turno cuando no hay horarios agregar enlace para editar el area
+    💤 en el dailyTurns component en las areas sin turno cuando no hay horarios agregar enlace para editar el area
     ⚠️ agregar funciones de orden al TableOptions
     ✅❗ agregar las nav de búsquedas en las entidades que falten
-    Pantalla de inicio para sesion de profesional
+    🔄 Pantalla de inicio para sesion de profesional
+      Zona Mis Turnos
+      Redirección de la página principal a Mis turnos
     función de borrar turnos anteriores, verificación
     ⚠️ rutas especificas de proffesional, (filtros de busqueda para turnos tmb)
     ⚠️ dar de baja areas / profesionales
@@ -89,7 +92,8 @@ Tareas:
     revisar responsive en modales y mensajes
     ✅⚠️❗ mensajes de error y de exito
     ✅ terminar estilos en dailyTurns y turnCreation
-    ⚠️⏩ agregar animación de carga
+    ⚠️💤 agregar animación de carga
+    ❗ agregar mensaje de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     ✅ probar otros estilos para los details y summaries que aparecen en dailyTurns
     ❗ estilar cómo se muestra lo creado en forms
