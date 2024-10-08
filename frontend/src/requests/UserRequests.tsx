@@ -65,7 +65,7 @@ export function useLogIn() {
         credentials: "include"
       })
       if (response.ok) {
-        navigateTo("/")
+        navigateTo(routes.usuario.profile)
         checkLoggedUser()
       }
       else {
