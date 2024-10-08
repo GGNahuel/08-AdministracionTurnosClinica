@@ -40,6 +40,7 @@ public class ModelMapperConfigs {
     // configurePacienteMapping(modelMapper);
     configureTurnoMapping(modelMapper);
     configureProfesionalMapping(modelMapper);
+    configureUserMapping(modelMapper);
 
 		return modelMapper;
 	}
