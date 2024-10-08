@@ -3,6 +3,7 @@ import { useGetAllProfesionales } from "../../requests/ProfesionalRequests"
 import { useLogIn, useRegisterUser } from "../../requests/UserRequests"
 import { ProfesionalMed } from "../../types/Entities"
 import Message from "../utilities/Message"
+import { checkPasswordSecurity } from "../../functions/Utilities"
 
 export function LogInForm() {
   const {sendLogInData, errorInterface} = useLogIn()
@@ -32,10 +33,10 @@ export function RegisterForm() {
     setIsProffesional(newValue)
   }
 
-  const handle2PasswordOnChange = (e: ChangeEvent<HTMLInputElement>, isFirstInput: boolean) => {
+  const handle2PasswordOnChange = (e: ChangeEvent<HTMLInputElement>, isFirstPassword: boolean) => {
     const value = e.currentTarget.value
     setSamePassword(prev => {
-      if (isFirstInput) return ({
+      if (isFirstPassword) return ({
         ...prev,
         value,
         areEquals: value === prev.secondValue
@@ -55,6 +56,7 @@ export function RegisterForm() {
       <form onSubmit={e => handleFormSubmit(e, isProffesional)}>
         <label>Nombre de usuario<input type="text" name="username" /></label>
         <label>Contraseña<input type="password" name="password" onChange={e => handle2PasswordOnChange(e, true)}/></label>
+        {checkPasswordSecurity(samePassword.value) != null && <p>{checkPasswordSecurity(samePassword.value)}</p>}
         <label>Repetir contraseña<input type="password" name="password2" onChange={e => handle2PasswordOnChange(e, false)}/></label>
         {!samePassword.areEquals && <p>Las contraseñas no coinciden</p>}
         <label>Correo electrónico<input type="email" name="email" /></label>

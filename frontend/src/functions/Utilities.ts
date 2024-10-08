@@ -73,3 +73,9 @@ export function generateSearchRoute(params: object): string {
 
   return result
 }
+
+export function checkPasswordSecurity(password: string): string | null {
+  if (password.length < 6) return "La contraseña debe tener al menos 6 carácteres"
+  if (password.toLowerCase() == password) return "La contraseña debe tener al menos una minúscula y una mayúscula"
+  return null
+}
