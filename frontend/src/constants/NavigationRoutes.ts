@@ -18,6 +18,7 @@ export const routes = {
   },
   usuario: {
     login: "/login",
-    signup: "/signup"
+    signup: "/signup",
+    profile: "/profile"
   }
 } as const

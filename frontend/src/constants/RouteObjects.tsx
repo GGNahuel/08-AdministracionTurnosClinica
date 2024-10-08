@@ -1,19 +1,20 @@
 import { RouteObject } from "react-router-dom";
-import { routes } from "./NavigationRoutes"
+import { routes } from "./NavigationRoutes";
 
 import { DailyTurns } from "../components/turnos/DailyTurns";
 import { TurnoCreacion } from "../components/turnos/TurnoCreacion";
 
-import { PacienteListado } from "../components/pacientes/PacienteListado";
 import { PacienteCreacion } from "../components/pacientes/PacienteCreacion";
+import { PacienteListado } from "../components/pacientes/PacienteListado";
 
-import { ProfesionalListado } from "../components/profesionales/ProfesionalListado";
 import { ProfesionalCreacion } from "../components/profesionales/ProfesionalCreacion";
+import { ProfesionalListado } from "../components/profesionales/ProfesionalListado";
 
-import { AreaConsList } from "../components/area_consultorio/AreaConsultorioList";
 import { AreaConsCreate } from "../components/area_consultorio/AreaConsultorioCreate";
+import { AreaConsList } from "../components/area_consultorio/AreaConsultorioList";
 import { SearchTurnos } from "../components/turnos/SearchTurnos";
 import { LogInForm, RegisterForm } from "../components/users/LogAndRegister";
+import { ProfileUser } from "../components/users/ProfileUser";
 
 export const turnoRoutes : RouteObject[] = [
   {
@@ -82,5 +83,10 @@ export const UsuarioRoutes: RouteObject[] = [
     path: routes.usuario.signup,
     element: <RegisterForm />,
     id: "user_register"
+  },
+  {
+    path: routes.usuario.profile,
+    element: <ProfileUser />,
+    id: "user_profile"
   }
 ]

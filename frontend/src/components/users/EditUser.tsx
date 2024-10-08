@@ -12,14 +12,14 @@ export function EditUser() {
     password2: "",
     email: loggedUser.email,
     isProffesional: loggedUser.role == "PROFFESIONAL",
-    proffesionalDni: loggedUser.proffesionalDni,
+    proffesionalDni: loggedUser.proffesionalDni || "",
     role: loggedUser.role
   } : null)
   const {response, handlePutRequest} = useEditUser()
-
-  const handleOnchangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
+  console.log(editedUser, loggedUser)
+  const handleOnchangeInputs = (e: ChangeEvent<HTMLInputElement>, isCheckbox?: boolean) => {
     const name = e.target.name as keyof UserRegistration
-    const value = e.target.value
+    const value = !isCheckbox ? e.target.value : e.target.checked
 
     setEditedUser(prev => ({
       ...prev,
@@ -29,12 +29,13 @@ export function EditUser() {
 
   return loggedUser && editedUser ? (
     <section>
+      <h2>Editar perfil</h2>
       {response && <Message messageObject={response?.message}/>}
       <form onSubmit={e => handlePutRequest(e)}>
         <label><input type="text" name="username" value={editedUser.username} onChange={e => handleOnchangeInputs(e)}/></label>
         <label><input type="email" name="email" value={editedUser.email} onChange={e => handleOnchangeInputs(e)} /></label>
         <label>Soy profesional de salud
-          <input type="checkbox" name="isProffesional" checked={editedUser.isProffesional} onChange={e => handleOnchangeInputs(e)}></input>
+          <input type="checkbox" name="isProffesional" checked={editedUser.isProffesional} onChange={e => handleOnchangeInputs(e, true)}></input>
         </label>
         {editedUser.isProffesional && (
           <label><input type="text" name="proffesionalDni" value={editedUser.proffesionalDni} onChange={e => handleOnchangeInputs(e)}/></label>

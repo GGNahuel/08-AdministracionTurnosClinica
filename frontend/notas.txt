@@ -71,6 +71,7 @@ Tareas:
     Pantalla de inicio para sesion de profesional
     función de borrar turnos anteriores, verificación
     ⚠️ rutas especificas de proffesional, (filtros de busqueda para turnos tmb)
+    ⚠️ dar de baja areas / profesionales
 
   Errores y correcciones
     ⚠️ corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual
