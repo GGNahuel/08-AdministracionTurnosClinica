@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { Paciente } from "../types/Entities";
 import { SearchPaciente } from "../types/SearchFormTypes";
 import { generateSearchRoute } from "../functions/Utilities";
+import { ComponentRefresher } from "../context/ComponentRefresher";
 
 export function useGetAllPacientes() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
@@ -72,6 +73,7 @@ export function usePostPaciente() {
 
 export function usePutPaciente() {
   const [returnValue, setReturnValue] = useState<HandledResponse<ReturnResponseType> | null>(null)
+  const {setRefresher} = useContext(ComponentRefresher)
 
   const sendPutRequest = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -88,6 +90,10 @@ export function usePutPaciente() {
 
     const returned = await handleRequest("/paciente", "PUT", {body: pacienteToSend})
     setReturnValue(returned as HandledResponse<ReturnResponseType>)
+    if (returned.status == 200 && setRefresher) {
+      console.log("ASDASD")
+      setRefresher(prev => prev == 0 ? 1 : 0)
+    }
   }
 
   return {returnValue, sendPutRequest}
