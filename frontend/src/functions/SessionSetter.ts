@@ -11,15 +11,13 @@ export async function sessionSetter(setLoggedUser: React.Dispatch<React.SetState
     },
     credentials: "include"
   })
-  console.log(response)
   
   const data = response.status != 204 ? await response.json() : null
   if (data && response.status == 200) {
-    console.log(data)
     setLoggedUser(data as UserBackend)
   }
   else if(response.status == 500){
-    console.log(data)
+    console.log(data) // reemplazar por log del error
     console.error("No se ha podido obtener la sesión del usuario desde el servidor")
   }
 }
