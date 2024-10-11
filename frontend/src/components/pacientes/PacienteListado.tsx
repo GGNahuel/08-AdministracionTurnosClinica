@@ -49,12 +49,12 @@ function PacientesTable({getResponse} : {getResponse: HandledResponse<GetRespons
 
   const {refresher} = useContext(ComponentRefresher)
   return (
-    <>
+    <div key={refresher}>
       <TableOptions 
         entityType="pacientes" selectedCheckboxesState={selectCheckboxesState} childs={results}
         selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
       />
-      <table className="table" key={refresher}>
+      <table className="table">
         <thead>
           <tr>
             <th className="checkbox"></th>
@@ -121,6 +121,6 @@ function PacientesTable({getResponse} : {getResponse: HandledResponse<GetRespons
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   )
 }

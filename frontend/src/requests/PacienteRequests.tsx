@@ -92,7 +92,8 @@ export function usePutPaciente() {
     setReturnValue(returned as HandledResponse<ReturnResponseType>)
     if (returned.status == 200 && setRefresher) {
       console.log("ASDASD")
-      setRefresher(prev => prev == 0 ? 1 : 0)
+      setRefresher(prev => prev ++)
+      
     }
   }
 
