@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
-import { AreaProfesional } from "../types/Entities";
 import { SearchArea } from "../types/SearchFormTypes";
 
 export function useGetAllAreas() {
@@ -16,24 +15,16 @@ export function useGetAllAreas() {
   return getResponse
 }
 
-export function useGetAreasByName(name: string, areaSelectedSetter?: React.Dispatch<React.SetStateAction<{
-  name: string;
-  needSchedule: boolean;
-}>>) {
+export function useGetAreasByName(name: string) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
 
   useEffect(() => {
     if (name != "") {
       handleRequest("/area/" + encodeURIComponent(name), "GET", {}).then(response => {
         setGetResponse(response as HandledResponse<GetResponseType>)
-        
-        if (areaSelectedSetter && !response.message) {
-          const returnedArea = (response as GetResponseType).results[0] as AreaProfesional
-          areaSelectedSetter({name: returnedArea.nombre, needSchedule: returnedArea.necesitaTurno})
-        }
       })
     }
-  }, [name, areaSelectedSetter])
+  }, [name])
 
   return getResponse
 }

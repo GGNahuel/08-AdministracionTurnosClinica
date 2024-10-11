@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Horario } from "../../classes/Horario";
 import { dateToInputFormat, dateInputValueToDBFormat } from "../../functions/DateFunctions";
 import { cutPascalCase, normaliceString } from "../../functions/Utilities";
@@ -25,7 +25,11 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
-  useGetAreasByName(normaliceString(fieldsValuesState.areaProfesional), setAreaSelected)
+  const areaInForm = useGetAreasByName(normaliceString(fieldsValuesState.areaProfesional))?.results[0] as AreaProfesional
+
+  useEffect(() => {
+    setAreaSelected({name: areaInForm.nombre, needSchedule: areaInForm.necesitaTurno})
+  }, [areaInForm])
 
   return (
     <section>
