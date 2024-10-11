@@ -32,6 +32,43 @@ export function useGetTurnosByDate(fecha: string) {
   return getResponse
 }
 
+export function useGetTurnosByPaciente(dni: string) {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+
+  useEffect(() => {
+    if(dni && dni != "") handleRequest("/turno/paciente/" + dni, "GET", {}).then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
+  }, [dni])
+
+  return getResponse
+}
+
+export function useGetTurnosByProffesionalAndDate(dni: string, fecha: string) {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+
+  useEffect(() => {
+    if(dni && dni != "" && fecha && fecha != "") handleRequest(`/turno/profesional?dni=${dni}&fecha=${fecha}`, "GET", {}).then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
+  }, [dni, fecha])
+
+  return getResponse
+}
+
+export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+
+  useEffect(() => {
+    if (DATE_FORMAT.test(fecha) && nombreArea != "") 
+      handleRequest(`/turno/futuros?fecha=${encodeURIComponent(fecha)}&area=${nombreArea}`, "GET", {}).then(response => {
+        setGetResponse(response as HandledResponse<GetResponseType>)
+      })
+  }, [fecha, nombreArea])
+
+  return getResponse
+}
+
 export function usePostTurno() {
   const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | GetResponseType>()
 
@@ -134,31 +171,6 @@ export function usePutTurno() {
   }
 
   return {returnValue, sendPutRequest}
-}
-
-export function useGetTurnosByPaciente(dni: string) {
-  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
-
-  useEffect(() => {
-    if(dni && dni != "") handleRequest("/turno/paciente/" + dni, "GET", {}).then(response => {
-      setGetResponse(response as HandledResponse<GetResponseType>)
-    })
-  }, [dni])
-
-  return getResponse
-}
-
-export function useGetNextTurnosByArea(fecha: string, nombreArea: string) {
-  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
-
-  useEffect(() => {
-    if (DATE_FORMAT.test(fecha) && nombreArea != "") 
-      handleRequest(`/turno/futuros?fecha=${encodeURIComponent(fecha)}&area=${nombreArea}`, "GET", {}).then(response => {
-        setGetResponse(response as HandledResponse<GetResponseType>)
-      })
-  }, [fecha, nombreArea])
-
-  return getResponse
 }
 
 export function useGetSearchedTurnos(urlParams: URLSearchParams) {

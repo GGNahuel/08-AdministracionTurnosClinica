@@ -112,7 +112,7 @@ export function useSearchPatients(urlParams: URLSearchParams) {
 
     const newParams = {
       search: urlParams.get("search") || "", 
-    obraSocial: urlParams.get("obraSocial") || ""
+      obraSocial: urlParams.get("obraSocial") || ""
     }
 
     setSearchParams(newParams)
