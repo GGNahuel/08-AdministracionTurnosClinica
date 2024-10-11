@@ -49,7 +49,6 @@ public class AreaController {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
-  
   @GetMapping("/actives")
   public ResponseEntity<ResponseDTO> getByActiveStatus(@RequestParam Boolean valor) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
@@ -74,6 +73,14 @@ public class AreaController {
     response.setResults(areaService.getByName(nombre));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
+  }
+
+  @GetMapping("/profesional")
+  public ResponseEntity<ResponseDTO> getByProffesionalDni(@RequestParam String dni) throws Exception {
+    GetResponseDTO response = new GetResponseDTO();
+    response.setResults(areaService.getByProffesionalDni(dni));
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   @PostMapping("")

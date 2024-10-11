@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
+import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.TurnoRepository;
 import com.clinica_administracion.sistema_administracion_clinica.services.interfaces.IAreaService;
 
@@ -21,10 +23,11 @@ import com.clinica_administracion.sistema_administracion_clinica.services.interf
 public class AreaService implements IAreaService{
   private final AreaRepository areaRepo;
   private final TurnoRepository turnoRepo;
+  private final ProfesionalMedRepository profesionalMedRepo;
   private final ModelMapper modelMapper;
 
-  public AreaService(AreaRepository areaRepo, TurnoRepository turnoRepo, ModelMapper modelMapper) {
-    this.areaRepo = areaRepo; this.modelMapper = modelMapper; this.turnoRepo = turnoRepo;
+  public AreaService(AreaRepository areaRepo, TurnoRepository turnoRepo, ProfesionalMedRepository profesionalMedRepo, ModelMapper modelMapper) {
+    this.areaRepo = areaRepo; this.modelMapper = modelMapper; this.turnoRepo = turnoRepo; this.profesionalMedRepo = profesionalMedRepo;
   }
 
   @Transactional(readOnly = true) @Override
@@ -67,12 +70,24 @@ public class AreaService implements IAreaService{
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, nombre);
     List<AreaEntity> areaEntities = areaRepo.findByNombreLike(UtilitiesMethods.normaliceString(nombre));
     if (areaEntities.size() == 0)
-      throw new ResourceNotFound("Área", "nombre", nombre);
-      
+    throw new ResourceNotFound("Área", "nombre", nombre);
+    
     return 
-      areaEntities.stream().map(
-        (area) -> modelMapper.map(area, AreaDTO.class)
-      ).toList();
+    areaEntities.stream().map(
+      (area) -> modelMapper.map(area, AreaDTO.class)
+    ).toList();
+  }
+
+  @Transactional(readOnly = true) @Override
+  public List<AreaDTO> getByProffesionalDni(String dni) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni del profesional"}, dni);
+    ProfesionalMedEntity proffesional = profesionalMedRepo.findByDni(dni).orElseThrow(
+      () -> new ResourceNotFound("profesional médico", "dni", dni)
+    );
+    
+    return proffesional.getAreas().stream().map(
+      area -> modelMapper.map(area, AreaDTO.class)
+    ).toList();
   }
     
   @Transactional @Override
