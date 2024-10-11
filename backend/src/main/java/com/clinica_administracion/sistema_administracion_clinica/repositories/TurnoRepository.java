@@ -22,8 +22,8 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, UUID>{
   @Query("select t from TurnoEntity t where t.profesional.dni = ?1")
   List<TurnoEntity> findByProfesionalDNI(String dni);
 
-  @Query("select t from TurnoEntity t where t.profesional.nombreCompleto like ?1")
-  List<TurnoEntity> findByProfesionalNombre(String nombreProfesional);
+  @Query("select t from TurnoEntity t where t.profesional.dni = ?1 and t.fecha = ?2")
+  List<TurnoEntity> findByProfesionalDNIAndDate(String dni, LocalDate fecha);
 
   @Query("select t from TurnoEntity t where t.areaProfesional.nombre like ?1")
   List<TurnoEntity> findByArea(String nombre);

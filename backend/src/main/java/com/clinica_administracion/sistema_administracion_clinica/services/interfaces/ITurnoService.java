@@ -12,7 +12,7 @@ public interface ITurnoService {
   TurnoDTO getById(UUID id) throws Exception;
   List<TurnoDTO> getByPacienteDni(String dni) throws Exception;
   List<TurnoDTO> getByProfesionalDni(String dni) throws Exception;
-  List<TurnoDTO> getByProfesional(String nombre) throws Exception;
+  List<TurnoDTO> getByProfesionalDniAndDate(String dni, String fecha) throws Exception;
   List<TurnoDTO> getByDate(String fecha) throws Exception;
   List<TurnoDTO> getByArea(String nombre) throws Exception;
   TurnoDTO create(TurnoDTO turno) throws Exception;

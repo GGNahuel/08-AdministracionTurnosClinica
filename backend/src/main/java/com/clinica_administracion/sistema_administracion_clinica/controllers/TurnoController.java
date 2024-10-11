@@ -84,9 +84,9 @@ public class TurnoController {
   }
 
   @GetMapping("/profesional")
-  public ResponseEntity<ResponseDTO> getTurnosByProfesional(@RequestParam String nombre) throws Exception {
+  public ResponseEntity<ResponseDTO> getTurnosByProfesional(@RequestParam String dni, @RequestParam String fecha) throws Exception {
     GetResponseDTO response = new GetResponseDTO();
-    response.setResults(turnoService.getByProfesional(nombre));  
+    response.setResults(turnoService.getByProfesionalDniAndDate(dni, fecha));  
     
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }

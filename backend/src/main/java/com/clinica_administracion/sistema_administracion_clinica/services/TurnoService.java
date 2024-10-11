@@ -88,10 +88,10 @@ public class TurnoService implements ITurnoService {
   }
 
   @Transactional(readOnly = true) @Override
-  public List<TurnoDTO> getByProfesional(String name) throws Exception {
-    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"nombre"}, name);
+  public List<TurnoDTO> getByProfesionalDniAndDate(String dni, String fecha) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"dni", "fecha"}, dni, fecha);
     return 
-      turnoRepo.findByProfesionalNombre(name).stream().map(
+      turnoRepo.findByProfesionalDNIAndDate(dni, LocalDate.parse(fecha)).stream().map(
         (turno) -> modelMapper.map(turno, TurnoDTO.class)
       ).collect(Collectors.toList());
   }
