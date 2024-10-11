@@ -31,7 +31,7 @@ export function DailyTurns() {
   )
 }
 
-function DailyTurnsInArea(props: {areaDto: AreaProfesional, turnos: Turno[] | null, horarios: string[] | null}) {
+export function DailyTurnsInArea(props: {areaDto: AreaProfesional, turnos: Turno[] | null, horarios: string[] | null}) {
   const {areaDto, turnos, horarios} = props
 
   const nombreArea = areaDto.nombre
