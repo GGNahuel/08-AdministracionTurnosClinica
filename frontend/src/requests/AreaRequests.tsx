@@ -41,6 +41,17 @@ export function useGetAreasByActiveStatus(active: boolean) {
   return getResponse
 }
 
+export function useGetAreasByProffesionalDni(dni: string) {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+
+  useEffect(() => {
+    if (dni != "")
+      handleRequest("/area/profesional?dni=" + dni, "GET", {}).then(data => setGetResponse(data as HandledResponse<GetResponseType>))
+  }, [dni])
+
+  return getResponse
+}
+
 export function usePostArea() {
   const [returnedPost, setReturnedPost] = useState<HandledResponse<ReturnResponseType> | null>(null)
 
@@ -94,7 +105,6 @@ export function useSearchArea(urlParams: URLSearchParams) {
       status: status != undefined ? status == "true" : null,
       schedule: schedule != undefined ? schedule == "true" : null
     }
-    console.log(params)
     
     setSearchParams(params)
   }
