@@ -70,7 +70,11 @@ Tareas:
     ⚠️ agregar funciones de orden al TableOptions
     ✅❗ agregar las nav de búsquedas en las entidades que falten
     🔄 Pantalla de inicio para sesion de profesional
-      Zona Mis Turnos
+      ✅ Zona Mis Turnos
+      ✅ enrutado de daily turns según rol del usuario logueado
+        ✅ enrutado en navbar
+        ✅ en general
+      🔄 en creación de turnos que solo se pueda crear para las areas en la que el profesional logueado esté
       Redirección de la página principal a Mis turnos
     función de borrar turnos anteriores, verificación
     ⚠️ rutas especificas de proffesional, (filtros de busqueda para turnos tmb)

@@ -1,4 +1,5 @@
 import { getSchedulesInAllAreas, filterTurnosByAreas } from "../../functions/FilterFunctions";
+import { useRedirectDailyTurns } from "../../hooks/Security";
 import { useGetAreasByActiveStatus } from "../../requests/AreaRequests";
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
 import { useGetAllTurnos } from "../../requests/TurnoRequests";
@@ -13,6 +14,8 @@ export function DailyTurns() {
 
   const listaHorarios = getSchedulesInAllAreas(allProfesionales, activeAreas)
   const turnosByAreas = filterTurnosByAreas(activeAreas, turnos)
+
+  useRedirectDailyTurns()
 
   return (
     <section id="dailyTurnos">
