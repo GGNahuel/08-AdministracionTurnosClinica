@@ -15,7 +15,7 @@ export const navListItems : NavbarItemsType = {
       },
       todayProffesional: {
         name: "Ver turnos del día",
-        route: routes.turno.today,
+        route: routes.turno.todayOfProffesional,
         protected: {
           value: true,
           roles: ["PROFFESIONAL"]
