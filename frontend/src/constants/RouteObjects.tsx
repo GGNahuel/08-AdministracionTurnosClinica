@@ -15,12 +15,18 @@ import { AreaConsList } from "../components/area_consultorio/AreaConsultorioList
 import { SearchTurnos } from "../components/turnos/SearchTurnos";
 import { LogInForm, RegisterForm } from "../components/users/LogAndRegister";
 import { ProfileUser } from "../components/users/ProfileUser";
+import { ProffesionalTurns } from "../components/turnos/ProffesionalDailyTurns";
 
 export const turnoRoutes : RouteObject[] = [
   {
     index: true,
     element: <DailyTurns/>,
     id: "turno_today"
+  },
+  {
+    path: routes.turno.todayOfProffesional,
+    element: <ProffesionalTurns />,
+    id: "turno_today_proffesional"
   },
   {
     path: routes.turno.create,

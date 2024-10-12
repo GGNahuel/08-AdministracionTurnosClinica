@@ -1,6 +1,7 @@
 export const routes = {
   turno: {
     today: "/",
+    todayOfProffesional: "/turno/profesional",
     create: "/turno/crear",
     search: "/turno"
   },

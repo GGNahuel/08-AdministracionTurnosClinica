@@ -20,6 +20,7 @@ export interface NavItem {
 
 interface TurnosNav {
   today: NavItem,
+  todayProffesional: NavItem,
   create: NavItem,
   search: NavItem
 }

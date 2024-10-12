@@ -9,7 +9,16 @@ export const navListItems : NavbarItemsType = {
         name: "Ver turnos del día",
         route: routes.turno.today,
         protected: {
-          value: false
+          value: true,
+          roles: ["ADMIN", "GENERAL"]
+        }
+      },
+      todayProffesional: {
+        name: "Ver turnos del día",
+        route: routes.turno.today,
+        protected: {
+          value: true,
+          roles: ["PROFFESIONAL"]
         }
       },
       create: {
