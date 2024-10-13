@@ -40,6 +40,7 @@ public class Security {
         //.requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
           .requestMatchers(HttpMethod.GET).permitAll()
           .requestMatchers("/logincheck", "/api/user").permitAll()
+          .requestMatchers("/api/turno/search").permitAll()
           .requestMatchers("/api/**").authenticated()
           .anyRequest().permitAll()
       )
