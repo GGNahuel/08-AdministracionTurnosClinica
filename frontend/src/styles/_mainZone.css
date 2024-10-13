@@ -155,3 +155,10 @@ main {
     stroke: var(--backgrounColor_darkScheme);
   }
 }
+
+@media (max-width: 1024px) {
+  main {
+    width: auto;
+    height: 100%;
+  }
+}

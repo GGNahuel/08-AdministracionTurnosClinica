@@ -136,3 +136,36 @@
     margin: 1rem 0;
   }
 }
+
+@media (max-width: 1024px) {
+  #mainNavbar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    &>header {
+      img {
+        width: 64px;
+        border-width: 6px;
+      }
+    }
+
+    .linkList {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      li + li {
+        margin: 0;
+      }
+    }
+
+    .buttonList {
+      position: static;
+      display: grid;
+      grid-template: auto auto/ auto auto;
+      gap: 8px;
+    }
+  }
+}

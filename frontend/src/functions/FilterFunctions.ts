@@ -2,8 +2,8 @@ import { AreaProfesional, ProfesionalMed, Turno } from "../types/Entities";
 import { Horario } from "../classes/Horario";
 
 export function filterTurnosByAreas(areasExistentes : AreaProfesional[], listadoDeTurnos : Turno[]) {
-  if (!areasExistentes || !listadoDeTurnos) throw new Error("Los campos de la función de filtrado de turnos no pueden ser vacíos o nulos")
-  if (areasExistentes.length == 0 || listadoDeTurnos.length == 0) throw new Error("Los campos de la función de filtrado de turnos no pueden ser vacíos o nulos")
+  if (!areasExistentes || !listadoDeTurnos) return null;//throw new Error("Los campos de la función de filtrado de turnos no pueden ser vacíos o nulos")
+  if (areasExistentes.length == 0 || listadoDeTurnos.length == 0) return null; //throw new Error("Los campos de la función de filtrado de turnos no pueden ser vacíos o nulos")
   
   const returnedObject : Record<string, Turno[]> = {}
   
@@ -16,8 +16,8 @@ export function filterTurnosByAreas(areasExistentes : AreaProfesional[], listado
 }
 
 export function getSchedulesInAllAreas(profesionals: ProfesionalMed[], areas: AreaProfesional[]) {
-  if (!areas || !profesionals) throw new Error("Los campos de la función para obtener los horarios de las areas no pueden ser nulos o vacíos")
-  if (profesionals.length == 0) throw new Error("Los campos de la función para obtener los horarios de las areas no pueden ser nulos o vacíos")
+  if (!areas || !profesionals) return null;//throw new Error("Los campos de la función para obtener los horarios de las areas no pueden ser nulos o vacíos")
+  if (profesionals.length == 0) return null;//throw new Error("Los campos de la función para obtener los horarios de las areas no pueden ser nulos o vacíos")
 
   const returnedObject: Record<string, string[]> = {}
 
