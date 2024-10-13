@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 
 import { Horario } from "../../classes/Horario";
 import { dateInputValueToDBFormat, dateToInputFormat } from "../../functions/DateFunctions";
 
-import { useGetAreasByActiveStatus } from "../../requests/AreaRequests";
+import { useGetAreasByActiveStatus, useGetAreasByProffesionalDni } from "../../requests/AreaRequests";
 import { useGetPacientesByName } from "../../requests/PacienteRequests";
 import { useGetProfesionalsByArea } from "../../requests/ProfesionalRequests";
 import { usePostTurno } from "../../requests/TurnoRequests";
@@ -15,6 +15,7 @@ import { SchedulePicker } from "./SchedulePicker";
 import { EstadoPago } from "../../types/BackendEnums";
 import { cutPascalCase } from "../../functions/Utilities";
 import { SearchVar } from "../utilities/Searchvar";
+import { SessionContext, SessionContextInterface } from "../../context/SessionContext";
 
 export function TurnoCreacion() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -22,12 +23,15 @@ export function TurnoCreacion() {
   const [searchPaciente, setSearchPaciente] = useState<string>("")
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: "", hour: ""})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
+  
+  const {loggedUser} = useContext(SessionContext) as SessionContextInterface
 
-  const {returnedPost, sendData} = usePostTurno()
+  const proffesionalAreas = useGetAreasByProffesionalDni(loggedUser && loggedUser.role == "PROFFESIONAL" ? loggedUser.proffesionalDni : "")
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
-  const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
-
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
+  const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
+  
+  const {returnedPost, sendData} = usePostTurno()
 
   return (
     <section className="registerSection" ref={scrollRef}>
@@ -43,9 +47,14 @@ export function TurnoCreacion() {
             setAreaSelected({name: name, needSchedule: needSchedule == "true"})
           }}>
             <option value={""}>Seleccione un área</option>
-            {activeAreas?.map(area => (
-              <option key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()}>{area.nombre}</option>
-            ))}
+            {proffesionalAreas ?
+              (proffesionalAreas.results as AreaProfesional[]).map(area => (
+                <option key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()}>{area.nombre}</option>
+              )) :
+              activeAreas?.map(area => (
+                <option key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()}>{area.nombre}</option>
+              ))
+            }
           </select>
         </label>
         <label>
