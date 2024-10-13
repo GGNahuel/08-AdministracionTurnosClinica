@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Horario } from "../../classes/Horario";
 import { dateToInputFormat, dateInputValueToDBFormat } from "../../functions/DateFunctions";
 import { cutPascalCase, normaliceString } from "../../functions/Utilities";
-import { useGetAreasByActiveStatus, useGetAreasByName } from "../../requests/AreaRequests";
+import { useGetAreasByActiveStatus, useGetAreasByName, useGetAreasByProffesionalDni } from "../../requests/AreaRequests";
 import { useGetPacientesByName } from "../../requests/PacienteRequests";
-import { useGetProfesionalsByArea } from "../../requests/ProfesionalRequests";
+import { useGetProfesionalByDni, useGetProfesionalsByArea } from "../../requests/ProfesionalRequests";
 import { usePutTurno } from "../../requests/TurnoRequests";
 import { EstadoPago } from "../../types/BackendEnums";
 import { AreaProfesional, Paciente, ProfesionalMed, Turno } from "../../types/Entities";
 import { SearchVar } from "../utilities/Searchvar";
 import { SchedulePicker } from "./SchedulePicker";
 import Message from "../utilities/Message";
+import { SessionContext, SessionContextInterface } from "../../context/SessionContext";
 
 export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void}) {
   const {fieldsValuesState, handleOnChange} = props
@@ -21,11 +22,16 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: fieldsValuesState.fecha, hour: fieldsValuesState.horario})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
 
-  const {sendPutRequest, returnValue} = usePutTurno()
+  const {loggedUser} = useContext(SessionContext) as SessionContextInterface
+
+  const areaInForm = useGetAreasByName(normaliceString(fieldsValuesState.areaProfesional))?.results[0] as AreaProfesional
+  const proffesionalAreas = useGetAreasByProffesionalDni(loggedUser && loggedUser.role == "PROFFESIONAL" ? loggedUser.proffesionalDni : "")
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
-  const areaInForm = useGetAreasByName(normaliceString(fieldsValuesState.areaProfesional))?.results[0] as AreaProfesional
+  const loggedProffesional = useGetProfesionalByDni(loggedUser && loggedUser.role == "PROFFESIONAL" ? loggedUser.proffesionalDni : "")?.results[0] as ProfesionalMed
+  
+  const {sendPutRequest, returnValue} = usePutTurno()
 
   useEffect(() => {
     setAreaSelected({name: areaInForm.nombre, needSchedule: areaInForm.necesitaTurno})
@@ -34,7 +40,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   return (
     <section>
       {returnValue?.message?.text && <Message messageObject={returnValue.message} />}
-      <form onSubmit={(ev) => {
+      {(fieldsValuesState.profesionalDto.dni == loggedUser?.proffesionalDni || loggedUser?.role != "PROFFESIONAL") && <><form onSubmit={(ev) => {
         sendPutRequest(ev, areaSelected.name, turnDate)
       }}>
         <input type="hidden" name="id" value={fieldsValuesState.id}/>
@@ -45,22 +51,30 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
             setAreaSelected({name: name, needSchedule: needSchedule == "true"})
           }} >
             <option value={""}>Seleccione un área</option>
-            {activeAreas?.map(area => (
-              <option 
-                key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()} 
-                selected={area.nombre == fieldsValuesState.areaProfesional}
-              >{area.nombre}</option>
-            ))}
+            {proffesionalAreas ?
+              (proffesionalAreas.results as AreaProfesional[]).map(area => (
+                <option key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()} selected={area.nombre == fieldsValuesState.areaProfesional}>{area.nombre}</option>
+              )) :
+              activeAreas?.map(area => (
+                <option 
+                  key={area.nombre} value={area.nombre + "##" + area.necesitaTurno.toString()} 
+                  selected={area.nombre == fieldsValuesState.areaProfesional}
+                >{area.nombre}</option>
+              ))
+            }
           </select>
         </label>
         <label>
           Profesional: 
           <select name="profesional" required>
-            {areaSelected.name != "" ?
-              profesionalesByAreas?.map(profesional => (
-                <option key={profesional.dni} value={profesional.dni} defaultChecked={profesional.id == fieldsValuesState.profesionalDto.id}>{profesional.nombreCompleto}</option>
-              )) :
-              <option value={""}>Seleccione un área para ver los profesionales disponibles</option>
+            {
+              loggedProffesional ?
+                <option key={loggedProffesional.dni} value={loggedProffesional.dni} defaultChecked={loggedProffesional.id == fieldsValuesState.profesionalDto.id}>{loggedProffesional.nombreCompleto}</option>
+              : areaSelected.name != "" ?
+                profesionalesByAreas?.map(profesional => (
+                  <option key={profesional.dni} value={profesional.dni} defaultChecked={profesional.id == fieldsValuesState.profesionalDto.id}>{profesional.nombreCompleto}</option>
+                )) :
+                <option value={""}>Seleccione un área para ver los profesionales disponibles</option>
             }
           </select>
         </label>
@@ -106,7 +120,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
         <button type="submit">Enviar</button>
       </form>
       <SchedulePicker areaSelected={areaSelected} profesionalesByAreas={profesionalesByAreas} turnDateState={{turnDate, setTurnDate}} 
-      scrollRef={scrollRef} setPlayInputAnimation={setPlayInputAnimation}/>
+      scrollRef={scrollRef} setPlayInputAnimation={setPlayInputAnimation}/></>}
     </section>
   )
 }

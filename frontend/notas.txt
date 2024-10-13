@@ -88,6 +88,7 @@ Tareas:
     ✅ reestructurar uso y funcionamiento de la peticion getTurnosByPaciente dni
     ✅ cambiar el search turnos para que la peticion sea con un body y no con parametros (eso de los parametros sería para la ruta del cliente)
     ❗ mostrar mensaje de contraeña incorrecta al hacer loguin desde el back
+    💤❗ optimizar cantidad de requests en creacion o edicion de turnos según si el usuario es profesional o no
 
   Estilo css UI/UX
     ⚠️❗ navbar responsive con el alto y ancho de la pantalla
