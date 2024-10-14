@@ -10,40 +10,63 @@ import { Roles } from "../../types/BackendEnums"
 import { UserBackend } from "../../types/Entities"
 import { ConfigIcon, LanguageIcon, LogInIcon, LogOutIcon, UserIcon } from "../utilities/Icons"
 import { ProtectedLink } from "../utilities/ProtectedLink"
+import { useGetWindowSize } from "../../hooks/WindowProperties"
 
 export function Navbar() {
   const {loggedUser} = useContext(SessionContext) as SessionContextInterface
   const {logout} = useLogOut()
+  const {windowSize} = useGetWindowSize()
+
+  const LinkToMainPage = ({img, h2} : {img?: boolean, h2?: boolean}) => (
+    <Link to="/">
+      {img && <img src="/logoEjemplo.png" alt="Logo de la clinica" className="logo" />}
+      {h2 && <h2>Nombre clinica</h2>}
+    </Link>
+  )
+
+  const NavigationLinks = () => (
+    <ul className="linkList">
+      {Object.entries(navListItems).map(details => (
+        <NavItemComponent key={details[0]} navItem={details[1]} loggedUser={loggedUser} />
+      ))}
+    </ul>
+  )
+
+  const ButtonList = () => (
+    <ul className="buttonList">
+      <li><div><button className="iconButton"><ConfigIcon /></button><p>Configuración</p></div></li>
+      <li><div><button className="iconButton"><LanguageIcon /></button><p>Idioma</p></div></li>
+      {loggedUser ? <>
+        <li><div><Link to={routes.usuario.profile}><button className="iconButton"><UserIcon /></button></Link><p>Perfil de usuario</p></div></li>
+        <li><div><button className="iconButton" onClick={() => {logout()}}><LogOutIcon /></button><p>Cerrar sesión</p></div></li></>
+        : <>
+        <li><div><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon /></button></Link><p>Iniciar sesión</p></div></li>
+        <li><div><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon /></button></Link><p>Registrarse</p></div></li></>
+      }
+    </ul>
+  )
 
   return (
     <nav id="mainNavbar">
-      <header>
-        <Link to="/">
-          <img src="/logoEjemplo.png" alt="Logo de la clinica" />
-          <h2>Nombre clinica</h2>
-        </Link>
+      {windowSize.width > 1024 && windowSize.height >= 680 ? 
+      <><header>
+        <LinkToMainPage img h2/>
         <h3 className={!loggedUser ? "emptySession" : ""}>{loggedUser?.username}</h3>
       </header>
       <section>
-        <ul className="linkList">
-          {Object.entries(navListItems).map(details => (
-            <NavItemComponent key={details[0]} navItem={details[1]} loggedUser={loggedUser} />
-          ))}
-        </ul>
+        <NavigationLinks />
       </section>
       <footer>
-        <ul className="buttonList">
-          <li><div><button className="iconButton"><ConfigIcon /></button><p>Configuración</p></div></li>
-          <li><div><button className="iconButton"><LanguageIcon /></button><p>Idioma</p></div></li>
-          {loggedUser ? <>
-            <li><div><Link to={routes.usuario.profile}><button className="iconButton"><UserIcon /></button></Link><p>Perfil de usuario</p></div></li>
-            <li><div><button className="iconButton" onClick={() => {logout()}}><LogOutIcon /></button><p>Cerrar sesión</p></div></li></>
-            : <>
-            <li><div><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon /></button></Link><p>Iniciar sesión</p></div></li>
-            <li><div><Link to={routes.usuario.signup}><button className="iconButton"><LogInIcon /></button></Link><p>Registrarse</p></div></li></>
-          }
-        </ul>
-      </footer>
+        <ButtonList />
+      </footer></> 
+      :
+      <><LinkToMainPage img/>
+      <section className="row1">
+        <LinkToMainPage h2/>
+        <ButtonList />
+      </section>
+      <NavigationLinks /></>
+      }
     </nav>
   )
 }

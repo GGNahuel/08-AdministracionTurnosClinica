@@ -156,9 +156,14 @@ main {
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) or (max-height: 680px) {
   main {
     width: auto;
     height: 100%;
+    overflow-x: scroll;
+    
+    > section {
+      overflow-y: scroll;
+    }
   }
 }

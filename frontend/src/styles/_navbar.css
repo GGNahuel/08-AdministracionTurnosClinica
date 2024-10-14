@@ -13,17 +13,18 @@
   flex-direction: column;
   /* justify-content: space-between; */
 
+  .logo {
+    border-radius: 100%;
+    width: 200px;
+    aspect-ratio: 1;
+    border: 12px solid var(--logoMainColor);
+    box-sizing: border-box;
+  }
+
   &>header {
     align-self: center;
     text-align: center;
 
-    img {
-      border-radius: 100%;
-      width: 200px;
-      aspect-ratio: 1;
-      border: 12px solid var(--logoMainColor);
-      box-sizing: border-box;
-    }
 
     h2 {
       margin: 0.5rem 0;
@@ -137,21 +138,39 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) or (max-height: 680px) {
   #mainNavbar {
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template: 
+      "logo row1" 52px 
+      "row2 row2" 52px/
+      76px auto;
+    gap: 8px;
     align-items: center;
     width: 100%;
 
-    &>header {
-      img {
-        width: 64px;
-        border-width: 6px;
-      }
+    &>section {
+      grid-area: row1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      grid-area: logo; 
+      width: 64px;
+      border-width: 6px;
+    }
+
+    .buttonList {
+      grid-area: row1;
+      width: min-content;
+      position: static;
+      gap: 8px;
     }
 
     .linkList {
+      grid-area: row2;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -159,13 +178,6 @@
       li + li {
         margin: 0;
       }
-    }
-
-    .buttonList {
-      position: static;
-      display: grid;
-      grid-template: auto auto/ auto auto;
-      gap: 8px;
     }
   }
 }
