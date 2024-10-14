@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { navListItems } from "../../constants/NavigationComponents"
 import { NavbarDetails, NavItem } from "../../types/NavbarSections"
 
-import { useContext } from "react"
+import { isValidElement, ReactNode, useContext, useEffect, useRef, useState } from "react"
 import { routes } from "../../constants/NavigationRoutes"
 import { SessionContext, SessionContextInterface } from "../../context/SessionContext"
 import { useLogOut } from "../../requests/UserRequests"
@@ -11,6 +11,7 @@ import { UserBackend } from "../../types/Entities"
 import { ConfigIcon, LanguageIcon, LogInIcon, LogOutIcon, UserIcon } from "../utilities/Icons"
 import { ProtectedLink } from "../utilities/ProtectedLink"
 import { useGetWindowSize } from "../../hooks/WindowProperties"
+import React from "react"
 
 export function Navbar() {
   const {loggedUser} = useContext(SessionContext) as SessionContextInterface
@@ -27,7 +28,7 @@ export function Navbar() {
   const NavigationLinks = () => (
     <ul className="linkList">
       {Object.entries(navListItems).map(details => (
-        <NavItemComponent key={details[0]} navItem={details[1]} loggedUser={loggedUser} />
+        <NavItemComponent key={details[0]} navItem={details[1]} loggedUser={loggedUser} windowSize={windowSize} />
       ))}
     </ul>
   )
@@ -71,15 +72,26 @@ export function Navbar() {
   )
 }
 
-function NavItemComponent({ navItem, loggedUser } : { navItem: NavbarDetails, loggedUser: UserBackend | null}) {
+function NavItemComponent({ navItem, loggedUser, windowSize } : { navItem: NavbarDetails, loggedUser: UserBackend | null, windowSize: {width: number, height: number}}) {
   const items: NavItem[] = Object.values(navItem.items)
   const finalItems = items.filter(item => 
     (!loggedUser && !item.protected.value) || !item.protected.value || (loggedUser && item.protected.roles?.includes(loggedUser.role))
   )
+  const isNavbarUp = windowSize.width < 1024 || windowSize.height < 680
+
+  const NavItemContainer = ({children} : {children: ReactNode}) => {
+    return isNavbarUp ? 
+    <ExternalDetails>
+      {children}
+    </ExternalDetails> :
+    <details name="navItem">
+      {children}
+    </details>
+  }
 
   return (
     <li>
-      <details name="navItem">
+      <NavItemContainer>
         <summary><h3>{navItem.summaryName}</h3></summary>
         <ul>
           {finalItems.map((item, index) => 
@@ -93,7 +105,58 @@ function NavItemComponent({ navItem, loggedUser } : { navItem: NavbarDetails, lo
             </li>
           )}
         </ul>
-      </details>
+      </NavItemContainer>
     </li>
   )
+}
+
+function ExternalDetails({children} : {children: ReactNode}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const extractSummary = (children: ReactNode) => {
+    let summaryContent = null;
+    const filteredChildren = React.Children.map(children, (child) => {
+      if (isValidElement(child) && child.type === 'summary') {
+        summaryContent = child.props.children;
+        return null
+      }
+      return child
+    })
+
+    return { summaryContent, filteredChildren };
+  }
+
+  const { summaryContent, filteredChildren } = extractSummary(children);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  }
+
+  // Cerrar el dropdown si se hace clic fuera de él
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [])
+
+  return (
+    <div className="floatingDetails">
+      <div onClick={toggleDropdown} className="summaryDiv">
+        {summaryContent || 'Haz click para desplegar contenido'}
+      </div>
+      {isOpen && (
+        <div ref={dropdownRef} className="floatingContent">
+          {filteredChildren}
+        </div>
+      )}
+    </div>
+  );
 }
