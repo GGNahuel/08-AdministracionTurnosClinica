@@ -1,4 +1,5 @@
 .editModal[open] {
+  box-sizing: border-box;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -6,12 +7,23 @@
   position: relative;
   min-width: 780px;
 
-  h2 {
-    margin-bottom: 1rem;
-  }
-
   > button {
     position: absolute;
     right: 1rem;
+  }
+
+  > section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .editModal[open] {
+    width: 100%;
+    max-width: 860px;
+    min-width: initial;
   }
 }
