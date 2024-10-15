@@ -4,7 +4,7 @@ import { routes } from "../constants/NavigationRoutes";
 import { SessionContext, SessionContextInterface } from "../context/SessionContext";
 import { getCookie, handleRequest } from "../functions/RequestHandler";
 import { sessionSetter } from "../functions/SessionSetter";
-import { HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
+import { GetResponseType, HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
 import { UserEdition, UserRegistration } from "../types/Entities";
 
 export function useRegisterUser() {
@@ -69,8 +69,10 @@ export function useLogIn() {
         sessionSetter(setLoggedUser)
       }
       else {
-        const data = await response.json()
-        console.warn(data)
+        const data: GetResponseType = await response.json()
+        const newMessageObject = data.message
+        if (newMessageObject?.text == "Bad credentials") newMessageObject.text = "Contraseña incorrecta"
+        setErrorInterface(newMessageObject || undefined)
       }
     }
   }

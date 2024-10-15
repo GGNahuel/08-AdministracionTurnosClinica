@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.clinica_administracion.sistema_administracion_clinica.others.CustomAuthEntryPoint;
+import com.clinica_administracion.sistema_administracion_clinica.others.CustomAuthFailureManager;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 
 import jakarta.servlet.FilterChain;
@@ -57,6 +58,7 @@ public class Security {
           .successHandler((request, response, authentication) -> {
             response.setStatus(HttpServletResponse.SC_OK);
           })
+          .failureHandler(new CustomAuthFailureManager())
           .permitAll()
       )
       .logout(
