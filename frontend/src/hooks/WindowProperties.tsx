@@ -10,6 +10,7 @@ export function useGetWindowSize() {
   }
 
   useEffect(() => {
+    setSize({width: window.innerWidth, height: window.innerHeight})
     window.addEventListener("resize", handleResize)
 
     return () => {
