@@ -1,9 +1,10 @@
-import { getSchedulesInAllAreas, filterTurnosByAreas } from "../../functions/FilterFunctions";
+import { filterTurnosByAreas, getSchedulesInAllAreas } from "../../functions/FilterFunctions";
 import { useRedirectDailyTurns } from "../../hooks/Security";
 import { useGetAreasByActiveStatus } from "../../requests/AreaRequests";
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
 import { useGetAllTurnos } from "../../requests/TurnoRequests";
 import { AreaProfesional, ProfesionalMed, Turno } from "../../types/Entities";
+import { LoadingMessage } from "../utilities/Loading";
 import { CasillaTurno, CasillaTurnoPorOrdenDeLlegada } from "./CasillaTurno";
 
 export function DailyTurns() {
@@ -23,6 +24,7 @@ export function DailyTurns() {
         <h1>Turnos del día</h1>
         <h3>Seleccione el área para ver los turnos asociados</h3>
       </header>
+      <LoadingMessage condition={!activeAreas} />
       {activeAreas?.map(areaDto => (
         <DailyTurnsInArea key={areaDto.nombre}
           areaDto={areaDto} 
@@ -61,6 +63,7 @@ export function DailyTurnsInArea(props: {areaDto: AreaProfesional, turnos: Turno
         <div className="detailsExpandButton"></div>
       </summary>
       <section className="horariosContainer">
+        <LoadingMessage condition={!turnos} />
         {turnosElements}
       </section>
     </details>
