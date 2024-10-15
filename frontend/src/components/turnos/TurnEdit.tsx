@@ -19,6 +19,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: fieldsValuesState.areaProfesional, needSchedule: false})
   const [searchPaciente, setSearchPaciente] = useState<string>(fieldsValuesState.pacienteDto.nombreCompleto)
+  const [pacienteSelectedObraSocial, setPacienteSelected] = useState<string>("")
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: fieldsValuesState.fecha, hour: fieldsValuesState.horario})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
 
@@ -36,6 +37,11 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   useEffect(() => {
     setAreaSelected({name: areaInForm.nombre, needSchedule: areaInForm.necesitaTurno})
   }, [areaInForm])
+
+  useEffect(() => {
+    const pacienteSelected = pacientesList?.filter(paciente => paciente.nombreCompleto.toLowerCase().includes(searchPaciente.toLowerCase()))[0]
+    setPacienteSelected(pacienteSelected?.obraSocial || "")
+  }, [searchPaciente, pacientesList])
 
   return (
     <section>
@@ -82,13 +88,20 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
           Nombre del paciente:
           <div className="grid autoColumns">
             <SearchVar onChangeFunction={(ev) => setSearchPaciente(ev.target.value)} placeholder="Búsqueda del paciente"/>
-            <select name="paciente" required>
+            <select name="paciente" required onChange={e => {
+              const pacienteSelected = pacientesList.find(paciente => paciente.dni == e.target.value)
+              setPacienteSelected(pacienteSelected?.obraSocial || "")
+            }}>
               {pacientesList?.length == 0 && <option value={""}>Ingrese un nombre para seleccionar el paciente</option>}
               {pacientesList?.map(paciente => (
                 <option key={paciente.dni} value={paciente.dni} defaultChecked={paciente.id == fieldsValuesState.pacienteDto.id}>{paciente.nombreCompleto}</option>
               ))}
             </select>
           </div>
+        </label>
+        <label>
+          Obra social del paciente:
+          <input type="text" disabled value={pacienteSelectedObraSocial}/>
         </label>
         <label className={playInputAnimation ? "animate" : ""}>
           Fecha: 

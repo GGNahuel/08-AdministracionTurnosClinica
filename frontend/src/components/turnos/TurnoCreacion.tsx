@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { Horario } from "../../classes/Horario";
 import { dateInputValueToDBFormat, dateToInputFormat } from "../../functions/DateFunctions";
@@ -21,17 +21,23 @@ export function TurnoCreacion() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [areaSelected, setAreaSelected] = useState<{name: string, needSchedule: boolean}>({name: "", needSchedule: false})
   const [searchPaciente, setSearchPaciente] = useState<string>("")
+  const [pacienteSelectedObraSocial, setPacienteSelected] = useState<string>("")
   const [turnDate, setTurnDate] = useState<{date: string, hour: string}>({date: "", hour: ""})
   const [playInputAnimation, setPlayInputAnimation] = useState(false)
-  
+
   const {loggedUser} = useContext(SessionContext) as SessionContextInterface
 
   const proffesionalAreas = useGetAreasByProffesionalDni(loggedUser && loggedUser.role == "PROFFESIONAL" ? loggedUser.proffesionalDni : "")
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const profesionalesByAreas = useGetProfesionalsByArea(areaSelected.name)?.results as ProfesionalMed[]
   const pacientesList = useGetPacientesByName(searchPaciente)?.results as Paciente[]
-  
+
   const {returnedPost, sendData} = usePostTurno()
+
+  useEffect(() => {
+    const pacienteSelected = pacientesList?.filter(paciente => paciente.nombreCompleto.toLowerCase().includes(searchPaciente.toLowerCase()))[0]
+    setPacienteSelected(pacienteSelected?.obraSocial || "")
+  }, [searchPaciente, pacientesList])
 
   return (
     <section className="registerSection" ref={scrollRef}>
@@ -72,13 +78,20 @@ export function TurnoCreacion() {
           Nombre del paciente:
           <div className="grid autoColumns">
             <SearchVar onChangeFunction={(ev) => setSearchPaciente(ev.target.value)} placeholder="Búsqueda del paciente"/>
-            <select name="paciente" required>
+            <select name="paciente" required onChange={e => {
+              const pacienteSelected = pacientesList.find(paciente => paciente.dni == e.target.value)
+              setPacienteSelected(pacienteSelected?.obraSocial || "")
+            }}>
               {pacientesList?.length == 0 && <option value={""}>Ingrese un nombre para seleccionar el paciente</option>}
               {pacientesList?.map(paciente => (
-                <option key={paciente.dni} value={paciente.dni}>{paciente.nombreCompleto}</option>
+                <option key={paciente.dni} value={paciente.dni} >{paciente.nombreCompleto}</option>
               ))}
             </select>
           </div>
+        </label>
+        <label>
+          Obra social del paciente:
+          <input type="text" disabled value={pacienteSelectedObraSocial}/>
         </label>
         <label className={playInputAnimation ? "animate" : ""}>
           Fecha: 
