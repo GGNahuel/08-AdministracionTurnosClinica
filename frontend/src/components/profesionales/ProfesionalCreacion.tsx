@@ -4,6 +4,7 @@ import { useGetAllConsultorios } from "../../requests/ConsultorioRequests"
 import { usePostProfesional } from "../../requests/ProfesionalRequests"
 import { AreaProfesional, Consultorio, ProfesionalMed } from "../../types/Entities"
 import Message from "../utilities/Message"
+import { Horario } from "../../classes/Horario"
 
 export function ProfesionalCreacion() {
   const [selectedAreas, setSelectedAreas] = useState<string[]>([])
@@ -55,7 +56,7 @@ export function ProfesionalCreacion() {
         </div>
         <button type="submit">Enviar</button>
       </form>
-      {returnedPost?.message.messageType != "error" && returnedPost?.returnValue && (<>
+      {returnedPost?.message.type != "error" && returnedPost?.returnValue && (<>
         <h3>Datos del Profesional registrado:</h3>
         <ReturnedElement returnedPost={returnedPost.returnValue as ProfesionalMed}/>
         {/*Agregar boton de edición*/}
@@ -69,13 +70,27 @@ function ReturnedElement({returnedPost} : {returnedPost: ProfesionalMed}) {
   const profesionalRegistrado = returnedPost
 
   return (
-    <article key={profesionalRegistrado.id} className="grid profesional" style={{ border: "2px solid black", margin: "10px" }}>
-      <p>{profesionalRegistrado.id}</p>
-      <p>{profesionalRegistrado.nombreCompleto}</p>
-      <p>{profesionalRegistrado.dni}</p>
-      <p>{profesionalRegistrado.numeroContacto}</p>
-      <p>{profesionalRegistrado.consultorio}</p>
-      <p>Áreas de ocupación</p>
-    </article>
+    <table key={profesionalRegistrado.id} className="table profesional">
+      <thead>
+        <th>Id</th>
+        <th>Nombre completo</th>
+        <th>Dni</th>
+        <th>Número de contacto</th>
+        <th>Consultorio</th>
+        <th>Especialidad/es</th>
+        <th>Número de matricula</th>
+        <th>Horarios de atención</th>
+      </thead>
+      <tbody>
+        <td>{profesionalRegistrado.id}</td>
+        <td>{profesionalRegistrado.nombreCompleto}</td>
+        <td>{profesionalRegistrado.dni}</td>
+        <td>{profesionalRegistrado.numeroContacto}</td>
+        <td>{profesionalRegistrado.consultorio}</td>
+        <td>{profesionalRegistrado.areas?.map(area => area)}</td>
+        <td>{profesionalRegistrado.numMatricula}</td>
+        <td>{profesionalRegistrado.horarios && Horario.getScheduleBlocksFromStrings(profesionalRegistrado.horarios)}</td>
+      </tbody>
+    </table>
   )
 }

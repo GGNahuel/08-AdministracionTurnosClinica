@@ -100,6 +100,6 @@ Tareas:
     ❗ agregar mensaje de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     ✅ probar otros estilos para los details y summaries que aparecen en dailyTurns
-    ❗ estilar cómo se muestra lo creado en forms
+    ✅❗ estilar cómo se muestra lo creado en forms
     ✅ placholder en modo claro de la nav de busqueda en turnos
     ✅ estilo a los botones de nav

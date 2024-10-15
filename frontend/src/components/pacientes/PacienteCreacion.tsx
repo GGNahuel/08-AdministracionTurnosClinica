@@ -33,12 +33,21 @@ function ReturnedElement({returnedPost} : {returnedPost: Paciente}) {
   const pacienteRegistrado = returnedPost
 
   return (
-    <article key={pacienteRegistrado.id} className="grid paciente" style={{ border: "2px solid black", margin: "10px" }}>
-      <p>{pacienteRegistrado.id}</p>
-      <p>{pacienteRegistrado.nombreCompleto}</p>
-      <p>{pacienteRegistrado.dni}</p>
-      <p>{pacienteRegistrado.numeroContacto}</p>
-      <p>{pacienteRegistrado.obraSocial}</p>
-    </article>
+    <table key={pacienteRegistrado.id} className="table paciente">
+      <thead>
+        <th>Id</th>
+        <th>Nombre completo</th>
+        <th>Dni</th>
+        <th>Número de contacto</th>
+        <th>Obra social</th>
+      </thead>
+      <tbody>
+        <td>{pacienteRegistrado.id}</td>
+        <td>{pacienteRegistrado.nombreCompleto}</td>
+        <td>{pacienteRegistrado.dni}</td>
+        <td>{pacienteRegistrado.numeroContacto}</td>
+        <td>{pacienteRegistrado.obraSocial}</td>
+      </tbody>
+    </table>
   )
 }
