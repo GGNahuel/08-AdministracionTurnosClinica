@@ -14,6 +14,7 @@ import { SelectItemCheckbox } from "../utilities/ListSelector"
 import { SearchVar } from "../utilities/Searchvar"
 import { TableOptions } from "../utilities/TableOptions"
 import { useSearchParamsURL } from "../../hooks/SearchParams"
+import { LoadingMessage } from "../utilities/Loading"
 
 export function SearchTurnos() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
@@ -74,6 +75,7 @@ export function SearchTurnos() {
             <th>Estado</th>
           </tr></thead>
           <tbody>
+            <LoadingMessage condition={!resultsOfSearch} />
             {resultsOfSearch?.map(turno => (
               <React.Fragment key={turno.id}>
                 <tr>

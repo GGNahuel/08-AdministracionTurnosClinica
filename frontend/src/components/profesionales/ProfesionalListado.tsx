@@ -7,6 +7,7 @@ import { useSearchProffesionals } from "../../requests/ProfesionalRequests";
 import { AreaProfesional, ProfesionalMed } from "../../types/Entities";
 import { SearchProffesional } from "../../types/SearchFormTypes";
 import { SelectItemCheckbox } from "../utilities/ListSelector";
+import { LoadingMessage } from "../utilities/Loading";
 import { SearchVar } from "../utilities/Searchvar";
 import { TableOptions } from "../utilities/TableOptions";
 
@@ -61,6 +62,7 @@ export function ProfesionalListado() {
               <th>Horarios de atención</th>
           </tr></thead>
           <tbody>
+            <LoadingMessage condition={!results} />
             {results?.map(profesional => {
               const { horarios } = profesional
               const formattedHorariosList = horarios && Horario.getScheduleBlocksFromStrings(horarios)

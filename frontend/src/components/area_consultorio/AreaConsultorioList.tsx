@@ -9,6 +9,7 @@ import { useTableOptions } from "../../hooks/useTableOptions";
 import { TableOptions } from "../utilities/TableOptions";
 import { useSearchParamsURL } from "../../hooks/SearchParams";
 import { SearchArea } from "../../types/SearchFormTypes";
+import { LoadingMessage } from "../utilities/Loading";
 
 export function AreaConsList() {
   const {urlParams, handleSearchFormInputChange} = useSearchParamsURL()
@@ -47,6 +48,7 @@ export function AreaConsList() {
             </tr>
           </thead>
           <tbody>
+            <LoadingMessage condition={!consultorios} />
             {consultorios?.map(consultorio => {
               const profesionalAsignado = profesionales?.find(profesional => profesional.consultorio == consultorio.numeroConsultorio)
 
@@ -99,6 +101,7 @@ export function AreaConsList() {
             </tr>
           </thead>
           <tbody>
+            <LoadingMessage condition={!areas} />
             {areas?.map(area => (
               <tr key={area.nombre} className={area.activa ? "" : "inactive"}>
                 <td className="checkbox">

@@ -11,6 +11,7 @@ import { useSearchParamsURL } from "../../hooks/SearchParams"
 import { SearchPaciente } from "../../types/SearchFormTypes"
 import { ComponentRefresher, ComponentRefresherProvider } from "../../context/ComponentRefresher"
 import { GetResponseType, HandledResponse } from "../../types/APIResponses"
+import { LoadingMessage } from "../utilities/Loading"
 
 export function PacienteListado() {
   const {urlParams, handleSearchFormInputChange} = useSearchParamsURL()
@@ -29,6 +30,7 @@ export function PacienteListado() {
             /></label>
           <button type="submit">Aplicar</button>
         </form>
+        <LoadingMessage condition={!getResponse} />
         <ComponentRefresherProvider>
           <PacientesTable getResponse={getResponse}/>  
         </ComponentRefresherProvider>
