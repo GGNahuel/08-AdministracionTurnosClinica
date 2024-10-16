@@ -1,7 +1,7 @@
 import { useSelectedCheckboxesObject } from "../../hooks/SelectChecboxes"
 import { useTableOptions } from "../../hooks/useTableOptions"
 import { useGetAllAreas } from "../../requests/AreaRequests"
-import { useGetSearchedTurnos } from "../../requests/TurnoRequests"
+import { useGetSearchedTurnosByUrlParams } from "../../requests/TurnoRequests"
 
 import { cutPascalCase } from "../../functions/Utilities"
 import { EstadoPago } from "../../types/BackendEnums"
@@ -22,7 +22,7 @@ export function SearchTurnos() {
   const {selectedEntitiesFunction, selectedEntities} = useTableOptions()
   
   const {urlParams, handleSearchFormInputChange} = useSearchParamsURL()
-  const {getResponse, buildObject} = useGetSearchedTurnos(urlParams)
+  const {getResponse, buildObject} = useGetSearchedTurnosByUrlParams(urlParams)
   const resultsOfSearch = getResponse?.results as Turno[]
 
   return (
