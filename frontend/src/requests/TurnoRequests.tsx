@@ -173,7 +173,7 @@ export function usePutTurno() {
   return {returnValue, sendPutRequest}
 }
 
-export function useGetSearchedTurnos(urlParams: URLSearchParams) {
+export function useGetSearchedTurnosByUrlParams(urlParams: URLSearchParams) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
   const [searchParams, setSearchParams] = useState<SearchTurno>({
     searchName: urlParams.get("searchName") || "",
@@ -204,4 +204,16 @@ export function useGetSearchedTurnos(urlParams: URLSearchParams) {
   }, [searchParams])
 
   return {buildObject, getResponse}
+}
+
+export function useGetSearchedTurns(values: SearchTurno) {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+
+  useEffect(() => {
+    handleRequest("/turno/search", "POST", {body: values}).then(response => {
+      setGetResponse(response as HandledResponse<GetResponseType>)
+    })
+  }, [values])
+
+  return getResponse
 }
