@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { handleRequest } from "../functions/RequestHandler";
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses";
 import { SearchArea } from "../types/SearchFormTypes";
+import { AreaProfesional } from "../types/Entities";
 
 export function useGetAllAreas() {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
@@ -123,4 +124,27 @@ export function useSearchArea(urlParams: URLSearchParams) {
   }, [searchParams])
 
   return {getResponse, sendSearchParams}
+}
+
+export function useChangeAreaActiveStatus() {
+  const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType>>()
+  const [valuesForRequest, setValuesForRequest] = useState<{id: string, statusValue: boolean, turnsAction: boolean}>()
+
+  const handleChangeActiveStatus = (e: FormEvent<HTMLFormElement>, areaDto: AreaProfesional, turnsAction: boolean) => {
+    e.preventDefault()
+
+    setValuesForRequest({
+      id: areaDto.id as string,
+      statusValue: !areaDto.activa || true,
+      turnsAction: turnsAction
+    })
+  }
+
+  useEffect(() => {
+    if (valuesForRequest)
+      handleRequest(`/area?id=${valuesForRequest.id}&valor=${valuesForRequest.statusValue}&turnsAction=${valuesForRequest.turnsAction}`, "PATCH", {})
+      .then(data => setGetResponse(data as HandledResponse<GetResponseType>))
+  }, [valuesForRequest])
+
+  return {handleChangeActiveStatus, getResponse}
 }
