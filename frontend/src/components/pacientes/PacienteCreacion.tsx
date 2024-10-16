@@ -34,20 +34,20 @@ function ReturnedElement({returnedPost} : {returnedPost: Paciente}) {
 
   return (
     <table key={pacienteRegistrado.id} className="table paciente">
-      <thead>
+      <thead><tr>
         <th>Id</th>
         <th>Nombre completo</th>
         <th>Dni</th>
         <th>Número de contacto</th>
         <th>Obra social</th>
-      </thead>
-      <tbody>
+      </tr></thead>
+      <tbody><tr>
         <td>{pacienteRegistrado.id}</td>
         <td>{pacienteRegistrado.nombreCompleto}</td>
         <td>{pacienteRegistrado.dni}</td>
         <td>{pacienteRegistrado.numeroContacto}</td>
         <td>{pacienteRegistrado.obraSocial}</td>
-      </tbody>
+      </tr></tbody>
     </table>
   )
 }

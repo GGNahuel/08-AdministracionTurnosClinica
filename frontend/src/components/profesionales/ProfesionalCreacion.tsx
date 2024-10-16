@@ -71,7 +71,7 @@ function ReturnedElement({returnedPost} : {returnedPost: ProfesionalMed}) {
 
   return (
     <table key={profesionalRegistrado.id} className="table profesional">
-      <thead>
+      <thead><tr>
         <th>Id</th>
         <th>Nombre completo</th>
         <th>Dni</th>
@@ -80,8 +80,8 @@ function ReturnedElement({returnedPost} : {returnedPost: ProfesionalMed}) {
         <th>Especialidad/es</th>
         <th>Número de matricula</th>
         <th>Horarios de atención</th>
-      </thead>
-      <tbody>
+      </tr></thead>
+      <tbody><tr>
         <td>{profesionalRegistrado.id}</td>
         <td>{profesionalRegistrado.nombreCompleto}</td>
         <td>{profesionalRegistrado.dni}</td>
@@ -90,7 +90,7 @@ function ReturnedElement({returnedPost} : {returnedPost: ProfesionalMed}) {
         <td>{profesionalRegistrado.areas?.map(area => area)}</td>
         <td>{profesionalRegistrado.numMatricula}</td>
         <td>{profesionalRegistrado.horarios && Horario.getScheduleBlocksFromStrings(profesionalRegistrado.horarios)}</td>
-      </tbody>
+      </tr></tbody>
     </table>
   )
 }

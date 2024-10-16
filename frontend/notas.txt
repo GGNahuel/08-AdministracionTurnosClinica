@@ -78,7 +78,7 @@ Tareas:
       ✅ en creación de turnos que solo se pueda crear para las areas en la que el profesional logueado esté
       ✅ Redirección de la página principal a Mis turnos
     función de borrar turnos anteriores, verificación
-    ⚠️ dar de baja areas / profesionales
+    🔄⚠️ dar de baja areas / profesionales
     💤 optimizar/hacer reutilizable los recursos que se necesitan para los componentes de creación y edición
 
   Errores y correcciones
@@ -99,7 +99,7 @@ Tareas:
     ✅ revisar responsive en modales y mensajes
     🔄⚠️❗ mensajes de error y de exito
     ✅ terminar estilos en dailyTurns y turnCreation
-    ❗ agregar mensaje de carga
+    ✅❗ agregar mensaje de carga
       ⚠️💤 agregar animación de carga
     ✅❔ cambiar estilos de navbar y main element para que parezca una interfaz de un programa
     ✅ probar otros estilos para los details y summaries que aparecen en dailyTurns
