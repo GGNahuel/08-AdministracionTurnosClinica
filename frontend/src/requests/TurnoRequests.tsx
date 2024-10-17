@@ -208,12 +208,13 @@ export function useGetSearchedTurnosByUrlParams(urlParams: URLSearchParams) {
 
 export function useGetSearchedTurns(values: SearchTurno) {
   const [getResponse, setGetResponse] = useState<HandledResponse<GetResponseType> | null>(null)
+  const [searchValues] = useState<SearchTurno>(values)
 
   useEffect(() => {
-    handleRequest("/turno/search", "POST", {body: values}).then(response => {
+    handleRequest("/turno/search", "POST", {body: searchValues}).then(response => {
       setGetResponse(response as HandledResponse<GetResponseType>)
     })
-  }, [values])
+  }, [searchValues])
 
   return getResponse
 }

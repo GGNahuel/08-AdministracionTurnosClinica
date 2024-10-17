@@ -63,7 +63,9 @@ export function TableOptions(props :
       {desactivateButton && selectedEntities[entityType].length == 1 &&
         <dialog ref={desactivateDialogRef}>
           Los siguientes turnos se verán afectados si da de baja esta entidad:
-          {entityType == "areas" && <DialogAreaContent areaDto={(selectedEntities[entityType][0] as AreaProfesional)} />}
+          {entityType == "areas" && <DialogAreaContent areaDto={(selectedEntities[entityType][0] as AreaProfesional)} closeFn={() => {
+            if (desactivateDialogRef.current) desactivateDialogRef.current.close()
+          }}/>}
         </dialog>
       }
       <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
@@ -73,7 +75,7 @@ export function TableOptions(props :
   )
 }
 
-function DialogAreaContent({areaDto} : {areaDto: AreaProfesional}) {
+function DialogAreaContent({areaDto, closeFn} : {areaDto: AreaProfesional, closeFn: () => void}) {
   const [turnsActionForDesactivate, setTurnsAction] = useState<boolean>(false)
   const turnsInArea = useGetSearchedTurns({searchName: "", areaName: areaDto.nombre, estadoPago: "", date: ""})?.results as Turno[]
   const {handleChangeActiveStatus} = useChangeAreaActiveStatus()
@@ -88,7 +90,7 @@ function DialogAreaContent({areaDto} : {areaDto: AreaProfesional}) {
         <th>Estado de pago</th>
       </tr></thead>
       <tbody>
-        {turnsInArea.map(turn => (
+        {turnsInArea?.map(turn => (
           <tr key={turn.id}>
             <td>{turn.fecha}</td>
             <td>{turn.horario}</td>
@@ -101,9 +103,11 @@ function DialogAreaContent({areaDto} : {areaDto: AreaProfesional}) {
     </table>
     <form onSubmit={e => handleChangeActiveStatus(e, areaDto, turnsActionForDesactivate)}>
       ¿Desea darlos de baja también?
-      <button type="submit" onClick={() => {setTurnsAction(true)}}>Sí</button>
-      <button type="submit" onClick={() => {setTurnsAction(false)}}>No</button>
-      <button>Cancelar</button>
+      <div>
+        <button type="submit" onClick={() => {setTurnsAction(true)}}>Sí</button>
+        <button type="submit" onClick={() => {setTurnsAction(false)}}>No</button>
+        <button onClick={closeFn}>Cancelar</button>
+      </div>
     </form>
     </>
   )
