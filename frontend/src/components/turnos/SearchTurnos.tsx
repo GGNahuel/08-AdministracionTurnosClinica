@@ -78,7 +78,7 @@ export function SearchTurnos() {
             <LoadingMessage condition={!resultsOfSearch} />
             {resultsOfSearch?.map(turno => (
               <React.Fragment key={turno.id}>
-                <tr>
+                <tr className={turno.activo ? "" : "inactive"}>
                   <td className="checkbox"><SelectItemCheckbox 
                     selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="child" 
                     fatherName="turnos" child={turno} markSelectedEntitiesFunction={selectedEntitiesFunction}
@@ -91,9 +91,9 @@ export function SearchTurnos() {
                   <td className="right">{turno.consultorio}</td>
                   <td>{cutPascalCase(turno.estadoPago)}</td>
                 </tr>
-                <tr>
+                <tr className={turno.activo ? "" : "inactive"}>
                   <td></td>
-                  <td colSpan={7}><strong>Comentario: </strong>{turno.comentario}</td>
+                  <td colSpan={7}><strong>Comentario: </strong>{turno.comentario}<i>{!turno.activo ? "Turno inactivo" : ""}</i></td>
                 </tr>
               </React.Fragment>
             ))}
