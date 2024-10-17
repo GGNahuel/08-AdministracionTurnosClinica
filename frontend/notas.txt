@@ -80,6 +80,8 @@ Tareas:
     función de borrar turnos anteriores, verificación
     🔄⚠️ dar de baja areas / profesionales
     💤 optimizar/hacer reutilizable los recursos que se necesitan para los componentes de creación y edición
+    💤 hacer que el dar de baja se pueda con múltiples entidades seleccionadas.
+      que tambien se puedan seleccionar los turnos que serán afectados (por defecto todos)
 
   Errores y correcciones
     ⚠️ corregir el metodo de obtencion de turnos en el dailyTurns por dia segun la fecha actual

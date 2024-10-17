@@ -68,9 +68,9 @@ export function TableOptions(props :
           }}/>}
         </dialog>
       }
-      <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
+      {/* <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
         <TrashCanIcon />Eliminar
-      </button>
+      </button> */}
     </nav>
   )
 }

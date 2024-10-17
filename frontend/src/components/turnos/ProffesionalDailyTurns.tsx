@@ -23,8 +23,9 @@ export function ProffesionalTurns() {
     <section>
       <header>
         <h1>Mis turnos</h1>
+        <h2>{formatDate(new Date)}</h2>
       </header>
-      {proffesionalAreas.map(area => (
+      {(filteredTurns && schedulesInAreas) && proffesionalAreas.map(area => (
         <DailyTurnsInArea key={area.id} areaDto={area} turnos={filteredTurns[area.nombre]} horarios={schedulesInAreas[area.nombre]}/>
       ))}
     </section>

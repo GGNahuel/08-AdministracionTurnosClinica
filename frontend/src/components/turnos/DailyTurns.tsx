@@ -1,14 +1,15 @@
+import { formatDate } from "../../functions/DateFunctions";
 import { filterTurnosByAreas, getSchedulesInAllAreas } from "../../functions/FilterFunctions";
 import { useRedirectDailyTurns } from "../../hooks/Security";
 import { useGetAreasByActiveStatus } from "../../requests/AreaRequests";
 import { useGetAllProfesionales } from "../../requests/ProfesionalRequests";
-import { useGetAllTurnos } from "../../requests/TurnoRequests";
+import { useGetTurnosByDate } from "../../requests/TurnoRequests";
 import { AreaProfesional, ProfesionalMed, Turno } from "../../types/Entities";
 import { LoadingMessage } from "../utilities/Loading";
 import { CasillaTurno, CasillaTurnoPorOrdenDeLlegada } from "./CasillaTurno";
 
 export function DailyTurns() {
-  const allTurnos = useGetAllTurnos() // cambiar por turnos del día
+  const allTurnos = useGetTurnosByDate(formatDate(new Date)) // cambiar por turnos del día
   const turnos = allTurnos?.results as Turno[]
   const activeAreas = useGetAreasByActiveStatus(true)?.results as AreaProfesional[]
   const allProfesionales = useGetAllProfesionales()?.results as ProfesionalMed[]
@@ -22,6 +23,7 @@ export function DailyTurns() {
     <section id="dailyTurnos">
       <header>
         <h1>Turnos del día</h1>
+        <h2>{formatDate(new Date)}</h2>
         <h3>Seleccione el área para ver los turnos asociados</h3>
       </header>
       <LoadingMessage condition={!activeAreas} />
