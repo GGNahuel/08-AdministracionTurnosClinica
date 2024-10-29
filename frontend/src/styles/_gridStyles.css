@@ -50,7 +50,7 @@
   }
 
   thead {
-    background-color: var(--color_contrastMain);
+    background-color: rgba(0, 0, 0, 0.2);
   }
 
   th, td{
@@ -72,6 +72,14 @@
 
   td.center {
     text-align: center;
+  }
+
+  td.bold {
+    font-weight: 700;
+  }
+
+  td.dark {
+    background-color: rgba(0, 0, 0, 0.2);
   }
 
   ul {
@@ -106,6 +114,10 @@
 
 .inactive {
   background-color: rgb(93, 55, 55);
+}
+
+.warn {
+  background-color: rgb(138, 138, 0);
 }
 
 @media (prefers-color-scheme: light) {

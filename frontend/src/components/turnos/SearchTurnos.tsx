@@ -76,9 +76,11 @@ export function SearchTurnos() {
           </tr></thead>
           <tbody>
             <LoadingMessage condition={!resultsOfSearch} />
-            {resultsOfSearch?.map(turno => (
+            {resultsOfSearch?.map(turno => {
+              const classConditionCSS = turno.activo ? turno.estadoPago != EstadoPago[0] ? "warn" : "" : "inactive"
+              return (
               <React.Fragment key={turno.id}>
-                <tr className={turno.activo ? "" : "inactive"}>
+                <tr className={classConditionCSS}>
                   <td className="checkbox"><SelectItemCheckbox 
                     selectedCheckboxesObject={selectedCheckboxes} fatherOrChild="child" 
                     fatherName="turnos" child={turno} markSelectedEntitiesFunction={selectedEntitiesFunction}
@@ -89,14 +91,14 @@ export function SearchTurnos() {
                   <td>{turno.pacienteDto.nombreCompleto}</td>
                   <td>{turno.profesionalDto.nombreCompleto}</td>
                   <td className="right">{turno.consultorio}</td>
-                  <td>{cutPascalCase(turno.estadoPago)}</td>
+                  <td className={turno.estadoPago != EstadoPago[0] ? "bold dark" : ""}>{cutPascalCase(turno.estadoPago)}</td>
                 </tr>
-                <tr className={turno.activo ? "" : "inactive"}>
+                <tr className={classConditionCSS}>
                   <td></td>
                   <td colSpan={7}><strong>Comentario: </strong>{turno.comentario}<i>{!turno.activo ? "Turno inactivo" : ""}</i></td>
                 </tr>
               </React.Fragment>
-            ))}
+            )})}
           </tbody>
         </table>
       </section>
