@@ -1,3 +1,5 @@
+import React from "react";
+import { Horario } from "../../classes/Horario";
 import { formatDate } from "../../functions/DateFunctions";
 import { filterTurnosByAreas, getSchedulesInAllAreas } from "../../functions/FilterFunctions";
 import { useRedirectDailyTurns } from "../../hooks/Security";
@@ -48,15 +50,20 @@ export function DailyTurnsInArea(props: {areaDto: AreaProfesional, turnos: Turno
     (necesitaTurno ?
       horarios.map((horario, i) => {
         const turnoExistente = turnos?.find(turno => turno.horario === horario)
+        const isScheduleJump = i > 0 && Horario.parse(horario).getDifferenceInMinutes(Horario.parse(horarios[i-1])) > 60
 
-        return turnoExistente ? (
-          <CasillaTurno key={turnoExistente.id} turno={turnoExistente} />
-        ) : (
-          <CasillaTurno key={i} horario={horario} />
+        return (
+          <React.Fragment key={horario}>
+            {isScheduleJump && <hr style={{margin: "0.8rem 0"}}></hr>}
+            {turnoExistente ? ( 
+              <CasillaTurno turno={turnoExistente} />
+            ) : (
+              <CasillaTurno horario={horario} />
+            )}
+          </React.Fragment>
         )
-      })
-      : <CasillaTurnoPorOrdenDeLlegada horarios={horarios[0]} nombreArea={nombreArea}/>
-    ) : <p>No hay horarios para esta área, revisar horarios de profesionales</p>
+      }) : <CasillaTurnoPorOrdenDeLlegada horarios={horarios[0]} nombreArea={nombreArea}/>)
+    : <p>No hay horarios para esta área, revisar horarios de profesionales</p>
 
   return (
     <details key={nombreArea} className="mainDetails">
