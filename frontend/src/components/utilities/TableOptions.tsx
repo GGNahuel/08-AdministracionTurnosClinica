@@ -8,6 +8,7 @@ import { PencilIcon, TrashCanIcon } from "./Icons"
 import { EditModal } from "./EditModal"
 import { useGetSearchedTurns } from "../../requests/TurnoRequests"
 import { useChangeAreaActiveStatus } from "../../requests/AreaRequests"
+import Message from "./Message"
 
 export function TableOptions(props : 
   {
@@ -78,9 +79,10 @@ export function TableOptions(props :
 function DialogAreaContent({areaDto, closeFn} : {areaDto: AreaProfesional, closeFn: () => void}) {
   const [turnsActionForDesactivate, setTurnsAction] = useState<boolean>(false)
   const turnsInArea = useGetSearchedTurns({searchName: "", areaName: areaDto.nombre, estadoPago: "", date: ""})?.results as Turno[]
-  const {handleChangeActiveStatus} = useChangeAreaActiveStatus()
+  const {handleChangeActiveStatus, getResponse} = useChangeAreaActiveStatus()
 
   return (<>
+    {getResponse?.message && <Message messageObject={getResponse.message}/>}
     <table className="table">
       <thead><tr>
         <th>Fecha</th>

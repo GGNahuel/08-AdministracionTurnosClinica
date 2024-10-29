@@ -65,7 +65,6 @@ export function DailyTurnsInArea(props: {areaDto: AreaProfesional, turnos: Turno
         <div className="detailsExpandButton"></div>
       </summary>
       <section className="horariosContainer">
-        <LoadingMessage condition={!turnos} />
         {turnosElements}
       </section>
     </details>
