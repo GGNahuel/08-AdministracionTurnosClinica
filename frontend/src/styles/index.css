@@ -183,7 +183,7 @@ form {
   }
 }
 
-@media (max-width: 1024px) or (max-height: 680px)  {
+@media (max-width: 1024px) or (max-height: 720px)  {
   #root {
     display: grid;
     grid-template-rows: min-content auto;

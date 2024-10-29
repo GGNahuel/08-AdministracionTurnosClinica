@@ -21,7 +21,7 @@ export function Navbar() {
   const LinkToMainPage = ({img, h2} : {img?: boolean, h2?: boolean}) => (
     <Link to="/">
       {img && <img src="/logoEjemplo.png" alt="Logo de la clinica" className="logo" />}
-      {h2 && <h2>Nombre clinica</h2>}
+      {h2 && <h2>Centro de salud</h2>}
     </Link>
   )
 
@@ -49,10 +49,10 @@ export function Navbar() {
 
   return (
     <nav id="mainNavbar">
-      {windowSize.width > 1024 && windowSize.height >= 680 ? 
+      {windowSize.width > 1024 && windowSize.height >= 720 ? 
       <><header>
         <LinkToMainPage img h2/>
-        <h3 className={!loggedUser ? "emptySession" : ""}>{loggedUser?.username}</h3>
+        {loggedUser && <div><Link to={routes.usuario.profile}><UserIcon /><h3 className={!loggedUser ? "emptySession" : ""}>{loggedUser.username}</h3></Link></div>}
       </header>
       <section>
         <NavigationLinks />

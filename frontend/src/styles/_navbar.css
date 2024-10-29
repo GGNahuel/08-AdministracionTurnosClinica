@@ -25,9 +25,19 @@
     align-self: center;
     text-align: center;
 
-
     h2 {
       margin: 0.5rem 0;
+    }
+
+    > div, >div >a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .icon {
+      position: relative;
     }
   }
 
@@ -172,7 +182,7 @@
   border-color: black transparent var(--color_contrastMain) transparent;
 }
 
-@media (max-width: 1024px) or (max-height: 680px) {
+@media (max-width: 1024px) or (max-height: 720px) {
   #mainNavbar {
     display: grid;
     grid-template: 
