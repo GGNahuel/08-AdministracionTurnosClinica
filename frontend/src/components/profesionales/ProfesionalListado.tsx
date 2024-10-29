@@ -62,7 +62,7 @@ export function ProfesionalListado() {
               <th>Horarios de atención</th>
           </tr></thead>
           <tbody>
-            <LoadingMessage condition={!results} />
+            {!results && <tr><td><LoadingMessage condition={!results} /></td></tr>}
             {results?.map(profesional => {
               const { horarios } = profesional
               const formattedHorariosList = horarios && Horario.getScheduleBlocksFromStrings(horarios)

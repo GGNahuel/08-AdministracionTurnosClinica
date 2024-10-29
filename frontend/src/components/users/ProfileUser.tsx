@@ -9,7 +9,7 @@ export function ProfileUser() {
     <section className="registerSection" id="user_profile">
       <header>
         <h1>Perfil de usuario</h1>
-        <h2>Hola {loggedUser.username}</h2>
+        <h2>Usted ha iniciado sesión como {loggedUser.username}</h2>
       </header>
       <EditUser/>
     </section>
