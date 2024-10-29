@@ -35,7 +35,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
   const {sendPutRequest, returnValue} = usePutTurno()
 
   useEffect(() => {
-    setAreaSelected({name: areaInForm.nombre, needSchedule: areaInForm.necesitaTurno})
+    if(areaInForm) setAreaSelected({name: areaInForm.nombre, needSchedule: areaInForm.necesitaTurno})
   }, [areaInForm])
 
   useEffect(() => {
@@ -50,6 +50,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
         sendPutRequest(ev, areaSelected.name, turnDate)
       }}>
         <input type="hidden" name="id" value={fieldsValuesState.id}/>
+        <input type="hidden" name="active" value={String (fieldsValuesState.activo)}/>
         <label>
           Servicio: 
           <select required onChange={(ev) => {
