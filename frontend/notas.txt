@@ -78,7 +78,7 @@ Tareas:
       ✅ en creación de turnos que solo se pueda crear para las areas en la que el profesional logueado esté
       ✅ Redirección de la página principal a Mis turnos
     función de borrar turnos anteriores, verificación
-    🔄⚠️ dar de baja areas / profesionales
+    🔄⚠️ dar de baja areas / profesionales y turnos
     💤 optimizar/hacer reutilizable los recursos que se necesitan para los componentes de creación y edición
     💤 hacer que el dar de baja se pueda con múltiples entidades seleccionadas.
       que tambien se puedan seleccionar los turnos que serán afectados (por defecto todos)
