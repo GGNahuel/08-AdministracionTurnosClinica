@@ -191,7 +191,7 @@
   #mainNavbar {
     display: grid;
     grid-template: 
-      "logo row1" 52px 
+      "logo row1" minmax(52px, max-content) 
       "row2 row2" auto/
       76px auto;
     gap: 8px;

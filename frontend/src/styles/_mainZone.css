@@ -4,6 +4,7 @@
 
 main {
   background-color: rgb(113, 113, 113);
+  overflow-x: auto;
   
   width: 100%;
   padding: 1.5rem;
@@ -159,11 +160,10 @@ main {
 @media (max-width: 1024px) or (max-height: 720px) {
   main {
     width: auto;
-    height: 100%;
-    overflow-x: scroll;
     
     > section {
-      overflow-y: scroll;
+      height: auto;
+      overflow: visible;
     }
   }
 }
