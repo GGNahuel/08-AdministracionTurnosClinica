@@ -38,7 +38,7 @@ export function Navbar() {
       <li><div><button className="iconButton"><ConfigIcon /></button><p>Configuración</p></div></li>
       <li><div><button className="iconButton"><LanguageIcon /></button><p>Idioma</p></div></li>
       {loggedUser ? <>
-        <li><div><Link to={routes.usuario.profile}><button className="iconButton"><UserIcon /></button></Link><p>Perfil de usuario</p></div></li>
+        <li><div><Link to={routes.usuario.profile}><button className="iconButton"><UserIcon isDark/></button></Link><p>Perfil de usuario</p></div></li>
         <li><div><button className="iconButton" onClick={() => {logout()}}><LogOutIcon /></button><p>Cerrar sesión</p></div></li></>
         : <>
         <li><div><Link to={routes.usuario.login}><button className="iconButton"><LogInIcon /></button></Link><p>Iniciar sesión</p></div></li>

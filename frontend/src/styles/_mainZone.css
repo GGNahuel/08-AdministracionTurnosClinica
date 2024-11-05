@@ -70,11 +70,11 @@ main {
   width: 20px;
   height: 20px;
 
-  path {
+  path, circle {
     stroke: var(--fontColor_darkScheme);
   }
 
-  &.dark path {
+  &.dark path, &.dark circle {
     stroke: var(--backgrounColor_darkScheme);
   }
 }
