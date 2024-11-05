@@ -20,7 +20,7 @@ export function ProffesionalTurns() {
   const schedulesInAreas = getSchedulesInAllAreas([loggedProffesional], proffesionalAreas)
 
   return loggedUser ? (
-    <section>
+    <section id="dailyTurnsProffesional">
       <header>
         <h1>Mis turnos</h1>
         <h2>{formatDate(new Date)}</h2>

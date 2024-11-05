@@ -1,4 +1,4 @@
-#dailyTurnos {
+#dailyTurnos, #dailyTurnsProffesional {
   display: flex;
   flex-direction: column;
 
@@ -13,8 +13,6 @@
   }
 
   > details {
-    /* overflow-y: scroll; */
-
     article.dailyTurno {
       border: 1px solid;
       border-radius: var(--borderRadius_Sections);
@@ -164,5 +162,20 @@ details[open] > .turnsSummary {
   }
   100% {
     background-color: initial;
+  }
+}
+
+@media (max-width: 1024px) or (max-height: 720px) {
+  #dailyTurnos, #dailyTurnsProffesional {
+    > header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      > h2 {
+        position: static;
+      }
+    }
   }
 }
