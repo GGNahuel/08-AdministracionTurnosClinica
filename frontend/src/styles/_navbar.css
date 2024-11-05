@@ -59,6 +59,11 @@
   }
 
   .linkList {
+    &.responsive {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
     & > li {
       border: 1px solid;
       border-radius: 8px;
@@ -187,7 +192,7 @@
     display: grid;
     grid-template: 
       "logo row1" 52px 
-      "row2 row2" 52px/
+      "row2 row2" auto/
       76px auto;
     gap: 8px;
     align-items: center;

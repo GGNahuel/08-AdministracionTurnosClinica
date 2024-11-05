@@ -19,14 +19,14 @@ export function Navbar() {
   const {windowSize} = useGetWindowSize()
 
   const LinkToMainPage = ({img, h2} : {img?: boolean, h2?: boolean}) => (
-    <Link to="/">
+    <Link to={routes.turno.today}>
       {img && <img src="/logoEjemplo.png" alt="Logo de la clinica" className="logo" />}
       {h2 && <h2>Centro de salud</h2>}
     </Link>
   )
 
   const NavigationLinks = () => (
-    <ul className="linkList">
+    <ul className={windowSize.width > 1024 && windowSize.height > 720 ? "linkList" : "linkList responsive"}>
       {Object.entries(navListItems).map(details => (
         <NavItemComponent key={details[0]} navItem={details[1]} loggedUser={loggedUser} windowSize={windowSize} />
       ))}
@@ -133,7 +133,6 @@ function ExternalDetails({children} : {children: ReactNode}) {
     setIsOpen(!isOpen);
   }
 
-  // Cerrar el dropdown si se hace clic fuera de él
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
