@@ -23,11 +23,13 @@ export function DailyTurns() {
 
   return (
     <section id="dailyTurnos">
-      <header>
-        <h1>Turnos del día</h1>
-        <h2>{formatDate(new Date)}</h2>
+      <div className="header">
+        <header>
+          <h1>Turnos del día</h1>
+          <h2>{formatDate(new Date)}</h2>
+        </header>
         <h3>Seleccione el área para ver los turnos asociados</h3>
-      </header>
+      </div>
       <LoadingMessage condition={!activeAreas} />
       {activeAreas?.map(areaDto => (
         <DailyTurnsInArea key={areaDto.nombre}

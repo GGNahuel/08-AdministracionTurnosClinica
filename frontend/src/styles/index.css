@@ -185,7 +185,6 @@ form {
 
 @media (max-width: 1024px) or (max-height: 720px)  {
   #root {
-    height: auto;
     display: grid;
     grid-template-rows: min-content auto;
     overflow-y: visible;
@@ -195,5 +194,9 @@ form {
 @media (max-width: 480px) {
   body {
     padding: 0;
+  }
+
+  #root {
+    height: auto;
   }
 }

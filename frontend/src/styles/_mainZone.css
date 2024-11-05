@@ -160,6 +160,9 @@ main {
 @media (max-width: 1024px) or (max-height: 720px) {
   main {
     width: auto;
+    min-height: 100%;
+    height: fit-content;
+    box-sizing: border-box;
     
     > section {
       height: auto;
