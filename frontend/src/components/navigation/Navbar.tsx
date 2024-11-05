@@ -8,7 +8,7 @@ import { SessionContext, SessionContextInterface } from "../../context/SessionCo
 import { useLogOut } from "../../requests/UserRequests"
 import { Roles } from "../../types/BackendEnums"
 import { UserBackend } from "../../types/Entities"
-import { ConfigIcon, LanguageIcon, LogInIcon, LogOutIcon, UserIcon } from "../utilities/Icons"
+import { LanguageIcon, LogInIcon, LogOutIcon, UserIcon } from "../utilities/Icons"
 import { ProtectedLink } from "../utilities/ProtectedLink"
 import { useGetWindowSize } from "../../hooks/WindowProperties"
 import React from "react"
@@ -35,7 +35,7 @@ export function Navbar() {
 
   const ButtonList = () => (
     <ul className="buttonList">
-      <li><div><button className="iconButton"><ConfigIcon /></button><p>Configuración</p></div></li>
+      {/* <li><div><button className="iconButton"><ConfigIcon /></button><p>Configuración</p></div></li> */}
       <li><div><button className="iconButton"><LanguageIcon /></button><p>Idioma</p></div></li>
       {loggedUser ? <>
         <li><div><Link to={routes.usuario.profile}><button className="iconButton"><UserIcon isDark/></button></Link><p>Perfil de usuario</p></div></li>
