@@ -4,7 +4,7 @@ import { useGetProfesionalsByArea } from "../../requests/ProfesionalRequests"
 import { ProfesionalMed, Turno } from "../../types/Entities"
 import { routes } from "../../constants/NavigationRoutes"
 import { SearchTurno } from "../../types/SearchFormTypes"
-import { generateSearchRoute } from "../../functions/Utilities"
+import { cutPascalCase, generateSearchRoute } from "../../functions/Utilities"
 import { EstadoPago } from "../../types/BackendEnums"
 
 export function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) {
@@ -16,8 +16,9 @@ export function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: D
       <div className="info">
         <p>Paciente: {turno?.pacienteDto.nombreCompleto}</p>
         <p>Profesional: {turno?.profesionalDto.nombreCompleto}</p>
-        <p>Fecha: {turno?.fecha || "asd"}</p>
+        <p>Fecha: {turno?.fecha}</p>
         <p>Consultorio: {turno?.consultorio || ""}</p>
+        <p><strong>{turno && cutPascalCase(turno.estadoPago)}</strong></p>
       </div>
     </article>
   )
@@ -39,6 +40,7 @@ export function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horario
             <div>
               <p>{turno.pacienteDto.nombreCompleto}</p>
               <p>{turno.pacienteDto.dni}</p>
+              <p><strong>{cutPascalCase(turno.estadoPago)}</strong></p>
             </div>
           ))}  
         </section>      
