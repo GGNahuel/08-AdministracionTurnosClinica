@@ -20,7 +20,7 @@ export function Navbar() {
 
   const LinkToMainPage = ({img, h2} : {img?: boolean, h2?: boolean}) => (
     <Link to={routes.turno.today}>
-      {img && <img src="/logoEjemplo.png" alt="Logo de la clinica" className="logo" />}
+      {img && <img src="/logoEjemplo.png" alt="Logo de la clínica" className="logo" />}
       {h2 && <h2>Centro de salud</h2>}
     </Link>
   )

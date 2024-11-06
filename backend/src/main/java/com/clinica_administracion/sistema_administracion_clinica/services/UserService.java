@@ -120,6 +120,21 @@ public class UserService implements IUserService {
     return modelMapper.map(userEntity, UserFrontDTO.class);
   }
 
+  @Transactional @Override
+  public void changePassword(UserRegistrationDTO user) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
+      new String[]{"nombre de usuario", "nueva contraseña", "repetición de contraseña"},
+      user.getUsername(), user.getPassword(), user.getPassword2()
+    );
+    if (!user.getPassword().equals(user.getPassword2()))
+      throw new InvalidInput("repetición de contraseña");
+
+    UserEntity registeredUser = userRepo.findByUsername(user.getUsername()).orElseThrow(
+      () -> new ResourceNotFound("usuario", "nombre de usuario", user.getUsername())
+    );
+    registeredUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+  }
+
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     UserEntity user = userRepo.findByUsername(username).orElseThrow(

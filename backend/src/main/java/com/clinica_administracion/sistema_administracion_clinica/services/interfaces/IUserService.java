@@ -15,4 +15,5 @@ public interface IUserService extends UserDetailsService {
   public UserFrontDTO getByUsername(String username) throws Exception;
   public UserFrontDTO create(UserRegistrationDTO user) throws Exception;
   public UserFrontDTO update(UserEditDTO user) throws Exception;
+  void changePassword(UserRegistrationDTO user) throws Exception;
 }

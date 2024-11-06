@@ -29,6 +29,23 @@
   }
 }
 
+#userProfile {
+  section > h2, details > h2 {
+    margin-bottom: 1rem;
+  }
+
+  > details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  summary {
+    width: max-content;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+}
+
 .editDialog {
   width: 80%;
   max-width: calc(var(--maxWidthViewport) - 250px);

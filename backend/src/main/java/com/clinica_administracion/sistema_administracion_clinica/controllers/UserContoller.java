@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +23,7 @@ import com.clinica_administracion.sistema_administracion_clinica.others.Utilitie
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.Roles;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessageResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.UserService;
@@ -96,5 +98,14 @@ public class UserContoller {
     response.setMessage(UtilitiesMethods.messageCreator("Usuario actualizado exitosamente", MessageTypes.ok));
 
     return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
+  @PatchMapping("")
+  public ResponseEntity<ResponseDTO> changePassword(@RequestBody UserRegistrationDTO user) throws Exception {
+    userService.changePassword(user);
+    MessageResponseDTO response = new MessageResponseDTO();
+    response.setMessage(UtilitiesMethods.messageCreator("Contraseña cambiada exitosamente", MessageTypes.ok));
+
+    return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
   }
 }

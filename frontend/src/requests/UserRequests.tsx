@@ -5,7 +5,7 @@ import { SessionContext, SessionContextInterface } from "../context/SessionConte
 import { getCookie, handleRequest } from "../functions/RequestHandler";
 import { sessionSetter } from "../functions/SessionSetter";
 import { GetResponseType, HandledResponse, MessageInterface, ReturnResponseType } from "../types/APIResponses";
-import { UserEdition, UserRegistration } from "../types/Entities";
+import { UserBackend, UserEdition, UserRegistration } from "../types/Entities";
 
 export function useRegisterUser() {
   const [response, setResponse] = useState<HandledResponse<ReturnResponseType>>()
@@ -126,4 +126,29 @@ export function useEditUser() {
   }
 
   return {response, handlePutRequest}
+}
+
+export function useChangeUserPassword() {
+  const [response, setResponse] = useState<HandledResponse<GetResponseType>>()
+
+  const handlePatchRequest = async (e: React.FormEvent<HTMLFormElement>, loggedUser: UserBackend) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+
+    const dtoToSend: UserRegistration = {
+      username: loggedUser.username,
+      password: formData.get("password") as string,
+      password2: formData.get("password2") as string,
+      email: loggedUser.email,
+      role: loggedUser.role,
+      isProffesional: loggedUser.proffesionalDni != null && loggedUser.proffesionalDni != "",
+      proffesionalDni: loggedUser.proffesionalDni
+    }
+
+    const response = await handleRequest("/user", "PATCH", {body: dtoToSend})
+
+    setResponse(response as HandledResponse<GetResponseType>)
+  }
+
+  return {response, handlePatchRequest}
 }
