@@ -106,6 +106,6 @@ public class UserContoller {
     MessageResponseDTO response = new MessageResponseDTO();
     response.setMessage(UtilitiesMethods.messageCreator("Contraseña cambiada exitosamente", MessageTypes.ok));
 
-    return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }

@@ -30,16 +30,22 @@
 }
 
 #userProfile {
-  section > h2, details > h2 {
+  section > h2, details > * {
     margin-bottom: 1rem;
   }
 
   > details {
     display: flex;
     flex-direction: column;
+    align-items: center;
+
+    >.resultMessage {
+      margin: 0 auto 1rem;
+    }
   }
 
   summary {
+    margin: 0;
     width: max-content;
     cursor: pointer;
     align-self: flex-end;
