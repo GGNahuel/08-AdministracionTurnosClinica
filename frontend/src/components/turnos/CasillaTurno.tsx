@@ -19,6 +19,9 @@ export function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: D
         <p>Fecha: {turno?.fecha}</p>
         <p>Consultorio: {turno?.consultorio || ""}</p>
         <p><strong>{turno && cutPascalCase(turno.estadoPago)}</strong></p>
+        {turno && <Link to={routes.turno.search + `?searchName=${turno.pacienteDto.nombreCompleto}&date=${turno.fecha}&areaName=${turno.areaProfesional}`}>
+          <button>Revisar datos</button>
+        </Link>}
       </div>
     </article>
   )

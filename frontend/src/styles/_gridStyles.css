@@ -24,8 +24,14 @@
       grid-area: info;
       display: flex;
       flex-direction: column;
+      width: 100%;
       border-left: 1px solid;
-      padding-left: 8px;
+      padding: 0 8px;
+      box-sizing: border-box;
+
+      a {
+        align-self: flex-end;
+      }
     }
   }
 
