@@ -141,7 +141,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     if (changeActiveInTurns) {
       turnoRepo.findByProfesionalDNI(profesionalDni).forEach(
         turno -> {
-          turno.setActivo(activeStatus);
+          turno.setActive(activeStatus);
           turnoRepo.save(turno);
         }
       );;

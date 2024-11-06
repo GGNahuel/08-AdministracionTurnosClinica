@@ -126,7 +126,7 @@ public class TurnoService implements ITurnoService {
     UtilitiesMethods.validatePacienteInDto(turno.getPacienteDto().getDni(), pacienteRepo);
     UtilitiesMethods.validateProfesionalMedInDto(turno.getProfesionalDto().getDni(), profesionalRepo);
     
-    turno.setActivo(true);
+    turno.setActive(true);
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
     AreaEntity areaEntityOfTurno = turnoEntity.getAreaProfesional();
 
@@ -168,7 +168,7 @@ public class TurnoService implements ITurnoService {
       () -> new ResourceNotFound("turno", "id", id.toString())
     );
 
-    turno.setActivo(valor);
+    turno.setActive(valor);
     turnoRepo.save(turno);
   }
 

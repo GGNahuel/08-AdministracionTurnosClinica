@@ -50,7 +50,7 @@ export function EditTurnForm(props : {fieldsValuesState: Turno, handleOnChange: 
         sendPutRequest(ev, areaSelected.name, turnDate)
       }}>
         <input type="hidden" name="id" value={fieldsValuesState.id}/>
-        <input type="hidden" name="active" value={String (fieldsValuesState.activo)}/>
+        <input type="hidden" name="active" value={String (fieldsValuesState.active)}/>
         <label>
           Servicio: 
           <select required onChange={(ev) => {

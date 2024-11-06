@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class AreaDTO {
   private UUID id;
   private String nombre;
-  private Boolean activa;
+  private Boolean active;
   private Boolean necesitaTurno;
 }

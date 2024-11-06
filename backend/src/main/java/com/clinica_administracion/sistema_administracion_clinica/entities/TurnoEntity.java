@@ -48,5 +48,5 @@ public class TurnoEntity {
     private ConsultorioEntity consultorio;
   @ManyToOne @JoinColumn(nullable = false)
     private ProfesionalMedEntity profesional;
-  private Boolean activo;
+  private Boolean active;
 }

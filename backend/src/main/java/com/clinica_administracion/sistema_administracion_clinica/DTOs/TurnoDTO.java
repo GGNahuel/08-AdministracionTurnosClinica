@@ -25,5 +25,5 @@ public class TurnoDTO {
   private String comentario;
   private Integer consultorio;
   private ProfesionalMedDTO profesionalDto;
-  private Boolean activo;
+  private Boolean active;
 }

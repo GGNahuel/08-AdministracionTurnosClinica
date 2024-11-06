@@ -99,7 +99,7 @@ public class AreaService implements IAreaService{
     AreaEntity area = new AreaEntity();
     area.setNombre(nombre);
     area.setSearchName(UtilitiesMethods.normaliceString(nombre));
-    area.setActiva(true);
+    area.setActive(true);
     area.setNecesitaTurno(necesitaTurno);
 
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);
@@ -132,12 +132,12 @@ public class AreaService implements IAreaService{
     AreaEntity area = areaRepo.findById(id).orElseThrow(
       () -> new ResourceNotFound("Área médica", "id", id.toString())
     );
-    area.setActiva(activeStatus);  
+    area.setActive(activeStatus);  
 
     if (changeActiveInTurns) {
       turnoRepo.findByArea(area.getNombre()).forEach(
         turno -> {
-          turno.setActivo(activeStatus);
+          turno.setActive(activeStatus);
           turnoRepo.save(turno);
         }
       );;

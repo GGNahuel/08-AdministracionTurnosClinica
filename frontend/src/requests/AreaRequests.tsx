@@ -135,7 +135,7 @@ export function useChangeAreaActiveStatus() {
 
     setValuesForRequest({
       id: areaDto.id as string,
-      statusValue: !areaDto.activa,
+      statusValue: !areaDto.active,
       turnsAction: turnsAction
     })
   }

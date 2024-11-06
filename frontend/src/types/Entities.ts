@@ -14,7 +14,7 @@ export interface Turno {
   comentario?: string,
   consultorio: number,
   profesionalDto: ProfesionalMed,
-  activo?: boolean
+  active?: boolean
 }
 
 export interface Paciente {
@@ -39,7 +39,7 @@ export interface ProfesionalMed {
 export interface AreaProfesional {
   id?: string,
   nombre: string,
-  activa?: boolean,
+  active?: boolean,
   necesitaTurno: boolean
 }
 

@@ -51,7 +51,7 @@ export function EditProfesionalForm(props : {fieldsValuesState: ProfesionalMed, 
         </label>
         <div className="grid allWidth">Áreas de ocupación:
           <div className="grid autoColumns checkboxContainer">
-            {areas?.map(area => area.activa && (
+            {areas?.map(area => area.active && (
               <div key={area.id}><label>
                 <input type="checkbox" name={area.nombre} checked={selectedAreas.includes(area.nombre)} onChange={handleOnChangeAreasInput} />{area.nombre}
               </label></div>

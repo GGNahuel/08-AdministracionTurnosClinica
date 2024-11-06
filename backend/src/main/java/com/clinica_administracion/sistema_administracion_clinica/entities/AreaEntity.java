@@ -23,5 +23,5 @@ public class AreaEntity {
   private String nombre;
   private String searchName;
   private Boolean necesitaTurno;
-  private Boolean activa;
+  private Boolean active;
 }

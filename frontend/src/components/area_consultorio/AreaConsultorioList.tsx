@@ -88,7 +88,7 @@ export function AreaConsList() {
           <button type="submit">Aplicar</button>
         </form>
         <TableOptions 
-          entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas} desactivateButton
+          entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas} deactivateButton
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
         />
         <table className="table">
@@ -103,7 +103,7 @@ export function AreaConsList() {
           <tbody>
             <LoadingMessage condition={!areas} />
             {areas?.map(area => (
-              <tr key={area.nombre} className={area.activa ? "" : "inactive"}>
+              <tr key={area.nombre} className={area.active ? "" : "inactive"}>
                 <td className="checkbox">
                   <SelectItemCheckbox 
                       selectedCheckboxesObject={selectCheckboxesState} 
@@ -113,7 +113,7 @@ export function AreaConsList() {
                 </td>
                 <td>{area.nombre}</td>
                 <td className="center">{area.necesitaTurno ? "Con turnos" : "Por orden de llegada"}</td>
-                <td className="center">{area.activa ? "Activa" : "Inactiva"}</td>
+                <td className="center">{area.active ? "Activa" : "Inactiva"}</td>
               </tr>
             ))}
           </tbody>

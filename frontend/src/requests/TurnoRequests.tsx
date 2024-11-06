@@ -163,7 +163,7 @@ export function usePutTurno() {
       obraSocial: (dataPaciente?.results[0] as Paciente).obraSocial,
       estadoPago: formData.get("estadoPago") as string,
       comentario: formData.get("comentario") as string,
-      activo: formData.get("active") == "true"
+      active: formData.get("active") == "true"
     }
 
     const returned = await handleRequest("/turno", "PUT", {body: dataToSend})
