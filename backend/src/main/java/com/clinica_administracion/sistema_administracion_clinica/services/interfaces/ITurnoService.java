@@ -17,6 +17,7 @@ public interface ITurnoService {
   List<TurnoDTO> getByArea(String nombre) throws Exception;
   TurnoDTO create(TurnoDTO turno) throws Exception;
   TurnoDTO update(TurnoDTO turno) throws Exception;
+  void changeActiveStatus(UUID id, Boolean valor) throws Exception;
   void deleteAlreadyPassed(String fecha) throws Exception;
   List<TurnoDTO> searchTurnos(SearchTurnoDto searchProps);
 }

@@ -162,6 +162,17 @@ public class TurnoService implements ITurnoService {
   }
 
   @Transactional @Override
+  public void changeActiveStatus(UUID id, Boolean valor) throws Exception {
+    UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"id", "valor"}, id, valor);
+    TurnoEntity turno = turnoRepo.findById(id).orElseThrow(
+      () -> new ResourceNotFound("turno", "id", id.toString())
+    );
+
+    turno.setActivo(valor);
+    turnoRepo.save(turno);
+  }
+
+  @Transactional @Override
   public void deleteAlreadyPassed(String fecha) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"fecha"}, fecha);
     LocalDate fechaDate = LocalDate.parse(fecha, UtilitiesMethods.formatoFecha);

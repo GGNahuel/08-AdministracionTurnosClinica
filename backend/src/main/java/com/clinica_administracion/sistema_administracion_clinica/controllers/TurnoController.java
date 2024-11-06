@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -119,12 +120,21 @@ public class TurnoController {
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
 
+  @PatchMapping("")
+  public ResponseEntity<ResponseDTO> changeActiveStatus(@RequestParam String id, @RequestParam Boolean valor) throws Exception {
+    turnoService.changeActiveStatus(UUID.fromString(id), valor);
+    MessageResponseDTO response = new MessageResponseDTO();
+    response.setMessage(UtilitiesMethods.messageCreator("Valor cambiado exitosamente", MessageTypes.ok));
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
   @DeleteMapping("")
   @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<ResponseDTO> deleteOldTurnos(@RequestParam String fecha) throws Exception {
     MessageResponseDTO response = new MessageResponseDTO();
     turnoService.deleteAlreadyPassed(fecha);
-    response.setMessage(UtilitiesMethods.messageCreator("Las entidades han sido borrradas exitosamente", MessageTypes.ok));
+    response.setMessage(UtilitiesMethods.messageCreator("Las entidades han sido borradas exitosamente", MessageTypes.ok));
 
     return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
   }
