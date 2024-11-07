@@ -50,7 +50,7 @@ public class AreaService implements IAreaService{
   public List<AreaDTO> getByActiveState(Boolean valor) throws Exception {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(new String[]{"Estado de actividad"}, valor);
     return
-      areaRepo.findByActiva(valor).stream().map(
+      areaRepo.findByActive(valor).stream().map(
         (area) -> modelMapper.map(area, AreaDTO.class)
       ).collect(Collectors.toList());
   }

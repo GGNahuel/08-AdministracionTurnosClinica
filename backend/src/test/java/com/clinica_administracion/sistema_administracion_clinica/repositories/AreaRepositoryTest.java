@@ -122,7 +122,7 @@ public class AreaRepositoryTest {
 
   @Test
   public void areaRepo_findByActiva_assert() {
-    List<AreaEntity> lista = areaRepo.findByActiva(true);
+    List<AreaEntity> lista = areaRepo.findByActive(true);
 
     assertEquals(2, lista.size());
   }

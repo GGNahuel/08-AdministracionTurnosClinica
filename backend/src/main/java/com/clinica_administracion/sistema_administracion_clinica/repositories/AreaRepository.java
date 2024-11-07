@@ -19,7 +19,7 @@ public interface AreaRepository extends JpaRepository<AreaEntity, UUID> {
 
   Optional<AreaEntity> findByNombre(String nombre);
 
-  List<AreaEntity> findByActiva(Boolean activa);
+  List<AreaEntity> findByActive(Boolean activa);
 
   @Query(value = "select a from AreaEntity a where" +
     "(a.activa = :active or :active is null) and " +

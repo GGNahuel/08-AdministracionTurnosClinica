@@ -138,7 +138,7 @@ public class AreaServiceTest {
   public void areaService_getByActiveState_returnActivesAreasDtos() throws Exception {
     expectedDtoList = new ArrayList<>(Arrays.asList(areaDto1, areaDto3));
     returnedEntityList = new ArrayList<>(Arrays.asList(areaEntity1, areaEntity3));
-    when(areaRepo.findByActiva(true)).thenReturn(returnedEntityList);
+    when(areaRepo.findByActive(true)).thenReturn(returnedEntityList);
 
     List<AreaDTO> listaDto = areaService.getByActiveState(true);
 
@@ -161,7 +161,7 @@ public class AreaServiceTest {
   public void areaService_getByActiveState_returnNotActivesAreasDtos() throws Exception {
     expectedDtoList= new ArrayList<>(Arrays.asList(areaDto2));
     returnedEntityList = new ArrayList<>(Arrays.asList(areaEntity2));
-    when(areaRepo.findByActiva(false)).thenReturn(returnedEntityList);
+    when(areaRepo.findByActive(false)).thenReturn(returnedEntityList);
 
     List<AreaDTO> listaDto = areaService.getByActiveState(false);
 
