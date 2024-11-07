@@ -99,19 +99,23 @@ public class UserService implements IUserService {
     UtilitiesMethods.validateFieldsAreNotEmptyOrNull(
       new String[]{"nombre de usuario", "rol", "email", "'Es profesional de salud'"}, user.getUsername(), user.getRole(), user.getEmail(), user.getIsProffesional()
     );
-    userRepo.findById(user.getId()).orElseThrow(
-      () -> new ResourceNotFound("usuario", "id", user.getId().toString())
-    );
+    
     if (userRepo.findByUsername(user.getUsername()).isPresent())
       throw new EntityAlreadyExists("Nombre de usuario ya ocupado", user.getUsername());
+
     ProfesionalMedEntity profesional = null;
     if (user.getIsProffesional()) {
       profesional = profesionalRepo.findByDni(user.getProffesionalDni()).orElseThrow(
         () -> new ResourceNotFound("profesional", "dni", user.getProffesionalDni())
       );
     }
-    
-    UserEntity userEntity = modelMapper.map(user, UserEntity.class);
+
+    UserEntity userEntity = userRepo.findById(user.getId()).orElseThrow(
+      () -> new ResourceNotFound("usuario", "id", user.getId().toString())
+    );
+    userEntity.setUsername(user.getUsername());
+    userEntity.setEmail(user.getEmail());
+    userEntity.setRole(user.getRole());
     userEntity.setProfesionalId(profesional);
     
     userRepo.save(userEntity);
