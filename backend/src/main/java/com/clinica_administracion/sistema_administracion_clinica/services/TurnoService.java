@@ -158,6 +158,15 @@ public class TurnoService implements ITurnoService {
     );
 
     TurnoEntity turnoEntity = modelMapper.map(turno, TurnoEntity.class);
+    AreaEntity areaEntityOfTurno = turnoEntity.getAreaProfesional();
+    Optional<TurnoEntity> check = turnoRepo.findTurnosExistingInDate(turnoEntity.getProfesional().getId(), turnoEntity.getFecha(), turnoEntity.getHorario());
+    if (check.isPresent() && areaEntityOfTurno.getNecesitaTurno() != null) {
+      if (areaEntityOfTurno.getNecesitaTurno()) 
+        throw new EntityAlreadyExists("Ya existe un turno con este horario para el profesional seleccionado", check.get());
+    }
+    if (!turnoEntity.getProfesional().getHorarios().contains(turno.getHorario())) 
+      throw new InvalidInput("horario", turno.getHorario(), "estar dentro del horario que atiende el profesional.");
+
     return modelMapper.map(turnoRepo.save(turnoEntity), TurnoDTO.class);
   }
 

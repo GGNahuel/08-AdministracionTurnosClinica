@@ -22,7 +22,7 @@ public interface AreaRepository extends JpaRepository<AreaEntity, UUID> {
   List<AreaEntity> findByActive(Boolean activa);
 
   @Query(value = "select a from AreaEntity a where" +
-    "(a.activa = :active or :active is null) and " +
+    "(a.active = :active or :active is null) and " +
     "(a.necesitaTurno = :schedule or :schedule is null)"
   )
   List<AreaEntity> searchAreas(@Param("active") Boolean active, @Param("schedule") Boolean needSchedule);
