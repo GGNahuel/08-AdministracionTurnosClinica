@@ -57,19 +57,19 @@ public class AreaControllerTest {
     areaDto1 = AreaDTO.builder()
       .id(UUID.randomUUID())
       .nombre("Odontología")
-      .activa(true)
+      .active(true)
       .necesitaTurno(true)
     .build();
     areaDto2 = AreaDTO.builder()
       .id(UUID.randomUUID())
       .nombre("Cardiología")
-      .activa(false)
+      .active(false)
       .necesitaTurno(true)
     .build();
     areaDto3 = AreaDTO.builder()
       .id(UUID.randomUUID())
       .nombre("Laboratorio")
-      .activa(true)
+      .active(true)
       .necesitaTurno(false)
     .build();
   }

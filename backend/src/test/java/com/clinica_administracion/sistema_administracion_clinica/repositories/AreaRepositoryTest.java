@@ -38,17 +38,17 @@ public class AreaRepositoryTest {
   public void setUp() {
     areaConTurnos = new AreaEntity();
     areaConTurnos.setNombre("Cardiología");
-    areaConTurnos.setActiva(true);
+    areaConTurnos.setActive(true);
     areaConTurnos.setNecesitaTurno(true);
 
     areaSinTurnos = new AreaEntity();
     areaSinTurnos.setNombre("Laboratorio");
-    areaSinTurnos.setActiva(true);
+    areaSinTurnos.setActive(true);
     areaSinTurnos.setNecesitaTurno(false);
     
     areaInactiva = new AreaEntity();
     areaInactiva.setNombre("Odontología");
-    areaInactiva.setActiva(false);
+    areaInactiva.setActive(false);
     areaInactiva.setNecesitaTurno(true);
 
     testEntityManager.persistAndFlush(areaConTurnos);
@@ -60,7 +60,7 @@ public class AreaRepositoryTest {
   @Test
   public void areaRepo_save_newEntity() {
     AreaEntity areaSaved = areaRepo.save(
-      AreaEntity.builder().nombre("Pediatría").activa(true).necesitaTurno(false).build()
+      AreaEntity.builder().nombre("Pediatría").active(true).necesitaTurno(false).build()
     );
 
     assertNotNull(areaSaved, "El método debería retornar una nueva entidad");
@@ -71,7 +71,7 @@ public class AreaRepositoryTest {
   @Test
   public void areaRepo_save_updateEntity() {
     UUID referenceId = areaConTurnos.getId();
-    AreaEntity areaToUpdate = AreaEntity.builder().id(referenceId).nombre("Pediatría").activa(true).necesitaTurno(false).build();
+    AreaEntity areaToUpdate = AreaEntity.builder().id(referenceId).nombre("Pediatría").active(true).necesitaTurno(false).build();
 
     areaRepo.save(areaToUpdate);
 

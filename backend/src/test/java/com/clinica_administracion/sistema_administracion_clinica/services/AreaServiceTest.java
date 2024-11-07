@@ -54,38 +54,38 @@ public class AreaServiceTest {
     areaEntity1 = AreaEntity.builder()
       .id(UUID.randomUUID())
       .nombre("Odontología")
-      .activa(true)
+      .active(true)
       .necesitaTurno(true)
     .build();
     areaEntity2 = AreaEntity.builder()
       .id(UUID.randomUUID())
       .nombre("Cardiología")
-      .activa(false)
+      .active(false)
       .necesitaTurno(true)
     .build();
     areaEntity3 = AreaEntity.builder()
       .id(UUID.randomUUID())
       .nombre("Laboratorio")
-      .activa(true)
+      .active(true)
       .necesitaTurno(false)
     .build();
 
     areaDto1 = AreaDTO.builder()
       .id(areaEntity1.getId())
       .nombre("Odontología")
-      .activa(true)
+      .active(true)
       .necesitaTurno(true)
     .build();
     areaDto2 = AreaDTO.builder()
       .id(areaEntity2.getId())
       .nombre("Cardiología")
-      .activa(false)
+      .active(false)
       .necesitaTurno(true)
     .build();
     areaDto3 = AreaDTO.builder()
       .id(areaEntity3.getId())
       .nombre("Laboratorio")
-      .activa(true)
+      .active(true)
       .necesitaTurno(false)
     .build();
 
@@ -254,8 +254,8 @@ public class AreaServiceTest {
   public void areaService_create_returnTheCreatedArea() throws Exception {
     String newName = "Pediatría";
     boolean newNecesitaTurnoValue = false;
-    AreaEntity newArea = AreaEntity.builder().id(UUID.randomUUID()).nombre(newName).activa(true).necesitaTurno(newNecesitaTurnoValue).build();
-    AreaDTO expectedAreaDto = AreaDTO.builder().id(newArea.getId()).nombre(newName).activa(true).necesitaTurno(newNecesitaTurnoValue).build();
+    AreaEntity newArea = AreaEntity.builder().id(UUID.randomUUID()).nombre(newName).active(true).necesitaTurno(newNecesitaTurnoValue).build();
+    AreaDTO expectedAreaDto = AreaDTO.builder().id(newArea.getId()).nombre(newName).active(true).necesitaTurno(newNecesitaTurnoValue).build();
     when(areaRepo.save(any(AreaEntity.class))).thenReturn(newArea);
     when(modelMapper.map(newArea, AreaDTO.class)).thenReturn(expectedAreaDto);
 
@@ -267,7 +267,7 @@ public class AreaServiceTest {
     assertAll("La entidad creada y el dto retornado deberían haberse mapeado correctamente...",
       () -> assertEquals(newArea.getId(), returnArea.getId()),
       () -> assertEquals(newArea.getNombre(), returnArea.getNombre()),
-      () -> assertEquals(newArea.getActiva(), returnArea.getActiva()),
+      () -> assertEquals(newArea.getActive(), returnArea.getActive()),
       () -> assertEquals(newArea.getNecesitaTurno(), returnArea.getNecesitaTurno())
     );
   }
@@ -296,8 +296,8 @@ public class AreaServiceTest {
   public void areaService_update_returnsExpectedDto() throws Exception {
     final String testNombre = "Pediatría";
     final UUID testUUID = areaEntity1.getId();
-    AreaDTO expectedReturn = AreaDTO.builder().id(testUUID).nombre(testNombre).activa(areaEntity1.getActiva()).necesitaTurno(false).build();
-    AreaEntity newAreaEntity = AreaEntity.builder().id(testUUID).nombre(testNombre).activa(areaEntity1.getActiva()).necesitaTurno(false).build();
+    AreaDTO expectedReturn = AreaDTO.builder().id(testUUID).nombre(testNombre).active(areaEntity1.getActive()).necesitaTurno(false).build();
+    AreaEntity newAreaEntity = AreaEntity.builder().id(testUUID).nombre(testNombre).active(areaEntity1.getActive()).necesitaTurno(false).build();
     when(areaRepo.findById(testUUID)).thenReturn(Optional.of(areaEntity1));
     when(areaRepo.save(any(AreaEntity.class))).thenReturn(newAreaEntity);
     when(modelMapper.map(newAreaEntity, AreaDTO.class)).thenReturn(expectedReturn);
@@ -342,8 +342,8 @@ public class AreaServiceTest {
   // changeActiveStatus
   @Test
   public void areaService_changeActiveStatus_returnsAreaWithChangedStatus() throws Exception {
-    AreaDTO expectedDto = AreaDTO.builder().id(areaDto1.getId()).nombre(areaDto1.getNombre()).activa(false).necesitaTurno(areaDto1.getNecesitaTurno()).build();
-    AreaEntity updatedArea = AreaEntity.builder().id(areaDto1.getId()).nombre(areaDto1.getNombre()).activa(false).necesitaTurno(areaDto1.getNecesitaTurno()).build();
+    AreaDTO expectedDto = AreaDTO.builder().id(areaDto1.getId()).nombre(areaDto1.getNombre()).active(false).necesitaTurno(areaDto1.getNecesitaTurno()).build();
+    AreaEntity updatedArea = AreaEntity.builder().id(areaDto1.getId()).nombre(areaDto1.getNombre()).active(false).necesitaTurno(areaDto1.getNecesitaTurno()).build();
     when(areaRepo.findById(any(UUID.class))).thenReturn(Optional.of(areaEntity1));
     when(areaRepo.save(any(AreaEntity.class))).thenReturn(updatedArea);
     when(modelMapper.map(updatedArea, AreaDTO.class)).thenReturn(expectedDto);
@@ -352,7 +352,7 @@ public class AreaServiceTest {
 
     assertNotNull(returnedDto);
     assertTrue(expectedDto.equals(returnedDto), "El dto retornado no es el esperado");
-    assertEquals(false, areaEntity1.getActiva(), "El cambio no se aplicó correctamente");
+    assertEquals(false, areaEntity1.getActive(), "El cambio no se aplicó correctamente");
   }
 
   @Test
