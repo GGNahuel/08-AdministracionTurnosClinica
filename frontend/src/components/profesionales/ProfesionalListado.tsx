@@ -41,7 +41,7 @@ export function ProfesionalListado() {
           <button type="submit">Aplicar</button>
         </form>
         <TableOptions 
-          entityType="profesionales" selectedCheckboxesState={selectedCheckboxesObject} childs={results}
+          entityType="profesionales" selectedCheckboxesState={selectedCheckboxesObject} children={results}
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
         />
         <table className="table">

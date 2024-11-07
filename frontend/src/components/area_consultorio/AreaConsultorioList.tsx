@@ -36,7 +36,7 @@ export function AreaConsList() {
           <button type="submit">Aplicar</button>
         </form>
         <TableOptions 
-          entityType="consultorios" selectedCheckboxesState={selectCheckboxesState} childs={consultorios} 
+          entityType="consultorios" selectedCheckboxesState={selectCheckboxesState} children={consultorios} 
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
         />
         <table className="table">
@@ -88,7 +88,7 @@ export function AreaConsList() {
           <button type="submit">Aplicar</button>
         </form>
         <TableOptions 
-          entityType="areas" selectedCheckboxesState={selectCheckboxesState} childs={areas} deactivateButton
+          entityType="areas" selectedCheckboxesState={selectCheckboxesState} children={areas} deactivateButton
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
         />
         <table className="table">

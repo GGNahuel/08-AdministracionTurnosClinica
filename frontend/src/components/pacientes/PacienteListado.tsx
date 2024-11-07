@@ -53,7 +53,7 @@ function PacientesTable({getResponse} : {getResponse: HandledResponse<GetRespons
   return (
     <div key={refresher}>
       <TableOptions 
-        entityType="pacientes" selectedCheckboxesState={selectCheckboxesState} childs={results}
+        entityType="pacientes" selectedCheckboxesState={selectCheckboxesState} children={results}
         selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
       />
       <table className="table">
