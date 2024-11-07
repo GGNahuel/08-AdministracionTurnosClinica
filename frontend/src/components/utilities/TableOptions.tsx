@@ -60,7 +60,7 @@ export function TableOptions(props :
       {deactivateButton && 
       <button disabled={selectedEntities[entityType].length != 1} className="iconButton" onClick={alternativeDeactivateFunction || handleDeactivate}>
         {selectedEntities[entityType].length != 1 ? <CheckIcon />
-          : (selectedEntities[entityType][0] as Turno | AreaProfesional).active ? <CheckCheckIcon /> : <CheckCrossIcon />
+          : (selectedEntities[entityType][0] as Turno | AreaProfesional).active ? <CheckCrossIcon /> : <CheckCheckIcon />
         }
         Cambiar estado de alta
       </button>}
