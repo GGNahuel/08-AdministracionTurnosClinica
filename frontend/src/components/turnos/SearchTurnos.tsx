@@ -9,12 +9,12 @@ import { AreaProfesional, Turno } from "../../types/Entities"
 
 import React from "react"
 import { dateInputValueToDBFormat, dateToInputFormat } from "../../functions/DateFunctions"
+import { useSearchParamsURL } from "../../hooks/SearchParams"
 import { SearchTurno } from "../../types/SearchFormTypes"
 import { SelectItemCheckbox } from "../utilities/ListSelector"
+import { LoadingMessage } from "../utilities/Loading"
 import { SearchVar } from "../utilities/Searchvar"
 import { TableOptions } from "../utilities/TableOptions"
-import { useSearchParamsURL } from "../../hooks/SearchParams"
-import { LoadingMessage } from "../utilities/Loading"
 
 export function SearchTurnos() {
   const areas = useGetAllAreas()?.results as AreaProfesional[]
@@ -60,8 +60,9 @@ export function SearchTurnos() {
       </header>
       <section>
         <TableOptions 
-          entityType="turnos" selectedCheckboxesState={selectedCheckboxes} childs={resultsOfSearch}
+          entityType="turnos" selectedCheckboxesState={selectedCheckboxes} children={resultsOfSearch}
           selectedEntities={selectedEntities} selectedEntitiesFunction={selectedEntitiesFunction}
+          deactivateButton
         />
         <table className="table">
           <thead><tr>
@@ -77,7 +78,7 @@ export function SearchTurnos() {
           <tbody>
             <LoadingMessage condition={!resultsOfSearch} />
             {resultsOfSearch?.map(turno => {
-              const classConditionCSS = turno.activo ? turno.estadoPago != EstadoPago[0] ? "warn" : "" : "inactive"
+              const classConditionCSS = turno.active ? turno.estadoPago != EstadoPago[0] ? "warn" : "" : "inactive"
               return (
               <React.Fragment key={turno.id}>
                 <tr className={classConditionCSS}>
@@ -95,7 +96,7 @@ export function SearchTurnos() {
                 </tr>
                 <tr className={classConditionCSS}>
                   <td></td>
-                  <td colSpan={7}><strong>Comentario: </strong>{turno.comentario}<i>{!turno.activo ? "Turno inactivo" : ""}</i></td>
+                  <td colSpan={7}><strong>Comentario: </strong>{turno.comentario}<i>{!turno.active ? "Turno inactivo" : ""}</i></td>
                 </tr>
               </React.Fragment>
             )})}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
 import { handleRequest } from "../functions/RequestHandler"
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
@@ -172,6 +172,17 @@ export function usePutTurno() {
   }
 
   return {returnValue, sendPutRequest}
+}
+
+export function useChangeTurnActiveStatus() {
+  const [response, setResponse] = useState<HandledResponse<GetResponseType>>()
+
+  const handleDeactivate = (e: FormEvent<HTMLFormElement>,turn: Turno) => {
+    e.preventDefault()
+    handleRequest(`/turno?id=${turn.id}&valor=${!turn.active}`, "PATCH", {}).then(response => setResponse(response as HandledResponse<GetResponseType>))
+  }
+
+  return {response, handleDeactivate}
 }
 
 export function useGetSearchedTurnosByUrlParams(urlParams: URLSearchParams) {

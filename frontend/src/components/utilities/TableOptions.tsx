@@ -4,23 +4,23 @@ import { FatherCheckboxes } from "../../types/Others"
 import { SelectItemCheckbox } from "./ListSelector"
 
 import { useRef, useState } from "react"
-import { PencilIcon, TrashCanIcon } from "./Icons"
-import { EditModal } from "./EditModal"
-import { useGetSearchedTurns } from "../../requests/TurnoRequests"
 import { useChangeAreaActiveStatus } from "../../requests/AreaRequests"
+import { useChangeTurnActiveStatus, useGetSearchedTurns } from "../../requests/TurnoRequests"
+import { EditModal } from "./EditModal"
+import { CheckCheckIcon, CheckCrossIcon, CheckIcon, PencilIcon } from "./Icons"
 import Message from "./Message"
 
 export function TableOptions(props : 
   {
     entityType: FatherCheckboxes, selectedCheckboxesState: ReturnType<typeof useSelectedCheckboxesObject>, 
-    childs: Entities[], selectedEntities: Record<FatherCheckboxes, Entities[]>, 
+    children: Entities[], selectedEntities: Record<FatherCheckboxes, Entities[]>, 
     selectedEntitiesFunction: (params : {entityType: FatherCheckboxes, inputChecked: boolean, entity?: Entities, entities?: Entities[]}) => void,
-    desactivateButton?: boolean
+    deactivateButton?: boolean, alternativeDeactivateFunction?: (...params: unknown[]) => void
   }
 ) {
-  const {entityType, selectedCheckboxesState, childs, selectedEntities, selectedEntitiesFunction, desactivateButton} = props
+  const {entityType, selectedCheckboxesState, children, selectedEntities, selectedEntitiesFunction, deactivateButton, alternativeDeactivateFunction} = props
   const editDialogRef = useRef<HTMLDialogElement>(null)
-  const desactivateDialogRef = useRef<HTMLDialogElement>(null)
+  const deactivateDialogRef = useRef<HTMLDialogElement>(null)
   const [isOpen, setIsOpen] = useState(false)
 
   const handleEditDialog = () => {
@@ -33,12 +33,12 @@ export function TableOptions(props :
     setIsOpen(editDialogRef.current.open)
   }
 
-  const handleDesactivate = () => {
-    if (!desactivateDialogRef.current) return
-    if (desactivateDialogRef.current.open) {
-      desactivateDialogRef.current.close()
+  const handleDeactivate = () => {
+    if (!deactivateDialogRef.current) return
+    if (deactivateDialogRef.current.open) {
+      deactivateDialogRef.current.close()
     } else {
-      desactivateDialogRef.current.showModal()
+      deactivateDialogRef.current.showModal()
     }
   }
   
@@ -48,7 +48,7 @@ export function TableOptions(props :
         <SelectItemCheckbox 
           selectedCheckboxesObject={selectedCheckboxesState} 
           fatherName={entityType} fatherOrChild="father" 
-          childElements={childs} markSelectedEntitiesFunction={selectedEntitiesFunction} 
+          childElements={children} markSelectedEntitiesFunction={selectedEntitiesFunction} 
         />
       </div>
       <button disabled={selectedEntities[entityType].length != 1} className="iconButton" onClick={handleEditDialog}>
@@ -57,17 +57,27 @@ export function TableOptions(props :
       {selectedEntities[entityType].length == 1 &&
         <EditModal entity={selectedEntities[entityType][0]} ref={editDialogRef} handleDialog={handleEditDialog} isOpen={isOpen}/>
       }
-      {desactivateButton && 
-      <button disabled={selectedEntities[entityType].length != 1} className="iconButton" onClick={handleDesactivate}>
-        <TrashCanIcon />Dar de baja
+      {deactivateButton && 
+      <button disabled={selectedEntities[entityType].length != 1} className="iconButton" onClick={alternativeDeactivateFunction || handleDeactivate}>
+        {selectedEntities[entityType].length != 1 ? <CheckIcon />
+          : (selectedEntities[entityType][0] as Turno | AreaProfesional).active ? <CheckCheckIcon /> : <CheckCrossIcon />
+        }
+        Cambiar estado de alta
       </button>}
-      {desactivateButton && selectedEntities[entityType].length == 1 &&
-        <dialog ref={desactivateDialogRef}>
-          Los siguientes turnos se verán afectados si da de baja esta entidad:
-          {entityType == "areas" && <DialogAreaContent areaDto={(selectedEntities[entityType][0] as AreaProfesional)} closeFn={() => {
-            if (desactivateDialogRef.current) desactivateDialogRef.current.close()
-          }}/>}
-        </dialog>
+      {deactivateButton && selectedEntities[entityType].length == 1 && 
+        (entityType == "areas" ?
+          <dialog ref={deactivateDialogRef}>
+            <DialogAreaContent areaDto={selectedEntities[entityType][0] as AreaProfesional} closeFn={() => {
+              if (deactivateDialogRef.current) deactivateDialogRef.current.close()
+            }}/>
+          </dialog>
+        : entityType == "turnos" &&
+          <dialog ref={deactivateDialogRef}>
+            <DialogTurnContent turn={selectedEntities[entityType][0] as Turno} closeFn={() => {
+              if (deactivateDialogRef.current) deactivateDialogRef.current.close()
+            }} />
+          </dialog>
+        )
       }
       {/* <button disabled={selectedEntities[entityType].length == 0} className="iconButton">
         <TrashCanIcon />Eliminar
@@ -77,12 +87,14 @@ export function TableOptions(props :
 }
 
 function DialogAreaContent({areaDto, closeFn} : {areaDto: AreaProfesional, closeFn: () => void}) {
-  const [turnsActionForDesactivate, setTurnsAction] = useState<boolean>(false)
+  const [turnsActionForDeactivate, setTurnsAction] = useState<boolean>(false)
   const turnsInArea = useGetSearchedTurns({searchName: "", areaName: areaDto.nombre, estadoPago: "", date: ""})?.results as Turno[]
   const {handleChangeActiveStatus, getResponse} = useChangeAreaActiveStatus()
 
   return (<>
+    {areaDto.active ? <h3>Dar de baja</h3> : <h3>Dar de alta</h3>}
     {getResponse?.message && <Message messageObject={getResponse.message}/>}
+    Los siguientes turnos se podrían ver afectados si cambia el estado de alta de esta entidad:
     <table className="table">
       <thead><tr>
         <th>Fecha</th>
@@ -103,13 +115,28 @@ function DialogAreaContent({areaDto, closeFn} : {areaDto: AreaProfesional, close
         ))}
       </tbody>
     </table>
-    <form onSubmit={e => handleChangeActiveStatus(e, areaDto, turnsActionForDesactivate)}>
-      ¿Desea darlos de baja también?
+    <form onSubmit={e => handleChangeActiveStatus(e, areaDto, turnsActionForDeactivate)}>
+      ¿Desea cambiar su estado también?
       <div>
         <button type="submit" onClick={() => {setTurnsAction(true)}}>Sí</button>
         <button type="submit" onClick={() => {setTurnsAction(false)}}>No</button>
         <button onClick={closeFn}>Cancelar</button>
       </div>
+    </form>
+    </>
+  )
+}
+
+function DialogTurnContent({turn, closeFn} : {turn: Turno, closeFn: () => void}) {
+  const {response, handleDeactivate} = useChangeTurnActiveStatus()
+
+  return (<>
+    {turn.active ? <h3>Dar de baja</h3> : <h3>Dar de alta</h3>}
+    {response?.message && <Message messageObject={response.message}/>}
+    <form onSubmit={(e) => handleDeactivate(e, turn)}>
+      ¿Desea confirmar esta acción?
+      <button type="submit">Sí</button>
+      <button onClick={closeFn}>No</button>
     </form>
     </>
   )
