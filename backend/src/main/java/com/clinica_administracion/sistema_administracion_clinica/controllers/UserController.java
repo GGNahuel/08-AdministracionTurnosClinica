@@ -33,10 +33,10 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserContoller {
+public class UserController {
   private final UserService userService;
 
-  public UserContoller(UserService userService) {
+  public UserController(UserService userService) {
     this.userService = userService;
   }
 

@@ -2,6 +2,7 @@ package com.clinica_administracion.sistema_administracion_clinica.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.GrantedAuthority;
@@ -100,7 +101,8 @@ public class UserService implements IUserService {
       new String[]{"nombre de usuario", "rol", "email", "'Es profesional de salud'"}, user.getUsername(), user.getRole(), user.getEmail(), user.getIsProffesional()
     );
     
-    if (userRepo.findByUsername(user.getUsername()).isPresent())
+    Optional<UserEntity> checkUsername = userRepo.findByUsername(user.getUsername());
+    if (checkUsername.isPresent() && checkUsername.get().getId() != user.getId())
       throw new EntityAlreadyExists("Nombre de usuario ya ocupado", user.getUsername());
 
     ProfesionalMedEntity profesional = null;
