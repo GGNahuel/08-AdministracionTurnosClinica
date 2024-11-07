@@ -76,7 +76,7 @@ export function SearchTurnos() {
             <th>Estado</th>
           </tr></thead>
           <tbody>
-            <LoadingMessage condition={!resultsOfSearch} />
+            <LoadingMessage condition={!resultsOfSearch} inTable/>
             {resultsOfSearch?.map(turno => {
               const classConditionCSS = turno.active ? turno.estadoPago != EstadoPago[0] ? "warn" : "" : "inactive"
               return (

@@ -48,7 +48,7 @@ export function AreaConsList() {
             </tr>
           </thead>
           <tbody>
-            <LoadingMessage condition={!consultorios} />
+            <LoadingMessage condition={!consultorios} inTable/>
             {consultorios?.map(consultorio => {
               const profesionalAsignado = profesionales?.find(profesional => profesional.consultorio == consultorio.numeroConsultorio)
 
@@ -101,7 +101,7 @@ export function AreaConsList() {
             </tr>
           </thead>
           <tbody>
-            <LoadingMessage condition={!areas} />
+            <LoadingMessage condition={!areas} inTable/>
             {areas?.map(area => (
               <tr key={area.nombre} className={area.active ? "" : "inactive"}>
                 <td className="checkbox">

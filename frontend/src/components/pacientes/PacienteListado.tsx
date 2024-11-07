@@ -68,6 +68,7 @@ function PacientesTable({getResponse} : {getResponse: HandledResponse<GetRespons
           </tr>
         </thead>
         <tbody>
+          <LoadingMessage condition={results == null} inTable />
           {results?.map((paciente) => (
             <React.Fragment key={paciente.id}>
               <tr className="list paciente">
