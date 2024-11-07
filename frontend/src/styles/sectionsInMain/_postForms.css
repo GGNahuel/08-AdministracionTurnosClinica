@@ -38,10 +38,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    >.resultMessage {
-      margin: 0 auto 1rem;
-    }
   }
 
   summary {

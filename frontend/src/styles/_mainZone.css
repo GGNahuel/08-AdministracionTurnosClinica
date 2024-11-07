@@ -133,6 +133,7 @@ main {
   border-radius: 8px;
   width: 80%;
   align-self: center;
+  margin: 0 auto 1rem;
 
   &.error {
     background-color: rgb(139, 0, 0);

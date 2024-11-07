@@ -102,7 +102,7 @@ public class UserService implements IUserService {
     );
     
     Optional<UserEntity> checkUsername = userRepo.findByUsername(user.getUsername());
-    if (checkUsername.isPresent() && checkUsername.get().getId() != user.getId())
+    if (checkUsername.isPresent() && checkUsername.get().getId() == user.getId())
       throw new EntityAlreadyExists("Nombre de usuario ya ocupado", user.getUsername());
 
     ProfesionalMedEntity profesional = null;
