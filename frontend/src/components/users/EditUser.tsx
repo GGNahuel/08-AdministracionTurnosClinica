@@ -33,12 +33,12 @@ export function EditUser() {
       <form onSubmit={e => handlePutRequest(e, editedUser)}>
         <label>Nombre de usuario<input type="text" name="username" value={editedUser.username} onChange={e => handleOnchangeInputs(e)}/></label>
         <label>E-mail<input type="email" name="email" value={editedUser.email} onChange={e => handleOnchangeInputs(e)} /></label>
-        <label>Soy profesional de salud
+        {/*         <label>Soy profesional de salud
           <input type="checkbox" name="isProffesional" checked={editedUser.isProffesional} onChange={e => handleOnchangeInputs(e, true)}></input>
         </label>
         {editedUser.isProffesional && (
           <label>Dni<input type="text" name="proffesionalDni" value={editedUser.proffesionalDni} onChange={e => handleOnchangeInputs(e)}/></label>
-        )}
+        )} */}
         <button type="submit">Aplicar cambios</button>
       </form>
     </section>
