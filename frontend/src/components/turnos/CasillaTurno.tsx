@@ -34,7 +34,7 @@ export function CasillaTurnoPorOrdenDeLlegada(props: { turnos?: Turno[], horario
 
   return (
     <article className={"grid dailyTurno byArrivalOrder"}>
-      <p className="horario">{horariosFormatted[0] + " - " + horariosFormatted[1]}</p>
+      {horarios ? <p className="horario">{horariosFormatted[0] + " - " + horariosFormatted[1]}</p> : <p>Sin horarios</p>}
       <div className="info">
         <p>Profesional/es:<strong>{profesionalesInArea?.map(profesionalDto => " " + profesionalDto.nombreCompleto)}</strong></p>
         <p>Consultorio: </p>
