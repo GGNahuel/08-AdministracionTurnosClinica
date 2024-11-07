@@ -90,6 +90,53 @@ export function TrashCanIcon () {
   )
 }
 
+export function CheckIcon() {
+  return (
+    <svg className="icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path d="m 3 0 c -1.644531 0 -3 1.355469 -3 3 v 10 c 0 1.644531 1.355469 3 3 3 h 10 c 1.644531 0 3 -1.355469 3 -3 v -10 c 0 -1.644531 
+        -1.355469 -3 -3 -3 z m 0 2 h 10 c 0.570312 0 1 0.429688 1 1 v 10 c 0 0.570312 -0.429688 1 -1 1 h -10 c -0.570312 0 -1 -0.429688 -1 -1 
+        v -10 c 0 -0.570312 0.429688 -1 1 -1 z m 1.996094 4 c -1.105469 0 -2 0.894531 -2 2 s 0.894531 2 2 2 h 6 c 1.101562 0 2 -0.894531 2 -2 s 
+        -0.898438 -2 -2 -2 z m 0 0" fill="#000000"></path>
+      </g>
+    </svg>
+  )
+}
+
+export function CheckCheckIcon() {
+  return (
+    <svg className="icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000" transform="rotate(0)">
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path d="m 3 0 c -1.644531 0 -3 1.355469 -3 3 v 10 c 0 1.644531 1.355469 3 3 3 h 10 c 1.644531 0 3 -1.355469 3 -3 v -10 c 0 -1.644531 
+        -1.355469 -3 -3 -3 z m 0 2 h 10 c 0.421875 0 0.765625 0.234375 0.917969 0.585938 l -0.667969 0.757812 l -6.296875 7.195312 l -2.246094 
+        -2.246093 c -0.390625 -0.390625 -1.023437 -0.390625 -1.414062 0 s -0.390625 1.027343 0 1.417969 l 3 3 c 0.410156 0.40625 1.078125 0.386718 
+        1.460937 -0.050782 l 6.246094 -7.136718 v 7.476562 c 0 0.570312 -0.429688 1 -1 1 h -10 c -0.570312 0 -1 -0.429688 -1 -1 v -10 c 0 -0.570312 
+        0.429688 -1 1 -1 z m 0 0" fill="#000000"></path> 
+      </g>
+    </svg>
+  )
+}
+
+export function CheckCrossIcon() {
+  return (
+    <svg className="icon" fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 
+        1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 
+        0-1.44-0.576t-0.576-1.408zM9.76 20.256q0 0.832 0.576 1.408t1.44 0.608 1.408-0.608l2.816-2.816 2.816 2.816q0.576 0.608 1.408 0.608t1.44-0.608 
+        0.576-1.408-0.576-1.408l-2.848-2.848 2.848-2.816q0.576-0.576 0.576-1.408t-0.576-1.408-1.44-0.608-1.408 0.608l-2.816 
+        2.816-2.816-2.816q-0.576-0.608-1.408-0.608t-1.44 0.608-0.576 1.408 0.576 1.408l2.848 2.816-2.848 2.848q-0.576 0.576-0.576 1.408z"></path> 
+      </g>
+    </svg>
+  )
+}
+
 export function UserIcon({isDark} : {isDark?: boolean}) {
   return (
     <svg className={isDark ? "icon dark" : "icon"} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
