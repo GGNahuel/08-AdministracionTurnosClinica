@@ -1,0 +1,26 @@
+{
+  "name": "health_center_turn_administrator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd frontend/ && npm run dev\" \"cd backend/ && mvnw spring-boot:run\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:frontend": "cd frontend && npm install",
+    "install": "npm run install:frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GGNahuel/08-AdministracionTurnosClinica.git"
+  },
+  "author": "Nahuel Gomez Gahn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GGNahuel/08-AdministracionTurnosClinica/issues"
+  },
+  "homepage": "https://github.com/GGNahuel/08-AdministracionTurnosClinica#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "health_center_turn_administrator": "file:"
+  }
+}
