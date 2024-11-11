@@ -1,11 +1,11 @@
-[Español](#administrador-de-turnos-para-centro-de-salud) - [English](#health-center-turn-administrator)
+[Español](#administrador-de-turnos-para-centro-de-salud) - [English](#health-center-appointment-manager)
 
 # Administrador de turnos para centro de salud
 El proyecto está pensado como una aplicación que **permite crear y gestionar turnos. Además de manejar datos de, pacientes, profesionales de salud y areas de servicio**. Herramientas necesarias para cualquier centro de salud, dispuestas de una forma práctica y sencilla.
 
-Permite acceder a la información de forma sencilla a traves de **búsquedas personalizadas y visualizaciones en tablas.** La información se registra a traves de **formularios claros**, o herramientas prácticas como un calendario en donde se muestran los turnos ya ocupados según el día y horario.
+Permite acceder a la información de forma sencilla mediante **búsquedas personalizadas y visualizaciones en tablas.** La información se registra a través de **formularios claros**, o herramientas prácticas como un calendario en donde se muestran los turnos ya ocupados según el día y horario.
 
-La página cuenta con varias opciones de seguridad. Una de ellas, de las más útiles en el uso diario que pueda tener, es la protección de datos a traves de la **sesión del usuario**. Es decir, según la cuenta que inicia sesión son los datos que se pueden agregar, modificar, o eliminar.
+La página cuenta con varias opciones de seguridad. Una de ellas, de las más útiles en el uso diario que pueda tener, es la protección de datos utilizando la **sesión del usuario**. Es decir, según la cuenta que inicia sesión son los datos que se pueden agregar, modificar, o eliminar.
 
 ## Índice
 - [Características generales y casos de uso](#características-generales-y-casos-de-uso)
@@ -72,14 +72,88 @@ Luego de completar un curso de desarrollo web de más de un año y medio, buscab
 
 Con esto en mente, me propuse diseñar una herramienta que facilite la programación de citas para pacientes, optimice la asignación de profesionales y consultorios, y mejore la eficiencia en la gestión de una clínica o centro de salud.
 
-Sin embargo es importante aclarar que tuve que profundizar, estudiar y poner en práctica muchos conceptos que no había visto en el cursado.Por lo que tuve que poner empeño en buscar información, entender y aclarar mis dudas a traves de compañeros o recursos de la web. Como documentaciones oficiales, libros, foros, información multimedia e incluso tomar otros cursos. 
+Sin embargo es importante aclarar que tuve que profundizar, estudiar y poner en práctica muchos conceptos que no había visto en el cursado.Por lo que tuve que poner empeño en buscar información, entender y aclarar mis dudas a través de recursos de la web y compañeros. Como documentaciones oficiales, libros, foros, información multimedia e incluso tomar otros cursos. 
 
-Por ejemplo, aunque tenía experiencia en JavaScript y Java, este fue mi primer proyecto usando TypeScript. Lo mismo con la seguridad web a traves de Spring Security, fue todo un desafío comprender y poder aplicar las medidas de seguridad que requería un proyecto con estas características, fue un reto que requería mucha más profundidad de la que había visto en mi cursado.
+Por ejemplo, aunque tenía experiencia en JavaScript y Java, este fue mi primer proyecto usando TypeScript. Lo mismo con la seguridad web a través de Spring Security, fue todo un desafío comprender y poder aplicar las medidas de seguridad que requería un proyecto con estas características, fue un reto que requería mucha más profundidad de la que había visto en mi cursado.
 
 Desde el principio busqué mantener el código lo más organizado posible, limpio y fácil de leer, ya que mi idea era incluirlo en mi portafolio. Aunque planeo seguir puliendo detalles y sumando mejoras, me propuse publicar una versión estable que demuestre mis habilidades para así poder darle seguimiento a otros proyectos y priorizar mi perfil profesional y búsqueda laboral.
 ___
 <br>
 <br>
-<br>
 
-# Health center turn administrator
+# Health center appointment manager
+The project is designed as an application that **allows users to create and manage turns, as well as handle data related to patients, healthcare professionals, and service areas**. Essential tools for any healthcare center, presented in a practical and user-friendly way.
+
+It enables easy access to information through **customized searches and table views**. Information is recorded via **clear forms**, along with practical tools such as a calendar displaying scheduled appointments by day and time.
+
+The page offers various security options. One of the most useful for daily use is data protection through **user session management**. That is, the data that can be added, modified, or deleted depends on the logged-in account.
+
+## Index
+- [Features and use cases](#features-and-use-cases)
+  - [About users...](#about-users)
+  - [About data handling...](#about-data-handling)
+  - [About the data...](#about-the-data)
+- [Technical features](#technical-features)
+  - [Skills used](#technologies-used)
+- [Comments about the developing process](#comments-about-the-developing-process)
+
+## Features and use cases
+
+### About users...
+  * There are three roles for registered users: Administrator, General, and Professional.
+  * The Administrator can create, modify, or remove any data in the application database.
+  * The **"General" role is intended for those responsible for scheduling appointments and registering patients**, with the option to modify them as well.
+  * Users with the **"Professional" role** are designated for healthcare professionals, **allowing them to view and manage their appointments more directly**, as well as their personal data.
+  * Any user, or even without logging in, can view the available data. However, modifying or creating new data depends on the role.
+  * To streamline navigation, only the links accessible to the logged-in user are shown in the menu.
+
+### About data handling...
+  * Each type of data search has filters and custom searches for each category.
+  * **The creation or modification of data includes validations** to prevent conflicts with existing entries and **other checks**, displaying error messages if any specific data could cause an issue.
+  * **If there are errors, they will be displayed on the screen.**
+  * Both appointment creation and modification display a calendar where you can select the date and time more easily, showing already booked appointments for the selected area and professional.
+  * If an appointment is created by a professional, they can only schedule it for the areas in which they are registered. For modification, they can only adjust appointments assigned to them, and only for the mentioned areas.
+  * When a service area or professional is removed, you can choose what to do with the associated appointments, including removing them as well.
+
+### About the data...
+  * The main data types are patients, professionals, service areas, consultation rooms, and appointments. **These are linked according to the database structure.**
+  * The main section displays the day’s appointments for each area, or for the areas in which a professional is registered if the logged-in user has the "Professional" role.
+  * A healthcare professional can be registered in more than one service area if needed.
+  * Consultation rooms can only have one assigned professional.
+  * Patient data includes information on health insurance, which is automatically recorded when an insurance is assigned to an appointment.
+  * Appointments can be classified based on payment status as: Paid, Documentation Pending, Owed, or To Reschedule.
+
+## Technical features
+  * SQL relational database
+  * MVC (Model-View-Controller) application with a monolithic system
+  * API with specific CORS protection
+  * User sessions, registration, and roles with different permissions for both the API and the webpage
+  * Generation and use of CSRF tokens to protect against potential database security threats
+  * Validations on both backend and frontend
+  * Custom exceptions and DTOs for improved error handling and communication with the frontend
+  * SOLID principles applied
+  * Reusable components
+  * Table views, form registrations, and dynamic data searches
+  * Responsive design
+  * Development of unit tests
+
+### Technologies used
+  * HTML
+  * CSS
+  * TypeScript
+  * React.js
+  * Java
+  * MySQL
+  * Spring Boot
+  * Spring Security
+
+## Comments about the developing process
+After completing a year-and-a-half web development course, I sought a project where I could fully apply the knowledge gained. I wanted a comprehensive application with a database, an intuitive interface, and an API that connects all components in a secure, scalable, and practical way.
+
+With this in mind, I set out to design a tool that facilitates appointment scheduling for patients, optimizes professional and room assignments, and enhances efficiency in managing a clinic or healthcare center.
+
+It’s worth noting that I had to dive deeper into many concepts not covered in the course. I invested time in researching, learning, and clearing up doubts through peers or web resources like official documentation, books, forums, multimedia resources, and even other courses.
+
+For instance, although I had experience in JavaScript and Java, this was my first project using TypeScript. Likewise, web security through Spring Security was challenging, as implementing the necessary security measures required much more depth than I had encountered before.
+
+From the start, I aimed to keep the code organized, clean, and readable, as I plan to include it in my portfolio. While I intend to continue refining it and adding improvements, I wanted to publish a stable version that demonstrates my skills, allowing me to shift focus to other projects and prioritize my professional profile and job search.
