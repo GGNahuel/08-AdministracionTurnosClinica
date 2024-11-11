@@ -1,4 +1,4 @@
-[Español](#administrador-de-turnos-para-centro-de-salud) - [English](#health-center-appointment-manager)
+## [Español](#administrador-de-turnos-para-centro-de-salud) - [English](#health-center-appointment-manager)
 
 # Administrador de turnos para centro de salud
 El proyecto está pensado como una aplicación que **permite crear y gestionar turnos. Además de manejar datos de, pacientes, profesionales de salud y areas de servicio**. Herramientas necesarias para cualquier centro de salud, dispuestas de una forma práctica y sencilla.
