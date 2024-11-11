@@ -49,14 +49,12 @@ export async function handleRequest(
   if (response.message != null && response.message.type == "warn") {
     // en lugar del console error iria algo para registrar ese error en algún lugar
     console.warn(response.message.text)
-    console.log([request, {...response, status}, requestBody])
     
     throw json({
       text: "Ocurrió un error inesperado en el servidor, vuelva a intentarlo más tarde"
     }, {status: 500})
   }
   
-  console.log([request, {...response, status}, requestBody])
   return {...response, status} as HandledResponse<ResponseType>
 }
 

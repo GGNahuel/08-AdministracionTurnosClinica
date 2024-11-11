@@ -17,7 +17,6 @@ export async function sessionSetter(setLoggedUser: React.Dispatch<React.SetState
     setLoggedUser(data as UserBackend)
   }
   else if(response.status == 500){
-    console.log(data) // reemplazar por log del error
     console.error("No se ha podido obtener la sesión del usuario desde el servidor")
   }
 }

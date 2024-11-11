@@ -97,7 +97,7 @@ export function useLogOut() {
       setLoggedUser(null)
       navigateTo(routes.usuario.login)
     }
-    else console.log("Error al cerrar sesión")
+    else console.error("Error al cerrar sesión")
   }
 
   return {logout}

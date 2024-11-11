@@ -91,9 +91,7 @@ export function usePutPaciente() {
     const returned = await handleRequest("/paciente", "PUT", {body: pacienteToSend})
     setReturnValue(returned as HandledResponse<ReturnResponseType>)
     if (returned.status == 200 && setRefresher) {
-      console.log("ASDASD")
       setRefresher(prev => prev ++)
-      
     }
   }
 

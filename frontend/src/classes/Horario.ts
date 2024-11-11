@@ -118,8 +118,6 @@ export class Horario {
     const timeIntervals = scheduleBlocks.split(SCHEDULE_BLOCK_SEPARATOR)
 
     timeIntervals.forEach(interval => {
-      console.log(interval)
-
       const rangeOfHorarios : [string, string] = interval.split(SCHEDULE_BLOCK_FROM_TO) as [string, string]
       if (rangeOfHorarios.length > 1) {
         if (rangeOfHorarios.length > 2) throw new Error("No puede haber un rango anexado a otro. Ej: '08:00-11:00-12:00' es inválido")
