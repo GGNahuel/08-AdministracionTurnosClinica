@@ -88,7 +88,7 @@ function PacientesTable({getResponse} : {getResponse: HandledResponse<GetRespons
                 </td>
               </tr>
               {dniSelected === paciente.dni && (
-                (turnsInPaciente?.results as Turno[]).length > 0 ? 
+                (turnsInPaciente?.results as Turno[])?.length > 0 ? 
                   (turnsInPaciente?.results as Turno[]).map((turno) => (
                     <tr className="list turno">
                       <td colSpan={6}>
@@ -103,8 +103,8 @@ function PacientesTable({getResponse} : {getResponse: HandledResponse<GetRespons
                           </thead>
                           <tbody>
                             <tr>
-                              <td>{turno.fecha} - {turno.fecha}</td>
-                              <td>{turno.horario}:{turno.horario}</td>
+                              <td className="center">{turno.fecha}</td>
+                              <td className="center">{turno.horario}</td>
                               <td>{turno.areaProfesional}</td>
                               <td>{turno.estadoPago}</td>
                             </tr>
