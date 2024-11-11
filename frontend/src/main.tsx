@@ -8,6 +8,7 @@ import './styles/index.css'
 import { concatArrays } from './functions/Utilities'
 import { AreaConsultorioRoutes, pacienteRoutes, profesionalRoutes, turnoRoutes, UsuarioRoutes } from './constants/RouteObjects'
 import { SessionContextProvider } from './context/SessionContext'
+import { ErrorComponent } from './components/utilities/ErrorComponent'
 
 const navigationRoutes = concatArrays(
   turnoRoutes, pacienteRoutes, profesionalRoutes, AreaConsultorioRoutes, UsuarioRoutes
@@ -16,7 +17,8 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: navigationRoutes
+    children: navigationRoutes,
+    errorElement: <ErrorComponent />
   }
 ])
 

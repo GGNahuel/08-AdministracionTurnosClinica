@@ -1,7 +1,15 @@
 ## [Español](#administrador-de-turnos-para-centro-de-salud) - [English](#health-center-appointment-manager)
 
+> **Instrucciones de instalación:** Una vez descargado el proyecto en su ordenador ejecute los siguientes comandos desde la carpeta raíz:
+>
+> **Installation guide:** After downloading the project files run de next commands in the root folder terminal:
+> * npm install
+> * npm run dev
+
 # Administrador de turnos para centro de salud
-El proyecto está pensado como una aplicación que **permite crear y gestionar turnos. Además de manejar datos de, pacientes, profesionales de salud y areas de servicio**. Herramientas necesarias para cualquier centro de salud, dispuestas de una forma práctica y sencilla.
+El objetivo de este proyecto fue poner en práctica y demostrar mis conocimientos y habilidades para el desarrollo web.
+
+Está pensado como una aplicación que **permite crear y gestionar turnos. Además de manejar datos de, pacientes, profesionales de salud y areas de servicio**. Herramientas necesarias para cualquier centro de salud, dispuestas de una forma práctica y sencilla.
 
 Permite acceder a la información de forma sencilla mediante **búsquedas personalizadas y visualizaciones en tablas.** La información se registra a través de **formularios claros**, o herramientas prácticas como un calendario en donde se muestran los turnos ya ocupados según el día y horario.
 
@@ -82,7 +90,9 @@ ___
 <br>
 
 # Health center appointment manager
-The project is designed as an application that **allows users to create and manage turns, as well as handle data related to patients, healthcare professionals, and service areas**. Essential tools for any healthcare center, presented in a practical and user-friendly way.
+The objective of this project was apply and show my acquired knowledge and skills for web developing. 
+
+It is designed as an application that **allows users to create and manage turns, as well as handle data related to patients, healthcare professionals, and service areas**. Essential tools for any healthcare center, presented in a practical and user-friendly way.
 
 It enables easy access to information through **customized searches and table views**. Information is recorded via **clear forms**, along with practical tools such as a calendar displaying scheduled appointments by day and time.
 
@@ -154,6 +164,6 @@ With this in mind, I set out to design a tool that facilitates appointment sched
 
 It’s worth noting that I had to dive deeper into many concepts not covered in the course. I invested time in researching, learning, and clearing up doubts through peers or web resources like official documentation, books, forums, multimedia resources, and even other courses.
 
-For instance, although I had experience in JavaScript and Java, this was my first project using TypeScript. Likewise, web security through Spring Security was challenging, as implementing the necessary security measures required much more depth than I had encountered before.
+For example, although I had experience in JavaScript and Java, this was my first project using TypeScript. Likewise, web security through Spring Security was challenging, implementing the necessary security measures for this project required much more depth than I had encountered in the course.
 
 From the start, I aimed to keep the code organized, clean, and readable, as I plan to include it in my portfolio. While I intend to continue refining it and adding improvements, I wanted to publish a stable version that demonstrates my skills, allowing me to shift focus to other projects and prioritize my professional profile and job search.
