@@ -1,6 +1,6 @@
 import { json } from "react-router-dom";
 import { API_PREFIX } from "../constants/VariablesEntorno";
-import { HandledResponse, ResponseType } from "../types/APIResponses";
+import { HandledResponse, MessageResponseType, ResponseType } from "../types/APIResponses";
 
 type ReqBodyHeaders = Record<string, string> | {
   "Content-Type": "application/x-www-form-urlencoded" | "application/json"
@@ -33,6 +33,18 @@ export async function handleRequest(
   const request = await fetch(API_PREFIX + path, requestBody)
   const status = request.status
   const response: ResponseType = await request.json()
+
+  if (response.message && response.message.text == "Access Denied") {
+    const newMessageObject: MessageResponseType = {
+      message: {
+        text: "Acceso denegado. No posee los permisos para realizar esta acción",
+        type: "error",
+        exceptionCause: "Acceso denegado"
+      }
+    }
+
+    return {...newMessageObject, status: 401} as HandledResponse<ResponseType>
+  }
   
   if (response.message != null && response.message.type == "warn") {
     // en lugar del console error iria algo para registrar ese error en algún lugar
