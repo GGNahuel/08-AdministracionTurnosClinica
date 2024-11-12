@@ -6,6 +6,7 @@ import { routes } from "../../constants/NavigationRoutes"
 import { SearchTurno } from "../../types/SearchFormTypes"
 import { cutPascalCase, generateSearchRoute } from "../../functions/Utilities"
 import { EstadoPago } from "../../types/BackendEnums"
+import { daysOfTheWeek } from "../../constants/Others"
 
 export function CasillaTurno(props: { turno?: Turno, horario?: string, fecha?: Date }) {
   const { turno, horario } = props
@@ -72,10 +73,10 @@ export function CasillaDiaAgenda(props: {
     horarios?.filter(horario => !turnos.some(turno => turno.horario == horario && turno.fecha == formatDate(fecha))) 
     : horarios
 
-  return (
+  return fecha.getDay() != 0 && (
     <article className="dayContainer">
       <header>
-        <h3>{fecha.getDate()}</h3>
+        <h3>{daysOfTheWeek[fecha.getDay()].slice(0, 3)} {fecha.getDate()}</h3>
       </header>
       {filteredHorarios?.map(horario => {
         const turnoAssigned = turnos?.find(turno => turno.horario == horario && turno.fecha == formatDate(fecha))

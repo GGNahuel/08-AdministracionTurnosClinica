@@ -38,7 +38,7 @@ export function SchedulePicker(props:{
   const nextMonths = [getMonthName(actualMonthNumber), getMonthName(actualMonthNumber + 1), getMonthName(actualMonthNumber + 2)]
   const scheduleList = getSchedulesInSpecificArea(areaSelected.name, profesionalesByAreas, areaSelected.needSchedule)
 
-  const nextMonthLenghts = [
+  const nextMonthLengths = [
     generateArrayOfNextDays(actualMonthNumber, actualYearNumber, new Date().getDate()), 
     generateArrayOfNextDays(actualMonthNumber + 1, actualYearNumber),
     generateArrayOfNextDays(actualMonthNumber + 2, actualYearNumber)
@@ -66,7 +66,7 @@ export function SchedulePicker(props:{
             <summary className="turnsSummary"><h3>{monthName}</h3><div className="detailsExpandButton"></div></summary>
             <section className={`schedulePicker ${scheduleList && scheduleList.length > 0 ? "" : "noSchedule"}`}>
               {scheduleList && scheduleList.length > 0 ?
-                nextMonthLenghts[index].map(dayNumber => (
+                nextMonthLengths[index].map(dayNumber => (
                   <CasillaDiaAgenda 
                     key={dayNumber}
                     fecha={new Date(actualYearNumber, actualMonthNumber + index, dayNumber)} 
