@@ -53,7 +53,8 @@ La página cuenta con varias opciones de seguridad. Una de ellas, de las más ú
 
 ## Características técnicas
   * Base de datos relacional SQL
-  * Aplicación del MVC (modelo vista controlador) con un sistema monolítico
+  * Desarrollo de una API REST
+  * Arquitectura cliente-servidor. Comunicación con la API a través de solicitudes HTTP
   * Api con protección CORS específica
   * Sesión de usuario, registro y roles con diferentes permisos. Tanto para la api como para la página
   * Generación y utilización de token CSRF para proteger ante posibles ataques de seguridad a la base de datos
@@ -135,7 +136,8 @@ The page offers various security options. One of the most useful for daily use i
 
 ## Technical features
   * SQL relational database
-  * MVC (Model-View-Controller) application with a monolithic system
+  * Build of an API REST
+  * Client-Server architecture. The communication with the API is by HTTP requests
   * API with specific CORS protection
   * User sessions, registration, and roles with different permissions for both the API and the webpage
   * Generation and use of CSRF tokens to protect against potential database security threats
