@@ -1,10 +1,10 @@
 ## [Español](#administrador-de-turnos-para-centro-de-salud) - [English](#health-center-appointment-manager)
 
-> **Instrucciones de instalación:** Una vez descargado el proyecto en su ordenador ejecute los siguientes comandos desde la carpeta raíz:
+<!-- > **Instrucciones de instalación:** Una vez descargado el proyecto en su ordenador ejecute los siguientes comandos desde la carpeta raíz, y luego acceder a http://localhost:5173/ en el navegador:
 >
-> **Installation guide:** After downloading the project files run de next commands in the root folder terminal:
+> **Installation guide:** After downloading the project files run de next commands in the root folder terminal, then go to this link in your browser http://localhost:5173/:
 > * npm install
-> * npm run dev
+> * npm run dev -->
 
 # Administrador de turnos para centro de salud
 El objetivo de este proyecto fue poner en práctica y demostrar mis conocimientos y habilidades para el desarrollo web.
