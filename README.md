@@ -57,6 +57,7 @@ La página cuenta con varias opciones de seguridad. Una de ellas, de las más ú
   * Arquitectura cliente-servidor. Comunicación con la API a través de solicitudes HTTP
   * Api con protección CORS específica
   * Sesión de usuario, registro y roles con diferentes permisos. Tanto para la api como para la página
+  * Encriptado de contraseñas de usuario mediante el codificador BCrypt
   * Generación y utilización de token CSRF para proteger ante posibles ataques de seguridad a la base de datos
   * Verificaciones y validaciones tanto en el back como en el front
   * Excepciones personalizadas y envío de DTOs para mejorar la comunicación de errores y manejarlos en el frontend
@@ -140,6 +141,7 @@ The page offers various security options. One of the most useful for daily use i
   * Client-Server architecture. The communication with the API is by HTTP requests
   * API with specific CORS protection
   * User sessions, registration, and roles with different permissions for both the API and the webpage
+  * Encryption of user passwords by BCrypt password encoder
   * Generation and use of CSRF tokens to protect against potential database security threats
   * Validations on both backend and frontend
   * Custom exceptions and DTOs for improved error handling and communication with the frontend
