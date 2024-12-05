@@ -94,7 +94,7 @@ ___
 # Health center appointment manager
 The objective of this project was apply and show my acquired knowledge and skills for web developing. 
 
-It is designed as an application that **allows users to create and manage turns, as well as handle data related to patients, healthcare professionals, and service areas**. Essential tools for any healthcare center, presented in a practical and user-friendly way.
+It is designed as an application that **allows users to create and manage appointments, as well as handle data related to patients, healthcare professionals, and service areas**. Essential tools for any healthcare center, presented in a practical and user-friendly way.
 
 It enables easy access to information through **customized searches and table views**. Information is recorded via **clear forms**, along with practical tools such as a calendar displaying scheduled appointments by day and time.
 
@@ -114,7 +114,7 @@ The page offers various security options. One of the most useful for daily use i
 ### About users...
   * There are three roles for registered users: Administrator, General, and Professional.
   * The Administrator can create, modify, or remove any data in the application database.
-  * The **"General" role is intended for those responsible for scheduling appointments and registering patients**, with the option to modify them as well.
+  * The **"General" role is intended for the responsible for scheduling appointments and registering patients**, with the option to modify them as well.
   * Users with the **"Professional" role** are designated for healthcare professionals, **allowing them to view and manage their appointments more directly**, as well as their personal data.
   * Any user, or even without logging in, can view the available data. However, modifying or creating new data depends on the role.
   * To streamline navigation, only the links accessible to the logged-in user are shown in the menu.
@@ -129,15 +129,19 @@ The page offers various security options. One of the most useful for daily use i
 
 ### About the data...
   * The main data types are patients, professionals, service areas, consultation rooms, and appointments. **These are linked according to the database structure.**
-  * The main section displays the day’s appointments for each area, or for the areas in which a professional is registered if the logged-in user has the "Professional" role.
+  * The main section displays the day's appointments for each area, or for the areas in which a professional is registered if the logged-in user has the "Professional" role.
   * A healthcare professional can be registered in more than one service area if needed.
   * Consultation rooms can only have one assigned professional.
   * Patient data includes information on health insurance, which is automatically recorded when an insurance is assigned to an appointment.
   * Appointments can be classified based on payment status as: Paid, Documentation Pending, Owed, or To Reschedule.
 
+### About views and pages...
+  * It has different color themes which is assigned by the user preference in the browser (light and dark themes).
+  * The structure and design of the pages are according to the screen size.
+
 ## Technical features
   * SQL relational database
-  * Build of an API REST
+  * Build of an Rest API
   * Client-Server architecture. The communication with the API is by HTTP requests
   * API with specific CORS protection
   * User sessions, registration, and roles with different permissions for both the API and the webpage
@@ -151,7 +155,7 @@ The page offers various security options. One of the most useful for daily use i
   * Responsive design
   * Development of unit tests
 
-### Technologies used
+### Used technologies
   * HTML
   * CSS
   * TypeScript
