@@ -1,4 +1,4 @@
-import { API_PREFIX } from "../constants/VariablesEntorno"
+import { API_PREFIX } from "../constants/Utilities"
 import { UserBackend } from "../types/Entities"
 import { getCookie } from "./RequestHandler"
 

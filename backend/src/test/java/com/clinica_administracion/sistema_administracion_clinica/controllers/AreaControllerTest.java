@@ -26,8 +26,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.AreaDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.GetResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.AreaService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;

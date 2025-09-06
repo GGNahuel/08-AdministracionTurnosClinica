@@ -1,5 +1,5 @@
 import { meses } from "../constants/Others";
-import { DATE_FORMAT, DATE_INPUT_FORMAT } from "../constants/VariablesEntorno";
+import { DATE_FORMAT, DATE_INPUT_FORMAT } from "../constants/Utilities";
 
 export class DateExtension extends Date {
   // acá irían los métodos DateFunctions y TO_DO: ver los cambios de cómo se implementarían

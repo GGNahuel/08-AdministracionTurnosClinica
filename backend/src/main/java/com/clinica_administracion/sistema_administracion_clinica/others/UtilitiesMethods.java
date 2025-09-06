@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.MessagesDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessagesDTO;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ConsultorioRepository;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.PacienteRepository;

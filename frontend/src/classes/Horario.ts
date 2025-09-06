@@ -1,4 +1,4 @@
-import { SCHEDULE_BLOCK_FORMAT, SCHEDULE_FORMAT } from "../constants/VariablesEntorno"
+import { SCHEDULE_BLOCK_FORMAT, SCHEDULE_FORMAT } from "../constants/Utilities"
 import { horas, minutos } from "../types/Others"
 
 const SCHEDULE_BLOCK_SEPARATOR = ", "

@@ -1,4 +1,4 @@
-package com.clinica_administracion.sistema_administracion_clinica.others;
+package com.clinica_administracion.sistema_administracion_clinica.components;
 
 import java.io.IOException;
 
@@ -6,8 +6,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.MessageResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessageResponseDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;

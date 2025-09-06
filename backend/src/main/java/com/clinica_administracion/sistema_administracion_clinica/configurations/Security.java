@@ -1,4 +1,4 @@
-package com.clinica_administracion.sistema_administracion_clinica;
+package com.clinica_administracion.sistema_administracion_clinica.configurations;
 
 import java.io.IOException;
 import java.util.function.Supplier;
@@ -20,8 +20,8 @@ import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.clinica_administracion.sistema_administracion_clinica.others.CustomAuthEntryPoint;
-import com.clinica_administracion.sistema_administracion_clinica.others.CustomAuthFailureManager;
+import com.clinica_administracion.sistema_administracion_clinica.components.CustomAuthEntryPoint;
+import com.clinica_administracion.sistema_administracion_clinica.components.CustomAuthFailureManager;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 
 import jakarta.servlet.FilterChain;

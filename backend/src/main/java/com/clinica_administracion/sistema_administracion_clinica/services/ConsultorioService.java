@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.ConsultorioDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.ConsultorioDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;

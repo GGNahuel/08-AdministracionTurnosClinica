@@ -1,4 +1,4 @@
-package com.clinica_administracion.sistema_administracion_clinica;
+package com.clinica_administracion.sistema_administracion_clinica.configurations;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,10 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.AreaDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.ProfesionalMedDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.TurnoDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.UserFrontDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
@@ -24,12 +24,12 @@ import com.clinica_administracion.sistema_administracion_clinica.repositories.Co
 import com.clinica_administracion.sistema_administracion_clinica.repositories.ProfesionalMedRepository;
 
 @Configuration
-public class ModelMapperConfigs {
+public class ModelMapperSetter {
   private final ConsultorioRepository consultorioRepo;
   private final AreaRepository areaRepo;
   private final ProfesionalMedRepository profesionalRepo;
 
-  public ModelMapperConfigs(ConsultorioRepository consultorioRepo, AreaRepository areaRepo, ProfesionalMedRepository profesionalRepo) {
+  public ModelMapperSetter(ConsultorioRepository consultorioRepo, AreaRepository areaRepo, ProfesionalMedRepository profesionalRepo) {
     this.consultorioRepo = consultorioRepo; this.areaRepo = areaRepo; this.profesionalRepo = profesionalRepo;
   }
   

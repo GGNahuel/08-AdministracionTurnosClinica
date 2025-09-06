@@ -10,8 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.SearchTurnoDto;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.SearchTurnoDto;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.TurnoDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.TurnoEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;

@@ -3,7 +3,7 @@ package com.clinica_administracion.sistema_administracion_clinica.services.inter
 import java.util.List;
 import java.util.UUID;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.AreaDTO;
 
 public interface IAreaService {
   List<AreaDTO> getAll();

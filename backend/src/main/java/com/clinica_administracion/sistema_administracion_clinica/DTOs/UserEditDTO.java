@@ -1,4 +1,4 @@
-package com.clinica_administracion.sistema_administracion_clinica.DTOs;
+package com.clinica_administracion.sistema_administracion_clinica.dtos;
 
 import java.util.UUID;
 

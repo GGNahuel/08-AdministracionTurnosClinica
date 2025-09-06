@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.AreaDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.AreaDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;

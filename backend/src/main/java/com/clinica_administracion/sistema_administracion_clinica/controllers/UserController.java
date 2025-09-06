@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserEditDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.UserEditDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.UserFrontDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.UserRegistrationDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.GetResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.MessageResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.Roles;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessageResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;

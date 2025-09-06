@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.SearchTurnoDto;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.SearchTurnoDto;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.TurnoDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.GetResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.MessageResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessageResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.services.TurnoService;
 
 

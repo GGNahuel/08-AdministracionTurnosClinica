@@ -3,8 +3,8 @@ package com.clinica_administracion.sistema_administracion_clinica.services.inter
 import java.util.List;
 import java.util.UUID;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.SearchTurnoDto;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.TurnoDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.SearchTurnoDto;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.TurnoDTO;
 
 public interface ITurnoService {
   List<TurnoDTO> getAll();

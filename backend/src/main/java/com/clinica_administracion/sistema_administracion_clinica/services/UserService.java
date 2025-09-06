@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserEditDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserFrontDTO;
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.UserRegistrationDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.UserEditDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.UserFrontDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.UserRegistrationDTO;
 import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.UtilitiesMethods;

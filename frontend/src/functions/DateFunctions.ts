@@ -1,5 +1,5 @@
 import { meses } from "../constants/Others";
-import { DATE_FORMAT, DATE_INPUT_FORMAT } from "../constants/VariablesEntorno";
+import { DATE_FORMAT, DATE_INPUT_FORMAT } from "../constants/Utilities";
 
 export function formatDate(fecha : Date) {
   const day = String(fecha.getDate()).padStart(2, '0')

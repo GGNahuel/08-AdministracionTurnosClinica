@@ -7,16 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.GetResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.MessageResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.MessagesDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.ResponseDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.responseDtos.ReturnResponseDTO;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.MessageTypes;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.EntityAlreadyExists;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.InvalidInput;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.NotNullFieldIsNull;
 import com.clinica_administracion.sistema_administracion_clinica.others.exceptions.ResourceNotFound;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessageResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.GetResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.MessagesDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ResponseDTO;
-import com.clinica_administracion.sistema_administracion_clinica.others.responseDTOs.ReturnResponseDTO;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

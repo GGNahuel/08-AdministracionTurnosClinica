@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
-import { API_PREFIX, DATE_FORMAT } from "../constants/VariablesEntorno"
+import { API_PREFIX, DATE_FORMAT } from "../constants/Utilities"
 import { handleRequest } from "../functions/RequestHandler"
 import { GetResponseType, HandledResponse, ReturnResponseType } from "../types/APIResponses"
 import { EstadoPago } from "../types/BackendEnums"

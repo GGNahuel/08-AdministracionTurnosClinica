@@ -3,7 +3,7 @@ package com.clinica_administracion.sistema_administracion_clinica.services.inter
 import java.util.List;
 import java.util.UUID;
 
-import com.clinica_administracion.sistema_administracion_clinica.DTOs.ProfesionalMedDTO;
+import com.clinica_administracion.sistema_administracion_clinica.dtos.ProfesionalMedDTO;
 
 public interface IProfesionalMedService {
   List<ProfesionalMedDTO> getAll();

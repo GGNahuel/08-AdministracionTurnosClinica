@@ -1,5 +1,5 @@
 import { json } from "react-router-dom";
-import { API_PREFIX } from "../constants/VariablesEntorno";
+import { API_PREFIX } from "../constants/Utilities";
 import { HandledResponse, MessageResponseType, ResponseType } from "../types/APIResponses";
 
 type ReqBodyHeaders = Record<string, string> | {
