@@ -40,6 +40,9 @@ public class InitialDataCreator implements CommandLineRunner {
     }
 
     if (areaRepository.findAll().isEmpty()) {
+      consultorioRepository.deleteAll();
+      profesionalMedRepository.deleteAll();
+
       AreaEntity guardia = areaRepository.save(AreaEntity.builder()
         .nombre("Guardia")
         .active(true)
