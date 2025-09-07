@@ -2,6 +2,7 @@ package com.clinica_administracion.sistema_administracion_clinica.configurations
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.modelmapper.Converter;
@@ -89,29 +90,38 @@ public class ModelMapperSetter {
     if (modelMapper.getTypeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class) != null) 
       return ;
 
-    Converter<Integer, ConsultorioEntity> getterConsultorioEntity = 
-      conv -> conv.getSource() == null ? 
+    Converter<Integer, ConsultorioEntity> getterConsultorioEntity = conv -> 
+      conv.getSource() == null ? 
         null : consultorioRepo.findByNumeroConsultorio(conv.getSource()).get();
-    Converter<List<String>, List<AreaEntity>> getterAreaEntities =
-      conv -> conv.getSource() == null ?
+    Converter<List<String>, List<AreaEntity>> getterAreaEntities = conv -> 
+      conv.getSource() == null ?
         null : conv.getSource().stream().map(nombre -> areaRepo.findByNombre(nombre).get()).toList();
+    
+    Converter<List<String>, String> horariosToSingleString = conv -> 
+      conv.getSource() == null ? 
+        null : String.join(",", conv.getSource());
 
     modelMapper.typeMap(ProfesionalMedDTO.class, ProfesionalMedEntity.class).addMappings(
       (mapper) -> {
         mapper.using(getterConsultorioEntity).map(ProfesionalMedDTO::getConsultorio, ProfesionalMedEntity::setConsultorio);
         mapper.using(getterAreaEntities).map(ProfesionalMedDTO::getAreas, ProfesionalMedEntity::setAreas);
+        mapper.using(horariosToSingleString).map(ProfesionalMedDTO::getHorarios, ProfesionalMedEntity::setHorarios);
       }
     );
 
-    Converter<List<AreaEntity>, List<String>> extractIds = 
-      conv -> conv.getSource() == null ? 
-        null : 
-        conv.getSource().stream().map((area) -> area.getNombre()).toList();
+    Converter<List<AreaEntity>, List<String>> extractIds = conv -> 
+      conv.getSource() == null ? 
+        null : conv.getSource().stream().map((area) -> area.getNombre()).toList();
+
+    Converter<String, List<String>> horariosToListString = conv -> 
+      conv.getSource() == null ? 
+        null : Arrays.asList(conv.getSource().split(","));
 
     modelMapper.typeMap(ProfesionalMedEntity.class, ProfesionalMedDTO.class).addMappings(
       (mapper) -> {
         mapper.map(src -> src.getConsultorio().getNumeroConsultorio(), ProfesionalMedDTO::setConsultorio);
         mapper.using(extractIds).map(ProfesionalMedEntity::getAreas, ProfesionalMedDTO::setAreas);
+        mapper.using(horariosToListString).map(ProfesionalMedEntity::getHorarios, ProfesionalMedDTO::setHorarios);
       }
     );
   }
@@ -134,10 +144,9 @@ public class ModelMapperSetter {
     if (modelMapper.getTypeMap(UserFrontDTO.class, UserEntity.class) != null)
       return ;
 
-    Converter<String, ProfesionalMedEntity> profesionalEntityConv =
-      conv -> conv.getSource() == null ?
-        null :
-        profesionalRepo.findByDni(conv.getSource()).get();
+    Converter<String, ProfesionalMedEntity> profesionalEntityConv = conv -> 
+      conv.getSource() == null ?
+        null : profesionalRepo.findByDni(conv.getSource()).get();
 
     modelMapper.typeMap(UserFrontDTO.class, UserEntity.class).addMappings(
       mapper ->

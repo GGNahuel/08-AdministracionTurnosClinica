@@ -40,8 +40,8 @@ public class ProfesionalMedEntity {
     private List<AreaEntity> areas;
   @Column(nullable = false, unique = true)
     private long numMatricula;
-  @Column(columnDefinition = "TEXT")
-    private List<String> horarios;
+  @Column(nullable = false)
+    private String horarios;
   @OneToOne
     private ConsultorioEntity consultorio;
   private Boolean active;
