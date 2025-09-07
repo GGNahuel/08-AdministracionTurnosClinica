@@ -1,0 +1,38 @@
+services:
+  health-center-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: health-center-app
+    image: health-center-manager
+    ports:
+      - "8080:8080"
+    networks:
+      - health-center-manager-network
+    depends_on:
+      mysql-database:
+        condition: service_healthy
+
+  mysql-database:
+    image: mysql:8.0.42
+    container_name: health-center-database
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-root}
+    volumes:
+      - database-data:/app/data
+    networks:
+      - health-center-manager-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  health-center-manager-network:
+    name: health-center-manager-network:prod
+
+volumes:
+  database-data:

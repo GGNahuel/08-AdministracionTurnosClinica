@@ -1,0 +1,54 @@
+services:
+  health-center-manager-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: health-center-frontend
+    image: health-center-manager-frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - health-center-manager-network
+    volumes:
+      - ./frontend:/app/frontend
+      - app/frontend/node_modules
+
+  health-center-manager-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: health-center-manager-backend
+    image: health-center-manager-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - health-center-manager-network
+    volumes:
+      - ./backend:/app/data
+    depends_on:
+      mysql-database:
+        condition: service_healthy
+
+  mysql-database:
+    image: mysql:8.0.42
+    container_name: health-center-database
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-root}
+    volumes:
+      - database-data:/app/data
+    networks:
+      - health-center-manager-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  health-center-manager-network:
+    name: health-center-manager-network:dev
+
+volumes:
+  database-data:
