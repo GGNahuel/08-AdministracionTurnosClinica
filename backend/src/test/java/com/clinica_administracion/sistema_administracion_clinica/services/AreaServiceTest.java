@@ -190,8 +190,8 @@ public class AreaServiceTest {
     AreaDTO resultado = areaService.getById(areaEntity1.getId());
 
     assertNotNull(resultado, "El resultado no debería ser nulo");
-    assertTrue(areaDto1.equals(resultado), String.format("El resultado: %s, debería ser igual a %s", 
-      resultado.toString(), areaDto1.toString()));
+    assertTrue(areaDto1.equals(resultado), "El resultado: %s, debería ser igual a %s".formatted(
+            resultado.toString(), areaDto1.toString()));
   }
 
   @Test
@@ -262,8 +262,8 @@ public class AreaServiceTest {
     AreaDTO returnArea = areaService.create(newName, newNecesitaTurnoValue);
 
     assertNotNull(returnArea, "El metodo debería retornar un DTO");
-    assertTrue(expectedAreaDto.equals(returnArea), 
-      String.format("Debería retornar el DTO esperado: %s, pero obtuvo %s", expectedAreaDto.toString(), returnArea.toString()));
+    assertTrue(expectedAreaDto.equals(returnArea),
+            "Debería retornar el DTO esperado: %s, pero obtuvo %s".formatted(expectedAreaDto.toString(), returnArea.toString()));
     assertAll("La entidad creada y el dto retornado deberían haberse mapeado correctamente...",
       () -> assertEquals(newArea.getId(), returnArea.getId()),
       () -> assertEquals(newArea.getNombre(), returnArea.getNombre()),
@@ -305,7 +305,7 @@ public class AreaServiceTest {
     AreaDTO returnDto = areaService.update(testUUID, testNombre, false);
 
     assertNotNull(returnDto, "No debería retornar un valor nulo");
-    assertTrue(expectedReturn.equals(returnDto), String.format("El retorno no es el esperado. %s no es %s (<- esperado)", returnDto.toString(), expectedReturn.toString()));
+    assertTrue(expectedReturn.equals(returnDto), "El retorno no es el esperado. %s no es %s (<- esperado)".formatted(returnDto.toString(), expectedReturn.toString()));
     assertAll("Los cambios debieron aplicarse en la entidad ya creada", 
       () -> assertEquals(areaEntity1.getId(), testUUID),
       () -> assertEquals(areaEntity1.getNombre(), testNombre),

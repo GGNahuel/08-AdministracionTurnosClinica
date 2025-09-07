@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -24,7 +23,6 @@ public class AreaRepositoryTest {
   private final AreaRepository areaRepo;
   private final TestEntityManager testEntityManager;
 
-  @Autowired
   public AreaRepositoryTest(AreaRepository areaRepo, TestEntityManager testEntityManager) {
     this.areaRepo = areaRepo;
     this.testEntityManager = testEntityManager;

@@ -29,10 +29,9 @@ public class UtilitiesMethods {
     for (int i = 0; i < fieldNames.length; i++) {
       if (fields[i] == null)
         throw new NotNullFieldIsNull(fieldNames[i]);
-      if (fields[i] instanceof String && ((String) fields[i]).isBlank())
+      if (fields[i] instanceof String string && string.isBlank())
         throw new NotNullFieldIsNull(fieldNames[i]);
-      if (fields[i] instanceof List) {
-        List<?> lista = (List<?>) fields[i];
+      if (fields[i] instanceof List<?> lista) {
         for (Object object : lista) {
           if (object == null)
             throw new NotNullFieldIsNull(fieldNames[i]);
