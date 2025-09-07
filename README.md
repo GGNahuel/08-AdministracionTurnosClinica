@@ -8,7 +8,7 @@
 
 <h1>Administrador de turnos para centro de salud</h1>
 
-> La documentación está siendo editada, this documentation file is being updated
+> La documentación está siendo actualizada, this documentation file is being updated
 
 Este proyecto está pensado como una herramienta para ayudar en la gestión de turnos, entro otras cosas, en centros de salud como clínicas u hospitales. **Permite crear y gestionar turnos, así como también manejar datos de, pacientes, profesionales de salud y areas de servicio**.
 
