@@ -94,7 +94,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     for (String nombre : profesional.getAreas()) {
       UtilitiesMethods.validateAreaInDto(nombre, areaRepo);
     }
-    Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio()); // que tambien vea los horarios
+    Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio());
     if (check.isPresent())
       throw new EntityAlreadyExists("Ya existe un profesional asignado al consutorio " + profesional.getConsultorio().toString(), check.get());
 
@@ -112,7 +112,7 @@ public class ProfesionalMedService implements IProfesionalMedService {
     );
     UtilitiesMethods.validateDniFormat(profesional.getDni());
     UtilitiesMethods.validateConsultorioInDto(profesional.getConsultorio(), consultorioRepo);
-    Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio()); // que tambien vea los horarios
+    Optional<ProfesionalMedEntity> check = profesionalRepo.findProfesionalByConsultorio(profesional.getConsultorio());
     if (check.isPresent() && !(check.get().getId().toString()).equals(profesional.getId().toString()))
       throw new EntityAlreadyExists("Ya existe un profesional asignado al consutorio " + profesional.getConsultorio().toString(), check.get());
 

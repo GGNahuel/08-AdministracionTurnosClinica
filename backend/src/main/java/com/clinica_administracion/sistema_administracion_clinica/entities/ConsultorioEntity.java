@@ -22,4 +22,8 @@ public class ConsultorioEntity {
   private UUID id;
   @Column(unique = true, nullable = false)
   private Integer numeroConsultorio;
+
+  public ConsultorioEntity(Integer numero) {
+    this.numeroConsultorio = numero;
+  }
 }

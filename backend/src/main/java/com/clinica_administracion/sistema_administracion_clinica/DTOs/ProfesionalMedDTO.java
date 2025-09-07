@@ -16,9 +16,9 @@ public class ProfesionalMedDTO {
   private UUID id;
   private String nombreCompleto;
   private String dni;
-  private Long numeroContacto;
+  private long numeroContacto;
   private List<String> areas;
-  private Integer numMatricula;
+  private long numMatricula;
   private List<String> horarios;
   private Integer consultorio;
   private Boolean active;

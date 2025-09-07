@@ -31,7 +31,7 @@ public class ProfesionalMedEntity {
   @Column(nullable = false, unique = true)
     private String dni;
   @Column(nullable = false)
-    private Long numeroContacto;
+    private long numeroContacto;
   @ManyToMany(fetch = FetchType.EAGER) @JoinTable(
     name = "profesional_area", 
     joinColumns = @JoinColumn(referencedColumnName = "id"),
@@ -39,7 +39,7 @@ public class ProfesionalMedEntity {
   )
     private List<AreaEntity> areas;
   @Column(nullable = false, unique = true)
-    private Integer numMatricula;
+    private long numMatricula;
   @Column(columnDefinition = "TEXT")
     private List<String> horarios;
   @OneToOne
