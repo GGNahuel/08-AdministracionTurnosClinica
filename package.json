@@ -1,13 +1,12 @@
 {
   "name": "health_center_turn_administrator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "concurrently \"cd frontend/ && npm run dev\" \"cd backend/ && mvnw spring-boot:run\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install:frontend": "cd frontend && npm install",
-    "install": "npm run install:frontend"
+    "install_frontend_dependencies": "cd frontend && npm install",
+    "install_dependencies": "npm install && npm run install_frontend_dependencies",
+    "install": ""
   },
   "repository": {
     "type": "git",
