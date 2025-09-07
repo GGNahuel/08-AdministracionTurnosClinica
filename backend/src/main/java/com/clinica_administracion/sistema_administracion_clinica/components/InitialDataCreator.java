@@ -1,6 +1,5 @@
 package com.clinica_administracion.sistema_administracion_clinica.components;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
@@ -41,6 +40,9 @@ public class InitialDataCreator implements CommandLineRunner {
     }
 
     if (areaRepository.findAll().isEmpty()) {
+      consultorioRepository.deleteAll();
+      profesionalMedRepository.deleteAll();
+
       AreaEntity guardia = areaRepository.save(AreaEntity.builder()
         .nombre("Guardia")
         .active(true)
@@ -79,10 +81,9 @@ public class InitialDataCreator implements CommandLineRunner {
       ConsultorioEntity cons4 = consultorioRepository.save(new ConsultorioEntity(4));
       ConsultorioEntity cons5 = consultorioRepository.save(new ConsultorioEntity(5));
 
-      List<String> horariosDia = List.of("08:00","08:30", "09:00","09:30", "10:00", "10:30", "11:00", "11:30");
-      List<String> horariosTarde = List.of("16:00","16:30", "17:00","17:30", "18:00", "18:30", "19:00", "19:30");
-      List<String> horariosFull = new ArrayList<>(horariosDia);
-      horariosFull.addAll(horariosTarde);
+      String horariosDia = "08:00,08:30,09:00,09:30,10:00,10:30,11:00,11:30";
+      String horariosTarde = "16:00,16:30,17:00,17:30,18:00,18:30,19:00,19:30";
+      String horariosFull = horariosDia + "," + horariosTarde;
 
       profesionalMedRepository.save(ProfesionalMedEntity.builder()
         .nombreCompleto("Joaquín")
@@ -92,6 +93,7 @@ public class InitialDataCreator implements CommandLineRunner {
         .horarios(horariosDia)
         .areas(List.of(guardia))
         .consultorio(cons1)
+        .active(true)
       .build());
 
       profesionalMedRepository.save(ProfesionalMedEntity.builder()
@@ -102,6 +104,7 @@ public class InitialDataCreator implements CommandLineRunner {
         .horarios(horariosTarde)
         .areas(List.of(guardia, psicologia))
         .consultorio(cons0)
+        .active(true)
       .build());
 
       profesionalMedRepository.save(ProfesionalMedEntity.builder()
@@ -112,6 +115,7 @@ public class InitialDataCreator implements CommandLineRunner {
         .horarios(horariosTarde)
         .areas(List.of(pediatria))
         .consultorio(cons2)
+        .active(true)
       .build());
 
       profesionalMedRepository.save(ProfesionalMedEntity.builder()
@@ -122,6 +126,7 @@ public class InitialDataCreator implements CommandLineRunner {
         .horarios(horariosFull)
         .areas(List.of(odontologia))
         .consultorio(cons3)
+        .active(true)
       .build());
 
       profesionalMedRepository.save(ProfesionalMedEntity.builder()
@@ -132,6 +137,7 @@ public class InitialDataCreator implements CommandLineRunner {
         .horarios(horariosTarde)
         .areas(List.of(oftalmologia))
         .consultorio(cons4)
+        .active(true)
       .build());
 
       profesionalMedRepository.save(ProfesionalMedEntity.builder()
@@ -142,6 +148,7 @@ public class InitialDataCreator implements CommandLineRunner {
         .horarios(horariosDia)
         .areas(List.of(psicologia))
         .consultorio(cons5)
+        .active(true)
       .build());
     }
   }
