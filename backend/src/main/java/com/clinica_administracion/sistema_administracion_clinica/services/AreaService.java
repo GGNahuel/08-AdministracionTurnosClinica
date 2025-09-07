@@ -140,7 +140,7 @@ public class AreaService implements IAreaService{
           turno.setActive(activeStatus);
           turnoRepo.save(turno);
         }
-      );;
+      );
     }
       
     return modelMapper.map(areaRepo.save(area), AreaDTO.class);

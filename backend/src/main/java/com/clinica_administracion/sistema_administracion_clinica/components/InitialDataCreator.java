@@ -1,10 +1,15 @@
 package com.clinica_administracion.sistema_administracion_clinica.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.clinica_administracion.sistema_administracion_clinica.entities.AreaEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.ConsultorioEntity;
+import com.clinica_administracion.sistema_administracion_clinica.entities.ProfesionalMedEntity;
 import com.clinica_administracion.sistema_administracion_clinica.entities.UserEntity;
 import com.clinica_administracion.sistema_administracion_clinica.others.enums.Roles;
 import com.clinica_administracion.sistema_administracion_clinica.repositories.AreaRepository;
@@ -65,6 +70,78 @@ public class InitialDataCreator implements CommandLineRunner {
         .active(false)
         .necesitaTurno(true)
         .searchName("psicologia")
+      .build());
+      
+      ConsultorioEntity cons0 = consultorioRepository.save(new ConsultorioEntity(0));
+      ConsultorioEntity cons1 = consultorioRepository.save(new ConsultorioEntity(1));
+      ConsultorioEntity cons2 = consultorioRepository.save(new ConsultorioEntity(2));
+      ConsultorioEntity cons3 = consultorioRepository.save(new ConsultorioEntity(3));
+      ConsultorioEntity cons4 = consultorioRepository.save(new ConsultorioEntity(4));
+      ConsultorioEntity cons5 = consultorioRepository.save(new ConsultorioEntity(5));
+
+      List<String> horariosDia = List.of("08:00","08:30", "09:00","09:30", "10:00", "10:30", "11:00", "11:30");
+      List<String> horariosTarde = List.of("16:00","16:30", "17:00","17:30", "18:00", "18:30", "19:00", "19:30");
+      List<String> horariosFull = new ArrayList<>(horariosDia);
+      horariosFull.addAll(horariosTarde);
+
+      profesionalMedRepository.save(ProfesionalMedEntity.builder()
+        .nombreCompleto("Joaquín")
+        .numMatricula(100001)
+        .numeroContacto(32456789)
+        .dni("41234567")
+        .horarios(horariosDia)
+        .areas(List.of(guardia))
+        .consultorio(cons1)
+      .build());
+
+      profesionalMedRepository.save(ProfesionalMedEntity.builder()
+        .nombreCompleto("Carlos")
+        .numMatricula(100006)
+        .numeroContacto(33456789)
+        .dni("41234557")
+        .horarios(horariosTarde)
+        .areas(List.of(guardia, psicologia))
+        .consultorio(cons0)
+      .build());
+
+      profesionalMedRepository.save(ProfesionalMedEntity.builder()
+        .nombreCompleto("Miguel")
+        .numMatricula(100002)
+        .numeroContacto(32145678)
+        .dni("42345677")
+        .horarios(horariosTarde)
+        .areas(List.of(pediatria))
+        .consultorio(cons2)
+      .build());
+
+      profesionalMedRepository.save(ProfesionalMedEntity.builder()
+        .nombreCompleto("Laura")
+        .numMatricula(100003)
+        .numeroContacto(32145678)
+        .dni("42345678")
+        .horarios(horariosFull)
+        .areas(List.of(odontologia))
+        .consultorio(cons3)
+      .build());
+
+      profesionalMedRepository.save(ProfesionalMedEntity.builder()
+        .nombreCompleto("Josefina")
+        .numMatricula(100004)
+        .numeroContacto(32145676)
+        .dni("42345671")
+        .horarios(horariosTarde)
+        .areas(List.of(oftalmologia))
+        .consultorio(cons4)
+      .build());
+
+      profesionalMedRepository.save(ProfesionalMedEntity.builder()
+        .nombreCompleto("Laura")
+        .numMatricula(100005)
+        .numeroContacto(32145675)
+        .dni("42345645")
+        .horarios(horariosDia)
+        .areas(List.of(psicologia))
+        .consultorio(cons5)
       .build());
     }
   }
