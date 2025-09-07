@@ -1,0 +1,18 @@
+FROM maven:3.9.5-eclipse-temurin-17
+
+WORKDIR /app/data
+
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+
+COPY src ./src
+
+# Poner dependencias en caché para evitar que se descarguen cada vez
+RUN mvn dependency:go-offline
+
+ENV SPRING_DEVTOOLS_RESTART_ENABLED=true
+
+EXPOSE 8080
+
+CMD ["mvn", "spring-boot:run"]

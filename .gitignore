@@ -1,3 +1,4 @@
 node_modules
 utilities
 .vscode
+.env

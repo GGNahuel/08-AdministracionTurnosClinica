@@ -3,10 +3,11 @@
   "version": "1.1.0",
   "description": "",
   "scripts": {
+    "install": "cd frontend && npm install",
     "dev": "concurrently \"cd frontend/ && npm run dev\" \"cd backend/ && mvnw spring-boot:run\"",
-    "install_frontend_dependencies": "cd frontend && npm install",
-    "install_dependencies": "npm install && npm run install_frontend_dependencies",
-    "install": ""
+    "prod:build": 
+      "cd frontend && npm run build && copy ./dist ../backend/src/main/resources/static && cd ../backend/ && mvn clean package -DskipTests && copy ./target/*.jar ../app.jar",
+    "prod": "java -jar app.jar"
   },
   "repository": {
     "type": "git",
