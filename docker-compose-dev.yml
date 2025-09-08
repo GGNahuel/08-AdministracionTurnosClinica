@@ -9,6 +9,8 @@ services:
       - "5173:5173"
     networks:
       - health-center-manager-network
+    environment:
+      - VITE_API_PREFIX=http://health-center-manager-backend:8080/api
     volumes:
       - ./frontend:/app/frontend
       - app/frontend/node_modules
@@ -23,6 +25,8 @@ services:
       - "8080:8080"
     networks:
       - health-center-manager-network
+    env_file:
+      - .env
     volumes:
       - ./backend:/app/data
     depends_on:
@@ -34,6 +38,8 @@ services:
     container_name: health-center-database
     ports:
       - "3307:3306"
+    env_file:
+      - .env
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-root}
     volumes:
