@@ -225,65 +225,188 @@ Las vistas son aquellas que dividen las operaciones permitidas, y generalmente, 
 #### Capa de controlador
 Permite redirigir las solicitudes del cliente al sistema a la capa de modelo.
 
+### Seguridad y autenticaciones
+La seguridad del sistema está gestionada principalmente a través de **Spring Security**, que provee distintos mecanismos para garantizar la integridad y el control de acceso:
+
+* **Control de CORS**: se configuran los orígenes desde los cuales se permiten las solicitudes hacia la API, asegurando que solo clientes autorizados puedan interactuar con ella.
+* **Protección CSRF**: cada petición es validada mediante un token CSRF, lo que evita ataques de falsificación de solicitudes en sitios cruzados.
+* **Autenticación y autorización por roles**: el acceso a las distintas operaciones de la aplicación está restringido según el rol asignado a cada usuario.
+* **Sesiones de usuario**: las sesiones duran un tiempo determinado, protegiendo a los usuarios de que sus sesiones queden abiertas y otras personas puedan aprovecharse de eso.
+
+#### Roles disponibles
+Existen tres roles principales que definen los permisos de los usuarios dentro de la aplicación:
+
+* **Administrador**: posee control total sobre el sistema. Puede crear, modificar o dar de baja cualquier dato en la base de datos.
+* **General**: orientado al personal administrativo encargado de gestionar pacientes y turnos.
+* **Profesional**: destinado a los profesionales de la salud, quienes pueden visualizar y administrar sus propios turnos, así como actualizar su información personal.
+
+Además:
+* Cualquier usuario, incluso sin iniciar sesión, puede **consultar información pública**.  
+* Las operaciones de **creación, modificación o eliminación de datos** requieren autenticación y el rol adecuado.  
+
+#### Validación de datos
+De manera complementaria, todos los datos ingresados por los usuarios (especialmente a través de formularios) son validados en el backend antes de ser procesados, evitando así inconsistencias y posibles ataques.
+
 ### Entornos
+Existen 2 entornos el de desarrollo, el cual permite ejecutar tanto el frontend como el backend de modo que se reflejan los cambios generados automáticamente. Y el de producción, el cual ejecuta el build del proyecto de React y lo aloja en la carpeta resources/static del proyecto en Spring Boot, ejecutando posteriormente la compilación y el empaquetado del backend a un archivo .jar para luego ser ejecutado.
 
 
 ## Instrucciones de instalación y requisitos
+Estas instrucciones corresponden al caso en que se quiera ejecutar, o levantar el proyecto en modo desarrollo, de forma local. Si no es ese el caso, puede ir directamente al [sitio web](https://administracionturnosclinica.onrender.com) donde está alojada la aplicación, y dirigirse a la [guía de operaciones](#guía-de-operaciones) para saber qué puede hacer y cómo interactuar con el sistema.
+
+Se realizaron ciertos ajustes para poder ejecutar con pocos comandos, ya sea el entorno productivo o el de desarrollo. Logrando que se pueda levantar tanto con o como sin Docker de forma relativamente sencilla.
+
+### Variables de entorno
+Las variables de entorno tienen relación principalmente con propiedades de la base de datos o la ruta de conexión que usaría el frontend para comunicarse con la API. Lo que permite variarlas según requiera el entorno.
+
+Ellas son las siguientes, se muestran con los valores que vienen por defecto:
+```yml
+DB_HOST=localhost #Host donde se encuentra la base de datos.
+DB_USER=root #Nombre de usuario de la base de datos utilizada para acceder a ella.
+DB_PASSWORD=root #Contraseña de usuario de la base de datos
+VITE_API_PREFIX="http://localhost:8080/api" #Ruta que utiliza el frontend para conectarse a la api
+```
+
+### En caso de usar docker
+Teniendo docker en el sistema local, y ejecutándose, alcanza con el siguiente comando en la ubicación raíz del proyecto. Esto empaquetará los servicios y ejecutará los archivos .jar de cada uno.
+
+    #para la primera vez que se quiere levantar el proyecto
+    docker compose f- docker-compose-prod.yml up --build  
+
+    #para las siguientes
+    docker compose up 
+
+Para levantar el sistema en modo desarrollo se usan los comandos:
+
+    #para la primera vez que se quiere levantar el proyecto
+    docker compose -f docker-compose-dev.yml up --build
+
+    #para las siguientes
+    docker compose -f docker-compose-dev.yml up
+
+Las variables de entorno ya vienen actualizadas para cada entorno, utilizando como host el nombre de los contenedores y sincronizando con los datos de la imagen de la base de datos. En caso de que se quiera modificar se debe crear un archivo .env en la carpeta raíz del proyecto, aclarando los valores como se muestra en los valores de ejemplo.
+    
+### En caso de no usar docker
+**REQUISITOS:**
+
+Si se quiere correr el proyecto sin docker es necesario contar con los siguientes recursos:
+- Este proyecto requiere instalar y tener correctamente configuradas las variables de entorno para **Java JDK** y **Maven**, tanto en Windows como en sistemas basados en Unix (Linux/macOS).
+  #### Windows
+  Se debe agregar al `Path` del sistema (Variable de entorno) las rutas a:
+
+  - El bin del **JDK**, en el proyecto se usa la versión 17 (ejemplo: `C:\Program Files\Java\jdk-17\bin`)
+  - El bin de **Maven** (ejemplo: `C:\apache-maven-3.9.6\bin`)
+
+  Para esto buscar la opción "Editar las variables de entorno" en el panel de control y hacer click en el botón "Variables de entorno...", ubicado en la pestaña Opciones avanzadas.
+
+  #### Linux / macOS
+  En sistemas Unix-like, es necesario agregar las siguientes líneas al archivo de configuración del shell:
+
+      export JAVA_HOME=/ruta/a/tu/jdk
+      export PATH=$JAVA_HOME/bin:$PATH
+
+      export MAVEN_HOME=/ruta/a/apache-maven
+      export PATH=$MAVEN_HOME/bin:$PATH
+
+  Estos cambios deben agregarse en uno de los siguientes archivos, según el shell que se utilice en el sistema:
+
+  | Shell |	Archivo de configuración |
+  | ---- | ---- |
+  | Bash |	~/.bashrc o ~/.bash_profile |
+  | Zsh (macOS) |	~/.zshrc |
+  | Fish | ~/.config/fish/config.fish |
+
+  Después de editarlos, aplicá los cambios con: <code>source ~/.bashrc</code> o <code>~/.zshrc</code> según corresponda
+
+  **Se puede verificar las configuraciones en una terminal (CMD o PowerShell) ejecutando:**
+      java -version
+      javac -version
+      mvn -version
+
+- Tener instalado el server de MySql, al menos la versión 8.0. Los valores que se asignen a la cuenta serán los que deberán ir en las [variables de entorno](#variables-de-entorno) (por defecto se usa root para el usuario principal y también para la contraseña, a menos que se indique lo contrario).
+- Tener Node.js versión 20 instalado
+
+Las variables de entorno para el backend tienen su valor por defecto en caso de que no se asignen, en caso de querer cambiarlas se deberá asignar el nuevo valor cambiando los valores por defecto en el application.properties (dentro de /backend/src/main/resources), o mediante las variables de entorno según su sistema operativo (o IDE si aplica).
+
+Para la variable de entorno del frontend alcanza con crear un archivo ``.env``, en la ruta /frontend, con el nuevo valor como se muestra en [el ejemplo](#variables-de-entorno).
+
+**OBTENER DEPENDENCIAS:**
+
+Antes de ejecutar el sistema en cualquier perfil hay que instalar las dependencias. Para eso se usan los siguientes comandos, siendo el primero para las dependencias de ejecución generales y el segundo para las dependencias del frontend:
+```bash
+npm install
+
+npm run install
+```
+
+**MODO DE DESARROLLO:**
+
+Teniendo los recursos necesarios (Java, Maven, MySQL, Node) se puede levantar tanto el frontend como el backend a la par con el comando:
+```
+npm run dev
+```
+La interfaz se puede visualizar accediendo a [http://localhost:5173](http://localhost:5173), y la api estará alojada en [http://localhost:8080](http://localhost:8080).
+
+**MODO DE PRODUCCIÓN:**
+
+Para levantarlo en modo de producción se realizan dos comandos la primera vez. Luego alcanza con ejecutar solamente el segundo.
+
+El primero debe ser ejecutado cada vez que hayan nuevos cambios, ya sea en el frontend o en el backend, para que haga los build de ambos combinados; el segundo es para ejecutarlo directamente, *pero requiere que al menos una vez se haya hecho el primero*.
+```
+npm run prod:build
+
+npm run prod
+```
+En este caso toda la aplicación estará levantada en [http://localhost:8080](http://localhost:8080).
+
+## Guía de operaciones
+En esta la guía se mostrará cómo se realizan las operaciones disponibles en la aplicación. 
+
+> Para acceder mediante rutas a cualquiera de las operaciones se la debe agregar posterior a la ruta original, ej: https://administracionturnosclinica.onrender.com/turno/crear para la creación de turnos.
+
+Las vistas que refieren a registros muestran mensajes en caso de algún error, como falta de campo requerido, advertencia de registro ya existente, o error del sistema.
+
+### Registrar nuevo usuario
+- **Acceso:** A través de la ruta ``/signup``, o mediante el botón en la barra de navegación.
+  
+  <img src="./docs/resources/action_signUp.png">
+  <img src="./docs/resources/vista_registroUsuario.png">
+
+### Inicio de sesión
+- **Acceso:** Mediante la ruta ``/login`` o mediante el botón en el menú.
+
+### Registrar turnos
+- **Acceso:** A través de la ruta ``/turno/crear``, o mediante del enlace correspondiente en el menú. 
+  
+  <img src="./docs/resources/action_creacionTurno.png">
+- **Permisos:** Esta acción es posible si se inició sesión en el sistema con cualquiera de los roles. En el caso de los usuarios con rol *PROFESIONAL* solo podrán crear turnos asignados automáticamente a ellos mismos.
 
 
-## Autenticación
+Aparecerá un formulario en el que se deben ingresar los datos que corresponden al nuevo turno. Es necesario, para asociar un paciente, que este ya se encuentre registrado en el sistema.
 
-## Características generales y casos de uso
+<img src="./docs/resources/vista_creacionTurnos.png">
 
-### Acerca de los usuarios...
-  (* Hay 3 roles para los usuarios que se registren: Administrador, General y Profesional.
-  -* El Administrador puede crear, modificar o dar de baja cualquier dato que este presente en la base de datos de la aplicación.
-  -* El **rol "General" es el que usaría quien este a cargo de registrar los turnos y pacientes**, contando también con la posibilidad de modificarlos
-  -* Los usuarios con **rol "Profesional"** están destinados a los profesionales de salud, **permitiéndoles visualizar y manejar sus turnos de forma más directa.** Así como sus propios datos.
-  -* Cualquier usuario, o incluso sin iniciar sesión, podrá visualizar los datos que quiera. Pero modificarlos, o crear nuevos, depende del rol.)
+> El calendario solo aparecerá si se selecciona un área de servicio y esta posea algún personal de salud asociado. Se puede hacer click en las celdas que aparecen disponibles para asignar esa fecha y horario de forma más sencilla. También muestra los turnos que ya están ocupados.
+> <img src="./docs/resources/vista_creacionTurnos2.webp">
 
-  (eso iría en la sección de autorizaciones y autenticaciones)
+### Registrar pacientes
+- **Acceso:** A través de la ruta ``/paciente/registrar``, o mediante el enlace en el menú.
+  
+  <img src="./docs/resources/action_creacionPaciente.png">
+- **Permisos:** Solo podrán realizarla los usuarios con rol GENERAL o ADMIN.
 
-  * Para que la navegación sea más práctica, solo aparecerán los enlaces en el menú a los que el usuario en sesión puede acceder.  
+Formulario sencillo donde se rellena con los datos del paciente.
 
-### Acerca del manejo de datos...
-    * (Esto en explicación de los procesos - ver dónde iría eso)
-  * La búsqueda de cada tipo de dato cuenta con filtros y búsquedas personalizadas para cada uno.
-  * **El registro o modificación de datos cuenta con verificaciones** que comprueban que no se sobreponga con otros, entre otras **validaciones**. Mostrando mensajes de error si algún dato en específico causaría este problema.
-  * **En caso de que haya errores se mostrarán en pantalla.**
-  * Tanto la creación como la modificación de turnos muestra un calendario en el que puedes seleccionar el horario y la fecha de forma más sencilla. A su vez que muestra los turnos ya ocupados para el área seleccionada y profesional.
-  * Si quien crea un turno es un profesional, solo podrá hacerlo para las áreas en las que él se encuentre registrado. Y en cuánto a la modificación, 
-  solo aquellos turnos que ya tenga asignados, y también solo para las áreas mencionadas.
-  * Cuando se da de baja un area de servicio o profesional se puede elegir qué hacer con los turnos que estén asociados. Pudiendo darlos de baja también.
+<img src="./docs/resources/vista_creacionPacientes.png">
 
-### Acerca de los datos...
-  * La sección principal muestra los turnos del día para cada área, o para las áreas en que un profesional esté registrado si el usuario en sesión tiene el rol "Profesional". (Para donde se expliquen las vistas)
+### Registrar profesionales de salud
+- **Acceso:** A través de la ruta ``/profesional/registrar``, o mediante el enlace en el menú.
+- **Permisos:** Esta acción solo puede ser empleada por el usuario ADMIN.
 
-## Características técnicas
-  * Base de datos relacional SQL
-  * Desarrollo de una API REST
-  * Arquitectura cliente-servidor. Comunicación con la API a través de solicitudes HTTP
-  * Api con protección CORS específica
-  * Sesión de usuario, registro y roles con diferentes permisos. Tanto para la api como para la página
-  * Encriptado de contraseñas de usuario mediante el codificador BCrypt
-  * Generación y utilización de token CSRF para proteger ante posibles ataques de seguridad a la base de datos
-  * Verificaciones y validaciones tanto en el back como en el front
-  * Excepciones personalizadas y envío de DTOs para mejorar la comunicación de errores y manejarlos en el frontend
-  * Aplicación de principios SOLID
-  * Componentes reutilizables
-  * Visualizaciones en tablas, registros en formularios, y búsqueda dinámica de datos
-  * Diseño responsivo
-  * Desarrollo de pruebas unitarias
+<img src="./docs/resources/vista_creacionProfesionales.png">
 
-  ### Tecnologías aplicadas
-  * HTML
-  * CSS
-  * TypeScript
-  * React.js
-  * Java
-  * MySQL
-  * Spring Boot
-  * Spring Security
+### Registro de áreas de servicio y consultorios
+- **Acceso:** Ambas acciones se pueden realizar mediante la misma ruta ``/areas_consultorios/crear``, o bien mediante la opción en el menú.
 
 ## Comentarios del proceso
 Luego de completar un curso de desarrollo web de más de un año y medio, buscaba un proyecto donde pudiera aplicar de forma integral los conocimientos adquiridos. Quería una aplicación completa, con base de datos, una interfaz intuitiva y una API que conectara todos los componentes de manera segura, escalable y práctica.
