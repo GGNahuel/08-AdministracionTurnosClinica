@@ -9,11 +9,13 @@ services:
       - "8080:8080"
     networks:
       - health-center-manager-network
+    environment:
+      - DB_HOST:health-center-database
     depends_on:
-      mysql-database:
+      health-center-database:
         condition: service_healthy
 
-  mysql-database:
+  health-center-database:
     image: mysql:8.0.42
     container_name: health-center-database
     ports:

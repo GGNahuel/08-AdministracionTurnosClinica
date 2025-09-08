@@ -1,6 +1,7 @@
 package com.clinica_administracion.sistema_administracion_clinica.configurations;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 import org.springframework.util.StringUtils;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.clinica_administracion.sistema_administracion_clinica.components.CustomAuthEntryPoint;
@@ -36,47 +38,52 @@ public class Security {
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .authorizeHttpRequests(
-        (authorize) -> authorize
+      .authorizeHttpRequests(authorize -> authorize
         //.requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
-          .requestMatchers(HttpMethod.GET).permitAll()
-          .requestMatchers("/logincheck", "/api/user").permitAll()
-          .requestMatchers("/api/turno/search").permitAll()
-          .requestMatchers("/api/**").authenticated()
-          .anyRequest().permitAll()
+        .requestMatchers(HttpMethod.GET).permitAll()
+        .requestMatchers("/logincheck", "/api/user").permitAll()
+        .requestMatchers("/api/turno/search").permitAll()
+        .requestMatchers("/api/**").authenticated()
+        .anyRequest().permitAll()
       )
       .csrf(csrf -> csrf
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
       )
       .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-      .formLogin(
-        (form) -> form
-          .loginProcessingUrl("/logincheck")
-          .usernameParameter("username")
-          .passwordParameter("contrasena")
-          .successHandler((request, response, authentication) -> {
-            response.setStatus(HttpServletResponse.SC_OK);
-          })
-          .failureHandler(new CustomAuthFailureManager())
-          .permitAll()
+      .formLogin(form -> form
+        .loginProcessingUrl("/logincheck")
+        .usernameParameter("username")
+        .passwordParameter("contrasena")
+        .successHandler((request, response, authentication) -> {
+          response.setStatus(HttpServletResponse.SC_OK);
+        })
+        .failureHandler(new CustomAuthFailureManager())
+        .permitAll()
       )
-      .logout(
-        (logout) -> logout
-          .logoutUrl("/logout")
-          .logoutSuccessHandler((request, response, asd) -> {
-            response.setStatus(HttpServletResponse.SC_OK);
-          })
-          .permitAll()
+      .logout(logout -> logout
+        .logoutUrl("/logout")
+        .logoutSuccessHandler((request, response, asd) -> {
+          response.setStatus(HttpServletResponse.SC_OK);
+        })
+        .permitAll()
       )
-      .rememberMe(
-        (remember) -> remember
-          .key(UtilitiesMethods.generateKey(16))
-          .tokenValiditySeconds(43200)
+      .rememberMe(remember -> remember
+        .key(UtilitiesMethods.generateKey(16))
+        .tokenValiditySeconds(43200)
       )
-      .exceptionHandling(
-        exceptionHandling -> exceptionHandling
-          .authenticationEntryPoint(new CustomAuthEntryPoint())
+      .exceptionHandling(exceptionHandling -> exceptionHandling
+        .authenticationEntryPoint(new CustomAuthEntryPoint())
+      )
+      .cors(cors ->
+        cors.configurationSource(request -> {
+          CorsConfiguration config = new CorsConfiguration();
+          config.setAllowedOrigins(List.of("http://localhost:5173", "http://127.0.0.1:5500"));
+          config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
+          config.setAllowedHeaders(List.of("*"));
+          config.setAllowCredentials(true);
+          return config;
+        })
       );
     return http.build();
   }
@@ -87,7 +94,7 @@ public class Security {
   }
 }
 
-// font: Official spring security docs reference https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html
+// fuente: Official spring security docs reference https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html
 final class SpaCsrfTokenRequestHandler extends CsrfTokenRequestAttributeHandler {
 	private final CsrfTokenRequestHandler delegate = new XorCsrfTokenRequestAttributeHandler();
 
