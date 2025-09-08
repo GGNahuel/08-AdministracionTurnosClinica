@@ -27,13 +27,15 @@ services:
       - health-center-manager-network
     env_file:
       - .env
+    environment:
+      - DB_HOST:${DB_HOST:-health-center-database}
     volumes:
       - ./backend:/app/data
     depends_on:
-      mysql-database:
+      health-center-database:
         condition: service_healthy
 
-  mysql-database:
+  health-center-database:
     image: mysql:8.0.42
     container_name: health-center-database
     ports:
