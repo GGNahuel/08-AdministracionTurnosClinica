@@ -1,5 +1,5 @@
 <div style="display:flex;width:100%;justify-content:center;">
-  <a href="README_ENG.md"><h4>To see this documentation in english click here</h4></a>
+  <a href=".README_ENG.md"><h4>To see this documentation in english click here</h4></a>
 </div>
 <h1>Administrador de turnos para centro de salud</h1>
 
