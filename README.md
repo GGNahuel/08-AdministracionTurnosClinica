@@ -1,6 +1,5 @@
-<div style="display:flex;width:100%;justify-content:center;">
-  <a href="https://github.com/GGNahuel/08-AdministracionTurnosClinica/blob/main/README_ENG.md"><h4>To see this documentation in english click here</h4></a>
-</div>
+[To see this documentation in english click here](https://github.com/GGNahuel/08-AdministracionTurnosClinica/blob/main/README_ENG.md)
+
 <h1>Administrador de turnos para centro de salud</h1>
 
 Este proyecto está pensado como una herramienta para ayudar en la gestión de turnos, entro otras cosas, en centros de salud como clínicas u hospitales. **Permite crear y gestionar turnos, así como también manejar datos de, pacientes, profesionales de salud y areas de servicio**.
