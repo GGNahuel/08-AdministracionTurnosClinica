@@ -34,12 +34,20 @@ La página cuenta con varias opciones de seguridad. Una de ellas, de las más ú
     - [Windows](#windows)
     - [Linux / macOS](#linux--macos)
 - [Guía de operaciones](#guía-de-operaciones)
-  - [Registrar nuevo usuario](#registrar-nuevo-usuario)
-  - [Inicio de sesión](#inicio-de-sesión)
-  - [Registrar turnos](#registrar-turnos)
-  - [Registrar pacientes](#registrar-pacientes)
-  - [Registrar profesionales de salud](#registrar-profesionales-de-salud)
-  - [Registro de áreas de servicio y consultorios](#registro-de-áreas-de-servicio-y-consultorios)
+  - [Menú](#menú)
+  - [Sesiones de usuario y registro](#sesiones-de-usuario-y-registro)
+    - [Registrar nuevo usuario](#registrar-nuevo-usuario)
+    - [Inicio de sesión](#inicio-de-sesión)
+  - [Creación de datos](#creación-de-datos)
+    - [Registrar turnos](#registrar-turnos)
+    - [Registrar pacientes](#registrar-pacientes)
+    - [Registrar profesionales de salud](#registrar-profesionales-de-salud)
+    - [Registro de áreas de servicio y consultorios](#registro-de-áreas-de-servicio-y-consultorios)
+  - [Búsqueda de datos](#búsqueda-de-datos)
+    - [Búsqueda de turnos](#búsqueda-de-turnos)
+    - [Búsqueda de pacientes](#búsqueda-de-pacientes)
+    - [Búsqueda de profesionales](#búsqueda-de-profesionales)
+    - [Búsqueda de consultorios y áreas de servicio](#búsqueda-de-consultorios-y-áreas-de-servicio)
 - [Comentarios del proceso](#comentarios-del-proceso)
 
 ## Fundamentación de Arquitectura y diseño de software
@@ -91,11 +99,11 @@ Aspectos adicionales que se asignaron o que se tuvieron en cuenta:
 Esta entidad guardaría los datos que corresponden a cada turno. Relacionándose con pacientes, profesionales, asignando fecha, horario, consultorio, entre otras cosas.
 
 Atributos:
-- Paciente que solicita (Relación muchos a 1)
+- Paciente que solicita
 - Fecha
 - Horario
 - Área de servicio
-- Profesional de salud (Relación muchos a 1)
+- Profesional de salud
 - Consultorio
 - Estado de pago (Pagado, Debe documentación, Debe, o A Reiterar)
 - Obra social (si aplica se le asignaría la que tiene el paciente)
@@ -105,20 +113,22 @@ Entidad destinada a cada paciente, se registraría uno nuevo cada vez que alguie
 
 Atributos:
 - Nombre completo
-- DNI (o número de identificación según corresponda el país)
+- DNI
 - Número de teléfono
 - Obra social
 
 #### Profesionales de salud
-Encargados de tener asociados los turnos que le corresponden, además de datos personales y profesionales. Pudiendo manejar también sus propios turnos
+Encargados de tener asociados los turnos que le corresponden, además de datos personales y profesionales. Pudiendo manejar también sus propios turnos. 
+
+El profesional puede estar en distintas áreas según su formación e infraestructura del centro de salud
 
 Atributos:
 - Nombre completo
-- DNI (o número de identificación según corresponda el país)
+- DNI
 - Número de teléfono
 - Número de matricula profesional
-- Áreas de servicio (El profesional puede estar en distintas áreas según su formación e infraestructura del centro de salud)
-- Consultorio (1 profesional solo puede tener 1 consultorio para este caso)
+- Áreas de servicio
+- Consultorio
 - Horarios de atención
 
 #### Usuarios
@@ -129,7 +139,9 @@ Atributos:
 - Contraseña
 - Rol
 - Email (para recuperación de datos)
-- Profesional de salud (En caso de que esté relacionado con uno. Relación 1 a 1)
+- Profesional de salud (En caso de que esté relacionado con uno)
+
+> El "DNI" es usado en Argentina como número de identificación para cada persona.
 
 ### Resumen de tecnologías y herramientas elegidas
 | Tecnología / herramienta | Comentario adicional |
@@ -140,7 +152,7 @@ Atributos:
 | Base de datos Relacional - MySQL | Las bases de datos relacionales son ampliamente usadas en entornos como para el que está pensada la aplicación, debido a las relaciones que permiten y la estructura que le brinda a sus componentes. |
 | TypeScript | Aporta estructura y rigidez a todo el frontend, lo que hace que se sincronice con las características del backend en Java. |
 | React | Se eligió React por su enfoque en componentes reutilizables, rendimiento mediante Virtual DOM, ecosistema maduro, compatibilidad con Typescript, y amplia comunidad. Esto lo hace ideal para una aplicación que requiere interfaces dinámicas, y fáciles de mantener. |
-| React Router | Librería especial de React focalizada en el enrutamiento de la aplicación. |
+| React Router | Librería especial de React, focalizada en el enrutamiento de la aplicación. |
 
 ### Patrón arquitectónico
 El sistema implementa una arquitectura en capas cliente-servidor que, en producción, se despliega como un único monolítico estilo MVC. La capa de presentación (React) se empaqueta y sirve a través de Spring Boot, mientras que las capas de aplicación, dominio y acceso a datos se mantienen en el backend.
@@ -294,10 +306,10 @@ VITE_API_PREFIX="http://localhost:8080/api" #Ruta que utiliza el frontend para c
 Teniendo docker en el sistema local, y ejecutándose, alcanza con el siguiente comando en la ubicación raíz del proyecto. Esto empaquetará los servicios y ejecutará los archivos .jar de cada uno.
 
     #para la primera vez que se quiere levantar el proyecto
-    docker compose f- docker-compose-prod.yml up --build  
+    docker compose -f docker-compose-prod.yml up --build  
 
     #para las siguientes
-    docker compose up 
+    docker compose -f docker-compose-prod.yml up 
 
 Para levantar el sistema en modo desarrollo se usan los comandos:
 
@@ -389,21 +401,36 @@ En esta la guía se mostrará cómo se realizan las operaciones disponibles en l
 
 Las vistas que refieren a registros muestran mensajes en caso de algún error, como falta de campo requerido, advertencia de registro ya existente, o error del sistema.
 
-### Registrar nuevo usuario
+### Menú
+El menú es la barra lateral, o desplegable en pantallas chicas, en la que aparecen atajos de navegación para realizar las acciones que se espera que la aplicación pueda realizar.
+
+<img src="./docs/resources/navbar.png">
+
+En el menú se mostrarán solamente aquellas opciones que son válidas para el estado de la sesión y el usuario en la sesión. Por ejemplo la opción para crear profesionales, que solo puede hacerlo el admin, no les aparecerá a usuarios con rol GENERAL ni con rol Profesional. Y, aunque se ingrese con la ruta a la que se accede a la vista, la solicitud dará error al intentar completarse ya que el backend valida las autenticaciones.
+
+Todas las opciones serían las siguientes.
+<div>
+  <img src="./docs/resources/navbar_turnos.png">
+  <img src="./docs/resources/navbar_pacientes.png">
+  <img src="./docs/resources/navbar_profesionales.png">
+  <img src="./docs/resources/navbar_cons_areas.png">
+</div>
+
+Luego se encuentran botones que refieren a la sesión de usuario y el usuario. Indicándose al señalarlos la acción que estos realizan.
+
+### Sesiones de usuario y registro
+#### Registrar nuevo usuario
 - **Acceso:** A través de la ruta ``/signup``, o mediante el botón en la barra de navegación.
-  
-  <img src="./docs/resources/action_signUp.png">
   <img src="./docs/resources/vista_registroUsuario.png">
 
-### Inicio de sesión
+#### Inicio de sesión
 - **Acceso:** Mediante la ruta ``/login`` o mediante el botón en el menú.
 
-### Registrar turnos
-- **Acceso:** A través de la ruta ``/turno/crear``, o mediante del enlace correspondiente en el menú. 
-  
-  <img src="./docs/resources/action_creacionTurno.png">
-- **Permisos:** Esta acción es posible si se inició sesión en el sistema con cualquiera de los roles. En el caso de los usuarios con rol *PROFESIONAL* solo podrán crear turnos asignados automáticamente a ellos mismos.
+### Creación de datos
 
+#### Registrar turnos
+- **Acceso:** A través de la ruta ``/turno/crear``, o mediante del enlace correspondiente en el menú. 
+- **Permisos:** Esta acción es posible si se inició sesión en el sistema con cualquiera de los roles. En el caso de los usuarios con rol *PROFESIONAL* solo podrán crear turnos asignados automáticamente a ellos mismos.
 
 Aparecerá un formulario en el que se deben ingresar los datos que corresponden al nuevo turno. Es necesario, para asociar un paciente, que este ya se encuentre registrado en el sistema.
 
@@ -412,24 +439,56 @@ Aparecerá un formulario en el que se deben ingresar los datos que corresponden 
 > El calendario solo aparecerá si se selecciona un área de servicio y esta posea algún personal de salud asociado. Se puede hacer click en las celdas que aparecen disponibles para asignar esa fecha y horario de forma más sencilla. También muestra los turnos que ya están ocupados.
 > <img src="./docs/resources/vista_creacionTurnos2.webp">
 
-### Registrar pacientes
+#### Registrar pacientes
 - **Acceso:** A través de la ruta ``/paciente/registrar``, o mediante el enlace en el menú.
-  
-  <img src="./docs/resources/action_creacionPaciente.png">
 - **Permisos:** Solo podrán realizarla los usuarios con rol GENERAL o ADMIN.
 
 Formulario sencillo donde se rellena con los datos del paciente.
 
 <img src="./docs/resources/vista_creacionPacientes.png">
 
-### Registrar profesionales de salud
+#### Registrar profesionales de salud
 - **Acceso:** A través de la ruta ``/profesional/registrar``, o mediante el enlace en el menú.
 - **Permisos:** Esta acción solo puede ser empleada por el usuario ADMIN.
 
 <img src="./docs/resources/vista_creacionProfesionales.png">
 
-### Registro de áreas de servicio y consultorios
-- **Acceso:** Ambas acciones se pueden realizar mediante la misma ruta ``/areas_consultorios/crear``, o bien mediante la opción en el menú.
+#### Registro de áreas de servicio y consultorios
+- **Acceso:** Ambas acciones se pueden realizar mediante la misma ruta ``/areas_consultorios/crear`` o mediante la opción en el menú.
+
+### Búsqueda de datos
+Lás búsquedas son accesibles para todos los usuarios, incluso cuando no se haya iniciado sesión. Los resultados son mostrados en tablas con los datos que cada entidad posee.
+
+Los parámetros de texto que se usan para las búsquedas ignoran mayúsculas y acentos, y no hace falta que estén completos. Lo que significa que, por ejemplo, se incluirán los resultados de la paciente *María Gómez* aunque se coloque *"mari"*.
+
+Llenar los campos de búsqueda agregan parámetros a la url.
+> Por ejemplo la ruta para buscar los turnos asociados a al paciente María en la fecha 11/09/2025 quedaría de la siguiente forma: ``/turno?searchName=mari&date=11%2F09%2F2025`` (los caracteres como la barra "/" son transformados a %2F automáticamente). Tener el enlace permitiría compartirlo si es necesario.
+
+Los resultados que aparecen pueden ser señalados, lo que esto permitiría la edición o el dar de baja si es que se cuenta con los permisos adecuados.
+
+#### Búsqueda de turnos
+Permite buscar turnos por nombre de paciente o profesional de salud, y/o fecha. Pudiendo aplicar filtros a la búsqueda según el área de servicio y/o estado de pago de los turnos. 
+- **Acceso:** Mediante la ruta ``/turno`` o mediante el menú. 
+
+<img src="./docs/resources/vista_busquedaTurnos.webp">
+
+#### Búsqueda de pacientes
+Permite buscarlos por nombre o dni y/o filtrarlos por obra social. Permite ver los turnos asociados de cada paciente, resaltando si hay alguno en un estado que no sea el de "Pagado".
+- **Acceso:** Mediante la ruta ``/paciente`` o mediante el menú.
+
+<img src="./docs/resources/vista_busquedaPacientes.webp">
+
+#### Búsqueda de profesionales
+Permite buscarlos por nombre o dni, por matricula, o por área de servicio.
+- **Acceso:** Mediante la ruta ``/profesional`` o mediante el menú.
+
+<img src="./docs/resources/vista_busquedaProfesionales.png">
+
+#### Búsqueda de consultorios y áreas de servicio
+En la misma vista se pueden buscar ambos tipo de datos, separados en tablas distintas. Los consultorios pueden filtrarse según si ya tienen profesional asignado o no. Y las áreas según si están activas o si necesitan de turnos fijos o no.
+- **Acceso:** Mediante la ruta ``/areas_consultorios`` o mediante el menú
+
+<img src="./docs/resources/vista_busquedaConsAreas.png">
 
 ## Comentarios del proceso
 Luego de completar un curso de desarrollo web de más de un año y medio, buscaba un proyecto donde pudiera aplicar de forma integral los conocimientos adquiridos. Quería una aplicación completa, con base de datos, una interfaz intuitiva y una API que conectara todos los componentes de manera segura, escalable y práctica.
