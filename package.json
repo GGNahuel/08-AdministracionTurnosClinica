@@ -5,8 +5,7 @@
   "scripts": {
     "install": "cd frontend && npm install",
     "dev": "concurrently \"cd frontend/ && npm run dev\" \"cd backend/ && mvnw spring-boot:run\"",
-    "prod:build": 
-      "cd frontend && npm run build && copy ./dist ../backend/src/main/resources/static && cd ../backend/ && mvn clean package -DskipTests && copy ./target/*.jar ../app.jar",
+    "prod:build": "cd frontend && npm run build && cpx dist/** ../backend/src/main/resources/static && cd ../backend/ && mvn clean package -DskipTests && node ../renameAppMultiPlatform.js",
     "prod": "java -jar app.jar"
   },
   "repository": {
@@ -21,6 +20,7 @@
   "homepage": "https://github.com/GGNahuel/08-AdministracionTurnosClinica#readme",
   "dependencies": {
     "concurrently": "8.2.2",
+    "cpx2": "^8.0.0",
     "health_center_turn_administrator": "file:"
   }
 }
